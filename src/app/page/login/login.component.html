@@ -1,0 +1,23 @@
+<div class="background">
+    <div class="box">
+      <div class="in-box">
+        <h2>ACCEDI</h2>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <p-floatLabel class="formInput">
+              <input pInputText id="email" formControlName="username"/>
+              <label for="email">Email</label>
+            </p-floatLabel>
+            <br /><br />
+            <p-floatLabel class="formInput ">
+              <p-password formControlName="password" [toggleMask]="true" />
+              <label for="password">Password</label>
+            </p-floatLabel>
+            <br>
+            <a id="pwdDimenticata" routerLink="">Password dimenticata</a>
+            <button pButton pRipple label="Invia" [disabled]="!userForm.valid" type="submit"></button>
+            <p>Non sei registrato? <a class="bottom-links" routerLink="">Clicca qui</a></p>
+            <a class="bottom-links" routerLink="">Torna alla home</a>
+        </form >
+      </div>
+    </div>
+</div>
