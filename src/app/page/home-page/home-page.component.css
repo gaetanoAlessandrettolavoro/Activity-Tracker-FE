@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  text-align: center;
+  height: 100vh;
+}
+.text-section {
+  width: 100%;
+  margin: auto;
+}
+.text-section .title {
+  font-family: Arial, Helvetica, sans-serif; 
+  font-size: 40px; 
+}
+.text-section .subtitle {
+  font-family: 'Verdana'; 
+  font-size: 25px; 
+  color: dimgray;
+  text-align: center;
+}
+.image-section {
+  width: 100%;
+  margin: auto;
+}
+.image-section img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+@media (max-width: 767px) {
+  .image-section {
+    margin-top: -50px; 
+  }
+}
+
+@media (min-width: 768px) {
+  .text-section, .image-section {
+    width: 50%;
+  }
+}
