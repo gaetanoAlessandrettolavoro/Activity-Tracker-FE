@@ -1,0 +1,77 @@
+@import "primeicons/primeicons.css";
+
+.navbar {
+  display: flex;
+  align-items: center; /* Allinea tutti gli elementi verticalmente al centro */
+  justify-content: flex-start; /* Allinea tutti gli elementi all'inizio */
+  padding: 10px;
+  background-color: transparent;
+  overflow-x: auto;
+}
+
+.link, .p-button, .help-button {
+  margin-left: 15px;
+  white-space: nowrap;
+}
+
+.link {
+  background-color: #6a8cbf;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 5px 9px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.p-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
+  padding: 11px 16px;
+  border-radius: 5px;
+  color: black;
+  text-decoration: none;
+}
+
+.help-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 15px;
+    margin-right: auto;
+    color: black;
+    padding: 5px 10px; 
+    line-height: 50px; 
+  }
+
+
+
+
+
+
+  
+  /* @media (max-width: 768px) { 
+    .navbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+    .link, .help-button {
+      margin: 5px 0; 
+      width: 100%; 
+      justify-content: center; 
+    }
+  } */
+
+
+  
+  
+
