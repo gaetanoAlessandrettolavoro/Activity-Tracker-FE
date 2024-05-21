@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  max-height: 138px;
+  width: 100%;
+  background: #497699;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer .footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 3.5rem;
+  padding-top: 20px;
+}
+
+.footer-row .footer-col h4 {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.footer-col .links {
+  margin-top: 20px;
+}
+
+.footer-col .links li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.footer-col .links li a {
+  text-decoration: none;
+  color: white;
+}
+
+.footer-col .links li a:hover {
+  color: #fff;
+}
+
+.footer-col p {
+  margin: 20px 0;
+  color: #bfbfbf;
+  max-width: 300px;
+}
+
+.footer-col form {
+  display: flex;
+  gap: 5px;
+}
+
+.footer-col input {
+  height: 40px;
+  border-radius: 6px;
+  background: none;
+  width: 100%;
+  outline: none;
+  border: 1px solid #7489C6;
+  caret-color: #fff;
+  color: #fff;
+  padding-left: 10px;
+}
+
+.footer-col input::placeholder {
+  color: #ccc;
+}
+
+.footer-col form button {
+  background: #fff;
+  outline: none;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+.footer-col form button:hover {
+  background: #cecccc;
+}
+
+.footer-col .icons {
+  display: flex;
+  margin-top: 30px;
+  gap: 30px;
+  cursor: pointer;
+}
+
+.footer-col .icons i {
+  color: #afb6c7;
+}
+
+.footer-col .icons i:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .footer .footer-row {
+    padding: 20px;
+    gap: 1rem;
+  }
+
+  .footer-col form {
+    display: block;
+  }
+
+  .footer-col form :where(input, button) {
+    width: 100%;
+  }
+
+  .footer-col form button {
+    margin: 10px 0 0 0;
+  }
+}
+
+@media only screen and (min-width: 375px) and (min-height: 667px) {
+  .footer {
+    margin-top: 30px;
+    position: fixed;
+  }
+}
+
+@media only screen and (max-width: 344px) {
+  .footer {
+    margin-top: 30px;
+    position: fixed;
+    font-size: 2px;
+    padding: 0;
+  }
+}
+
+@media only screen and (min-width: 360px) and (min-height: 740px) {
+  .footer {
+    margin-top: 30px;
+    position: fixed;
+    padding: 0;
+  }
+}
+
+@media only screen and (min-width: 414px) and (min-height: 896px) {
+  .footer {
+    margin-top: -100px;
+    position: fixed;
+  }
+}
+
+@media only screen and (min-width: 414px) and (min-height: 406px) {
+  .footer {
+    margin-top: -100px;
+    position: fixed;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer {
+    font-size: 13px;
+    max-height: 118px;
+    position: fixed;
+  }
+}
+
+@media screen and (max-width: 412px) {
+  .footer {
+    position: fixed;
+    height: 400px;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (min-height: 600px) {
+  .footer {
+    height: 300px;
+    position: fixed;
+  }
+}
