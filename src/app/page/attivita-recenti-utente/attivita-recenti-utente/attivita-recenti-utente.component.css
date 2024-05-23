@@ -1,0 +1,67 @@
+@import "primeicons/primeicons.css";
+
+.filter-container {
+    margin-top:90px;
+    margin-bottom: 50px;
+    margin-left:2px;
+}
+
+.date-input {
+    margin-left: 30px;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color:#6c757d;
+}
+
+.date-input + .date-input {
+    margin-left: -0px;
+}
+
+/* .p-table { */
+    /* margin-top: 150px;  */
+/* } */
+
+
+.pi-search {
+    font-size: 15px;
+    color: #6c757d;
+    margin-left:2px;
+}
+
+
+
+
+/* .p-table{ 
+    /* margin-top:px; 
+} */
+
+.info-button,
+.delete-button {
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.info-button {
+    background-color: #a1c1d9;
+    color: white;
+    margin-right: 20px;
+}
+
+.delete-button {
+    background-color: orangered;
+    color: black;
+    margin-right: -50px;
+}
+
+@media (max-width: 150px) {
+    .p-table {
+        font-size: 18px;
+        padding: 8px 12px;
+    }
+}
