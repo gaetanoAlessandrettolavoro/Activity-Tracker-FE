@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 
 interface DailyActivity {
   activityType: string;
@@ -20,14 +20,9 @@ interface DailyActivity {
 export class DailyActivityComponent implements OnInit{
   dailyActivity = signal<DailyActivity[]>([]);
 
+  @Input({required: true}) inputDailyActivity!: DailyActivity;
+
   ngOnInit() {
-    const newDailyActivity = {
-      activityType: 'Running',
-      data: "17-07-2021",
-      orarioInizio: "10:00",
-      orarioFine: "11:00",
-      note: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-    }
-    this.dailyActivity.set([...this.dailyActivity(), newDailyActivity]);
+    this.dailyActivity.set([...this.dailyActivity(), this.inputDailyActivity]);
   }
 }
