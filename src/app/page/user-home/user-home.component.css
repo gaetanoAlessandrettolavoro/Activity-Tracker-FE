@@ -1,0 +1,18 @@
+.loading {
+    display: flex;
+    margin:auto;
+    height: 100dvh;
+    align-items: center;
+    justify-content: center;
+}
+
+.error {
+    text-align: center;
+    padding-top: 2em;
+}
+
+.error > h2 {
+    color:rgb(207, 10, 10);
+    margin: auto;
+    font-size: 30px;
+}
