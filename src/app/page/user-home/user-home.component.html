@@ -1,0 +1,27 @@
+@if (!!dailyActivity) {
+  @defer {
+    <daily-activity [inputDailyActivity]="dailyActivity" />
+  } @loading {
+    <div class="loading">
+      <p-progressSpinner ariaLabel="loading" />
+    </div>
+  } @error {
+    <div class="error">
+      <h2>Errore nel caricamento dei dati</h2>
+    </div>
+  }
+}
+
+@if (!dailyActivity) {
+  @defer {
+    <no-daily-activity />
+  } @loading {
+    <div class="loading">
+      <p-progressSpinner ariaLabel="loading" />
+    </div>
+  } @error {
+    <div class="error">
+      <h2>Errore nel caricamento dei dati</h2>
+    </div>
+  }
+}

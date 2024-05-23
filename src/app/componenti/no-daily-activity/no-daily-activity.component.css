@@ -1,0 +1,19 @@
+.backgorund {
+    height: 100dvh;
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.7)
+      ),
+      url("../../../assets/Immagine WhatsApp 2024-05-15 ore 12.08.54_344a7fa8.jpg");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      text-align: center;
+}
+
+h1 {
+    width: fit-content;
+    margin: 0 auto;
+    padding-top: 5em;
+    font-weight: 600;
+}
