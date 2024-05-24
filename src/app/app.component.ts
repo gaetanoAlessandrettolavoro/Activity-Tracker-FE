@@ -9,6 +9,7 @@ import { NavbarimpostutenteComponent } from './componenti/navbarimpostutente/nav
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, HomePageComponent, NavbarimpostutenteComponent]
+
 })
 export class AppComponent {
   title = 'ActivityTracker-FE';
