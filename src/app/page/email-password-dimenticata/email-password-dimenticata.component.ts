@@ -19,9 +19,9 @@ userForm: any;
 
   submit() {
     if (this.email) {
-      alert(`Email per reimpostare la password inviata a: ${this.email}`);
+      alert('Email per reimpostare la password inviata a: ${this.email}');
     } else {
       alert('Per favore, inserisci un indirizzo email.');
-    }
-  }
+}
+}
 }
