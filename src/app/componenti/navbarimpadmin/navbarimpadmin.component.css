@@ -1,0 +1,70 @@
+@import "primeicons/primeicons.css";
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px; /* Riduzione del padding per una navbar più compatta */
+    background-color: transparent;
+    overflow-x: auto;
+}
+
+.p-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px; /* Dimensione del font per dispositivi di piccole dimensioni */
+    padding: 8px 12px; /* Riduzione del padding per adattarsi a dispositivi di piccole dimensioni */
+    border-radius: 4px;
+    color: black;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.home-button {
+    width: auto; /* Impostiamo la larghezza su "auto" per consentire al testo di adattarsi dinamicamente */
+    padding: 8px 12px; /* Riduzione del padding per adattarsi a dispositivi di piccole dimensioni */
+    font-size: 14px; /* Dimensione del font per dispositivi di piccole dimensioni */
+}
+
+.right {
+    display: flex;
+    align-items: center;
+}
+
+.omino-button {
+    margin-left: 10px; /* Aumento del margine per una migliore spaziatura */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px; /* Dimensione del font dell'icona aumentata */
+    color: black;
+    white-space: nowrap;
+}
+
+.admin-text {
+    font-size: 16px; /* Dimensione del font per dispositivi di piccole dimensioni */
+    margin-right: 10px; /* Aumento del margine per una migliore spaziatura */
+}
+
+/* Media queries per dispositivi di piccole dimensioni */
+@media (max-width: 344px) {
+    .navbar {
+        padding: 5px; /* Riduzione del padding ulteriore per dispositivi ancora più piccoli */
+    }
+    .p-button {
+        font-size: 12px; /* Dimensione del font ridotta per dispositivi ancora più piccoli */
+        padding: 6px 10px; /* Riduzione ulteriore del padding per dispositivi ancora più piccoli */
+    }
+    .home-button {
+        font-size: 12px; /* Dimensione del font ridotta per dispositivi ancora più piccoli */
+        padding: 6px 10px; /* Riduzione ulteriore del padding per dispositivi ancora più piccoli */
+    }
+    .omino-button {
+        font-size: 16px; /* Dimensione del font dell'icona ridotta per dispositivi ancora più piccoli */
+    }
+    .admin-text {
+        font-size: 14px; /* Dimensione del font ridotta per dispositivi ancora più piccoli */
+        margin-right: 5px; /* Aumento del margine per una migliore spaziatura */
+    }
+}
