@@ -1,0 +1,66 @@
+<div class="box">
+  <form [formGroup]="activityForm" (ngSubmit)="onSubmitForm()">
+    <div class="date">
+        <p-floatLabel>
+            <p-calendar
+            inputId="calendar"
+            formControlName="data"
+            [inline]="true"
+            [(ngModel)]="activityToEdit().data"
+            />
+            <label for="calendar">Data</label>
+        </p-floatLabel>
+    </div>
+    <div class="time">
+      <p-floatLabel>
+        <p-calendar
+          inputId="calendar-timeonly"
+          [timeOnly]="true"
+          [(ngModel)]="activityToEdit().orarioInizio"
+          formControlName="orarioInizio"
+        />
+        <label for="calendar-timeonly" class="font-bold block mb-2">
+          Orario di inizio
+        </label>
+      </p-floatLabel>
+    </div>
+    <div class="time">
+      <p-floatLabel>
+        <p-calendar
+          inputId="calendar-timeonly"
+          [timeOnly]="true"
+          [(ngModel)]="activityToEdit().orarioFine"
+          formControlName="orarioFine"
+        />
+        <label for="calendar-timeonly"> Orario di fine </label>
+      </p-floatLabel>
+    </div>
+    <div>
+        <p-floatLabel>
+            <p-dropdown 
+            inputId="activityType"
+            formControlName="activityType"
+            [options]="activityTypes()" 
+            [(ngModel)]="selectedActivityType"/>
+            <label for="activityType">Attività</label>
+        </p-floatLabel>
+    </div>
+    <div class="note">
+        <br>
+      <p-floatLabel>
+        <textarea
+          inputId="note"
+          rows="5"
+          cols="30"
+          pInputTextarea
+          formControlName="note"
+          [(ngModel)]="activityToEdit().note"
+        >
+        </textarea>
+        <label for="note">Note</label>
+      </p-floatLabel>
+    </div>
+
+    <button pButton pRipple label="Invia" [disabled]="!activityForm.valid" type="submit"></button>
+  </form>
+</div>
