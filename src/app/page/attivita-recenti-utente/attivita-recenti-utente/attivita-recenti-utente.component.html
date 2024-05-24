@@ -27,7 +27,7 @@
                 {{ rowData[col.field] }}
             </td>
             <td>
-                <button class="info-button"><i class="pi pi-pencil"></i></button>
+                <edit-activity [activity]="rowData"/>
                 <button class="delete-button"><i class="pi pi-trash"></i></button>
             </td>
         </tr>
