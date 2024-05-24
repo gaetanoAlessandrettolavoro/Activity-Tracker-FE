@@ -1,0 +1,36 @@
+th, td {
+    width: 20%;
+}
+
+.card {
+    width: 80%;
+    margin: 2em auto;
+}
+
+h1 {
+    width: fit-content;
+    margin: 0 auto;
+    padding-top: 3em;
+    font-weight: 600;
+}
+
+
+/* Media Query */
+
+@media screen and (min-width: 755px) and (max-width: 1000px){
+    .card {
+        width:85%;
+    }
+}
+
+@media screen and (min-width: 500px) and (max-width: 754px){
+    .card {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 499px){
+    .card {
+        width: 95%;
+    }
+}

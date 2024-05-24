@@ -1,0 +1,28 @@
+<h1>Attività di oggi</h1>
+
+<div class="card">
+    <p-table [value]="dailyActivity()" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Attività</th>
+                <th>Data</th>
+                <th>Orario di inizio</th>
+                <th>Orario di fine</th>
+                <th>Note</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dailyActivity>
+            <tr>
+                <td>{{ dailyActivity.activityType }}</td>
+                <td>{{ dailyActivity.data }}</td>
+                <td>{{ dailyActivity.orarioInizio }}</td>
+                <td>{{ dailyActivity.orarioFine }}</td>
+                <td>{{ dailyActivity.note }}</td>
+                <td>Info</td>
+                <td>Delete</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
