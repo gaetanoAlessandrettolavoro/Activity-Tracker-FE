@@ -7,14 +7,6 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 
-interface DailyActivity {
-  activityType: string;
-  data: string;
-  orarioInizio: string;
-  orarioFine: string;
-  note: string;
-}
-
 @Component({
   selector: 'edit-activity-form',
   standalone: true,
@@ -23,18 +15,18 @@ interface DailyActivity {
   styleUrl: './edit-activity-form.component.css'
 })
 export class EditActivityFormComponent implements OnInit{
-  @Input({required: true}) activity!: DailyActivity;
+  @Input({required: true}) activity!: any;
 
   activityToEdit = signal<any>({});
   activityTypes = signal<string[]>([""]);
   selectedActivityType = signal<string>("");
 
   ngOnInit() {
-    const dateArray = this.activity.data.split('-');
+    const dateArray = this.activity.data.split('/');
     const orarioInizioArray = this.activity.orarioInizio.split(':');
     const orarioFineArray = this.activity.orarioFine.split(':');
     const newActivity = {
-      activityType: this.activity.activityType,
+      activityType: this.activity.activity,
       data: new Date(parseInt(dateArray[2]), (parseInt(dateArray[1])-1), parseInt(dateArray[0])),
       orarioInizio: new Date(0, 0, 0, parseInt(orarioInizioArray[0]), parseInt(orarioInizioArray[1])), //al submit si farà il getTime
       orarioFine: new Date(0, 0, 0, parseInt(orarioFineArray[0]), parseInt(orarioFineArray[1])), //al submit si farà il getTime
@@ -43,7 +35,7 @@ export class EditActivityFormComponent implements OnInit{
     const newActivityTypes = ["Running", "Swimming", "Cycling", "Walking", "Gym", "Yoga", "Pilates", "Dance", "Meditation", "Other"];
     this.activityToEdit.set(newActivity);
     this.activityTypes.set(newActivityTypes);
-    this.selectedActivityType.set(this.activity.activityType);
+    this.selectedActivityType.set(this.activity.activity);
   }
 
   activityForm = new FormGroup({
