@@ -1,0 +1,78 @@
+@import "primeicons/primeicons.css";
+
+/* Regole comuni */
+
+.filter-container {
+    margin-top: 30vh; /* Spostato leggermente più in alto */
+    margin-bottom: 30vh; /* Spostato leggermente più in basso */
+    margin-left: 5%; /* Margine sinistro del 10% */
+    margin-right: 5%; /* Margine destro del 10% */
+    text-align: center; /* Centrato orizzontalmente */
+}
+
+.date-input {
+    margin-left: 5%; /* Ridotto il margine sinistro */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #6c757d;
+    font-size: 12px; /* Aggiunto il font-size */
+}
+
+.date-input + .date-input {
+    margin-left: 0px;
+}
+
+.p-table {
+    width: 100%;
+}
+
+.pi-search {
+    font-size: 12px; /* Ridotto il font size */
+    color: #6c757d;
+}
+
+.activity-button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 5px 10px; /* Ridotto il padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px; /* Ridotto il font size */
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-right: 5px; /* Ridotto il margine destro */
+}
+
+.info-button,
+.delete-button {
+    border: none;
+    padding: 5px 8px; /* Ridotto il padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; /* Ridotto il font size */
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-right: 5px; /* Ridotto il margine destro */
+}
+
+.info-button {
+    background-color: #a1c1d9;
+    color: white;
+}
+
+.delete-button {
+    background-color: orangered;
+    color: black;
+}
+
+/* Media query per schermi con larghezza massima di 150px */
+@media (max-width: 150px) {
+    .p-table {
+        font-size: 18px;
+        padding: 8px 12px;
+    }
+}
