@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600|Noto+Sans|Open+Sans:400,700&display=swap");
+@import "primeicons/primeicons.css";
+
+textarea {
+  border: 2px solid #ccc;
+  padding: 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+  border-color: #3399ff;
+  outline: none;
+}
+input[type="date"] {
+  background-color: #0080ff;
+  padding: 5px;
+  font-family: "Roboto Mono", monospace;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
+input[type="time"] {
+  background-color: #0080ff;
+  padding: 5px;
+  font-family: "Roboto Mono", monospace;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
+::-webkit-calendar-picker-indicator {
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+@media only screen and (min-width: 375px) and (min-height: 667px) {
+  form {
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (min-width: 414px) and (min-height: 896px) {
+  form {
+    margin-top: 47px;
+  }
+}
+
+@media only screen and (min-width: 390px) and (min-height: 844px) {
+  form {
+    margin-top: 44px;
+  }
+}
+
+@media only screen and (min-width: 430px) and (min-height: 932px) {
+  form {
+    margin-top: 60px;
+  }
+}
+
+@media only screen and (min-width: 412px) and (min-height: 915px) {
+  form {
+    margin-top: 70px;
+  }
+}
+@media only screen and (min-width: 360px) and (min-height: 740px) {
+  form {
+    margin-top: 25px;
+  }
+}
+
+@media only screen and (min-width: 412px) and (min-height: 915px) {
+  form {
+    margin-top: 70px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (min-height: 1024px) {
+  form {
+    margin-top: 105px;
+  }
+}
+
+@media only screen and (min-width: 820px) and (min-height: 1180px) {
+  form {
+    margin-top: 190px;
+  }
+}
+
+@media only screen and (min-width: 1024px) and (min-height: 1336px) {
+  form {
+    margin-top: 250px;
+  }
+}
+
+@media only screen and (min-width: 912px) and (min-height: 1368px) {
+  form {
+    margin-top: 250px;
+  }
+}
+
+@media only screen and (min-width: 344px) and (min-height: 882px) {
+  form {
+    margin-top: 58px;
+  }
+}
+
+@media only screen and (min-width: 853px) and (min-height: 1280px) {
+  form {
+    margin-top: 180px;
+  }
+}
