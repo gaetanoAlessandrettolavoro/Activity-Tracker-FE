@@ -5,6 +5,7 @@ import { LoginComponent } from './page/login/login.component';
 import { RegisterComponent } from './page/page/register/register.component';
 import { UserHomeComponent } from './page/user-home/user-home.component';
 import { AdminVisUtenteSpecificoComponent } from './page/admin-vis-utente-specifico/admin-vis-utente-specifico.component';
+import { EmaildimenticataComponent } from './page/emaildimenticata/email-password-dimenticata/email-password-dimenticata.component';
 
 export const routes: Routes = [
     { path:'home', component:HomePageComponent },
@@ -14,5 +15,6 @@ export const routes: Routes = [
     { path: "registrati", component: RegisterComponent, pathMatch: 'full'},
     { path:'attivitarecentiutente',component:AttivitaRecentiUtenteComponent},
     { path:'admin-vis-utente-specifico',component:AdminVisUtenteSpecificoComponent},
+    { path:'emaildimenticata', component:EmaildimenticataComponent }
 
 ];
