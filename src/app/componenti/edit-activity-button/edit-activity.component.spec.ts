@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditActivityComponent } from './edit-activity-button.component';
+import { EditActivityButtonComponent } from './edit-activity-button.component';
 
 describe('EditActivityComponent', () => {
-  let component: EditActivityComponent;
-  let fixture: ComponentFixture<EditActivityComponent>;
+  let component: EditActivityButtonComponent;
+  let fixture: ComponentFixture<EditActivityButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EditActivityComponent]
+      imports: [EditActivityButtonComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(EditActivityComponent);
+    fixture = TestBed.createComponent(EditActivityButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
