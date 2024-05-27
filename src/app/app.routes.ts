@@ -15,6 +15,6 @@ export const routes: Routes = [
     { path: "registrati", component: RegisterComponent, pathMatch: 'full'},
     { path:'attivitaRecentiUtente',component:AttivitaRecentiUtenteComponent},
     { path:'admin-vis-utente-specifico',component:AdminVisUtenteSpecificoComponent},
-    { path:'emaildimenticata',component:EmaildimenticataComponent}
+    { path:'emaildimenticata', component:EmaildimenticataComponent}
 
 ];
