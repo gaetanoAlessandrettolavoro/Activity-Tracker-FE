@@ -13,7 +13,7 @@ export const routes: Routes = [
     { path: "login", component:LoginComponent, pathMatch: 'full' },
     { path: "login/oggi", component:UserHomeComponent, pathMatch: 'full'},
     { path: "registrati", component: RegisterComponent, pathMatch: 'full'},
-    { path:'attivitaRecentiUtente',component:AttivitaRecentiUtenteComponent},
+    { path:'attivitarecentiutente',component:AttivitaRecentiUtenteComponent},
     { path:'admin-vis-utente-specifico',component:AdminVisUtenteSpecificoComponent},
     { path:'emaildimenticata',component:EmaildimenticataComponent}
 
