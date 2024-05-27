@@ -10,8 +10,6 @@ import { EmaildimenticataComponent } from './page/emaildimenticata/email-passwor
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, HomePageComponent, NavbarimpostutenteComponent]
-
-    imports: [RouterOutlet, HomePageComponent,EmaildimenticataComponent]
 })
 export class AppComponent {
   title = 'ActivityTracker-FE';

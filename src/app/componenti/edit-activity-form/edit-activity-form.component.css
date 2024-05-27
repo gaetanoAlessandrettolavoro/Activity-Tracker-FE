@@ -1,0 +1,29 @@
+.box {
+    padding: 1em;
+    margin: 1em;
+    font-size: 16px;
+}
+
+form {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+div {
+    margin: 30px auto;
+}
+
+.note {
+    margin: auto;
+}
+
+.p-button {
+    background-color: #a1c1d9;
+    border-color: #a1c1d9;
+    color: black;
+    width: 50%;
+    margin: 1.5em auto;
+  }
+  
