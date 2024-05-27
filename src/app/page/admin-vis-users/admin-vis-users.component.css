@@ -1,0 +1,88 @@
+@import "primeicons/primeicons.css";
+
+
+.filter-container {
+    margin-top: 10%;
+    /* Spostato leggermente più in alto */
+    margin-bottom: 10px;
+    /* Ridotto il margine inferiore */
+    margin-left: 2px;
+}
+
+.date-input {
+    margin-left: 5%;
+    /* Ridotto il margine sinistro */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #6c757d;
+}
+
+.date-input+.date-input {
+    margin-left: 0px;
+}
+
+.p-table {
+    margin-top: 5%;
+    /* Spostato leggermente più in alto */
+    width: 100%;
+}
+
+.pi-search {
+    font-size: 15px;
+    color: #6c757d;
+    margin-left: 2px;
+}
+
+.activity-button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    /* Ridotto il padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    /* Ridotto il font size */
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-right: 5px;
+    /* Ridotto il margine destro */
+}
+
+.info-button,
+.delete-button {
+    border: none;
+    padding: 5px 8px;
+    /* Ridotto il padding */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    /* Ridotto il font size */
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.info-button {
+    background-color: #a1c1d9;
+    color: white;
+    margin-right: 10px;
+    /* Ridotto il margine destro */
+}
+
+.delete-button {
+    background-color: orangered;
+    color: black;
+}
+
+/* Media query per schermi con larghezza massima di 150px */
+@media (max-width: 150px) {
+    .p-table {
+        font-size: 12px;
+        /* Ridotto il font size */
+        padding: 4px 6px;
+        /* Ridotto il padding */
+    }
+}
