@@ -1,7 +1,11 @@
+
+
 @import "primeicons/primeicons.css";
 
 .table-container{
     margin-top:200px;
+    margin-left:5%;
+    margin-right:5%;
 }
 
 .info-button,
