@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { Component, Input, OnInit, signal } from '@angular/core';
+import { FooterComponent } from '../footer/footer.component';
+import { NavbarComponent } from '../navbarutente/navbarutente.component';
 
 interface DailyActivity {
   activityType: string;
@@ -13,7 +15,7 @@ interface DailyActivity {
 @Component({
   selector: 'daily-activity',
   standalone: true,
-  imports: [TableModule, CommonModule],
+  imports: [TableModule, CommonModule,FooterComponent,NavbarComponent],
   templateUrl: './daily-activity.component.html',
   styleUrl: './daily-activity.component.css'
 })

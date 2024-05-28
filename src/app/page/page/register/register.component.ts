@@ -17,6 +17,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -44,7 +45,7 @@ interface UploadEvent {
 export class RegisterComponent {
   title = 'ActivityTracker-FE';
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService,private router: Router) {}
 
   show() {
     this.messageService.add({
@@ -136,4 +137,8 @@ export class RegisterComponent {
   }
 
   messages: any;
+
+  navigateToHome() {
+    this.router.navigate(['home']);
+  }
 }

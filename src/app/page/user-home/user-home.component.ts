@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { DailyActivityComponent } from '../../componenti/daily-activity/daily-activity.component';
 import { NoDailyActivityComponent } from '../../componenti/no-daily-activity/no-daily-activity.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FooterComponent } from '../../componenti/footer/footer.component';
+import { NavbarComponent } from '../../componenti/navbarutente/navbarutente.component';
 
 interface DailyActivity {
   activityType: string;
@@ -15,7 +17,7 @@ interface DailyActivity {
 @Component({
   selector: 'app-user-home',
   standalone: true,
-  imports: [NgIf, DailyActivityComponent, NoDailyActivityComponent, ProgressSpinnerModule],
+  imports: [NgIf, DailyActivityComponent, NoDailyActivityComponent, ProgressSpinnerModule,FooterComponent,NavbarComponent],
   templateUrl: './user-home.component.html',
   styleUrl: './user-home.component.css'
 })
