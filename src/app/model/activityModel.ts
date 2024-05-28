@@ -7,11 +7,11 @@ interface Task {
 
 export interface Activity {
     taskName: Task["taskName"];
-    taskID: string;
+    taskID?: string;
     activityDate: Date;
     startTime: string;
     endTime: string;
     notes: string;
-    userID: string;
+    userID?: string;
     isActive?: boolean;
 }
