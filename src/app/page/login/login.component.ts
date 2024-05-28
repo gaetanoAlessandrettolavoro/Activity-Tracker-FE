@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -16,7 +16,6 @@ import { RippleModule } from 'primeng/ripple';
     FloatLabelModule,
     InputTextModule,
     PasswordModule,
-    RouterLink,
     ButtonModule,
     RippleModule,
   ],
@@ -36,5 +35,17 @@ export class LoginComponent {
     if(this.userForm.valid) {
       console.log(this.userForm.value);
     }
+  }
+
+  navigateForgotPassword() {
+    this.router.navigate(['emaildimenticata']);
+  }
+
+  navigateToRegister() {
+    this.router.navigate(['registrati']);
+  }
+
+  navigateToHome() {
+    this.router.navigate(['home']);
   }
 }

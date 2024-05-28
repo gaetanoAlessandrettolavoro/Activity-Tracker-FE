@@ -13,10 +13,10 @@
               <label for="password">Password</label>
             </p-floatLabel>
             <br>
-            <a id="pwdDimenticata" routerLink="">Password dimenticata</a>
+            <a id="pwdDimenticata" style="cursor: pointer;"  (click)="navigateForgotPassword()">Password dimenticata</a>
             <button pButton pRipple label="Invia" [disabled]="!userForm.valid" type="submit"></button>
-            <p>Non sei registrato? <a class="bottom-links" routerLink="">Clicca qui</a></p>
-            <a class="bottom-links" routerLink="">Torna alla home</a>
+            <p>Non sei registrato? <a style="cursor: pointer;" class="bottom-links" (click)="navigateToRegister()">Clicca qui</a></p>
+            <a class="bottom-links" style="cursor: pointer;" (click)="navigateToHome()">Torna alla home</a>
         </form >
       </div>
     </div>
