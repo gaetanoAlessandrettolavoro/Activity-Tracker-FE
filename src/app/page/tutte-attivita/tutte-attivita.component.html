@@ -1,3 +1,9 @@
+<div class="filter">
+    <input type="text" pInputText [(ngModel)]="textFilter" placeholder="Nome, cognome o attività"/>
+    <p-button type="button" pRipple  [text]="true" [rounded]="true" [plain]="true" [icon]="'pi pi-filter'" (click)="onClickSetFilter()" />
+    <p-button type="button" pRipple  [text]="true" [rounded]="true" [plain]="true" [icon]="'pi pi-filter-slash'" (click)="onClickRemoveFilter()" />
+</div>
+
 <div class="box">
     <p-table [value]="rowItems" dataKey="codiceFiscale" [tableStyle]="{ 'min-width': '60rem' }" [expandedRowKeys]="expandedRows">
         <ng-template pTemplate="header">
@@ -37,6 +43,7 @@
                                     <th>Orario di fine</th>
                                     <th>Note</th>
                                     <th style="width: 4rem"></th>
+                                    <th style="width: 4rem"></th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-activity>
@@ -47,6 +54,7 @@
                                     <td>{{ activity.endTime }}</td>
                                     <td>{{ activity.notes }}</td>
                                     <td><edit-activity [activity]="activity"/></td>
+                                    <td><button class="delete-button"><i class="pi pi-trash"></i></button></td>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="emptymessage">

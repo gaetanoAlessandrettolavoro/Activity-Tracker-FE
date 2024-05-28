@@ -1,3 +1,23 @@
 .box {
-    margin: 5%
+    margin: auto 5%
+}
+
+.filter {
+    width: fit-content;
+    margin: 2% 5% 2% auto;
+}
+
+.delete-button {
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 12px;
+    background-color: orangered;
+    color: black;
+    margin: auto;
 }
