@@ -1,13 +1,36 @@
-
-<div style="display: flex; justify-content: space-between;align-items: center;">
-    <h1 style="margin-left: 5px;">Activity Tracker</h1>
-    <div class="right" style="display: flex; align-items: center; margin-right: 5px;">
-        <button
-            style="background-color: #A1C1D9; border: none; border-radius: 8px; height: 40px; margin-right: 20px;">Registrati</button>
-        <button
-            style="background-color: #A1C1D9; border: none; border-radius: 8px; height: 40px; margin-right: 20px;">Accedi</button>
-
-
-        <i class="pi pi-question-circle" style="font-size: 2rem;"></i>
-    </div>
+<div style="display: flex; justify-content: space-between; align-items: center">
+  <h1 style="margin-left: 5px">Activity Tracker</h1>
+  <div
+    class="right"
+    style="display: flex; align-items: center; margin-right: 5px"
+  >
+    <button
+      (click)="navigateToRegister()"
+      style="
+        background-color: #a1c1d9;
+        border: none;
+        border-radius: 8px;
+        height: 40px;
+        margin-right: 20px;
+        cursor: pointer;
+      "
+    >
+      Registrati
+    </button>
+    <button
+      (click)="navigateToLogin()"
+      style="
+        background-color: #a1c1d9;
+        border: none;
+        border-radius: 8px;
+        height: 40px;
+        margin-right: 20px;
+        cursor: pointer;
+      "
+    >
+      Accedi
+    </button>
+  
+    <app-user-manual></app-user-manual>
+  </div>
 </div>
