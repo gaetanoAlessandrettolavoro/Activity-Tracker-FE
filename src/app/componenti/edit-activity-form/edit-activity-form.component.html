@@ -6,7 +6,7 @@
             inputId="calendar"
             formControlName="data"
             [inline]="true"
-            [(ngModel)]="activityToEdit().data"
+            [(ngModel)]="activityToEdit().activityDate"
             />
             <label for="calendar">Data</label>
         </p-floatLabel>
@@ -16,7 +16,7 @@
         <p-calendar
           inputId="calendar-timeonly"
           [timeOnly]="true"
-          [(ngModel)]="activityToEdit().orarioInizio"
+          [(ngModel)]="activityToEdit().startTime"
           formControlName="orarioInizio"
         />
         <label for="calendar-timeonly" class="font-bold block mb-2">
@@ -29,7 +29,7 @@
         <p-calendar
           inputId="calendar-timeonly"
           [timeOnly]="true"
-          [(ngModel)]="activityToEdit().orarioFine"
+          [(ngModel)]="activityToEdit().endTime"
           formControlName="orarioFine"
         />
         <label for="calendar-timeonly"> Orario di fine </label>
@@ -54,7 +54,7 @@
           cols="30"
           pInputTextarea
           formControlName="note"
-          [(ngModel)]="activityToEdit().note"
+          [(ngModel)]="activityToEdit().notes"
         >
         </textarea>
         <label for="note">Note</label>
