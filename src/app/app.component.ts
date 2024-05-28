@@ -11,7 +11,7 @@ import { UserManualComponent } from './componenti/user-manual/user-manual.compon
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet,AdminvisuserComponent,AttivitaRecentiUtenteComponent,UserManualComponent]
+    imports: [RouterOutlet,AdminvisuserComponent,AttivitaRecentiUtenteComponent,UserManualComponent,UserHomeComponent]
 })
 export class AppComponent {
   title = 'ActivityTracker-FE';
