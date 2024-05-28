@@ -1,0 +1,54 @@
+<div style="display: flex; justify-content: center; margin-top: 130px;">
+    <div class="card">
+      <div class="center">
+        <div class="header">
+          <img src="https://www.tnt-endourology.com/wp-content/uploads/2016/05/icona2.png" width="100px" height="70px" />
+                  <h2>Dati amministratore</h2>
+                </div>
+                <div class="form-container">
+                  <div class="right">
+                    <input
+                      class="name"
+                      type="text"
+                      formControlName="name"
+                      placeholder="Nome (Obbligatorio)"
+                    />
+                    <input
+                      class="surname"
+                      type="text"
+                      formControlName="surname"
+                      placeholder="Cognome (Obbligatorio)"
+                    />
+                  </div>
+                  <div class="right">
+                    <input
+                      class="email"
+                      type="text"
+                      formControlName="email"
+                      placeholder="Email (Obbligatorio)"
+                      pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                    />
+                    <input
+                      class="codfisc"
+                      type="text"
+                      formControlName="TaxIDcode"
+                      pattern="^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$"
+                      placeholder="Codice fiscale (Obbligatorio)"
+                    />
+                  </div>
+            
+                  <div class="margin-left">
+                    <br>
+                    <div style="display: flex; justify-content: flex-end; margin-right: 10px;">
+                    <button pButton type="button" label="cambio password" (click)="CambioPassword()" class="p-button p-button-secc">CambiaPassword</button> 
+                  </div>
+                    <div class="actions">
+                    <button pButton type="button" label="Annulla le modifiche" (click)="resetForm()" class="p-button p-button-danger">Annulla le modifiche</button>
+                    <button pButton type="button" label="Modifica" (click)="editForm()" class="p-button p-button-success">Modifica</button>
+                    <button pButton type="submit" label="Salva" (click)="saveForm()" class="p-button p-button-secondary">Salva</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
