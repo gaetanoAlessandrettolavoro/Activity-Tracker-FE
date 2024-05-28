@@ -1,0 +1,93 @@
+@import "primeicons/primeicons.css";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0; /* Rimuove margini */
+}
+
+.card {
+  width: 882px; /* Imposta la larghezza specificata */
+  height: 344px; /* Imposta l'altezza specificata */
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Aggiunge un'ombra per un po' di profondità */
+}
+
+.center {
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between; /* Allinea l'immagine e il titolo */
+  align-items: center;
+  margin-bottom: 20px; /* Spazio sotto l'intestazione */
+}
+
+.header img {
+  margin-right: 20px;
+  margin-left: 0; /* Rimuove il margine sinistro predefinito */
+}
+
+.right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.right input {
+  flex: 1;
+  margin: 0 10px; /* Aggiunge margine tra gli input */
+}
+
+.codfisc-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Margine superiore extra per distanziare i bottoni */
+}
+
+.actions button {
+  margin: 0 10px; /* Aggiunge margine tra i bottoni */
+}
+input[type="text"] {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+  }
+  
+  /* Stile quando il campo di input ha il focus */
+  input[type="text"]:focus {
+    border-color: dodgerblue;
+  }
+.p-button {
+  color: white;
+  background-color: #a1c1d9;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-file-upload {
+  color: white;
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
