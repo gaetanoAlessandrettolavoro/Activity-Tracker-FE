@@ -16,13 +16,13 @@
         </ng-template>
         <ng-template pTemplate="body" let-dailyActivity>
             <tr>
-                <td>{{ dailyActivity.activityType }}</td>
-                <td>{{ dailyActivity.data }}</td>
-                <td>{{ dailyActivity.orarioInizio }}</td>
-                <td>{{ dailyActivity.orarioFine }}</td>
-                <td>{{ dailyActivity.note }}</td>
-                <td>Info</td>
-                <td>Delete</td>
+                <td>{{ dailyActivity.taskName }}</td>
+                <td>{{ dailyActivity.activityDate }}</td>
+                <td>{{ dailyActivity.startTime }}</td>
+                <td>{{ dailyActivity.endTime }}</td>
+                <td>{{ dailyActivity.notes }}</td>
+                <td><edit-activity [activity]="dailyActivity" /></td>
+                <td><button class="delete-button"><i class="pi pi-trash"></i></button></td>
             </tr>
         </ng-template>
     </p-table>
