@@ -1,10 +1,11 @@
 @import "primeicons/primeicons.css";
 
+
 .navbar {
   display: flex;
   align-items: center; /* Allinea tutti gli elementi verticalmente al centro */
   justify-content: flex-start; /* Allinea tutti gli elementi all'inizio */
-  padding: 10px;
+  padding: 20px;
   background-color: transparent;
   overflow-x: auto;
 }
@@ -12,6 +13,7 @@
 .link,
 .p-button,
 .help-button {
+
   margin-left: 15px;
   white-space: nowrap;
 }
