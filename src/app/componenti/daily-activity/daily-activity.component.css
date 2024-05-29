@@ -14,6 +14,20 @@ h1 {
     font-weight: 600;
 }
 
+.delete-button {
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 12px;
+    background-color: orangered;
+    color: black;
+    margin: auto;
+}
 
 /* Media Query */
 

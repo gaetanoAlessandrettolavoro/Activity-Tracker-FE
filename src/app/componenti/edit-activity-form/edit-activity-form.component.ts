@@ -6,6 +6,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
+import { Activity } from '../../model/activityModel';
 
 @Component({
   selector: 'edit-activity-form',
@@ -15,27 +16,27 @@ import { RippleModule } from 'primeng/ripple';
   styleUrl: './edit-activity-form.component.css'
 })
 export class EditActivityFormComponent implements OnInit{
-  @Input({required: true}) activity!: any;
+  @Input({required: true}) activity!: Activity;
 
   activityToEdit = signal<any>({});
   activityTypes = signal<string[]>([""]);
   selectedActivityType = signal<string>("");
 
   ngOnInit() {
-    const dateArray = this.activity.data.split('/');
-    const orarioInizioArray = this.activity.orarioInizio.split(':');
-    const orarioFineArray = this.activity.orarioFine.split(':');
+    const dateArray = [this.activity.activityDate.getFullYear(), this.activity.activityDate.getMonth(), this.activity.activityDate.getDate()];
+    const orarioInizioArray = this.activity.startTime.split(':');
+    const orarioFineArray = this.activity.endTime.split(':');
     const newActivity = {
-      activityType: this.activity.activity,
-      data: new Date(parseInt(dateArray[2]), (parseInt(dateArray[1])-1), parseInt(dateArray[0])),
-      orarioInizio: new Date(0, 0, 0, parseInt(orarioInizioArray[0]), parseInt(orarioInizioArray[1])), //al submit si farà il getTime
-      orarioFine: new Date(0, 0, 0, parseInt(orarioFineArray[0]), parseInt(orarioFineArray[1])), //al submit si farà il getTime
-      note: this.activity.note,
+      taskName: this.activity.taskName,
+      activityDate: new Date(dateArray[0], dateArray[1], dateArray[2]),
+      startTime: new Date(0, 0, 0, parseInt(orarioInizioArray[0]), parseInt(orarioInizioArray[1])), //al submit si farà il getTime
+      endTime: new Date(0, 0, 0, parseInt(orarioFineArray[0]), parseInt(orarioFineArray[1])), //al submit si farà il getTime
+      notes: this.activity.notes,
     }
     const newActivityTypes = ["Running", "Swimming", "Cycling", "Walking", "Gym", "Yoga", "Pilates", "Dance", "Meditation", "Other"];
     this.activityToEdit.set(newActivity);
     this.activityTypes.set(newActivityTypes);
-    this.selectedActivityType.set(this.activity.activity);
+    this.selectedActivityType.set(this.activity.taskName);
   }
 
   activityForm = new FormGroup({
@@ -47,6 +48,7 @@ export class EditActivityFormComponent implements OnInit{
   })
 
   onSubmitForm() {
-    console.log(this.activityForm.value);
+    // console.log(this.activityForm.value);
+    // PRIMA DI FARE IL POST, BISOGNA CONVERTIRE I VALORI DEL FORM IN UN OGGETTO ACTIVITY
   }
 }

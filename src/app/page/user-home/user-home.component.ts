@@ -5,14 +5,7 @@ import { NoDailyActivityComponent } from '../../componenti/no-daily-activity/no-
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { NavbarComponent } from '../../componenti/navbarutente/navbarutente.component';
-
-interface DailyActivity {
-  activityType: string;
-  data: string;
-  orarioInizio: string;
-  orarioFine: string;
-  note: string;
-}
+import { Activity } from '../../model/activityModel';
 
 @Component({
   selector: 'app-user-home',
@@ -22,12 +15,12 @@ interface DailyActivity {
   styleUrl: './user-home.component.css'
 })
 export class UserHomeComponent {
-  dailyActivity: DailyActivity | null = {
-    activityType: 'Running',
-    data: "17-07-2021",
-    orarioInizio: "10:00",
-    orarioFine: "11:00",
-    note: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+  dailyActivity: Activity | null = {
+    taskName: 'Running',
+    activityDate: new Date(2021, 6, 7),
+    startTime: "10:00",
+    endTime: "11:00",
+    notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   }
 
   // dailyActivity: DailyActivity | null = null;

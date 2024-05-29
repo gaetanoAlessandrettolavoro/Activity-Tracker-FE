@@ -4,13 +4,15 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../../componenti/edit-activity-button/edit-activity-button.component';
+import { NavbarAttrecentiComponent } from "../../../componenti/navbar-attrecenti/navbar-attrecenti.component";
+import { FooterComponent } from "../../../componenti/footer/footer.component";
 
 @Component({
-  selector: 'app-attivita-recenti-utente',
-  standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule,FormsModule, EditActivityButtonComponent],
-  templateUrl: './attivita-recenti-utente.component.html',
-  styleUrls: ['./attivita-recenti-utente.component.css']
+    selector: 'app-attivita-recenti-utente',
+    standalone: true,
+    templateUrl: './attivita-recenti-utente.component.html',
+    styleUrls: ['./attivita-recenti-utente.component.css'],
+    imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NavbarAttrecentiComponent, FooterComponent]
 })
 export class AttivitaRecentiUtenteComponent {
   activities = [

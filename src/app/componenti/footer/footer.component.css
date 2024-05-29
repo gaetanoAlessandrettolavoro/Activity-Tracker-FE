@@ -8,11 +8,10 @@
 .footer {
   position: fixed;
   bottom: 0;
-  max-height: 138px;
+  max-height: 110px;
   width: 100%;
   background: #497699;
   padding: 20px;
-  text-align: center;
 }
 
 .footer .footer-row {
