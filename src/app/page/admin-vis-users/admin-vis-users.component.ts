@@ -3,11 +3,12 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FooterComponent } from '../../componenti/footer/footer.component';
 
 @Component({
   selector: 'app-admin-vis-user',
   standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule, FormsModule],
+  imports: [TableModule, ButtonModule, CommonModule, FormsModule,FooterComponent],
   templateUrl: './admin-vis-users.component.html',
   styleUrls: ['./admin-vis-users.component.css']
 })
