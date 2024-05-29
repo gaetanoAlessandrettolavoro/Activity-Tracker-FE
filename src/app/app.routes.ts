@@ -17,5 +17,6 @@ export const routes: Routes = [
     { path:'attivitarecentiutente',component:AttivitaRecentiUtenteComponent},
     { path:'admin-vis-utente-specifico',component:AdminVisUtenteSpecificoComponent},
     { path:'emaildimenticata', component:EmaildimenticataComponent },
-    { path:'tutteattivita', component:TutteAttivitaComponent}
+    { path:'tutteattivita', component:TutteAttivitaComponent},
+    { path:'tuttiutenti', component:AdminVisUtenteSpecificoComponent }
 ];
