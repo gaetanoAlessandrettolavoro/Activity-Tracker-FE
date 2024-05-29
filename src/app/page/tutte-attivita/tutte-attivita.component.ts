@@ -13,6 +13,8 @@ import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { FilterService } from 'primeng/api';
+import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component';
+import { FooterComponent } from '../../componenti/footer/footer.component';
 
 interface rowItem {
   nome: string;
@@ -34,6 +36,8 @@ interface rowItem {
     RippleModule,
     InputTextModule,
     FormsModule,
+    AdminVisTutteAttUsersComponent,
+    FooterComponent
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrl: './tutte-attivita.component.css',
