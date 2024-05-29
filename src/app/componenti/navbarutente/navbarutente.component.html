@@ -1,8 +1,8 @@
 <div style="display: flex; justify-content: space-between;">
-    <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer" class="p-button font-bold">Visualizza le attività precedenti</a>
+    <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer" class="p-button font-bold">Torna alla home</a>
     <div class="right">
-        <button style="background-color: #A1C1D9; color: white; border: none; border-radius: 8px; height: 28px;">Crea attività +</button>
-        <p-button icon="pi pi-user" [rounded]="true" [text]="true" />
-        <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" />
-</div>
+        <p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="menu.toggle($event)"></p-button>
+        <p-menu #menu [popup]="true" [model]="items"></p-menu>
+        <app-user-manual></app-user-manual>
+    </div>
 </div>
