@@ -17,7 +17,7 @@
         <ng-template pTemplate="body" let-dailyActivity>
             <tr>
                 <td>{{ dailyActivity.taskName }}</td>
-                <td>{{ dailyActivity.activityDate }}</td>
+                <td>{{ dailyActivity.activityDate | date:"dd/MM/yyyy" }}</td>
                 <td>{{ dailyActivity.startTime }}</td>
                 <td>{{ dailyActivity.endTime }}</td>
                 <td>{{ dailyActivity.notes }}</td>
