@@ -7,6 +7,7 @@ import { UserHomeComponent } from './page/user-home/user-home.component';
 import { AdminVisUtenteSpecificoComponent } from './page/admin-vis-utente-specifico/admin-vis-utente-specifico.component';
 import { EmaildimenticataComponent } from './page/emaildimenticata/email-password-dimenticata/email-password-dimenticata.component';
 import { TutteAttivitaComponent } from './page/tutte-attivita/tutte-attivita.component';
+import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.component';
 
 export const routes: Routes = [
     { path:'home', component:HomePageComponent },
@@ -18,5 +19,5 @@ export const routes: Routes = [
     { path:'admin-vis-utente-specifico',component:AdminVisUtenteSpecificoComponent},
     { path:'emaildimenticata', component:EmaildimenticataComponent },
     { path:'tutteattivita', component:TutteAttivitaComponent},
-    { path:'tuttiutenti', component:AdminVisUtenteSpecificoComponent }
+    { path:'tuttiutenti', component:AdminvisuserComponent }
 ];
