@@ -54,6 +54,13 @@
     color: black;
     white-space: nowrap;
   }
+
+  .right {
+    display: flex;
+    width: 80px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   
   @media (max-width: 768px) {
     .navbar {
