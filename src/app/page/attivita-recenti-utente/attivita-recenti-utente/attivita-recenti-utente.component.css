@@ -1,49 +1,69 @@
 @import "primeicons/primeicons.css";
 
-.table-container{
-    margin-top:5%;
-    margin-left:5%;
-    margin-right:5%;
-    margin-bottom:15%;
+.table-container {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 15%;
+    text-align: center;
+    padding-top: 20px;
+}
+
+h1 {
+    text-align: center;
+   
 }
 
 .filter-container {
-    margin-top:5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
     margin-bottom: 20px;
-    margin-left:2px;
+    margin-left: auto;
+    justify-content: flex-end;
 }
 
+.date-input {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
-    input[type="date"] {
-        background-color: #0080ff;
-        padding: 5px;
-        font-family: "Roboto Mono", monospace;
-        color: #ffffff;
-        border: none;
-        outline: none;
-        border-radius: 5px;
-      }
+.date-input label {
+    margin-right: auto;
+}
 
-      ::-webkit-calendar-picker-indicator {
-        background-color: #ffffff;
-        padding: 5px;
-        cursor: pointer;
-        border-radius: 3px;
-      }
+input[type="date"] {
+    background-color: #0080ff;
+    padding: 5px;
+    font-family: "Roboto Mono", monospace;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
 
+input[type="text"] {
+    padding: 5px;
+    font-family: "Roboto Mono", monospace;
+    color: #000000;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
 
-
-
+::-webkit-calendar-picker-indicator {
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
 
 .pi-search {
     font-size: 15px;
     color: #6c757d;
-    margin-left:2px;
+    margin-left: 2px;
 }
-
-
-
-
 
 .info-button,
 .delete-button {
@@ -70,10 +90,20 @@
     margin-right: -50px;
 }
 
-@media (max-width: 150px) {
-    .p-table,
-    .table-container {
-        font-size: 18px;
-        padding: 8px 12px;
+@media (max-width: 767px) {
+    .filter-container {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .fix{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: 2px;
+    }
+
+    .date-input {
+        margin-top: 10px;
     }
 }
