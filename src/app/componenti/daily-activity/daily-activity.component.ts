@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { Component, Input, OnInit, signal } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
@@ -9,7 +9,7 @@ import { Activity } from '../../model/activityModel';
 @Component({
   selector: 'daily-activity',
   standalone: true,
-  imports: [TableModule, CommonModule,FooterComponent,NavbarComponent, EditActivityButtonComponent],
+  imports: [TableModule, CommonModule,FooterComponent,NavbarComponent, EditActivityButtonComponent, DatePipe],
   templateUrl: './daily-activity.component.html',
   styleUrl: './daily-activity.component.css'
 })
