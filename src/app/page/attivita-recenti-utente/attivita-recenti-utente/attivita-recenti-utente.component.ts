@@ -7,14 +7,7 @@ import { EditActivityButtonComponent } from '../../../componenti/edit-activity-b
 import { NavbarAttrecentiComponent } from "../../../componenti/navbar-attrecenti/navbar-attrecenti.component";
 import { FooterComponent } from "../../../componenti/footer/footer.component";
 import { FilterService } from 'primeng/api';
-
-interface IRowItem {
-  activity: string;
-  data: string;
-  orarioInizio: string;
-  orarioFine: string;
-  note: string;
-}
+import { Activity } from '../../../model/activityModel';
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -32,16 +25,16 @@ interface IRowItem {
   ]
 })
 export class AttivitaRecentiUtenteComponent implements OnInit {
-  rowItems: IRowItem[] = [];
-  filteredItems: IRowItem[] = [];
+  rowItems: Activity[] = [];
+  filteredItems: Activity[] = [];
   filterForm: FormGroup;
 
   cols = [
-    { field: 'activity', header: 'Attività' },
-    { field: 'data', header: 'Data' },
-    { field: 'orarioInizio', header: 'Orario di inizio' },
-    { field: 'orarioFine', header: 'Orario di fine' },
-    { field: 'note', header: 'Note' },
+    { field: 'taskName', header: 'Attività' },
+    { field: 'activityDate', header: 'Data' },
+    { field: 'startTime', header: 'Orario di inizio' },
+    { field: 'endTime', header: 'Orario di fine' },
+    { field: 'notes', header: 'Note' },
   ];
 
   constructor(private filterService: FilterService) {
@@ -53,10 +46,10 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
   ngOnInit() {
-    const newRow: IRowItem[] = [
-      { activity: 'attività1', data: '01/01/2024', orarioInizio: '09:00', orarioFine: '18:00', note: 'note1' },
-      { activity: 'attività2', data: '01/02/2024', orarioInizio: '09:00', orarioFine: '18:00', note: 'note2' },
-      { activity: 'attività3', data: '01/03/2024', orarioInizio: '09:00', orarioFine: '18:00', note: 'note3' },
+    const newRow: Activity[] = [
+      { taskName: 'attività1', activityDate: new Date(2024, 0, 1), startTime: '09:00', endTime: '18:00', notes: 'note1' },
+      { taskName: 'attività2', activityDate: new Date(2024, 1, 1), startTime: '09:00', endTime: '18:00', notes: 'note2' },
+      { taskName: 'attività3', activityDate: new Date(2024, 2, 1), startTime: '09:00', endTime: '18:00', notes: 'note3' },
     ];
 
     this.rowItems = newRow;
@@ -70,8 +63,24 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   filterActivities() {
     const { searchText, fromDate, toDate } = this.filterForm.value;
     this.filteredItems = this.rowItems.filter(item => {
-      const matchesText = !searchText || item.activity.toLowerCase().includes(searchText.toLowerCase());
-      const matchesDate = !fromDate && !toDate ? true : this.isDateInRange(item.data, fromDate, toDate);
+      const matchesText = !searchText || item.taskName.toLowerCase().includes(searchText.toLowerCase());
+      let itemDay!: string; 
+      let itemMonth!: string;
+      let itemYear: string = item.activityDate.getFullYear().toString();
+      if (item.activityDate.getDate() >= 10){
+        itemDay = item.activityDate.getDate().toString();
+      } else {
+        itemDay = '0' + item.activityDate.getDate().toString();
+      }
+      if (item.activityDate.getMonth() >= 9){
+        itemMonth = (item.activityDate.getMonth() + 1).toString();
+      } else {
+        itemMonth = '0' + (item.activityDate.getMonth() + 1).toString();
+      }
+    console.log(itemMonth)
+      const date = itemDay + '/' + itemMonth + '/' + itemYear;
+      console.log(date);
+      const matchesDate = !fromDate && !toDate ? true : this.isDateInRange(date, fromDate, toDate);
       return matchesText && matchesDate;
     });
   }
