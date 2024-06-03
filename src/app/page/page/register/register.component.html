@@ -4,7 +4,6 @@
     <div class="container">
       <header>
         <span>Registrati</span>
-
         <br />
         <img
           src="https://www.tnt-endourology.com/wp-content/uploads/2016/05/icona2.png"
@@ -21,7 +20,7 @@
           pattern="^.+\.(jpg|jpeg|png|gif)$"
         >
           Seleziona foto
-      </label>
+        </label>
         <br />
         <br />
         <div class="card" style="display: flex" *ngIf="Validform">
@@ -170,9 +169,16 @@
             type="password"
             formControlName="pswd"
             placeholder="Password (Obbligatorio)"
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
+            pattern="^(?=.[a-z])(?=.[A-Z])(?=.[0-9])(?=.[!@#$%^&*_=+-]).{8,12}$"
             #passwordInput
           />
+          <i
+            class="pi pi-info-circle info-icon"
+            style=" width:20px ;font-size: 16px; position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"
+          >
+            <span class="tooltiptext">La password deve contenere almeno 8 caratteri<br /> Minimo una lettera maiuscola, una lettera minuscola, un numero,un simbolo
+            </span>
+          </i>
         </div>
         <div
           class="card"
@@ -186,9 +192,7 @@
         >
           <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
           <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >Password poco sicura</span
-          >
+          <span style="margin-left: 4px; font-size: 13px"></span>
         </div>
         <div
           class="card"
@@ -208,12 +212,10 @@
         </div>
         <div class="input-field">
           <input
-            class="pswqc"
+            class="pswd"
             type="password"
             formControlName="pswdc"
-            placeholder="Conferma password (Obbligatorio)"
-            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
-            #confirmPasswordInput
+            placeholder="Conferma Password (Obbligatorio)"
           />
         </div>
         <ng-container
