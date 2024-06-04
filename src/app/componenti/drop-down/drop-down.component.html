@@ -1,0 +1,5 @@
+<p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="isVisible()"></p-button>
+
+<div *ngIf="menuVisible">
+    <p-menu #menu [model]="items"></p-menu>
+  </div>
