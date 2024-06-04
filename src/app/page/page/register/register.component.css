@@ -178,3 +178,34 @@ form .button {
   color: #fff;
   border-radius: 5px;
 }
+.info-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #007bff;
+  font-size: 16px;
+}
+.tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #f9f9f9;
+  color: #000;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.info-icon:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}

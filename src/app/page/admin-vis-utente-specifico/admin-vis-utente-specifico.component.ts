@@ -1,29 +1,30 @@
 import { Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
+import { Activity } from '../../model/activityModel';
 
 @Component({
   selector: 'app-admin-vis-utente-specifico',
   standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule,FormsModule,EditActivityButtonComponent],
+  imports: [TableModule, ButtonModule, CommonModule,FormsModule,EditActivityButtonComponent, NgIf, DatePipe],
   templateUrl: './admin-vis-utente-specifico.component.html',
   styleUrls: ['./admin-vis-utente-specifico.component.css']
 })
 export class AdminVisUtenteSpecificoComponent {
-  activities = [
-    { activity: 'attività1',data:'01/01/2024', orarioInizio: '09:00', orarioFine: '18:00', note: 'note1' },
+  activities: Activity[] = [
+    { taskName: 'attività1', activityDate:new Date(2024, 0, 1), startTime: '09:00', endTime: '18:00', notes: 'note1' },
   
   ];
 
   cols = [
-    { field: 'activity', header: 'Attività' },
-    { field: 'data', header: 'Data'},
-    { field: 'orarioInizio', header: 'Orario di inizio' },
-    { field: 'orarioFine', header: 'Orario di fine' },
-    { field: 'note', header: 'Note' },
+    { field: 'taskName', header: 'Attività' },
+    { field: 'activityDate', header: 'Data'},
+    { field: 'startTime', header: 'Orario di inizio' },
+    { field: 'endTime', header: 'Orario di fine' },
+    { field: 'notes', header: 'Note' },
     { field: 'button', header: '' }
   ];
   
