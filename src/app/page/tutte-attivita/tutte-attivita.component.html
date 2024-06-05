@@ -52,8 +52,8 @@
                                 <tr>
                                     <td>{{ activity.taskName }}</td>
                                     <td>{{ activity.activityDate | date:"dd/MM/yyyy" }}</td>
-                                    <td>{{ activity.startTime }}</td>
-                                    <td>{{ activity.endTime }}</td>
+                                    <td>{{ activity.startTime | date: 'HH:mm' }}</td>
+                                    <td>{{ activity.endTime | date: 'HH:mm' }}</td>
                                     <td>{{ activity.notes }}</td>
                                     <td><edit-activity [activity]="activity"/></td>
                                     <td><button class="delete-button"><i class="pi pi-trash"></i></button></td>
