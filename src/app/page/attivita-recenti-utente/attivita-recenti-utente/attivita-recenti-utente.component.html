@@ -29,6 +29,8 @@
         <td *ngFor="let col of columns">
           @if(col.field === 'activityDate'){
             {{ rowData[col.field] | date: 'dd/MM/yyyy' }}
+          } @else if(col.field === 'startTime' || col.field === 'endTime'){
+            {{ rowData[col.field] | date: 'HH:mm' }}
           } @else {
             {{ rowData[col.field] }}
           }
