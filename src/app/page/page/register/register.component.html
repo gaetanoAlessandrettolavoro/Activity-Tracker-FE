@@ -147,132 +147,6 @@
           >
         </div>
 
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('email')?.value === ''"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >Il campo è obbligatorio</span
-          >
-        </div>
-        <div class="input-field">
-          <input
-            class="pswd"
-            type="password"
-            formControlName="pswd"
-            placeholder="Password (Obbligatorio)"
-            pattern="^(?=.[a-z])(?=.[A-Z])(?=.[0-9])(?=.[!@#$%^&*_=+-]).{8,12}$"
-            #passwordInput
-          />
-          <i
-            class="pi pi-info-circle info-icon"
-            style=" width:20px ;font-size: 16px; position: absolute; right: 5px; top: 50%; transform: translateY(-50%);"
-          >
-            <span class="tooltiptext">La password deve contenere almeno 8 caratteri<br /> Minimo una lettera maiuscola, una lettera minuscola, un numero,un simbolo
-            </span>
-          </i>
-        </div>
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('pswd')?.errors?.['pattern']"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"></span>
-        </div>
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('pswd')?.value === ''"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >Il campo è obbligatorio</span
-          >
-        </div>
-        <div class="input-field">
-          <input
-            class="pswd"
-            type="password"
-            formControlName="pswdc"
-            placeholder="Conferma Password (Obbligatorio)"
-          />
-        </div>
-        <ng-container
-          *ngIf="formSubmitted && userForm.get('pswdc')?.value === ''"
-        >
-          <div
-            class="card"
-            style="
-              display: flex;
-              padding: 4px;
-              background-color: #ffc4c4;
-              margin-top: -10px;
-            "
-          >
-            <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-            <p-messages />
-            <span style="margin-left: 4px; font-size: 13px"
-              >Il campo è obbligatorio</span
-            >
-          </div>
-        </ng-container>
-        <ng-container
-          *ngIf="
-            formSubmitted &&
-            userForm.get('pswdc')?.value &&
-            userForm.get('pswd')?.value &&
-            userForm.get('pswdc')?.value != userForm.get('pswd')?.value
-          "
-        >
-          <div
-            class="card"
-            style="
-              display: flex;
-              padding: 4px;
-              background-color: #ffc4c4;
-              margin-top: -10px;
-            "
-          >
-            <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-            <p-messages></p-messages>
-            <span style="margin-left: 4px; font-size: 13px"
-              >Le password non corrispondono</span
-            >
-          </div>
-        </ng-container>
-
-        <div style="display: flex; align-items: center">
-          <input
-            type="checkbox"
-            style="width: 50px; height: 15px; margin-left: -17px"
-            (click)="togglePasswordVisibility()"
-          />
-          <span style="font-size: 14px; margin-left: -15px"
-            >Mostra/Nascondi password</span
-          >
-        </div>
-
         <br />
 
         <button
@@ -290,7 +164,9 @@
         ></button>
 
         <br />
-        <span style="cursor: pointer;" (click)="navigateToHome()">Torna alla home</span>
+        <span style="cursor: pointer" (click)="navigateToHome()"
+          >Torna alla home</span
+        >
       </form>
     </div>
   </div>

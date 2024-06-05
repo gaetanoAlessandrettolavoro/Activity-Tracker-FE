@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -18,6 +24,9 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { PostRegisterService } from '../../../servizi/post-register.service';
+import { User } from '../../../model/userModel';
+import { HttpClientModule } from '@angular/common/http';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -40,12 +49,16 @@ interface UploadEvent {
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  providers: [MessageService],
+  providers: [MessageService, HttpClientModule],
 })
 export class RegisterComponent {
   title = 'ActivityTracker-FE';
 
-  constructor(private messageService: MessageService,private router: Router) {}
+  constructor(
+    private messageService: MessageService,
+    private router: Router,
+    @Inject(PostRegisterService) private servizio: PostRegisterService
+  ) {}
 
   show() {
     this.messageService.add({
@@ -75,49 +88,32 @@ export class RegisterComponent {
       : null;
   };
 
-  userForm = new FormGroup(
-    {
-      img: new FormControl(''),
-      name: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[A-Za-z]+$/),
-      ]),
-      surname: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[A-Za-z]+$/),
-      ]),
-      TaxIDcode: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          '^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$'
-        ),
-      ]),      
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$'),
-      ]),
-      pswd: new FormControl('', [
-        Validators.required,
-        Validators.pattern(
-          '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$'
-        ),
-      ]),
-      pswdc: new FormControl('', Validators.required),
-    },
-    { validators: this.passwordMatchValidator }
-  );
+  userForm = new FormGroup({
+    img: new FormControl(''),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[A-Za-z]+$/),
+    ]),
+    surname: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[A-Za-z]+$/),
+    ]),
+    TaxIDcode: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        '^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$'
+      ),
+    ]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$'),
+    ]),
+  });
 
   @ViewChild('passwordInput', { static: true }) passwordInput!: ElementRef;
   @ViewChild('confirmPasswordInput', { static: true })
   confirmPasswordInput!: ElementRef;
 
-  togglePasswordVisibility(): void {
-    const passwordInputType = this.passwordInput.nativeElement.type;
-    const newType = passwordInputType === 'password' ? 'text' : 'password';
-
-    this.passwordInput.nativeElement.type = newType;
-    this.confirmPasswordInput.nativeElement.type = newType;
-  }
   addSingle() {
     this.messageService.add({
       severity: 'success',
@@ -128,9 +124,26 @@ export class RegisterComponent {
 
   onSubmit() {
     this.formSubmitted = true;
-    if (this.userForm.valid) {
+    if (
+      !this.userForm.value.name ||
+      !this.userForm.value.surname ||
+      !this.userForm.value.TaxIDcode ||
+      !this.userForm.value.email
+    ) {
+      console.error('Error!');
+    } else if (this.userForm.valid) {
       console.log('Form Submitted!', this.userForm.value);
       this.Validform = true;
+      const postData: User = {
+        firstName: this.userForm.value.name,
+        lastName: this.userForm.value.surname,
+        email: this.userForm.value.email,
+        codiceFiscale: this.userForm.value.TaxIDcode,
+      };
+      this.servizio
+        .sendData(postData)
+        .subscribe({ next: (result: any) => 'ciao' });
+      console.log(postData);
     } else {
       console.log('Form not valid');
     }
