@@ -68,8 +68,8 @@ export class TutteAttivitaComponent implements OnInit {
           {
             taskName: 'Task1',
             activityDate: new Date(2021, 9, 2),
-            startTime: '08:00',
-            endTime: '09:00',
+            startTime: new Date(2021, 9, 2, 8, 0),
+            endTime: new Date(2021, 9, 2, 11, 0),
             notes: 'Note task1',
           },
         ],
@@ -85,8 +85,8 @@ export class TutteAttivitaComponent implements OnInit {
           {
             taskName: 'Task2',
             activityDate: new Date(2021, 9, 2),
-            startTime: '09:00',
-            endTime: '10:00',
+            startTime: new Date(2021, 9, 2, 9, 0),
+            endTime: new Date(2021, 9, 2, 12, 0),
             notes: 'Note task2',
           },
         ],

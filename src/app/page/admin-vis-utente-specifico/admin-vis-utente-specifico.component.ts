@@ -15,7 +15,7 @@ import { Activity } from '../../model/activityModel';
 })
 export class AdminVisUtenteSpecificoComponent {
   activities: Activity[] = [
-    { taskName: 'attività1', activityDate:new Date(2024, 0, 1), startTime: '09:00', endTime: '18:00', notes: 'note1' },
+    { taskName: 'attività1', activityDate:new Date(2024, 0, 1), startTime: new Date(2024, 0, 1, 9, 0), endTime: new Date(2024, 0, 1, 18, 0), notes: 'note1' },
   
   ];
 

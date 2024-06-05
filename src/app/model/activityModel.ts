@@ -9,8 +9,8 @@ export interface Activity {
     taskName: Task["taskName"];
     taskID?: string;
     activityDate: Date;
-    startTime: string;
-    endTime: string;
+    startTime: Date;
+    endTime: Date;
     notes: string;
     userID?: string;
     isActive?: boolean;
