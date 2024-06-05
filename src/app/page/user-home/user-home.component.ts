@@ -18,8 +18,8 @@ export class UserHomeComponent {
   dailyActivity: Activity | null = {
     taskName: 'Running',
     activityDate: new Date(2021, 6, 7),
-    startTime: "10:00",
-    endTime: "11:00",
+    startTime: new Date(2021, 6, 7, 9, 0),
+    endTime: new Date(2021, 6, 7, 10, 0),
     notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
   }
 
