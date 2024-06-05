@@ -23,14 +23,11 @@ export class EditActivityFormComponent implements OnInit{
   selectedActivityType = signal<string>("");
 
   ngOnInit() {
-    const dateArray = [this.activity.activityDate.getFullYear(), this.activity.activityDate.getMonth(), this.activity.activityDate.getDate()];
-    const orarioInizioArray = this.activity.startTime.split(':');
-    const orarioFineArray = this.activity.endTime.split(':');
     const newActivity = {
       taskName: this.activity.taskName,
-      activityDate: new Date(dateArray[0], dateArray[1], dateArray[2]),
-      startTime: new Date(0, 0, 0, parseInt(orarioInizioArray[0]), parseInt(orarioInizioArray[1])), //al submit si farà il getTime
-      endTime: new Date(0, 0, 0, parseInt(orarioFineArray[0]), parseInt(orarioFineArray[1])), //al submit si farà il getTime
+      activityDate: this.activity.activityDate,
+      startTime: this.activity.startTime,
+      endTime: this.activity.endTime,
       notes: this.activity.notes,
     }
     const newActivityTypes = ["Running", "Swimming", "Cycling", "Walking", "Gym", "Yoga", "Pilates", "Dance", "Meditation", "Other"];
@@ -48,7 +45,7 @@ export class EditActivityFormComponent implements OnInit{
   })
 
   onSubmitForm() {
-    // console.log(this.activityForm.value);
+    console.log(this.activityForm.value);
     // PRIMA DI FARE IL POST, BISOGNA CONVERTIRE I VALORI DEL FORM IN UN OGGETTO ACTIVITY
   }
 }
