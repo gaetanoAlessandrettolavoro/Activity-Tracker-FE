@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:600|Noto+Sans|Open+Sans:400,700&display=swap");
+
+.product-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Assicura che gli elementi si distribuiscano in modo uniforme */
+}
+
+.product-row td {
+    margin-right: 10px; /* Aggiusta lo spazio tra le colonne se necessario */
+    flex: 1; /* Rende le colonne flessibili */
+}
+
+.buttons-cell {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around; /* Spaziatura uniforme tra i pulsanti */
+}
+
+.buttons-cell button {
+    margin-left: 5px; /* Aggiusta lo spazio tra i pulsanti se necessario */
+}
+
+@media (max-width: 375px) {
+    .product-row {
+        flex-direction: column; /* Cambia la direzione a colonna per schermi piccoli */
+    }
+    .buttons-cell {
+        flex-direction: row; /* Mantiene i pulsanti in fila anche su schermi piccoli */
+        justify-content: space-between; /* Distribuisce i pulsanti uniformemente */
+    }
+}
