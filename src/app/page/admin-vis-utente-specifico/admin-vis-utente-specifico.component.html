@@ -1,33 +1,26 @@
-
-
 <div class="table-container">
     <p-table [columns]="cols" [value]="activities" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="header" let-columns>
-            <tr>
-                <th *ngFor="let col of columns">
-                    {{ col.header }}
-                </th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr>
-                <td *ngFor="let col of columns">
-                    @if(col.field === 'activityDate'){
-                        {{ rowData[col.field] | date: 'dd/MM/yyyy' }}
-                    }
-                    @else if(col.field === 'startTime' || col.field === 'endTime'){
-                        {{ rowData[col.field] | date: 'HH:mm' }}
-                    }
-                    @else {
-                        {{ rowData[col.field] }}
-                    }
-                </td>
-                <td>
-                    <edit-activity [activity]="rowData"/>
-                    <button class="delete-button"><i class="pi pi-trash"></i></button>
-                </td>
-            </tr>
-        </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+            {{ col.header }}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            {{ col.field === 'activityDate' ? (rowData[col.field] | date: 'dd/MM/yyyy') : 
+              col.field === 'startTime' || col.field === 'endTime' ? (rowData[col.field] | date: 'HH:mm') :
+              rowData[col.field] }}
+          </td>
+          <td>
+            <edit-activity [activity]="rowData"></edit-activity>
+            <button class="delete-button"><i class="pi pi-trash"></i></button>
+          </td>
+        </tr>
+      </ng-template>
     </p-table>
-    </div>
+  </div>
