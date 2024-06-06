@@ -8,7 +8,7 @@ import { UserManualComponent } from '../user-manual/user-manual.component';
   selector: 'navbarhome',
   standalone: true,
   providers: [PrimeIcons],
-  imports: [ButtonModule, NavbarhomeComponent,UserManualComponent],
+  imports: [ButtonModule, NavbarhomeComponent],
   templateUrl: './navbarhome.component.html',
   styleUrl: './navbarhome.component.css',
 })
