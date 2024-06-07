@@ -1,9 +1,11 @@
 <app-navbar-attrecenti></app-navbar-attrecenti>
 <h1>Attività recenti</h1>
 <div class="table-container">
-    
   <div class="filter-container" [formGroup]="filterForm">
-    <div class="fix"><i style="margin-right: 5px;" class="pi pi-search"></i><input type="text" pInputText placeholder="Cerca per attività" formControlName="searchText"></div>
+    <div class="fix">
+      <i style="margin-right: 5px;" class="pi pi-search"></i>
+      <input type="text" pInputText placeholder="Cerca per attività" formControlName="searchText">
+    </div>
     
     <div class="date-input">
       <label for="fromDate">Da:</label>
@@ -18,8 +20,9 @@
   <p-table [columns]="cols" [value]="filteredItems" [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th *ngFor="let col of columns">
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
           {{ col.header }}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
         </th>
         <th></th>
       </tr>
@@ -27,13 +30,9 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
         <td *ngFor="let col of columns">
-          @if(col.field === 'activityDate'){
-            {{ rowData[col.field] | date: 'dd/MM/yyyy' }}
-          } @else if(col.field === 'startTime' || col.field === 'endTime'){
-            {{ rowData[col.field] | date: 'HH:mm' }}
-          } @else {
-            {{ rowData[col.field] }}
-          }
+          {{ col.field === 'activityDate' ? (rowData[col.field] | date: 'dd/MM/yyyy') : 
+            col.field === 'startTime' || col.field === 'endTime' ? (rowData[col.field] | date: 'HH:mm') :
+            rowData[col.field] }}
         </td>
         <td>
           <edit-activity [activity]="rowData"></edit-activity>
