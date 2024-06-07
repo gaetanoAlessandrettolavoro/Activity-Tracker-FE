@@ -9,7 +9,7 @@ export class PostRegisterService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl = '.../api/v1/users/signup';  // URL dell'API
+  private apiUrl = 'http://127.0.0.1:3000/api/v1/users/signup';  // URL dell'API
 
   sendData(data: any): Observable<any> {
     const headers = new HttpHeaders({
