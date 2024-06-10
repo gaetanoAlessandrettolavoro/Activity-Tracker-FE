@@ -19,7 +19,7 @@
         <td>
           <button class="activity-button" (click)="getActivity(rowData.id)">Attività</button>
           <button class="info-button"><i class="pi pi-pencil"></i></button>
-          <button class="delete-button"><i class="pi pi-trash"></i></button>
+          <delete-user [user]="rowData" (userDeleted)="userDeleted()"/>
         </td>
       </tr>
     </ng-template>
