@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { GetusersService } from '../../servizi/getusers.service';
-import { animate } from '@angular/animations';
+import { PaginatorModule } from 'primeng/paginator';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
 
 interface User {
   name: string;
@@ -17,14 +18,15 @@ interface User {
 @Component({
   selector: 'app-admin-vis-user',
   standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule, FormsModule, FooterComponent],
+  imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule,InputTextModule,FormsModule],
   templateUrl: './admin-vis-users.component.html',
   styleUrls: ['./admin-vis-users.component.css']
 })
 export class AdminvisuserComponent implements OnInit {
 
-  constructor(private users: GetusersService){}
+  constructor(private users: GetusersService) {}
   activities: User[] = [];
+  value!: string;
 
   cols = [
     { field: 'name', header: 'Nome' },
@@ -37,6 +39,10 @@ export class AdminvisuserComponent implements OnInit {
   searchText: string = '';
   fromDate: string = '';
   toDate: string = '';
+
+  limit!: number;
+  first: number = 0;
+  rows: number = 10;
 
   filterActivities() {
     this.filteredActivities = this.activities.filter(activity => {
@@ -52,8 +58,8 @@ export class AdminvisuserComponent implements OnInit {
 
   ngOnInit(): void {
     this.users.getData().subscribe((data: any) => {
-      data.data.document.forEach((item: any) => {7
-        console.log(item)
+      data.data.document.forEach((item: any) => {
+        console.log(item);
         this.activities.push({
           name: item.firstName,
           surname: item.lastName,
@@ -64,5 +70,43 @@ export class AdminvisuserComponent implements OnInit {
       // Filtro le attività dopo averle ricevute
       this.filterActivities();
     });
+  }
+
+  onPageChange(event: any) {
+    const pageNumber = (event.page + 1);
+    this.activities = [];
+    this.users.getData25(pageNumber, this.limit).subscribe((data: any) => {
+      data.data.document.forEach((item: any) => {
+        console.log(item);
+        this.activities.push({
+          name: item.firstName,
+          surname: item.lastName,
+          codiceFiscale: item.codiceFiscale,
+          email: item.email,
+        });
+      });
+      // Filtro le attività dopo averle ricevute
+      this.filterActivities();
+    });
+    console.log(pageNumber);
+  }
+
+  changeLimit() {
+    const currentPage = this.first / this.rows + 1; // Calcola la pagina corrente
+    this.users.getData25(currentPage, this.limit).subscribe((data: any) => {
+      this.activities = [];
+      data.data.document.forEach((item: any) => {
+        console.log(item);
+        this.activities.push({
+          name: item.firstName,
+          surname: item.lastName,
+          codiceFiscale: item.codiceFiscale,
+          email: item.email,
+        });
+      });
+      // Filtro le attività dopo averle ricevute
+      this.filterActivities();
+    });
+    console.log(this.limit);
   }
 }
