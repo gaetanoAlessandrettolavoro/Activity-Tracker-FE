@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class GetusersService {
   constructor(private http: HttpClient) {}
-  private apiUrl = 'http://localhost:3000/api/v1/users'; // URL dell'API
+  private apiUrl = '.../api/v1/users'; // URL dell'API
 
   getData(): Observable<any> {
     return this.http.get<any>(this.apiUrl, { withCredentials: true });
