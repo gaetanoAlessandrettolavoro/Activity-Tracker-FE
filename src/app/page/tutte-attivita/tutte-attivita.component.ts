@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterService } from 'primeng/api';
 import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component';
 import { FooterComponent } from '../../componenti/footer/footer.component';
+import { GetusersService } from '../../servizi/getusers.service';
 
 interface rowItem {
   nome: string;
@@ -52,7 +53,7 @@ export class TutteAttivitaComponent implements OnInit {
 
   expandedRows = {};
 
-  constructor(private filterService: FilterService) {}
+  constructor(private filterService: FilterService, private users: GetusersService) {}
 
   ngOnInit() {
     //QUI ANDRà UN METODO CHE MAN MANO CHE ARRIVANO I DATI DAL BE POPOLI LA VARIABILE rows
@@ -118,5 +119,11 @@ export class TutteAttivitaComponent implements OnInit {
     this.isFiltered.set(false);
     this.textFilter.set('');
     this.rowItems = this.originalRowItems;
+  }
+
+  getUsers(){
+    this.users.getData().subscribe((data: any) => {
+      console.log(data);
+    });
   }
 }

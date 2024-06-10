@@ -9,13 +9,9 @@ export class ServiceloginService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl = '.../api/v1/users/login';  // URL dell'API
+  private apiUrl = 'http://localhost:3000/api/v1/users/login';  // URL dell'API
 
   getUser(data: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.post<any>(this.apiUrl, data, { headers,withCredentials:true });
+    return this.http.post<any>(this.apiUrl, data, { withCredentials: true });
   }
 }
