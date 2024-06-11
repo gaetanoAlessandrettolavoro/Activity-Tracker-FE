@@ -8,17 +8,22 @@ import { AdminVisUtenteSpecificoComponent } from './page/admin-vis-utente-specif
 import { EmaildimenticataComponent } from './page/emaildimenticata/email-password-dimenticata/email-password-dimenticata.component';
 import { TutteAttivitaComponent } from './page/tutte-attivita/tutte-attivita.component';
 import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.component';
+import { ServiceloginService } from './servizi/servicelogin.service';
+import { authGuard } from './guardie/auth.guard';
+import { Router, CanActivateFn } from '@angular/router';
+
+
 
 export const routes: Routes = [
     { path:'home', component:HomePageComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: "login", component:LoginComponent, pathMatch: 'full' },
-    { path: "login/oggi", component:UserHomeComponent, pathMatch: 'full'},
+    { path: "login/oggi", component:UserHomeComponent, pathMatch: 'full',canActivate: [authGuard]},
     { path: "registrati", component: RegisterComponent, pathMatch: 'full'},
     { path:'attivitarecentiutente',component:AttivitaRecentiUtenteComponent},
     { path:'admin-vis-utente-specifico',component:AdminVisUtenteSpecificoComponent},
     { path:'emaildimenticata', component:EmaildimenticataComponent },
     { path:'tutteattivita', component:TutteAttivitaComponent},
-    { path:'homeadmin', component:AdminvisuserComponent }
+    { path:'homeadmin', component:AdminvisuserComponent,canActivate: [authGuard] }
 
 ];
