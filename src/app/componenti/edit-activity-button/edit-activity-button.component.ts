@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { EditActivityFormComponent } from '../edit-activity-form/edit-activity-form.component';
-import { Activity } from '../../model/activityModel';
+import { Activity } from '../../models/activityModel';
 
 @Component({
   selector: 'edit-activity',

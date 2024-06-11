@@ -25,7 +25,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { PostRegisterService } from '../../../servizi/post-register.service';
-import { User } from '../../../model/userModel';
+import { User } from '../../../models/userModel';
 import { HttpClientModule } from '@angular/common/http';
 
 interface UploadEvent {

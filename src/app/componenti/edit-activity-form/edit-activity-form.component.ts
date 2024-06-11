@@ -6,7 +6,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
-import { Activity } from '../../model/activityModel';
+import { Activity } from '../../models/activityModel';
 
 @Component({
   selector: 'edit-activity-form',

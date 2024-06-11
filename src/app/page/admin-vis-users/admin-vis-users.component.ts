@@ -9,7 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ActivityUserService } from '../../servizi/activity-user.service';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
-import { User } from '../../model/userModel';
+import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
 
 

@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
-import { Activity } from '../../model/activityModel';
+import { Activity } from '../../models/activityModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';

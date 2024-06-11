@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { User } from '../../model/userModel';
+import { User } from '../../models/userModel';
 import { DeleteUserService } from '../../servizi/delete-user.service';
 
 @Component({
