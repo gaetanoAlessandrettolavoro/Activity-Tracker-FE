@@ -1,7 +1,7 @@
 <div class="filter-container">
   <p-table [columns]="cols" [value]="filteredActivities" [tableStyle]="{ 'min-width': '50rem' }" class="p-table">
     <ng-template pTemplate="header" let-columns>
-      <tr> 
+      <tr>
         <th *ngFor="let col of columns" [pSortableColumn]="col.field">
           {{ col.header }}
           <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -17,7 +17,7 @@
             rowData[col.field] }}
         </td>
         <td>
-          <button class="activity-button">Attività</button>
+          <button class="activity-button" (click)="getActivity(rowData.id)">Attività</button>
           <button class="info-button"><i class="pi pi-pencil"></i></button>
           <button class="delete-button"><i class="pi pi-trash"></i></button>
         </td>
@@ -29,11 +29,31 @@
       (onPageChange)="onPageChange($event)" 
       [first]="first" 
       [rows]="rows" 
-      [totalRecords]="120" 
+      [totalRecords]="activities.length" 
     ></p-paginator>
   </div>
-  <input type="text" pInputText [(ngModel)]="value" [(ngModel)]="limit" placeholder="Inserisci il limite" /> <br> <br>
-  <p-button label="Invia" (click)="changeLimit()" size="small" />
+  <input type="text" pInputText [(ngModel)]="limit" placeholder="Inserisci il limite" /> <br><br>
+  <p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
+</div>
+
+<div *ngIf="userActivities.length > 0" class="user-activities-container">
+  <h2>Attività per l'utente selezionato</h2>
+  <p-table [value]="userActivities">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome Attività</th>
+        <th>Data</th>
+        <th>Descrizione</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-activity>
+      <tr>
+        <td>{{ activity.name }}</td>
+        <td>{{ activity.date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ activity.description }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
 
 <app-footer></app-footer>
