@@ -33,7 +33,7 @@ export class AdminvisuserComponent implements OnInit {
     { field: 'email', header: 'Email' },
   ];
 
-  filteredActivities: User[] = [];
+  filteredUsers: User[] = [];
   searchText: string = '';
   fromDate: string = '';
   toDate: string = '';
@@ -42,13 +42,13 @@ export class AdminvisuserComponent implements OnInit {
   first: number = 0;
   rows: number = 10;
 
-  filterActivities() {
-    this.filteredActivities = this.usersArray().filter(activity => {
+  filterUsers() {
+    this.filteredUsers = this.usersArray().filter(user => {
       const matchesText = !this.searchText ||
-        activity.firstName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        activity.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        activity.codiceFiscale.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        activity.email.toLowerCase().includes(this.searchText.toLowerCase());
+        user.firstName.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        user.codiceFiscale.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        user.email.toLowerCase().includes(this.searchText.toLowerCase());
       const matchesDate = true; // Always true since we're not filtering by date anymore
       return matchesText && matchesDate;
     });
@@ -63,10 +63,11 @@ export class AdminvisuserComponent implements OnInit {
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
-          _id: item._id
+          _id: item._id,
+          role: item.role
         });
       });
-      this.filterActivities();
+      this.filterUsers();
     });
   }
   getActivity(id: string) {
@@ -89,10 +90,11 @@ export class AdminvisuserComponent implements OnInit {
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
-          _id: item._id
+          _id: item._id,
+          role: item.role
         });
       });
-      this.filterActivities();
+      this.filterUsers();
     });
     console.log(pageNumber);
   }
@@ -108,10 +110,11 @@ export class AdminvisuserComponent implements OnInit {
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
-          _id: item._id
+          _id: item._id,
+          role: item.role
         });
       });
-      this.filterActivities();
+      this.filterUsers();
     });
     console.log(this.limit);
   }
@@ -119,7 +122,7 @@ export class AdminvisuserComponent implements OnInit {
   userDeleted(){
     console.log('User deleted');
     this.usersArray.set([]);
-    this.filterActivities();
+    this.filterUsers();
     this.users.getData().subscribe((data: any) => {
       data.data.document.forEach((item: any) => {7
         console.log(item)
@@ -128,10 +131,11 @@ export class AdminvisuserComponent implements OnInit {
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
-          _id: item._id
+          _id: item._id,
+          role: item.role
         });
       });
-      this.filterActivities();
+      this.filterUsers();
     });
   }
 }

@@ -1,5 +1,5 @@
 <div class="filter-container">
-  <p-table [columns]="cols" [value]="filteredActivities" [tableStyle]="{ 'min-width': '50rem' }" class="p-table">
+  <p-table [columns]="cols" [value]="filteredUsers" [tableStyle]="{ 'min-width': '50rem' }" class="p-table">
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th *ngFor="let col of columns" [pSortableColumn]="col.field">
@@ -17,7 +17,7 @@
             rowData[col.field] }}
         </td>
         <td>
-          <button class="activity-button" (click)="getActivity(rowData.id)">Attività</button>
+          <button class="activity-button" (click)="getActivity(rowData._id)">Attività</button>
           <button class="info-button"><i class="pi pi-pencil"></i></button>
           <delete-user [user]="rowData" (userDeleted)="userDeleted()"/>
         </td>
