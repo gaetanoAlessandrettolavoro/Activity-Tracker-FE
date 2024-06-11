@@ -6,4 +6,5 @@ export interface User {
   role?: 'user' | 'admin';
   codiceFiscale: string;
   propic?: string; //or ANY???
+  _id?: string;
 }

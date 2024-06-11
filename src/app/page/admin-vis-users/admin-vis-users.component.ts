@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -8,30 +8,27 @@ import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ActivityUserService } from '../../servizi/activity-user.service';
+import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
+import { User } from '../../model/userModel';
 
-interface User {
-  id: string;
-  name: string;
-  surname: string;
-  codiceFiscale: string;
-  email: string;
-}
 
 @Component({
   selector: 'app-admin-vis-user',
   standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule],
+  imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent],
   templateUrl: './admin-vis-users.component.html',
   styleUrls: ['./admin-vis-users.component.css']
 })
 export class AdminvisuserComponent implements OnInit {
 
   constructor(private users: GetusersService, private activityUserService: ActivityUserService) {}
-  activities: User[] = [];
+  usersArray = signal<User[]>([]);
+  value!: string;
   userActivities: any[] = [];
+
   cols = [
-    { field: 'name', header: 'Nome' },
-    { field: 'surname', header: 'Cognome' },
+    { field: 'firstName', header: 'Nome' },
+    { field: 'lastName', header: 'Cognome' },
     { field: 'codiceFiscale', header: 'Codice Fiscale' },
     { field: 'email', header: 'Email' },
   ];
@@ -46,10 +43,10 @@ export class AdminvisuserComponent implements OnInit {
   rows: number = 10;
 
   filterActivities() {
-    this.filteredActivities = this.activities.filter(activity => {
+    this.filteredActivities = this.usersArray().filter(activity => {
       const matchesText = !this.searchText ||
-        activity.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        activity.surname.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        activity.firstName.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        activity.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
         activity.codiceFiscale.toLowerCase().includes(this.searchText.toLowerCase()) ||
         activity.email.toLowerCase().includes(this.searchText.toLowerCase());
       const matchesDate = true; // Always true since we're not filtering by date anymore
@@ -60,13 +57,13 @@ export class AdminvisuserComponent implements OnInit {
   ngOnInit(): void {
     this.users.getData().subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
-        console.log(item);
-        this.activities.push({
-          id: item._id,
-          name: item.firstName,
-          surname: item.lastName,
+        console.log(item)
+        this.usersArray().push({
+          firstName: item.firstName,
+          lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
+          _id: item._id
         });
       });
       this.filterActivities();
@@ -83,16 +80,16 @@ export class AdminvisuserComponent implements OnInit {
 
   onPageChange(event: any) {
     const pageNumber = (event.page + 1);
-    this.activities = [];
+    this.usersArray.set([]);
     this.users.getData25(pageNumber, this.limit).subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
         console.log(item);
-        this.activities.push({
-          id: item._id,
-          name: item.firstName,
-          surname: item.lastName,
+        this.usersArray().push({
+          firstName: item.firstName,
+          lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
+          _id: item._id
         });
       });
       this.filterActivities();
@@ -103,15 +100,15 @@ export class AdminvisuserComponent implements OnInit {
   changeLimit() {
     const currentPage = this.first / this.rows + 1; // Calcola la pagina corrente
     this.users.getData25(currentPage, this.limit).subscribe((data: any) => {
-      this.activities = [];
+      this.usersArray.set([]);
       data.data.document.forEach((item: any) => {
         console.log(item);
-        this.activities.push({
-          id: item._id,
-          name: item.firstName,
-          surname: item.lastName,
+        this.usersArray().push({
+          firstName: item.firstName,
+          lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
+          _id: item._id
         });
       });
       this.filterActivities();
@@ -119,5 +116,22 @@ export class AdminvisuserComponent implements OnInit {
     console.log(this.limit);
   }
 
-
+  userDeleted(){
+    console.log('User deleted');
+    this.usersArray.set([]);
+    this.filterActivities();
+    this.users.getData().subscribe((data: any) => {
+      data.data.document.forEach((item: any) => {7
+        console.log(item)
+        this.usersArray().push({
+          firstName: item.firstName,
+          lastName: item.lastName,
+          codiceFiscale: item.codiceFiscale,
+          email: item.email,
+          _id: item._id
+        });
+      });
+      this.filterActivities();
+    });
+  }
 }
