@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivityUserService } from '../../servizi/activity-user.service';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
 import { User } from '../../model/userModel';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -21,7 +22,7 @@ import { User } from '../../model/userModel';
 })
 export class AdminvisuserComponent implements OnInit {
 
-  constructor(private users: GetusersService, private activityUserService: ActivityUserService) {}
+  constructor(private users: GetusersService, private activityUserService: ActivityUserService,private router: Router) {}
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
@@ -57,7 +58,6 @@ export class AdminvisuserComponent implements OnInit {
   ngOnInit(): void {
     this.users.getData().subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
-        console.log(item)
         this.usersArray().push({
           firstName: item.firstName,
           lastName: item.lastName,
@@ -72,9 +72,9 @@ export class AdminvisuserComponent implements OnInit {
   }
   getActivity(id: string) {
     const userId = id;
+    this.router.navigate(['/admin-vis-utente-specifico',userId])
     this.activityUserService.getActivities(userId).subscribe((result: any) => {
       this.userActivities = result;
-      console.log(result)
     });
     console.log(id);
   }
