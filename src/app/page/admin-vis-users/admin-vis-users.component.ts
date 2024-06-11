@@ -7,8 +7,10 @@ import { GetusersService } from '../../servizi/getusers.service';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
+import { ActivityUserService } from '../../servizi/activity-user.service';
 
 interface User {
+  id: string;
   name: string;
   surname: string;
   codiceFiscale: string;
@@ -18,16 +20,15 @@ interface User {
 @Component({
   selector: 'app-admin-vis-user',
   standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule,InputTextModule,FormsModule],
+  imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule],
   templateUrl: './admin-vis-users.component.html',
   styleUrls: ['./admin-vis-users.component.css']
 })
 export class AdminvisuserComponent implements OnInit {
 
-  constructor(private users: GetusersService) {}
+  constructor(private users: GetusersService, private activityUserService: ActivityUserService) {}
   activities: User[] = [];
-  value!: string;
-
+  userActivities: any[] = [];
   cols = [
     { field: 'name', header: 'Nome' },
     { field: 'surname', header: 'Cognome' },
@@ -61,15 +62,23 @@ export class AdminvisuserComponent implements OnInit {
       data.data.document.forEach((item: any) => {
         console.log(item);
         this.activities.push({
+          id: item._id,
           name: item.firstName,
           surname: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
         });
       });
-      // Filtro le attività dopo averle ricevute
       this.filterActivities();
     });
+  }
+  getActivity(id: string) {
+    const userId = id;
+    this.activityUserService.getActivities(userId).subscribe((result: any) => {
+      this.userActivities = result;
+      console.log(result)
+    });
+    console.log(id);
   }
 
   onPageChange(event: any) {
@@ -79,13 +88,13 @@ export class AdminvisuserComponent implements OnInit {
       data.data.document.forEach((item: any) => {
         console.log(item);
         this.activities.push({
+          id: item._id,
           name: item.firstName,
           surname: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
         });
       });
-      // Filtro le attività dopo averle ricevute
       this.filterActivities();
     });
     console.log(pageNumber);
@@ -98,15 +107,17 @@ export class AdminvisuserComponent implements OnInit {
       data.data.document.forEach((item: any) => {
         console.log(item);
         this.activities.push({
+          id: item._id,
           name: item.firstName,
           surname: item.lastName,
           codiceFiscale: item.codiceFiscale,
           email: item.email,
         });
       });
-      // Filtro le attività dopo averle ricevute
       this.filterActivities();
     });
     console.log(this.limit);
   }
+
+
 }
