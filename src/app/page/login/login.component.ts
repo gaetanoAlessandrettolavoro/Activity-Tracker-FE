@@ -47,7 +47,13 @@ export class LoginComponent {
       };
       this.servizio
         .getUser(postData)
-        .subscribe({ next: (result: any) => console.log(result) });
+        .subscribe({ next: (result: any) => { 
+           this.servizio.checkAuthentication(result.data.role)
+           this.router.navigate(['/homeadmin']);
+        }
+         
+          });
+         
       console.log(postData);
     } else {
       console.log('Form not valid');
