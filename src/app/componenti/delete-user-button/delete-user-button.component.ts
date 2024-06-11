@@ -17,10 +17,14 @@ export class DeleteUserButtonComponent {
 
   onClickDelete(){
     if(!!this.user._id){
-      if (confirm(`Vuoi eliminare l'utente ${this.user.firstName} ${this.user.lastName} con codice fiscale "${this.user.codiceFiscale}" e email "${this.user.email}"?`) == true) {
-        this.deleteUser.deactivate(this.user._id).subscribe(() => {
-          this.userDeleted.emit(true);
-        });
+      if(this.user.role === 'admin'){
+        alert('Non puoi eliminare un amministratore');
+      } else {
+        if (confirm(`Vuoi eliminare l'utente ${this.user.firstName} ${this.user.lastName} con codice fiscale "${this.user.codiceFiscale}" e email "${this.user.email}"?`) == true) {
+          this.deleteUser.deactivate(this.user._id).subscribe(() => {
+            this.userDeleted.emit(true);
+          });
+        }
       }
     }
   }
