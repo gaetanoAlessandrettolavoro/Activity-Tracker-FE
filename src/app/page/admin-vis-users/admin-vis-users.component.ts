@@ -22,7 +22,7 @@ import { User } from '../../model/userModel';
 export class AdminvisuserComponent implements OnInit {
 
   constructor(private users: GetusersService, private activityUserService: ActivityUserService) {}
-  activities = signal<User[]>([]);
+  usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
 
@@ -43,7 +43,7 @@ export class AdminvisuserComponent implements OnInit {
   rows: number = 10;
 
   filterActivities() {
-    this.filteredActivities = this.activities().filter(activity => {
+    this.filteredActivities = this.usersArray().filter(activity => {
       const matchesText = !this.searchText ||
         activity.firstName.toLowerCase().includes(this.searchText.toLowerCase()) ||
         activity.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
@@ -58,7 +58,7 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getData().subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
         console.log(item)
-        this.activities().push({
+        this.usersArray().push({
           firstName: item.firstName,
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
@@ -80,11 +80,11 @@ export class AdminvisuserComponent implements OnInit {
 
   onPageChange(event: any) {
     const pageNumber = (event.page + 1);
-    this.activities.set([]);
+    this.usersArray.set([]);
     this.users.getData25(pageNumber, this.limit).subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
         console.log(item);
-        this.activities().push({
+        this.usersArray().push({
           firstName: item.firstName,
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
@@ -100,10 +100,10 @@ export class AdminvisuserComponent implements OnInit {
   changeLimit() {
     const currentPage = this.first / this.rows + 1; // Calcola la pagina corrente
     this.users.getData25(currentPage, this.limit).subscribe((data: any) => {
-      this.activities.set([]);
+      this.usersArray.set([]);
       data.data.document.forEach((item: any) => {
         console.log(item);
-        this.activities().push({
+        this.usersArray().push({
           firstName: item.firstName,
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
@@ -118,12 +118,12 @@ export class AdminvisuserComponent implements OnInit {
 
   userDeleted(){
     console.log('User deleted');
-    this.activities.set([]);
+    this.usersArray.set([]);
     this.filterActivities();
     this.users.getData().subscribe((data: any) => {
       data.data.document.forEach((item: any) => {7
         console.log(item)
-        this.activities().push({
+        this.usersArray().push({
           firstName: item.firstName,
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
