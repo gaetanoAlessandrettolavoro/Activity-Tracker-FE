@@ -17,7 +17,7 @@
             rowData[col.field] }}
         </td>
         <td>
-          <button class="activity-button" (click)="getActivity(rowData.id)">Attività</button>
+          <button class="activity-button" (click)="getActivity(rowData._id)">Attività</button>
           <button class="info-button"><i class="pi pi-pencil"></i></button>
           <delete-user [user]="rowData" (userDeleted)="userDeleted()"/>
         </td>
