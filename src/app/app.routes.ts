@@ -13,6 +13,7 @@ import { authGuard } from './guardie/auth.guard';
 import { Router, CanActivateFn } from '@angular/router';
 import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
 import { AdminrouteComponent } from './page/rotta-impostazioniadmin/rotta-impostazioniadmin.component';
+import { NewpasswordComponent } from './page/newpassword/newpassword.component';
 
 
 
@@ -28,7 +29,8 @@ export const routes: Routes = [
     { path:'tutteattivita', component:TutteAttivitaComponent},
     { path:'homeadmin', component:AdminvisuserComponent,canActivate: [authGuard] },
     { path:'impostazioniutente', component:UserRouteComponent},
-    { path:'impostazioniadmin', component:AdminrouteComponent}
+    { path:'impostazioniadmin', component:AdminrouteComponent},
+    { path:'resetPassword/:id', component:NewpasswordComponent}
 
 ];
 
