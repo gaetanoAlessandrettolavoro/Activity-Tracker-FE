@@ -8,30 +8,22 @@ import { AdminVisUtenteSpecificoComponent } from './page/admin-vis-utente-specif
 import { EmaildimenticataComponent } from './page/emaildimenticata/email-password-dimenticata/email-password-dimenticata.component';
 import { TutteAttivitaComponent } from './page/tutte-attivita/tutte-attivita.component';
 import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.component';
-import { ServiceloginService } from './servizi/servicelogin.service';
-import { authGuard } from './guardie/auth.guard';
-import { Router, CanActivateFn } from '@angular/router';
 import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
 import { AdminrouteComponent } from './page/rotta-impostazioniadmin/rotta-impostazioniadmin.component';
-import { NewpasswordComponent } from './page/newpassword/newpassword.component';
-import { UserTaskCreationComponent } from './componenti/user-task-creation/user-task-creation.component';
-
-
+import { authGuard } from './guardie/auth.guard';
 
 export const routes: Routes = [
-    { path:'home', component:HomePageComponent },
+    { path: 'home', component: HomePageComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: "login", component:LoginComponent, pathMatch: 'full' },
-    { path: "login/oggi", component:UserHomeComponent, pathMatch: 'full',canActivate: [authGuard]},
-    { path: "registrati", component: RegisterComponent, pathMatch: 'full'},
-    { path:'attivitarecentiutente',component:AttivitaRecentiUtenteComponent},
-    { path:'admin-vis-utente-specifico/:id',component:AdminVisUtenteSpecificoComponent},
-    { path:'passworddimenticata', component:EmaildimenticataComponent },
-    { path:'tutteattivita', component:TutteAttivitaComponent},
-    { path:'homeadmin', component:AdminvisuserComponent,canActivate: [authGuard] },
-    { path:'impostazioniutente', component:UserRouteComponent},
-    { path:'impostazioniadmin', component:AdminrouteComponent},
-    { path:'resetPassword/:id', component:NewpasswordComponent}
-
+    { path: 'login', component: LoginComponent },
+    { path: 'registrati', component: RegisterComponent },
+    { path: 'attivitarecentiutente', component: AttivitaRecentiUtenteComponent, canActivate: [authGuard] },
+    { path: 'admin-vis-utente-specifico/:id', component: AdminVisUtenteSpecificoComponent, canActivate: [authGuard] },
+    { path: 'passworddimenticata', component: EmaildimenticataComponent },
+    { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
+    { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
+    { path: 'impostazioniutente', component: UserRouteComponent, canActivate: [authGuard] },
+    { path: 'impostazioniadmin', component: AdminrouteComponent, canActivate: [authGuard] },
+    { path: 'userhome', component: UserHomeComponent, canActivate: [authGuard] }
 ];
 
