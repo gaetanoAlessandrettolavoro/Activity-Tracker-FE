@@ -7,7 +7,14 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 import { Activity } from '../../models/activityModel';
+import { TasksService } from '../../servizi/tasks.service';
+import { Task } from '../../models/taskModel';
 
+interface TaskResponse {
+  data: {
+  document: Task[];
+  };
+  }
 @Component({
   selector: 'edit-activity-form',
   standalone: true,
@@ -18,29 +25,36 @@ import { Activity } from '../../models/activityModel';
 export class EditActivityFormComponent implements OnInit{
   @Input({required: true}) activity!: Activity;
 
+  constructor(private taskService: TasksService) {}
+
   activityToEdit = signal<any>({});
-  activityTypes = signal<string[]>([""]);
-  selectedActivityType = signal<string>("");
+  tasks = signal<Task[]>([]);
+  tasksToPrint = signal<string[]>([]);
+  selectedTask = signal<string>("");
 
   ngOnInit() {
-    const newActivity = {
+    const newActivity: Activity = {
       taskName: this.activity.taskName,
       activityDate: this.activity.activityDate,
       startTime: this.activity.startTime,
       endTime: this.activity.endTime,
       notes: this.activity.notes,
+      taskID: this.activity.taskID,
     }
-    const newActivityTypes = ["Running", "Swimming", "Cycling", "Walking", "Gym", "Yoga", "Pilates", "Dance", "Meditation", "Other"];
+    this.taskService.getAllTasks().subscribe((result: TaskResponse) => {
+      this.tasks.set(result.data.document);
+      this.tasksToPrint.set(this.tasks().map((task) => task.taskName));
+    });
     this.activityToEdit.set(newActivity);
-    this.activityTypes.set(newActivityTypes);
-    this.selectedActivityType.set(this.activity.taskName);
+    this.selectedTask.set(this.activity.taskName);
+    this.taskService.getAllTasks()
   }
 
   activityForm = new FormGroup({
     data: new FormControl(this.activityToEdit().data, [Validators.required]),
     orarioInizio: new FormControl(this.activityToEdit().orarioInizio, [Validators.required]),
     orarioFine: new FormControl(this.activityToEdit().orarioFine, [Validators.required]),
-    activityType: new FormControl(this.activityToEdit().activityType, [Validators.required]),
+    taskName: new FormControl(this.activityToEdit().taskName, [Validators.required]),
     note: new FormControl(this.activityToEdit().note, [Validators.required]),
   })
 

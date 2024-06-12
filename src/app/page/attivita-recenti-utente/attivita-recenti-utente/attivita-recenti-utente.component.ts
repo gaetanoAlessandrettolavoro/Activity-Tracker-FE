@@ -47,9 +47,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   ngOnInit() {
     const newRow: Activity[] = [
-      { taskName: 'attività1', activityDate: new Date(2024, 0, 1), startTime: new Date(2024, 0, 1, 9), endTime: new Date(2024, 0, 1, 18), notes: 'note1' },
-      { taskName: 'attività2', activityDate: new Date(2024, 1, 1), startTime: new Date(2024, 1, 1, 9), endTime: new Date(2024, 1, 1, 18), notes: 'note2' },
-      { taskName: 'attività3', activityDate: new Date(2024, 2, 1), startTime: new Date(2024, 2, 1, 9), endTime: new Date(2024, 2, 1, 18), notes: 'note3' },
+      { taskName: 'attività1', activityDate: new Date(2024, 0, 1), startTime: new Date(2024, 0, 1, 9), endTime: new Date(2024, 0, 1, 18), notes: 'note1', taskID: '1'},
+      { taskName: 'attività2', activityDate: new Date(2024, 1, 1), startTime: new Date(2024, 1, 1, 9), endTime: new Date(2024, 1, 1, 18), notes: 'note2', taskID: '2'},
+      { taskName: 'attività3', activityDate: new Date(2024, 2, 1), startTime: new Date(2024, 2, 1, 9), endTime: new Date(2024, 2, 1, 18), notes: 'note3', taskID: '3'},
     ];
 
     this.rowItems = newRow;

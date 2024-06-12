@@ -46,7 +46,8 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
               activityDate: new Date(element.activityDate),
               startTime : new Date(element.startTime),
               endTime : new Date(element.endTime),
-              notes: element.notes
+              notes: element.notes,
+              taskID: element.taskID
             });
           });
           console.log(this.activities)
