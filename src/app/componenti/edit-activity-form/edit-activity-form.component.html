@@ -38,11 +38,11 @@
     <div>
         <p-floatLabel>
             <p-dropdown 
-            inputId="activityType"
-            formControlName="activityType"
-            [options]="activityTypes()" 
-            [(ngModel)]="selectedActivityType"/>
-            <label for="activityType">Attività</label>
+            inputId="taskName"
+            formControlName="taskName"
+            [options]="tasksToPrint()" 
+            [(ngModel)]="selectedTask"/>
+            <label for="taskName">Attività</label>
         </p-floatLabel>
     </div>
     <div class="note">
