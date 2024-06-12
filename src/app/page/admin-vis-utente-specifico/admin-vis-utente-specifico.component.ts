@@ -8,13 +8,15 @@ import { Activity } from '../../models/activityModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AdminVisTutteAttUsersComponent } from "../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component";
+import { FooterComponent } from "../../componenti/footer/footer.component";
 
 @Component({
-  selector: 'app-admin-vis-utente-specifico',
-  standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe],
-  templateUrl: './admin-vis-utente-specifico.component.html',
-  styleUrls: ['./admin-vis-utente-specifico.component.css']
+    selector: 'app-admin-vis-utente-specifico',
+    standalone: true,
+    templateUrl: './admin-vis-utente-specifico.component.html',
+    styleUrls: ['./admin-vis-utente-specifico.component.css'],
+    imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, FooterComponent]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,private http: HttpClient) { }
