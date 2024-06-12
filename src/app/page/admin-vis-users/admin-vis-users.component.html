@@ -20,7 +20,7 @@
             col.field === 'startTime' || col.field === 'endTime' ? (rowData[col.field] | date: 'HH:mm') :
             rowData[col.field] }}
         </td>
-        <td>
+        <td style="width: 250px; display: flex; justify-content: space-around;">
           <button class="activity-button" (click)="getActivity(rowData._id)">Attività</button>
           <button class="info-button"><i class="pi pi-pencil"></i></button>
           <delete-user [user]="rowData" (userDeleted)="userDeleted()"/>
