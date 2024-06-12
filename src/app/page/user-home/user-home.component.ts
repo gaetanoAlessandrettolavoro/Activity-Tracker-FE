@@ -20,7 +20,8 @@ export class UserHomeComponent {
     activityDate: new Date(2021, 6, 7),
     startTime: new Date(2021, 6, 7, 9, 0),
     endTime: new Date(2021, 6, 7, 10, 0),
-    notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    taskID: '1'
   }
 
   // dailyActivity: DailyActivity | null = null;

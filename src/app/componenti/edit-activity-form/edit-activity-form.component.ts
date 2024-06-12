@@ -33,12 +33,13 @@ export class EditActivityFormComponent implements OnInit{
   selectedTask = signal<string>("");
 
   ngOnInit() {
-    const newActivity = {
+    const newActivity: Activity = {
       taskName: this.activity.taskName,
       activityDate: this.activity.activityDate,
       startTime: this.activity.startTime,
       endTime: this.activity.endTime,
       notes: this.activity.notes,
+      taskID: this.activity.taskID,
     }
     this.taskService.getAllTasks().subscribe((result: TaskResponse) => {
       this.tasks.set(result.data.document);
