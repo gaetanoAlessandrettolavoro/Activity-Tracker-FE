@@ -22,7 +22,7 @@ export const routes: Routes = [
     { path: "registrati", component: RegisterComponent, pathMatch: 'full'},
     { path:'attivitarecentiutente',component:AttivitaRecentiUtenteComponent},
     { path:'admin-vis-utente-specifico/:id',component:AdminVisUtenteSpecificoComponent},
-    { path:'emaildimenticata', component:EmaildimenticataComponent },
+    { path:'passworddimenticata', component:EmaildimenticataComponent },
     { path:'tutteattivita', component:TutteAttivitaComponent},
     { path:'homeadmin', component:AdminvisuserComponent,canActivate: [authGuard] }
 
