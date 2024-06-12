@@ -1,19 +1,17 @@
-
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-featnewpassword',
+  selector: 'app-newpassword',
   standalone: true,
   imports: [
     FormsModule,
@@ -25,10 +23,10 @@ import { ActivatedRoute } from '@angular/router';
     RippleModule,
     CommonModule
   ],
-  templateUrl: './featnewpassword.component.html',
-  styleUrl: './featnewpassword.component.css'
+  templateUrl: './newpassword.component.html',
+  styleUrl: './newpassword.component.css'
 })
-export class FeatnewpasswordComponent {
+export class NewpasswordComponent {
 
   constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
@@ -86,3 +84,4 @@ export class FeatnewpasswordComponent {
     return this.http.patch<any>(`http://localhost:3000/api/v1/users/resetPassword/${data}`, { password: this.userForm.value.password,passwordConfirm: this.userForm.value.passwordc });
   }
 }  
+
