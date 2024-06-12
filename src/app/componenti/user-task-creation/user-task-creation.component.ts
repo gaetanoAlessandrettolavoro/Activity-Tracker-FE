@@ -1,5 +1,6 @@
+
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import {
@@ -21,10 +22,10 @@ import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { TasksService } from '../../servizi/tasks.service';
 
 interface City {
   name: string;
-  code: string;
 }
 
 @Component({
@@ -49,11 +50,13 @@ interface City {
     FloatLabelModule,
   ],
   templateUrl: './user-task-creation.component.html',
-  styleUrl: './user-task-creation.component.css'
+  styleUrls: ['./user-task-creation.component.css']
 })
-export class UserTaskCreationComponent {
+export class UserTaskCreationComponent implements OnInit {
+
+  constructor(private tasks: TasksService) {}
   
-  cities: City[] | undefined;
+  cities: City[] = [];
   selectedCity: City | undefined;
   userForm!: FormGroup;
 
@@ -64,14 +67,19 @@ export class UserTaskCreationComponent {
   }
 
   ngOnInit() {
-    this.cities = [
-      { name: 'New York', code: 'NY' },
-      { name: 'Rome', code: 'RM' },
-      { name: 'London', code: 'LDN' },
-      { name: 'Istanbul', code: 'IST' },
-      { name: 'Paris', code: 'PRS' },
-    ];
-
+    this.tasks.getAllTasks().subscribe({
+      next: (result: any) => {
+        result.data.document.forEach((element: any) => {
+          this.cities.push({
+            name: element.taskName
+          });
+        });
+        console.log(this.cities)
+      },
+      error: (error: any) => {
+        console.error('Si è verificato un errore:', error);
+      }
+    });
     this.userForm = new FormGroup({
       inputtextarea: new FormControl('', [
         Validators.required,
@@ -82,6 +90,8 @@ export class UserTaskCreationComponent {
       orariodifine: new FormControl('', Validators.required),
       selectedActivity: new FormControl('', Validators.required),
     });
+
+  
   }
 
   onSubmit() {
@@ -92,4 +102,7 @@ export class UserTaskCreationComponent {
     }
   }
 }
+
+
+
 
