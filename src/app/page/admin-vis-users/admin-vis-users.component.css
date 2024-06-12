@@ -2,6 +2,16 @@
 
 /* Regole comuni */
 
+.titolo{
+    display:flex;
+    margin-top:100px;
+    margin-bottom:-100px;
+    justify-content: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+
+}
+
 .filter-container {
     margin-top: 30vh; /* Spostato leggermente più in alto */
     margin-bottom: 30vh; /* Spostato leggermente più in basso */
