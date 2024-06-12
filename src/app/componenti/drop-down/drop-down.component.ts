@@ -14,21 +14,36 @@ import { ButtonModule } from 'primeng/button';
   imports: [MenubarModule, MenuModule, CommonModule, ButtonModule],
 })
 export class DropdownMenuComponent implements OnInit {
-  menuVisible:boolean=false;
+  menuVisible: boolean = false;
   items!: MenuItem[];
+  isAdmin: boolean = false; 
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    console.log('vai');
     this.items = [
-      { label: 'Impostazioni', command: () => { this.router.navigate(['impostazioni-utente']); } },
-      { label: 'Logout', command: () => { this.logout(); } },
+      { 
+        label: 'Impostazioni', 
+        command: () => { this.navigateBasedOnRole(); }
+      },
+      { 
+        label: 'Logout', 
+        command: () => { this.logout(); }
+      },
     ];
     console.log('Menu items:', this.items);
   }
-  isVisible(){
-    this.menuVisible = !this.menuVisible
+
+  isVisible() {
+    this.menuVisible = !this.menuVisible;
+  }
+
+  navigateBasedOnRole() {
+    if (this.isAdmin) {
+      this.router.navigate(['impostazioniadmin']);
+    } else {
+      this.router.navigate(['impostazioniutente']);
+    }
   }
 
   logout() {
