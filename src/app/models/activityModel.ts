@@ -4,7 +4,7 @@ import { User } from "./userModel";
 export interface Activity {
     _id?: string;
     taskName: Task["taskName"];
-    taskID?: Task["_id"];
+    taskID: Task["_id"];
     activityDate: Date;
     startTime: Date;
     endTime: Date;
