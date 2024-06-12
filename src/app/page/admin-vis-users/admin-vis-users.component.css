@@ -1,30 +1,18 @@
 @import "primeicons/primeicons.css";
 
-/* Regole comuni */
-
-.titolo{
-    display:flex;
-    margin-top:100px;
-    margin-bottom:-100px;
-    justify-content: center;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 20px;
-
-}
-
 .filter-container {
-    margin-top: 30vh; /* Spostato leggermente più in alto */
-    margin-bottom: 30vh; /* Spostato leggermente più in basso */
-    margin-left: 5%; /* Margine sinistro del 10% */
-    margin-right: 5%; /* Margine destro del 10% */
-    text-align: center; /* Centrato orizzontalmente */
+    margin-top: 30vh;
+    margin-bottom: 30vh;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
 }
 
 .date-input {
-    margin-left: 5%; /* Ridotto il margine sinistro */
+    margin-left: 5%;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #6c757d;
-    font-size: 12px; /* Aggiunto il font-size */
+    font-size: 12px;
 }
 
 .date-input + .date-input {
@@ -36,40 +24,40 @@
 }
 
 .pi-search {
-    font-size: 12px; /* Ridotto il font size */
+    font-size: 12px;
     color: #6c757d;
 }
-
 .activity-button {
     background-color: #5cb85c;
     color: white;
     border: none;
-    padding: 5px 10px; /* Ridotto il padding */
+    padding: 8px 10px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 12px; /* Ridotto il font size */
+    font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
-    border-radius: 20px;
-    margin-right: 5px; /* Ridotto il margine destro */
+    border-radius: 12px;
+    margin-right: 5px;
+    margin-bottom: 10px;
 }
 
 .info-button,
 .delete-button {
     border: none;
-    padding: 5px 8px; /* Ridotto il padding */
+    padding: 10px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px; /* Ridotto il font size */
+    font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
     border-radius: 12px;
-    margin-right: 5px; /* Ridotto il margine destro */
+    margin-right: 5px;
 }
 
 .info-button {
+    display: inline-block;
     background-color: #a1c1d9;
     color: white;
 }
@@ -79,10 +67,28 @@
     color: black;
 }
 
-/* Media query per schermi con larghezza massima di 150px */
 @media (max-width: 150px) {
     .p-table {
         font-size: 18px;
         padding: 8px 12px;
+    }
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+@media (max-width: 600px) {
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media only screen and (width: 414px) and (height: 896px) and (-webkit-device-pixel-ratio: 2) {
+    .button-container {
+        flex-direction: column;
+        align-items: center;
     }
 }
