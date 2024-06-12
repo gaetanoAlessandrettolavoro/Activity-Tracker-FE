@@ -5,7 +5,7 @@ import { NoDailyActivityComponent } from '../../componenti/no-daily-activity/no-
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { NavbarComponent } from '../../componenti/navbarutente/navbarutente.component';
-import { Activity } from '../../model/activityModel';
+import { Activity } from '../../models/activityModel';
 
 @Component({
   selector: 'app-user-home',

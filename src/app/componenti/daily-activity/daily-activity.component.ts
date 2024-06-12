@@ -4,7 +4,7 @@ import { Component, Input, OnInit, signal } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
 import { NavbarComponent } from '../navbarutente/navbarutente.component';
 import { EditActivityButtonComponent } from '../edit-activity-button/edit-activity-button.component';
-import { Activity } from '../../model/activityModel';
+import { Activity } from '../../models/activityModel';
 
 @Component({
   selector: 'daily-activity',

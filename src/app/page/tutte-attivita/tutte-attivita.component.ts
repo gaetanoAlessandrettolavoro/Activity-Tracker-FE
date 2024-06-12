@@ -8,7 +8,7 @@ import {
 } from 'primeng/table';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
 import { ButtonModule } from 'primeng/button';
-import { Activity } from '../../model/activityModel';
+import { Activity } from '../../models/activityModel';
 import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';

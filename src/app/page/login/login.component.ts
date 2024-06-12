@@ -7,7 +7,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ServiceloginService } from '../../servizi/servicelogin.service';
-import { User } from '../../model/userModel';
+import { User } from '../../models/userModel';
 
 @Component({
   selector: 'app-login',

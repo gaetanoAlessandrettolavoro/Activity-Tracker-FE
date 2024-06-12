@@ -7,7 +7,7 @@ import { EditActivityButtonComponent } from '../../../componenti/edit-activity-b
 import { NavbarAttrecentiComponent } from "../../../componenti/navbar-attrecenti/navbar-attrecenti.component";
 import { FooterComponent } from "../../../componenti/footer/footer.component";
 import { FilterService } from 'primeng/api';
-import { Activity } from '../../../model/activityModel';
+import { Activity } from '../../../models/activityModel';
 
 @Component({
   selector: 'app-attivita-recenti-utente',

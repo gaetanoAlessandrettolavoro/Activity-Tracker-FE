@@ -1,17 +1,14 @@
-interface Task {
-    taskName: string;
-    isActive?: boolean,
-    state?: string,
-    progressState?: Number
-}
+import { Task } from "./taskModel";
+import { User } from "./userModel";
 
 export interface Activity {
+    _id?: string;
     taskName: Task["taskName"];
-    taskID?: string;
+    taskID?: Task["_id"];
     activityDate: Date;
     startTime: Date;
     endTime: Date;
     notes: string;
-    userID?: string;
+    userID?: User["_id"];
     isActive?: boolean;
 }

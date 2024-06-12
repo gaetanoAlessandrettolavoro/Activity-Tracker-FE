@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
-import { Activity } from '../../model/activityModel';
+import { Activity } from '../../models/activityModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -18,7 +18,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,private http: HttpClient) { }
-  activities: { taskName: string, activityDate: string,startTime:string,endTime: string,notes:string }[] = [];
+  activities: Activity[] = [];
 
 
   cols = [
@@ -41,9 +41,9 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
           result.data.activities.forEach((element: any) => {
             this.activities.push({
               taskName: element.taskName,
-              activityDate: element.activityDate,
-              startTime : element.startTime,
-              endTime : element.endTime,
+              activityDate: new Date(element.activityDate),
+              startTime : new Date(element.startTime),
+              endTime : new Date(element.endTime),
               notes: element.notes
             });
           });
