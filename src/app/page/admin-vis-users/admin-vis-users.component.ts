@@ -11,14 +11,15 @@ import { ActivityUserService } from '../../servizi/activity-user.service';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
 import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
+import { NavbarAdminComponent } from "../../componenti/navbar-admin/navbar-admin.component";
 
 
 @Component({
-  selector: 'app-admin-vis-user',
-  standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent],
-  templateUrl: './admin-vis-users.component.html',
-  styleUrls: ['./admin-vis-users.component.css']
+    selector: 'app-admin-vis-user',
+    standalone: true,
+    templateUrl: './admin-vis-users.component.html',
+    styleUrls: ['./admin-vis-users.component.css'],
+    imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent, NavbarAdminComponent]
 })
 export class AdminvisuserComponent implements OnInit {
 

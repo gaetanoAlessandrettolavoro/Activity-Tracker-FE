@@ -11,6 +11,8 @@ import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.co
 import { ServiceloginService } from './servizi/servicelogin.service';
 import { authGuard } from './guardie/auth.guard';
 import { Router, CanActivateFn } from '@angular/router';
+import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
+import { AdminrouteComponent } from './page/rotta-impostazioniadmin/rotta-impostazioniadmin.component';
 
 
 
@@ -24,7 +26,9 @@ export const routes: Routes = [
     { path:'admin-vis-utente-specifico/:id',component:AdminVisUtenteSpecificoComponent},
     { path:'passworddimenticata', component:EmaildimenticataComponent },
     { path:'tutteattivita', component:TutteAttivitaComponent},
-    { path:'homeadmin', component:AdminvisuserComponent,canActivate: [authGuard] }
+    { path:'homeadmin', component:AdminvisuserComponent,canActivate: [authGuard] },
+    { path:'impostazioniutente', component:UserRouteComponent},
+    { path:'impostazioniadmin', component:AdminrouteComponent}
 
 ];
 
