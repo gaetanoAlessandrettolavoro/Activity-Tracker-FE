@@ -7,7 +7,6 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { ServiceloginService } from '../../servizi/servicelogin.service';
-import { User } from '../../models/userModel';
 
 @Component({
   selector: 'app-login',
@@ -22,44 +21,41 @@ import { User } from '../../models/userModel';
     RippleModule,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-
-  constructor(private router: Router,@Inject(ServiceloginService) private servizio: ServiceloginService) { }
-
   userForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', Validators.required),
   });
-  
+
+  constructor(private router: Router, private servizio: ServiceloginService) { }
+
   onSubmit() {
-    if (
-      !this.userForm.value.username ||
-      !this.userForm.value.password
-    ) {
-      console.error('Error!');
-    } else if (this.userForm.valid) {
-      console.log('Form Submitted!', this.userForm.value);
-      const postData  = {
-        email: this.userForm.value.username,
-        password: this.userForm.value.password,
+    if (this.userForm.valid) {
+      const postData = {
+        email: this.userForm.value.username ?? '', 
+        password: this.userForm.value.password ?? '',
       };
-      this.servizio
-        .getUser(postData)
-        .subscribe({ next: (result: any) => { 
-           this.servizio.checkAuthentication(result.data.role)
-           this.router.navigate(['/homeadmin']);
-        }
-         
-          });
-         
-      console.log(postData);
+
+      this.servizio.login(postData).subscribe({
+        next: (result: any) => {
+          this.servizio.setUser(result.data);
+          if (this.servizio.isAdmin()) {
+            this.router.navigate(['/homeadmin']);
+          } else {
+            this.router.navigate(['/home']);
+          }
+        },
+        error: (err) => {
+          console.error('Login failed', err);
+        },
+      });
     } else {
       console.log('Form not valid');
     }
   }
-  
+
   navigateForgotPassword() {
     this.router.navigate(['emaildimenticata']);
   }
