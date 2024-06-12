@@ -9,12 +9,8 @@ import { RippleModule } from 'primeng/ripple';
 import { Activity } from '../../models/activityModel';
 import { TasksService } from '../../servizi/tasks.service';
 import { Task } from '../../models/taskModel';
+import { TaskResponse } from '../../models/taskResponseModel';
 
-interface TaskResponse {
-  data: {
-  document: Task[];
-  };
-  }
 @Component({
   selector: 'edit-activity-form',
   standalone: true,
