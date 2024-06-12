@@ -14,6 +14,7 @@ import { Router, CanActivateFn } from '@angular/router';
 import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
 import { AdminrouteComponent } from './page/rotta-impostazioniadmin/rotta-impostazioniadmin.component';
 import { NewpasswordComponent } from './page/newpassword/newpassword.component';
+import { UserTaskCreationComponent } from './componenti/user-task-creation/user-task-creation.component';
 
 
 
