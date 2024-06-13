@@ -11,6 +11,7 @@ import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.co
 import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
 import { AdminrouteComponent } from './page/rotta-impostazioniadmin/rotta-impostazioniadmin.component';
 import { authGuard } from './guardie/auth.guard';
+import { AdminModeDatiUserSpeComponent } from './page/admin-mode-dati-user-spe/admin-mode-dati-user-spe.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent },
@@ -24,6 +25,8 @@ export const routes: Routes = [
     { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
     { path: 'impostazioniutente', component: UserRouteComponent, canActivate: [authGuard] },
     { path: 'impostazioniadmin', component: AdminrouteComponent, canActivate: [authGuard] },
-    { path: 'userhome', component: UserHomeComponent, canActivate: [authGuard] }
+    { path: 'userhome', component: UserHomeComponent, canActivate: [authGuard] },
+    { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] }
 ];
+
 
