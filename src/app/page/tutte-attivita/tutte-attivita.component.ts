@@ -16,6 +16,7 @@ import { FilterService } from 'primeng/api';
 import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { GetusersService } from '../../servizi/getusers.service';
+import { TutteAttivitàUserService } from '../../servizi/tutte-attività-user.service';
 
 interface rowItem {
   nome: string;
@@ -53,10 +54,11 @@ export class TutteAttivitaComponent implements OnInit {
 
   expandedRows = {};
 
-  constructor(private filterService: FilterService, private users: GetusersService) {}
+  constructor(private filterService: FilterService, private users: GetusersService, private activities:TutteAttivitàUserService) {}
 
   ngOnInit() {
     //QUI ANDRà UN METODO CHE MAN MANO CHE ARRIVANO I DATI DAL BE POPOLI LA VARIABILE rows
+    this.activities.recuperaTutteLeAttivita().subscribe((result) => console.log(result))
     const newRows: rowItem[] = [
       {
         nome: 'Paolo',
