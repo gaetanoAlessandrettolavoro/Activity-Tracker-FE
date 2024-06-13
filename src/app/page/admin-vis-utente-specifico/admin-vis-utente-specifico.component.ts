@@ -10,13 +10,14 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AdminVisTutteAttUsersComponent } from "../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component";
 import { FooterComponent } from "../../componenti/footer/footer.component";
+import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
     standalone: true,
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
-    imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, FooterComponent]
+    imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, FooterComponent, DeleteActivityButtonComponent]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router,private http: HttpClient) { }
@@ -36,19 +37,21 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      console.log(id);
-      
       this.getUser(id).subscribe({
         next: (result: any) => {
           result.data.activities.forEach((element: any) => {
-            this.activities.push({
-              taskName: element.taskName,
-              activityDate: new Date(element.activityDate),
-              startTime : new Date(element.startTime),
-              endTime : new Date(element.endTime),
-              notes: element.notes,
-              taskID: element.taskID
-            });
+            if(element.isActive === true){
+              this.activities.push({
+                taskName: element.taskName,
+                activityDate: new Date(element.activityDate),
+                startTime : new Date(element.startTime),
+                endTime : new Date(element.endTime),
+                notes: element.notes,
+                taskID: element.taskID,
+                _id: element._id,
+                isActive: element.isActive
+              });
+            }
           });
           console.log(this.activities)
         },
