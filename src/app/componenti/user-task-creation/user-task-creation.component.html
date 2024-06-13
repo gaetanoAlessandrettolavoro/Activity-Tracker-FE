@@ -1,6 +1,4 @@
-
 <div class="card flex justify-content-center">
-  <p-button (click)="showDialog()" label="Show" />
   <p-dialog
     header="Nuova attività"
     [(visible)]="visible"
@@ -12,42 +10,23 @@
   >
     <div style="display: flex; justify-content: center">
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            margin-top: -25px;
-          "
-        >
+ 
+        <div class="date-container" style="margin-left: 52px;">
           <h4>Data</h4>
-          <input type="date" formControlName="dataattuale" />
+          <input type="date" formControlName="activityDate" />
         </div>
         <div style="display: flex">
           <div>
-            <h4
-              style="display: flex; justify-content: center; margin-right: 3px"
-            >
+            <h4 style="display: flex; justify-content: center; margin-right: 3px">
               Orario di inizio
             </h4>
-            <input
-              type="time"
-              style="margin-right: 3px"
-              formControlName="orariodiinizio"
-            />
+            <input type="time" style="margin-right: 3px" formControlName="startTime" />
           </div>
           <div>
-            <h4
-              style="display: flex; justify-content: center; margin-left: 3px"
-            >
+            <h4 style="display: flex; justify-content: center; margin-left: 3px">
               Orario di fine
             </h4>
-            <input
-              type="time"
-              style="margin-left: 3px"
-              formControlName="orariodifine"
-            />
+            <input type="time" style="margin-left: 3px" formControlName="endTime" />
           </div>
         </div>
         <div
@@ -61,11 +40,12 @@
           <h4>Attività</h4>
           <div class="card flex justify-content-center">
             <p-dropdown
-              [options]="cities"
-              formControlName="cities"
-              optionLabel="name"
-              placeholder="Seleziona"
-            />
+            [options]="tasks"
+            formControlName="selectedTask"
+            optionLabel="taskName"
+            placeholder="Seleziona"
+          ></p-dropdown>
+          
           </div>
         </div>
         <div
@@ -78,7 +58,7 @@
         >
           <h4>Note</h4>
           <textarea
-            formControlName="inputtextarea"
+            formControlName="notes"
             placeholder="Massimo 100 caratteri"
           ></textarea>
         </div>
@@ -90,4 +70,3 @@
     </div>
   </p-dialog>
 </div>
-
