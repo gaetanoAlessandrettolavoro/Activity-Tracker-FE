@@ -4,7 +4,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px; /* Riduzione del padding per una navbar più compatta */
     background-color: transparent;
     overflow-x: auto;
 }
@@ -24,13 +23,18 @@
 .home-button {
     width: auto; /* Impostiamo la larghezza su "auto" per consentire al testo di adattarsi dinamicamente */
     padding: 8px 12px; /* Riduzione del padding per adattarsi a dispositivi di piccole dimensioni */
-    font-size: 14px; /* Dimensione del font per dispositivi di piccole dimensioni */
+    font-size: 16px; /* Dimensione del font per dispositivi di piccole dimensioni */
 }
 
 .right {
     display: flex;
     align-items: center;
 }
+
+.right p {
+    font-size: 16px;
+}
+
 
 .omino-button {
     margin-left: 10px; /* Aumento del margine per una migliore spaziatura */
