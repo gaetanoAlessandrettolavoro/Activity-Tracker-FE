@@ -9,6 +9,8 @@ import { FooterComponent } from "../../../componenti/footer/footer.component";
 import { FilterService } from 'primeng/api';
 import { Activity } from '../../../models/activityModel';
 import { DeleteActivityButtonComponent } from '../../../componenti/delete-activity-button/delete-activity-button.component';
+import { GetActivityUserService } from '../../../servizi/get-activity.service';
+
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -39,7 +41,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     { field: 'notes', header: 'Note' },
   ];
 
-  constructor(private filterService: FilterService) {
+  constructor(private filterService: FilterService, private getActivityUserService: GetActivityUserService) {
     this.filterForm = new FormGroup({
       searchText: new FormControl(''),
       fromDate: new FormControl(''),
@@ -47,15 +49,21 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    const newRow: Activity[] = [
-      { taskName: 'attività1', activityDate: new Date(2024, 0, 1), startTime: new Date(2024, 0, 1, 9), endTime: new Date(2024, 0, 1, 18), notes: 'note1', taskID: '1'},
-      { taskName: 'attività2', activityDate: new Date(2024, 1, 1), startTime: new Date(2024, 1, 1, 9), endTime: new Date(2024, 1, 1, 18), notes: 'note2', taskID: '2'},
-      { taskName: 'attività3', activityDate: new Date(2024, 2, 1), startTime: new Date(2024, 2, 1, 9), endTime: new Date(2024, 2, 1, 18), notes: 'note3', taskID: '3'},
-    ];
-
-    this.rowItems = newRow;
-    this.filteredItems = newRow;
+  ngOnInit(): void {
+    this.getActivityUserService.getData().subscribe(data => { 
+      console.log(data),
+      data.data.userActivities.forEach((item: any) => {
+        this.rowItems.push({
+          taskID: item.taskID,
+          taskName: item.taskName,
+          activityDate: item.activityDate,
+          startTime: item.startTime,
+          endTime: item.endTime,
+          notes: item.notes,
+        });
+      });
+      this.filteredItems = [...this.rowItems];
+    });
 
     this.filterForm.valueChanges.subscribe(() => {
       this.filterActivities();
