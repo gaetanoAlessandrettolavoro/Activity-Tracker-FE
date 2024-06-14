@@ -1,19 +1,26 @@
 import { Component } from '@angular/core';
-import { NavbarimpostutenteComponent } from '../../componenti/navbarimpostutente/navbarimpostutente.component';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-impostazioniutente',
   templateUrl: './impostazioni-utente.component.html',
   styleUrls: ['./impostazioni-utente.component.css'],
   standalone: true,
-  imports: [NavbarimpostutenteComponent]
+  imports:[RouterLink]
 })
 export class UserRouteComponent {
-  admin: any = {}; 
+goBack() {
+throw new Error('Method not implemented.');
+}
+  admin: any = {};
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   CambiaPassword() {
     console.log("Cambiapassword");
+  }
+
+  goToHome() {
+    this.router.navigate(['/']); 
   }
 }
