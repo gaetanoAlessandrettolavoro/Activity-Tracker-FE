@@ -29,14 +29,7 @@ export class EditActivityFormComponent implements OnInit{
   selectedTask = signal<string>("");
 
   ngOnInit() {
-    const newActivity: Activity = {
-      taskName: this.activity.taskName,
-      activityDate: this.activity.activityDate,
-      startTime: this.activity.startTime,
-      endTime: this.activity.endTime,
-      notes: this.activity.notes,
-      taskID: this.activity.taskID,
-    }
+    const newActivity: Activity = {...this.activity};
     this.taskService.getAllTasks().subscribe((result: TaskResponse) => {
       this.tasks.set(result.data.document);
       this.tasksToPrint.set(this.tasks().map((task) => task.taskName));
@@ -47,11 +40,11 @@ export class EditActivityFormComponent implements OnInit{
   }
 
   activityForm = new FormGroup({
-    data: new FormControl(this.activityToEdit().data, [Validators.required]),
-    orarioInizio: new FormControl(this.activityToEdit().orarioInizio, [Validators.required]),
-    orarioFine: new FormControl(this.activityToEdit().orarioFine, [Validators.required]),
+    data: new FormControl(this.activityToEdit().activityDate, [Validators.required]),
+    orarioInizio: new FormControl(this.activityToEdit().startTime, [Validators.required]),
+    orarioFine: new FormControl(this.activityToEdit().endTime, [Validators.required]),
     taskName: new FormControl(this.activityToEdit().taskName, [Validators.required]),
-    note: new FormControl(this.activityToEdit().note, [Validators.required]),
+    note: new FormControl(this.activityToEdit().notes, [Validators.required]),
   })
 
   onSubmitForm() {

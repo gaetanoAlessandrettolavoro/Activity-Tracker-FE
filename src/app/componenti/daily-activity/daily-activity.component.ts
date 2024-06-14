@@ -17,9 +17,9 @@ import { DeleteActivityButtonComponent } from '../delete-activity-button/delete-
 export class DailyActivityComponent implements OnInit{
   dailyActivity = signal<Activity[]>([]);
 
-  @Input({required: true}) inputDailyActivity!: Activity;
+  @Input({required: true}) inputDailyActivity!: Activity[];
 
   ngOnInit() {
-    this.dailyActivity.set([...this.dailyActivity(), this.inputDailyActivity]);
+    this.dailyActivity.set(this.inputDailyActivity);
   }
 }
