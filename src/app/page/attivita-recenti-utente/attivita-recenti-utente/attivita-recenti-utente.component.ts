@@ -51,16 +51,18 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActivityUserService.getData().subscribe(data => { 
-      console.log(data),
       data.data.userActivities.forEach((item: any) => {
-        this.rowItems.push({
-          taskID: item.taskID,
-          taskName: item.taskName,
-          activityDate: item.activityDate,
-          startTime: item.startTime,
-          endTime: item.endTime,
-          notes: item.notes,
-        });
+        if(item.isActive === true) {
+          this.rowItems.push({
+            taskID: item.taskID,
+            taskName: item.taskName,
+            activityDate: item.activityDate,
+            startTime: item.startTime,
+            endTime: item.endTime,
+            notes: item.notes,
+            _id: item._id
+          });
+        }
       });
       this.filteredItems = [...this.rowItems];
     });
