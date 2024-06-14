@@ -44,7 +44,7 @@ export class LoginComponent {
           if (this.servizio.isAdmin()) {
             this.router.navigate(['/homeadmin']);
           } else {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/userhome']);
           }
         },
         error: (err) => {

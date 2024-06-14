@@ -5,6 +5,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { MenuModule } from 'primeng/menu';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { LogoutService } from '../../servizi/logout.service';
 
 @Component({
   selector: 'app-dropdown-menu',
@@ -18,8 +19,7 @@ export class DropdownMenuComponent implements OnInit {
   items!: MenuItem[];
   isAdmin: boolean = false; 
 
-  constructor(private router: Router) {}
-
+  constructor(private router: Router, private logoutService: LogoutService) {} 
   ngOnInit() {
     this.items = [
       { 
@@ -47,7 +47,11 @@ export class DropdownMenuComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('utente');
-    this.router.navigate(['login/oggi']);
+    this.logoutService.logout().subscribe(
+      response => {
+        this.router.navigate(['/home']);
+      },
+    
+    );
   }
 }
