@@ -1,8 +1,10 @@
-<div style="display: flex; justify-content: space-between;">
-    <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer" class="p-button font-bold" style="width:90px" >Torna alla home</a>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="https://angular.dev/" target="_blank" rel="noopener noreferrer" class="p-button font-bold" style=" font-size: 16px;" >Torna alla home</a>
+    <p style="position: absolute; left: 82em;">{{firstName}}</p>
+    <p style="position: absolute; left: 87em;">{{lastName}}</p>
     <div class="right">
         <app-dropdown-menu></app-dropdown-menu>
-        <app-user-manual></app-user-manual>
+        <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" /> 
    
 </div>
 </div>

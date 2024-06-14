@@ -26,6 +26,10 @@ export class ServiceloginService {
     return this.getUser(user);
   }
 
+  getUsernamelastNameUser(): Observable<any> {
+    return this.http.get<any>(`http://localhost:3000/api/v1/users/getMe`, {withCredentials: true});
+  }
+
   setUser(user: any): void {
     localStorage.setItem('utente', JSON.stringify(user));
     if (user.role === 'admin') {
@@ -35,4 +39,3 @@ export class ServiceloginService {
     }
   }
 }
-
