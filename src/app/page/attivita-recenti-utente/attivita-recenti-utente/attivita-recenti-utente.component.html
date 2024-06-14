@@ -36,7 +36,7 @@
         </td>
         <td>
           <edit-activity [activity]="rowData"></edit-activity>
-          <button class="delete-button"><i class="pi pi-trash"></i></button>
+          <delete-activity [activityID]="rowData._id"></delete-activity>
         </td>
       </tr>
     </ng-template>

@@ -8,6 +8,7 @@ import { NavbarAttrecentiComponent } from "../../../componenti/navbar-attrecenti
 import { FooterComponent } from "../../../componenti/footer/footer.component";
 import { FilterService } from 'primeng/api';
 import { Activity } from '../../../models/activityModel';
+import { DeleteActivityButtonComponent } from '../../../componenti/delete-activity-button/delete-activity-button.component';
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -21,7 +22,8 @@ import { Activity } from '../../../models/activityModel';
     ReactiveFormsModule,
     EditActivityButtonComponent,
     NavbarAttrecentiComponent,
-    FooterComponent
+    FooterComponent,
+    DeleteActivityButtonComponent
   ]
 })
 export class AttivitaRecentiUtenteComponent implements OnInit {

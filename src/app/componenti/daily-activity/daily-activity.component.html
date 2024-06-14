@@ -10,8 +10,7 @@
                 <th>Orario di inizio</th>
                 <th>Orario di fine</th>
                 <th>Note</th>
-                <th></th>
-                <th></th>
+                <th class="buttons"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-dailyActivity>
@@ -21,8 +20,7 @@
                 <td>{{ dailyActivity.startTime | date: 'HH:mm' }}</td>
                 <td>{{ dailyActivity.endTime | date: 'HH:mm' }}</td>
                 <td>{{ dailyActivity.notes }}</td>
-                <td><edit-activity [activity]="dailyActivity" /></td>
-                <td><button class="delete-button"><i class="pi pi-trash"></i></button></td>
+                <td class="buttons"><edit-activity [activity]="dailyActivity" /><delete-activity [activityID]="dailyActivity._id"></delete-activity></td>
             </tr>
         </ng-template>
     </p-table>

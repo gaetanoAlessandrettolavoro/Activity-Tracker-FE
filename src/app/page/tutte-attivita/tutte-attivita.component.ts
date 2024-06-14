@@ -17,6 +17,7 @@ import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { GetusersService } from '../../servizi/getusers.service';
 import { TutteAttivitàUserService } from '../../servizi/tutte-attività-user.service';
+import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 
 interface rowItem {
   nome: string;
@@ -39,7 +40,8 @@ interface rowItem {
     InputTextModule,
     FormsModule,
     AdminVisTutteAttUsersComponent,
-    FooterComponent
+    FooterComponent,
+    DeleteActivityButtonComponent
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrl: './tutte-attivita.component.css',

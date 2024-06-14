@@ -1,5 +1,9 @@
-th, td {
-    width: 20%;
+td, th {
+    width: 14.3%
+}
+
+.buttons {
+    text-align: center;
 }
 
 .card {
@@ -12,21 +16,6 @@ h1 {
     margin: 0 auto;
     padding-top: 3em;
     font-weight: 600;
-}
-
-.delete-button {
-    border: none;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 24px;
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    border-radius: 12px;
-    background-color: orangered;
-    color: black;
-    margin: auto;
 }
 
 /* Media Query */

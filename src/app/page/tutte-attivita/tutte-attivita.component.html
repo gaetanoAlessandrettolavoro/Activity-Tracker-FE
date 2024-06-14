@@ -56,7 +56,7 @@
                                     <td>{{ activity.endTime | date: 'HH:mm' }}</td>
                                     <td>{{ activity.notes }}</td>
                                     <td><edit-activity [activity]="activity"/></td>
-                                    <td><button class="delete-button"><i class="pi pi-trash"></i></button></td>
+                                    <td><delete-activity [activityID]="activity._id"></delete-activity></td>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="emptymessage">
