@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-impostazioniadmin',
   templateUrl: './rotta-impostazioniadmin.component.html',
   styleUrls: ['./rotta-impostazioniadmin.component.css'],
-  standalone: true
+  standalone: true,
+  imports:[RouterLink]
 })
 export class AdminrouteComponent {
 CambioPassword() {
