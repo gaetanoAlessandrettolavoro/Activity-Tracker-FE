@@ -14,7 +14,7 @@ export class GetActivityByDateService {
   }
 
   getDaily() {
-    const dateToSend = new Date(2024, 5, 13).toISOString().split('T')[0];
+    const dateToSend = new Date().toISOString().split('T')[0];
     return this.http.get(`http://localhost:3000/api/v1/activities/me?activityDate=${dateToSend}`, { withCredentials: true });
   }
 }
