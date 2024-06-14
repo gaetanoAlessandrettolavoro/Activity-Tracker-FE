@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   //rotte amministratore
   if (state.url.startsWith('/homeadmin') || state.url.startsWith('/impostazioniadmin') || state.url.startsWith('/admin-vis-utente-specifico/:id')) {
     if (!authService.isAdmin()) {
-      router.navigate(['/home']);
+      router.navigate(['/userhome']);
       return false;
     }
     return true;
