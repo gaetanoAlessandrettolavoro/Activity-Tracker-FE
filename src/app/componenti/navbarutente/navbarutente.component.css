@@ -1,3 +1,4 @@
+
 .navbar {
   display: flex;
   align-items: center;
@@ -53,6 +54,11 @@
   font-size: 16px;
   color: black;
   white-space: nowrap;
+}
+
+.right{
+  display: flex;
+  align-items: center;
 }
 
 @media (max-width: 768px) {
