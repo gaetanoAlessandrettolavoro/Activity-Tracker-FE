@@ -138,19 +138,36 @@
         <br />
 
         <button
-          pButton
-          pRipple
-          label="Invia"
-          class="p-button"
-          style="
-            background-color: #a1c1d9;
-            border: none;
-            width: 70%;
-            margin-bottom: 10px;
-            cursor: pointer;
-          "
-        ></button>
+    pButton
+    pRipple
+    label="Invia"
+    class="p-button"
+    style="
+        background-color: #a1c1d9;
+        border: none;
+        width: 70%;
+        margin-bottom: 10px;
+        cursor: pointer;
+    "
+    (click)="showDialog()"
+></button>
 
+<div class="card flex justify-content-center">
+    <p-dialog 
+        header="Congratulazioni!" 
+        [(visible)]="visible" 
+        [modal]="true" 
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+        [style]="{ width: '50rem', textAlign: 'center' }" 
+        [draggable]="false" 
+        [resizable]="false">
+        <p style="text-align: center;">
+                Registrazione avvenuta con successo,<tr></tr> 
+                controlla la tua email per proseguire.
+            </p>
+            <p-progressSpinner ariaLabel="loading" />
+    </p-dialog>
+</div>
         <br />
         <span style="cursor: pointer" (click)="navigateToHome()"
           >Torna alla home</span

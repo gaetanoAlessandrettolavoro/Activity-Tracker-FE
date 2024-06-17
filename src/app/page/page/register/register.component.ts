@@ -15,6 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessagesModule } from 'primeng/messages';
 import { CommonModule } from '@angular/common';
@@ -27,6 +28,7 @@ import { Router } from '@angular/router';
 import { PostRegisterService } from '../../../servizi/post-register.service';
 import { User } from '../../../models/userModel';
 import { HttpClientModule } from '@angular/common/http';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -46,6 +48,8 @@ interface UploadEvent {
     CheckboxModule,
     FileUploadModule,
     ToastModule,
+    DialogModule,
+    ProgressSpinnerModule
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -59,6 +63,14 @@ export class RegisterComponent {
     private router: Router,
     @Inject(PostRegisterService) private servizio: PostRegisterService
   ) {}
+
+  visible: boolean = false;
+
+  showDialog() {
+    console.log('showDialog function called');
+    this.visible = true;
+  }
+  
 
   show() {
     this.messageService.add({
