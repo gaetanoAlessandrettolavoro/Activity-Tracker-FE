@@ -18,7 +18,7 @@ export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'registrati', component: RegisterComponent },
-    { path: 'attivitarecentiutente', component: AttivitaRecentiUtenteComponent, canActivate: [authGuard] },
+    { path: 'attivitaprecedentiutente', component: AttivitaRecentiUtenteComponent, canActivate: [authGuard] },
     { path: 'admin-vis-utente-specifico/:id', component: AdminVisUtenteSpecificoComponent, canActivate: [authGuard] },
     { path: 'passworddimenticata', component: EmaildimenticataComponent },
     { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
