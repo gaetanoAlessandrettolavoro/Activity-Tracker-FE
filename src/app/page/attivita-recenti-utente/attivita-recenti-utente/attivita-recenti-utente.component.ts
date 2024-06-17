@@ -57,14 +57,14 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   ngOnInit(): void {
     this.getActivityUserService.getData().subscribe((data) => {
-      data.data.userActivities.forEach((item: any) => {
+      data.data.userActivities.forEach((item: Activity) => {
         if (item.isActive === true) {
           this.rowItems.push({
             taskID: item.taskID,
             taskName: item.taskName,
-            activityDate: item.activityDate,
-            startTime: item.startTime,
-            endTime: item.endTime,
+            activityDate: new Date(item.activityDate), // Updated
+            startTime: new Date(item.startTime), // Updated
+            endTime: new Date(item.endTime), // Updated
             notes: item.notes,
             _id: item._id,
           });
@@ -84,33 +84,16 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       const matchesText =
         !searchText ||
         item.taskName.toLowerCase().includes(searchText.toLowerCase());
-      let itemDay!: string;
-      let itemMonth!: string;
-      let itemYear: string = item.activityDate.getFullYear().toString();
-      if (item.activityDate.getDate() >= 10) {
-        itemDay = item.activityDate.getDate().toString();
-      } else {
-        itemDay = '0' + item.activityDate.getDate().toString();
-      }
-      if (item.activityDate.getMonth() >= 9) {
-        itemMonth = (item.activityDate.getMonth() + 1).toString();
-      } else {
-        itemMonth = '0' + (item.activityDate.getMonth() + 1).toString();
-      }
-      console.log(itemMonth);
-      const date = itemDay + '/' + itemMonth + '/' + itemYear;
-      console.log(date);
       const matchesDate =
         !fromDate && !toDate
           ? true
-          : this.isDateInRange(date, fromDate, toDate);
+          : this.isDateInRange(item.activityDate, fromDate, toDate); // Updated
       return matchesText && matchesDate;
     });
   }
 
-  isDateInRange(date: string, fromDate: string, toDate: string): boolean {
-    const [day, month, year] = date.split('/').map(Number);
-    const activityDate = new Date(year, month - 1, day);
+  isDateInRange(date: Date, fromDate: string, toDate: string): boolean { // Updated
+    const activityDate = new Date(date);
 
     const from = fromDate ? new Date(fromDate) : null;
     const to = toDate ? new Date(toDate) : null;
