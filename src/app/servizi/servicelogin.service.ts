@@ -31,11 +31,10 @@ export class ServiceloginService {
   }
 
   setUser(user: any): void {
-    localStorage.setItem('utente', JSON.stringify(user));
     if (user.role === 'admin') {
       localStorage.setItem('admin', 'true');
     } else {
-      localStorage.removeItem('admin');
+      localStorage.setItem('utente', 'true');
     }
   }
 }
