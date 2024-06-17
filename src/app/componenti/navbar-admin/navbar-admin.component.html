@@ -4,6 +4,10 @@
         <button style="background-color: #A1C1D9; color: white; border: none; border-radius: 8px; height: 28px;font-size: 14px;">Aggiungi tipo di attività</button>
         <h1>Admin</h1>
         <app-dropdown-menu></app-dropdown-menu>
-        <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" />
-</div>
+        <p-button (click)="showDialogManual()" icon="pi pi-question-circle" [rounded]="true" [text]="true" />
+
+        <div *ngIf="visiblemanual">
+            <app-user-manual></app-user-manual>
+        </div>
+    </div>
 </div>
