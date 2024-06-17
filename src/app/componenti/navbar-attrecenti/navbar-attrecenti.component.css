@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px;
+  padding: 30px;
   background-color: transparent;
   overflow-x: auto;
 }
@@ -12,8 +12,7 @@
   margin: auto;
   border: none;
   cursor: pointer;
-  font-size: 60px;
-  padding: 30px 40px;
+  padding: 5px 9px;
   border-radius: 4px;
 }
 
@@ -22,34 +21,36 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
-  font-size: 60px;
-  padding: 30px 40px;
+  font-size: 14px;
+  padding: 7px 10px;
   border-radius: 4px;
   color: black;
   text-decoration: none;
 }
 
 .omino-button {
-  margin-left: 40px;
+  margin-left: 15px;
   border: none;
   cursor: pointer;
-  font-size: 60px;
+  font-size: 16px;
   white-space: nowrap;
+  text-indent: -9999px; 
 }
 
 .help-button {
-  margin-left: 40px;
+  margin-left: 15px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 60px;
+  font-size: 16px;
   color: black;
   white-space: nowrap;
+  text-indent: -9999px; 
 }
 
 .right {
   display: flex;
-  width: 250px;
+  width: 80px;
   flex-direction: row;
   justify-content: space-between;
 }
@@ -63,8 +64,8 @@
   .p-button,
   .omino-button,
   .help-button {
-    font-size: 50px;
-    padding: 30px 40px;
+    font-size: 14px;
+    padding: 8px 10px;
   }
 }
 
@@ -75,13 +76,13 @@
   }
   .link,
   .p-button {
-    padding: 30px 40px;
-    font-size: 40px;
+    padding: 7px 12px;
+    font-size: 8px;
   }
   .omino-button,
   .help-button {
-    font-size: 35px;
-    padding: 30px 40px;
+    font-size: 6px;
+    padding: 2px 5px;
     margin: auto;
   }
 }
@@ -90,6 +91,6 @@
   .help-button,
   .p-button,
   .omino-button {
-    width: 90%;
+    width: 50%;
   }
 }
