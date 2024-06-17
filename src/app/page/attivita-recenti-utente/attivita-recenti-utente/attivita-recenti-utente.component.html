@@ -37,7 +37,7 @@
         </td>
         <td>
         
-          <edit-activity [activity]="rowData"></edit-activity>
+          <edit-activity [activity]="rowData" (activityEdited)="reload()"></edit-activity>
           <delete-activity [activityID]="rowData._id" (click)="reload()" ></delete-activity>
          
         </td>
