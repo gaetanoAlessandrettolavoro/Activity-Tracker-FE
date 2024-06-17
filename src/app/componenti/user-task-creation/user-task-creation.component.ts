@@ -1,3 +1,5 @@
+
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -86,6 +88,10 @@ export class UserTaskCreationComponent {
     });
   }
 
+  noVisible(){
+    this.visible = false
+  }
+
   onSubmit() {
     if (this.userForm.valid) {
       let date = this.userForm.get('activityDate')?.value.split('-');
@@ -132,6 +138,3 @@ export class UserTaskCreationComponent {
     return this.http.post<any>('http://localhost:3000/api/v1/activities', data,{ withCredentials: true });
   }
 }
-
-
-
