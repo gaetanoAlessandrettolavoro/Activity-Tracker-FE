@@ -14,7 +14,7 @@ export class LogoutService {
 
   logout(): Observable<any> {
     localStorage.removeItem('admin');  
-    localStorage.removeItem('user')
+    localStorage.removeItem('utente')
     return this.http.get<any>(this.apiUrl).pipe(
       tap(() => {
         this.router.navigate(['/login']);  
