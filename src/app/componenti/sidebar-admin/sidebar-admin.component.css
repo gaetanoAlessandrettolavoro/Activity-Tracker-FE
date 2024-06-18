@@ -1,0 +1,27 @@
+@import "primeicons/primeicons.css";
+
+p-sidebar :first-of-type {
+    margin-top: -10px;
+}
+
+
+p-sidebar a {
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif; 
+    font-weight: bold;
+    color:#888;
+}
+
+p-sidebar li {
+    margin-bottom: 10px;
+}
+
+p-sidebar li a,
+p-sidebar li button {
+    margin-left: 5px;
+}
+
+li {
+    list-style: none;
+}
+

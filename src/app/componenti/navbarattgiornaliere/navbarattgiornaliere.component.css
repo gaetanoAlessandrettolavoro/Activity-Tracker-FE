@@ -7,20 +7,7 @@
     overflow-x: auto;
   }
   
-  .link {
-    /* margin-left: 15px; */
-    /* margin-right: 15px; */
-    background-color:transparent;
-    margin:auto;
-    border: none;
-    cursor: pointer;
-    /* font-size: 16px; */
-    padding: 5px 9px;
-    border-radius: 4px;
-    /* color: #ffffff; */
-    /* white-space: nowrap; */
-    }
-   
+
   
   .p-button {
     margin:10px 10px;
@@ -60,7 +47,7 @@
         flex-wrap: nowrap;
         justify-content: flex-start;
     }
-    .link,
+  
     .p-button,
     .omino-button,
     .help-button {
@@ -74,7 +61,7 @@
         flex-wrap: nowrap;
         justify-content: flex-start;
     }
-    .link,
+
     .p-button{
       padding:7px 12px;
       font-size: 8px;
