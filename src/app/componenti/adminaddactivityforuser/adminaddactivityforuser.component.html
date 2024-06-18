@@ -1,5 +1,4 @@
-<div class="card flex justify-content-center">
-  <p-button (click)="showDialog()" label="Show" />
+  <button (click)="showDialog()" class="add-activity"><i class="pi pi-file-plus"></i></button>
   <p-dialog
     header="Nuova attività"
     [(visible)]="visible"
@@ -11,16 +10,6 @@
   >
     <div style="display: flex; justify-content: center">
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <div class="email-container">
-          <p-floatLabel>
-            <input pInputText id="email" class="centered-input" formControlName="email" />
-            <label for="email">email</label>
-          </p-floatLabel>
-        </div>
-        <div class="date-container">
-          <h4>Data</h4>
-          <input type="date" formControlName="activityDate" />
-        </div>
         <div style="display: flex">
           <div>
             <h4 style="display: flex; justify-content: center; margin-right: 3px">
@@ -74,4 +63,3 @@
       </form>
     </div>
   </p-dialog>
-</div>

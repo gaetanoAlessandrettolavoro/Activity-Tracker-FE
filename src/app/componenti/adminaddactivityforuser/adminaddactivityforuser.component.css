@@ -99,3 +99,18 @@ h4 {
   align-items: center;
   margin-top: 20px; /* Adjust this value as needed */
 }
+
+.add-activity {
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  border-radius: 12px;
+  background-color: #a1c1d9;
+  color: white;
+  margin-right: 20px;
+}
