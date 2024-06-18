@@ -70,7 +70,7 @@
     <ng-template pTemplate="body" let-act let-rowIndex="rowIndex">
       <tr>
         <td>{{ act.taskName }}</td>
-        <td>{{ act.activityDate | date: "dd/MM/yyyy" }}</td>
+        <td>{{ act.startTime | date: "dd/MM/yyyy" }}</td>
         <td>{{ act.startTime | date: "HH:mm" }}</td>
         <td>{{ act.endTime | date:"HH:mm" }}</td>
         <td>{{ act.notes }}</td>
