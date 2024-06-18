@@ -15,6 +15,7 @@ import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
 import { NavbarAdminComponent } from "../../componenti/navbar-admin/navbar-admin.component";
 import { DialogModule } from 'primeng/dialog';
+import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { DialogModule } from 'primeng/dialog';
     standalone: true,
     templateUrl: './admin-vis-users.component.html',
     styleUrls: ['./admin-vis-users.component.css'],
-    imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent, NavbarAdminComponent,DialogModule, ButtonModule, InputTextModule]
+    imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent, NavbarAdminComponent,DialogModule, ButtonModule, InputTextModule, AdminaddactivityforuserComponent]
 })
 export class AdminvisuserComponent implements OnInit {
 
