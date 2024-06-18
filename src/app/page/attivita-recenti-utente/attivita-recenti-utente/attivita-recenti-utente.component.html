@@ -31,7 +31,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
         <td *ngFor="let col of columns">
-          {{ col.field === 'activityDate' ? (rowData[startTime] | date: 'dd/MM/yyyy') : 
+          {{ col.field === 'activityDate' ? (rowData['startTime'] | date: 'dd/MM/yyyy') : 
             col.field === 'startTime' || col.field === 'endTime' ? (rowData[col.field] | date: 'HH:mm') :
             rowData[col.field] }}
         </td>
