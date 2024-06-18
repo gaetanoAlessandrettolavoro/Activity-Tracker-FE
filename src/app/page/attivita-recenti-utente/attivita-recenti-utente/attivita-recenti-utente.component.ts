@@ -82,6 +82,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       const matchesText =
         !searchText ||
         item.taskName.toLowerCase().includes(searchText.toLowerCase());
+<<<<<<< HEAD
+=======
+      const itemDate = new Date(item.activityDate);
+      const date = this.formatDate(itemDate); 
+>>>>>>> 3da0bd1 (feat(sideBar): Add and implement sidebar)
       const matchesDate =
         !fromDate && !toDate
           ? true
@@ -89,6 +94,14 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       return matchesText && matchesDate;
     });
   }
+  
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+  
 
   isDateInRange(date: Date, fromDate: string, toDate: string): boolean {
     // Updated
