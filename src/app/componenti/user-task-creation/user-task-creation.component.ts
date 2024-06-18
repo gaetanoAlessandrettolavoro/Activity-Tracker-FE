@@ -100,7 +100,6 @@ export class UserTaskCreationComponent implements OnInit {
       let endM = parseInt(end[1]);
       const selectedTask = this.userForm.get('selectedTask')?.value;
       const activityToSend: Activity = {
-        activityDate: new Date(year, month, day, 2),
         startTime: new Date(year, month, day, startH, startM),
         endTime: new Date(year, month, day, endH, endM),
         taskName: selectedTask.taskName,
