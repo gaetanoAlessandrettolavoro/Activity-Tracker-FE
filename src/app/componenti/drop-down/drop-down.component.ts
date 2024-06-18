@@ -6,13 +6,14 @@ import { MenuModule } from 'primeng/menu';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { LogoutService } from '../../servizi/logout.service';
+import { UserManualComponent } from '../user-manual/user-manual.component';
 
 @Component({
   selector: 'app-dropdown-menu',
   standalone: true,
   templateUrl: './drop-down.component.html',
   styleUrls: ['./drop-down.component.css'],
-  imports: [MenubarModule, MenuModule, CommonModule, ButtonModule],
+  imports: [MenubarModule, MenuModule, CommonModule, ButtonModule,UserManualComponent],
 })
 export class DropdownMenuComponent implements OnInit {
   menuVisible: boolean = false;
@@ -37,6 +38,13 @@ export class DropdownMenuComponent implements OnInit {
   isVisible() {
     this.menuVisible = !this.menuVisible;
   }
+
+  usermanual : boolean = false
+
+  isVisibleUser() {
+    this.usermanual = !this.usermanual;
+  }
+
 
   navigateBasedOnRole() {
     if (this.isAdmin) {

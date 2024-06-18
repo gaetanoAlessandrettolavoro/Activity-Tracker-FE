@@ -13,7 +13,7 @@ import { PrimeIcons } from 'primeng/api';
 })
 export class UserManualComponent {
 
-  visible: boolean = false;
+  visible: boolean = true;
 
     showDialog() {
         this.visible = true;
