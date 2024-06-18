@@ -1,75 +1,84 @@
 <app-admin-vis-tutte-att-users />
 
 <div class="filter">
-    <input type="text" pInputText [(ngModel)]="textFilter" placeholder="Nome, cognome o attività"/>
-    <p-button type="button" pRipple  [text]="true" [rounded]="true" [plain]="true" [icon]="'pi pi-filter'" (click)="onClickSetFilter()" />
-    <p-button type="button" pRipple  [text]="true" [rounded]="true" [plain]="true" [icon]="'pi pi-filter-slash'" (click)="onClickRemoveFilter()" />
+  <input
+    type="text"
+    pInputText
+    [(ngModel)]="textFilter"
+    placeholder="Nome, cognome o attività"
+  />
+  <p-button
+    type="button"
+    pRipple
+    [text]="true"
+    [rounded]="true"
+    [plain]="true"
+    [icon]="'pi pi-filter'"
+    (click)="onClickSetFilter()"
+  />
+  <p-button
+    type="button"
+    pRipple
+    [text]="true"
+    [rounded]="true"
+    [plain]="true"
+    [icon]="'pi pi-filter-slash'"
+    (click)="onClickRemoveFilter()"
+  />
 </div>
 
 <div class="box">
-    <p-table [value]="rowItems" dataKey="codiceFiscale" [tableStyle]="{ 'min-width': '60rem' }" [expandedRowKeys]="expandedRows">
-        <ng-template pTemplate="header">
-            <tr>
-                <th style="width: 5rem"></th>
-                <th></th>
-                <th pSortableColumn="nome">Nome <p-sortIcon field="nome" /></th>
-                <th pSortableColumn="cognome">Cognome <p-sortIcon field="cognome" /></th>
-                <th>Codice Fiscale</th>
-                <th pSortableColumn="email">Email <p-sortIcon field="email" /></th>
-                <th>Attività</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-item let-expanded="expanded">
-            <tr>
-                <td>
-                    <p-button type="button" pRipple [pRowToggler]="item" [text]="true" [rounded]="true" [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" />
-                </td>
-                <td><img [src]="item.propic" width="50" class="shadow-4" /></td>
-                <td>{{ item.nome }}</td>
-                <td>{{ item.cognome }}</td>
-                <td>{{ item.codiceFiscale }}</td>
-                <td>{{ item.email }}</td>
-                <td>{{ item.activity[0].taskName }}</td>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="rowexpansion" let-item>
-            <tr>
-                <td colspan="7">
-                    <div class="p-3">
-                        <p-table [value]="item.activity" dataKey="codiceFiscale">
-                            <ng-template pTemplate="header">
-                                <tr>
-                                    <th>Tipo di attività</th>
-                                    <th>Data</th>
-                                    <th>Orario di inizio</th>
-                                    <th>Orario di fine</th>
-                                    <th>Note</th>
-                                    <th style="width: 4rem"></th>
-                                    <th style="width: 4rem"></th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-activity>
-                                <tr>
-                                    <td>{{ activity.taskName }}</td>
-                                    <td>{{ activity.activityDate | date:"dd/MM/yyyy" }}</td>
-                                    <td>{{ activity.startTime | date: 'HH:mm' }}</td>
-                                    <td>{{ activity.endTime | date: 'HH:mm' }}</td>
-                                    <td>{{ activity.notes }}</td>
-                                    <td><edit-activity [activity]="activity"/></td>
-                                    <td><delete-activity [activityID]="activity._id"></delete-activity></td>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="emptymessage">
-                                <tr>
-                                    <td colspan="6">There are no order for this product yet.</td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+  <p-table
+    [value]="rowItems"
+    [lazy]="true"
+    (onLazyLoad)="loadActivities($event)"
+    sortField="user.firstName"
+    [tableStyle]="{ 'min-width': '60rem' }"
+    rowGroupMode="subheader"
+    groupRowsBy="user.codiceFiscale"
+    [paginator]="true"
+    [rows]="7"
+    [totalRecords]="totalRecords"
+    [loading]="loading"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="activities">Attività</th>
+        <th>Data</th>
+        <th class="times">Orario di inizio</th>
+        <th class="times">Orario di fine</th>
+        <th class="notes">Note</th>
+        <th class="buttons"></th>
+        <th class="buttons"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="groupheader" let-act>
+      <tr pRowGroupHeader>
+        <td colspan="7">
+          <img
+            [alt]="act.user.firstName"
+            src="https://i.pinimg.com/200x150/60/13/a3/6013a33f806d8d74f43ee2eb565ff4dc.jpg"
+            width="32"
+            style="vertical-align: middle; margin-right: 10px"
+          />
+          <span style="font-weight: bold;"
+            >{{ act.user.firstName }} {{ act.user.lastName }}</span
+          >
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-act let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ act.taskName }}</td>
+        <td>{{ act.activityDate | date: "dd/MM/yyyy" }}</td>
+        <td>{{ act.startTime | date: "HH:mm" }}</td>
+        <td>{{ act.endTime | date:"HH:mm" }}</td>
+        <td>{{ act.notes }}</td>
+        <td><edit-activity [activity]="act" /></td>
+        <td><delete-activity [activityID]="act._id" /></td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
 
-<app-footer/>
+<!-- <app-footer /> -->

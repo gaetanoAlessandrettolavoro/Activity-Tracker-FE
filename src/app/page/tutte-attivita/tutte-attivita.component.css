@@ -7,17 +7,28 @@
     margin: 2% 5% 2% auto;
 }
 
-.delete-button {
-    border: none;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 24px;
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    border-radius: 12px;
-    background-color: orangered;
-    color: black;
-    margin: auto;
+.activities {
+    width: 15em;
+}
+
+.notes {
+    width: 20em;
+}
+
+.times {
+    width: 10em;
+}
+
+.buttons {
+    width: 7em;
+}
+
+#paginator {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+#paginator > span {
+    margin: auto 0.5em;
 }

@@ -1,3 +1,5 @@
+
+
 import { Component, OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -12,6 +14,7 @@ import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/d
 import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
 import { NavbarAdminComponent } from "../../componenti/navbar-admin/navbar-admin.component";
+import { DialogModule } from 'primeng/dialog';
 
 
 @Component({
@@ -19,7 +22,7 @@ import { NavbarAdminComponent } from "../../componenti/navbar-admin/navbar-admin
     standalone: true,
     templateUrl: './admin-vis-users.component.html',
     styleUrls: ['./admin-vis-users.component.css'],
-    imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent, NavbarAdminComponent]
+    imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent, NavbarAdminComponent,DialogModule, ButtonModule, InputTextModule]
 })
 export class AdminvisuserComponent implements OnInit {
 
@@ -27,6 +30,8 @@ export class AdminvisuserComponent implements OnInit {
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
+
+  
 
   cols = [
     { field: 'firstName', header: 'Nome' },
@@ -39,6 +44,14 @@ export class AdminvisuserComponent implements OnInit {
   searchText: string = '';
   fromDate: string = '';
   toDate: string = '';
+
+  visible: boolean = false;
+
+  visibleNoActivity: boolean = false;
+
+  showDialog() {
+      this.visible = true;
+  }
 
   limit!: number;
   first: number = 0;
@@ -73,11 +86,16 @@ export class AdminvisuserComponent implements OnInit {
   }
   getActivity(id: string) {
     const userId = id;
-    this.router.navigate(['/admin-vis-utente-specifico',userId])
     this.activityUserService.getActivities(userId).subscribe((result: any) => {
       this.userActivities = result;
+      if(result.data.activities.length == 0){
+        this.visibleNoActivity = true
+      }
+      else{
+         this.router.navigate(['/admin-vis-utente-specifico',userId])
+      }
     });
-    console.log(id);
+    console.log(this.userActivities);
   }
 
   onPageChange(event: any) {

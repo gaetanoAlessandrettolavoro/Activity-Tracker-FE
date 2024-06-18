@@ -23,6 +23,7 @@ export class ServiceloginService {
   }
 
   login(user: { email: string; password: string }): Observable<any> {
+    this.setUser(user);
     return this.getUser(user);
   }
 

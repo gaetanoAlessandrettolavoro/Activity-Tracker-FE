@@ -1,11 +1,17 @@
 <div style="display: flex; justify-content: space-between;">
-    <p routerLink="/attivitarecentiutente" style="cursor: pointer; margin-left: 8px; font-size: 16px;">Visualizza le attività precedenti</p>
+    <p routerLink="/attivitaprecedentiutente" style="cursor: pointer; margin-left: 8px; font-size: 16px;">Visualizza le attività precedenti</p>
         <div class="right">
             <button (click)="showDialog()" style="background-color: #A1C1D9; color: white; border: none; border-radius: 8px; height: 28px;">Crea attività +</button>
             <app-dropdown-menu></app-dropdown-menu>
-             <p-button icon="pi pi-question-circle" [rounded]="true" [text]="true" /> 
+             <p-button (click)="showDialogManual()" icon="pi pi-question-circle" [rounded]="true" [text]="true" /> 
     </div>
     </div>
     <div *ngIf="visible">
         <app-user-task-creation />
     </div>
+
+    <div *ngIf="visiblemanual">
+        <app-user-manual></app-user-manual>
+    </div>
+
+

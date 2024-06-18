@@ -9,10 +9,10 @@ export class GetUserService {
  
 
   constructor(private http:HttpClient) { }
-  private apiUrl = 'http://127.0.0.1:3000/api/v1/users/:id'  // URL dell'API
+  private apiUrl = 'http://localhost:3000/api/v1/users/'  // URL dell'API
 
-  getData(): Observable<any> {
-    return this.http.get<any>(this.apiUrl);
+  getData(id: string): Observable<any> {
+    return this.http.get<any>(this.apiUrl+id, {withCredentials : true});
   }
 }
 

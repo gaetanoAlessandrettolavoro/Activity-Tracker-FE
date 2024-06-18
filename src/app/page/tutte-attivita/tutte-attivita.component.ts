@@ -1,11 +1,6 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  RowToggler,
-  TableModule,
-  TableRowCollapseEvent,
-  TableRowExpandEvent,
-} from 'primeng/table';
+import { RowToggler, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
 import { ButtonModule } from 'primeng/button';
 import { Activity } from '../../models/activityModel';
@@ -15,17 +10,20 @@ import { FormsModule } from '@angular/forms';
 import { FilterService } from 'primeng/api';
 import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component';
 import { FooterComponent } from '../../componenti/footer/footer.component';
-import { GetusersService } from '../../servizi/getusers.service';
 import { TutteAttivitàUserService } from '../../servizi/tutte-attività-user.service';
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
+import { GetUserService } from '../../servizi/get-user.service';
+import { catchError, of } from 'rxjs';
+import { PaginatorModule } from 'primeng/paginator';
+import e from 'express';
 
-interface rowItem {
-  nome: string;
-  cognome: string;
-  codiceFiscale: string;
-  email: string;
-  propic: string;
-  activity: Activity[];
+interface rowItem extends Activity {
+  user: {
+    codiceFiscale: string;
+    firstName: string;
+    lastName: string;
+    propic: string;
+  };
 }
 
 @Component({
@@ -41,7 +39,9 @@ interface rowItem {
     FormsModule,
     AdminVisTutteAttUsersComponent,
     FooterComponent,
-    DeleteActivityButtonComponent
+    DeleteActivityButtonComponent,
+    DatePipe,
+    PaginatorModule,
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrl: './tutte-attivita.component.css',
@@ -53,83 +53,87 @@ export class TutteAttivitaComponent implements OnInit {
 
   textFilter = signal<string>('');
   isFiltered = signal<boolean>(false);
+  totalRecords!: number;
+  loading: boolean = false;
 
-  expandedRows = {};
+  constructor(
+    private filterService: FilterService,
+    private userServ: GetUserService,
+    private activities: TutteAttivitàUserService,
+  ) {}
 
-  constructor(private filterService: FilterService, private users: GetusersService, private activities:TutteAttivitàUserService) {}
-
-  ngOnInit() {
-    //QUI ANDRà UN METODO CHE MAN MANO CHE ARRIVANO I DATI DAL BE POPOLI LA VARIABILE rows
-    this.activities.recuperaTutteLeAttivita().subscribe((result) => console.log(result))
-    const newRows: rowItem[] = [
-      {
-        nome: 'Paolo',
-        cognome: 'Bitta',
-        codiceFiscale: 'BTTPLA00A05H501A',
-        email: 'marioross1@email.it',
-        propic:
-          'https://i.pinimg.com/200x150/60/13/a3/6013a33f806d8d74f43ee2eb565ff4dc.jpg',
-        activity: [
-          {
-            taskName: 'Task1',
-            activityDate: new Date(2021, 9, 2),
-            startTime: new Date(2021, 9, 2, 8, 0),
-            endTime: new Date(2021, 9, 2, 11, 0),
-            notes: 'Note task1',
-            taskID: '1',
-          },
-        ],
-      },
-      {
-        nome: 'Luca',
-        cognome: 'Nervi',
-        codiceFiscale: 'NRVLCA00A01H501A',
-        email: 'luca@verd.i',
-        propic:
-          'https://i.pinimg.com/200x150/60/13/a3/6013a33f806d8d74f43ee2eb565ff4dc.jpg',
-        activity: [
-          {
-            taskName: 'Task2',
-            activityDate: new Date(2021, 9, 2),
-            startTime: new Date(2021, 9, 2, 9, 0),
-            endTime: new Date(2021, 9, 2, 12, 0),
-            notes: 'Note task2',
-            taskID: '2',
-          },
-        ],
-      },
-    ];
-    this.originalRowItems = newRows;
-    this.rowItems = newRows;
+  findUser(id: string): Promise<any> {
+    return this.userServ
+      .getData(id)
+      .pipe(
+        catchError((err) => {
+          console.error(
+            "Si è verificato un errore durante la ricerca dell'utente:",
+            err,
+          );
+          return of(null); // Restituisci null in caso di errore
+        }),
+      )
+      .toPromise();
   }
 
-  onClickSetFilter() {
-    this.isFiltered.set(true);
-    const newRowItems = this.originalRowItems.filter((row) => {
-      return (
-        this.filterService.filters['contains'](row.nome, this.textFilter()) ||
-        this.filterService.filters['contains'](
-          row.cognome,
-          this.textFilter(),
-        ) ||
-        this.filterService.filters['contains'](
-          row.activity[0].taskName,
-          this.textFilter(),
-        )
-      );
-    });
-    this.rowItems = newRowItems;
+  async getActivities(page?: number, limit: number = 7) {
+    if (!page) {
+      page = 1;
+    }
+    this.activities
+      .recuperaTutteLeAttivita(page, limit)
+      .pipe(
+        catchError((err) => {
+          console.error(
+            'Si è verificato un errore durante il recupero delle attività:',
+            err,
+          );
+          return of({ data: { document: [] } }); // Restituisci un array vuoto in caso di errore
+        }),
+      )
+      .subscribe(async (result) => {
+        console.log(`Page ${page}, limit ${limit}`)
+        const newRows: rowItem[] = [];
+        for (let activity of result.data.document) {
+          if (activity.isActive) {
+            let foundUser = await this.findUser(activity.userID);
+            if (foundUser) {
+              newRows.push({
+                ...activity,
+                user: {
+                  codiceFiscale: foundUser.data.codiceFiscale,
+                  firstName: foundUser.data.firstName,
+                  lastName: foundUser.data.lastName,
+                  propic: foundUser.data.propic,
+                },
+              });
+            }
+          }
+        }
+        this.originalRowItems = newRows;
+        this.rowItems = newRows;
+        this.totalRecords = result.totalDocuments;
+      });
+      
   }
 
-  onClickRemoveFilter() {
-    this.isFiltered.set(false);
-    this.textFilter.set('');
-    this.rowItems = this.originalRowItems;
+  async ngOnInit() {
+    this.getActivities(1);
   }
 
-  getUsers(){
-    this.users.getData().subscribe((data: any) => {
-      console.log(data);
-    });
+  loadActivities(event: TableLazyLoadEvent) {
+    this.loading = true;
+
+    setTimeout(() => {
+      if(event?.first && event?.rows){
+        this.getActivities((event?.first + event?.rows)/7)
+      }
+      this.loading = false;
+    }, 1000);
   }
+
+  onClickSetFilter() {}
+
+  onClickRemoveFilter() {}
 }

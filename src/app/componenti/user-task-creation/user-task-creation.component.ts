@@ -107,7 +107,7 @@ export class UserTaskCreationComponent {
       let email = this.userForm.get('email')?.value;
       const selectedTask = this.userForm.get('selectedTask')?.value;
       const activityToSend: Activity = {
-        activityDate: new Date(year, month, day),
+        activityDate: new Date(year, month, day, 2),
         startTime: new Date(year, month, day, startH, startM),
         endTime: new Date(year, month, day, endH, endM),
         taskName: selectedTask.taskName,

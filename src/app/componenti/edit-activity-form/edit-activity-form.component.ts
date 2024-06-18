@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -10,6 +10,7 @@ import { Activity } from '../../models/activityModel';
 import { TasksService } from '../../servizi/tasks.service';
 import { Task } from '../../models/taskModel';
 import { TaskResponse } from '../../models/taskResponseModel';
+import { ModificAttivitàAdminVisUtenteSpecificoService } from '../../servizi/modific-attività-admin-vis-utente-specifico.service';
 
 @Component({
   selector: 'edit-activity-form',
@@ -21,7 +22,9 @@ import { TaskResponse } from '../../models/taskResponseModel';
 export class EditActivityFormComponent implements OnInit{
   @Input({required: true}) activity!: Activity;
 
-  constructor(private taskService: TasksService) {}
+  @Output() activityEdited = new EventEmitter<boolean>(false);
+
+  constructor(private taskService: TasksService, private modifyActivity: ModificAttivitàAdminVisUtenteSpecificoService) {}
 
   activityToEdit = signal<any>({});
   tasks = signal<Task[]>([]);
@@ -48,7 +51,9 @@ export class EditActivityFormComponent implements OnInit{
   })
 
   onSubmitForm() {
-    console.log(this.activityForm.value);
-    // PRIMA DI FARE IL POST, BISOGNA CONVERTIRE I VALORI DEL FORM IN UN OGGETTO ACTIVITY
+    const updatedActivity: Activity = {...this.activityToEdit(), activityDate: this.activityForm.value.data, startTime: this.activityForm.value.orarioInizio, endTime: this.activityForm.value.orarioFine, taskName: this.activityForm.value.taskName, notes: this.activityForm.value.note};
+    this.modifyActivity.updateUserActivities(updatedActivity, updatedActivity._id).subscribe((result) => {
+      this.activityEdited.emit(true);
+    });
   }
 }
