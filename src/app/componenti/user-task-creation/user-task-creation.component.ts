@@ -1,7 +1,5 @@
-
-
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -53,28 +51,24 @@ interface City {
   templateUrl: './user-task-creation.component.html',
   styleUrls: ['./user-task-creation.component.css']
 })
-export class UserTaskCreationComponent {
+export class UserTaskCreationComponent implements OnInit {
+  currentDateTime: Date;
+  tasks: Task[] = [];
+  selectedCity: Task | undefined;
+  userForm!: FormGroup;
+  visible: boolean = true;
+
   constructor(
     private addService: AdminAddActivityForUserService,
     private tasksServ: TasksService,
     private route: ActivatedRoute,
     private http: HttpClient
-  ) {}
-
-  firstName: any;
-  lastName: any;
-  value: any;
-  getUserId() {
-    throw new Error('Method not implemented.');
+  ) {
+    this.currentDateTime = new Date();
+    setInterval(() => {
+      this.currentDateTime = new Date();
+    }, 1000); // Update the date and time every second
   }
-
-  tasks: Task[] = [];
-  selectedCity: Task | undefined;
-  userForm!: FormGroup;
-
-  visible: boolean = true;
-
-  
 
   ngOnInit() {
     this.tasksServ.getAllTasks().subscribe((result: TaskResponse) => (this.tasks = result.data.document));
@@ -88,8 +82,8 @@ export class UserTaskCreationComponent {
     });
   }
 
-  noVisible(){
-    this.visible = false
+  noVisible() {
+    this.visible = false;
   }
 
   onSubmit() {
@@ -104,7 +98,6 @@ export class UserTaskCreationComponent {
       let end = this.userForm.get('endTime')?.value.split(':');
       let endH = parseInt(end[0]);
       let endM = parseInt(end[1]);
-      let email = this.userForm.get('email')?.value;
       const selectedTask = this.userForm.get('selectedTask')?.value;
       const activityToSend: Activity = {
         activityDate: new Date(year, month, day, 2),
@@ -121,7 +114,7 @@ export class UserTaskCreationComponent {
   }
 
   getToken(data: any) {
-    console.log(data)
+    console.log(data);
     this.route.params.subscribe((params) => {
       this.newPassword(data).subscribe({
         next: (result: any) => {
@@ -135,6 +128,6 @@ export class UserTaskCreationComponent {
   }
 
   newPassword(data: any): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/v1/activities', data,{ withCredentials: true });
+    return this.http.post<any>('http://localhost:3000/api/v1/activities', data, { withCredentials: true });
   }
 }
