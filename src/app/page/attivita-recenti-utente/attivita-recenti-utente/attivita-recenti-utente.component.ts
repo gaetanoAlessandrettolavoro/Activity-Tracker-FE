@@ -46,7 +46,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private getActivityUserService: GetActivityUserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.filterForm = new FormGroup({
       searchText: new FormControl(''),
@@ -58,17 +58,15 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   ngOnInit(): void {
     this.getActivityUserService.getData().subscribe((data) => {
       data.data.userActivities.forEach((item: Activity) => {
-        if (item.isActive === true) {
-          this.rowItems.push({
-            taskID: item.taskID,
-            taskName: item.taskName,
-            activityDate: new Date(item.activityDate), // Updated
-            startTime: new Date(item.startTime), // Updated
-            endTime: new Date(item.endTime), // Updated
-            notes: item.notes,
-            _id: item._id,
-          });
-        }
+        this.rowItems.push({
+          taskID: item.taskID,
+          taskName: item.taskName,
+          activityDate: new Date(item.activityDate), // Updated
+          startTime: new Date(item.startTime), // Updated
+          endTime: new Date(item.endTime), // Updated
+          notes: item.notes,
+          _id: item._id,
+        });
       });
       this.filteredItems = [...this.rowItems];
     });
@@ -92,7 +90,8 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     });
   }
 
-  isDateInRange(date: Date, fromDate: string, toDate: string): boolean { // Updated
+  isDateInRange(date: Date, fromDate: string, toDate: string): boolean {
+    // Updated
     const activityDate = new Date(date);
 
     const from = fromDate ? new Date(fromDate) : null;

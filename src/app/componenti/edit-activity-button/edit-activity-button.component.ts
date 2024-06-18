@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { EditActivityFormComponent } from '../edit-activity-form/edit-activity-form.component';
@@ -16,6 +16,8 @@ export class EditActivityButtonComponent implements OnInit{
 
   @Input({required: true}) activity!: Activity;
 
+  @Output() activityEdited = new EventEmitter<boolean>(false);
+
   showDialog() {
     this.visible = true;
   }
@@ -24,5 +26,10 @@ export class EditActivityButtonComponent implements OnInit{
 
   ngOnInit() {
     this.activityToPass = this.activity;
+  }
+
+  edited(){
+    this.activityEdited.emit(true);
+    this.visible = false;
   }
 }

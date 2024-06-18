@@ -12,7 +12,10 @@ export class ModificAttivitàAdminVisUtenteSpecificoService {
 
   constructor(private http:HttpClient) { }
 
-  updateUserActivities(id: string, activity: Activity): Observable<any> {
+  updateUserActivities(activity: Activity, id?: string): Observable<any> {
+    if(!id) {
+      throw new Error('Id is required');
+    }
     const url = `http://localhost:3000/api/v1/activities/${id}`;
     return this.http.patch(url, activity, {withCredentials: true});
   }

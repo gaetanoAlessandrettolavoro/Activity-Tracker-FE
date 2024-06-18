@@ -10,8 +10,8 @@ private apiUrl = 'http://localhost:3000/api/v1/activities'; //URL API
 
   constructor(private http: HttpClient) { }
 
-  recuperaTutteLeAttivita(): Observable<any> {
+  recuperaTutteLeAttivita(page: number, limit: number): Observable<any> {
  
-    return this.http.get(this.apiUrl,{withCredentials:true});
+    return this.http.get(`${this.apiUrl}?page=${page}&limit=${limit}&sort=_id`,{withCredentials:true});
   }
 }
