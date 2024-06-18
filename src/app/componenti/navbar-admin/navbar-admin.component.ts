@@ -3,24 +3,19 @@ import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button'
 import { RouterLink } from '@angular/router';
 import { DropdownMenuComponent } from "../drop-down/drop-down.component";
-<<<<<<< HEAD
 import { UserManualComponent } from '../user-manual/user-manual.component';
 import { CommonModule } from '@angular/common';
 import { AddTypeActivityComponent } from "../add-type-activity/add-type-activity.component";
-=======
 import { SidebarAdminComponent } from "../sidebar-admin/sidebar-admin.component";
->>>>>>> 3da0bd1 (feat(sideBar): Add and implement sidebar)
+
+
 
 @Component({
     selector: 'app-navbar-admin',
     standalone: true,
     templateUrl: './navbar-admin.component.html',
     styleUrl: './navbar-admin.component.css',
-<<<<<<< HEAD
-    imports: [MenubarModule, ButtonModule, RouterLink, DropdownMenuComponent, UserManualComponent, CommonModule, AddTypeActivityComponent]
-=======
-    imports: [MenubarModule, ButtonModule, RouterLink, DropdownMenuComponent, SidebarAdminComponent]
->>>>>>> 3da0bd1 (feat(sideBar): Add and implement sidebar)
+    imports: [MenubarModule, ButtonModule, RouterLink, DropdownMenuComponent, UserManualComponent, CommonModule, AddTypeActivityComponent, SidebarAdminComponent]
 })
 export class NavbarAdminComponent {
     @ViewChild(SidebarAdminComponent) sidebarAdminComponent!: SidebarAdminComponent;
