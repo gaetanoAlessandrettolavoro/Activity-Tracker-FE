@@ -20,15 +20,10 @@ export class AdminAddActivityForUserService {
   }
 
 
-  addActivityForUser(activity: Activity, email: string): Observable<any> {
-    const apiUrl = `http://localhost:3000/api/v1/activities`;
-    return this.searchUserIDByEmail(email).pipe(
-      switchMap(userId => {
-        activity.userID = userId;
-        const activityToSend = { ...activity };
+  addActivityForUser(activity: Activity, userID: string): Observable<any> {
+    const apiUrl = `http://localhost:3000/api/v1/activities`;;
+        const activityToSend = { ...activity, userID: userID };
         return this.http.post(apiUrl, activityToSend, { withCredentials: true });
-      })
-    );
   }
 }
 
