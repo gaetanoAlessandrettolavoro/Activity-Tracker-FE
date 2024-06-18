@@ -82,11 +82,8 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       const matchesText =
         !searchText ||
         item.taskName.toLowerCase().includes(searchText.toLowerCase());
-<<<<<<< HEAD
-=======
       const itemDate = new Date(item.activityDate);
       const date = this.formatDate(itemDate); 
->>>>>>> 3da0bd1 (feat(sideBar): Add and implement sidebar)
       const matchesDate =
         !fromDate && !toDate
           ? true
