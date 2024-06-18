@@ -1,6 +1,4 @@
 <app-navbar-admin></app-navbar-admin>
-
-<h1>Tutte le Attività</h1>
 <div class="filter-container">
   <p-table [columns]="cols" [value]="filteredUsers" [tableStyle]="{ 'min-width': '50rem' }" class="p-table">
     <ng-template pTemplate="header" let-columns>
@@ -58,5 +56,22 @@
     </ng-template>
   </p-table>
 </div>
+ <div>
+  <div class="card flex justify-content-center" *ngIf="visibleNoActivity">
+    <p-dialog
+      [(visible)]="visibleNoActivity"
+      [modal]="true"
+      [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+      [style]="{ width: '27vw', height: '27vh' }"
+      [draggable]="false"
+      [resizable]="false"
+    >
+    <i class="pi pi-exclamation-triangle" style="font-size: 1.5rem; display: flex; justify-content: center; margin-top: -1px;"></i>
+      <h3 style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">Nessuna attività disponibile</h3>
+     
+    </p-dialog>
+  </div>
+  
+ </div>
 
 <app-footer></app-footer>

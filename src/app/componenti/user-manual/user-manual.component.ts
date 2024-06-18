@@ -7,16 +7,14 @@ import { PrimeIcons } from 'primeng/api';
   selector: 'app-user-manual',
   standalone: true,
   providers: [PrimeIcons],
-  imports: [DialogModule,ButtonModule],
+  imports: [DialogModule, ButtonModule],
   templateUrl: './user-manual.component.html',
-  styleUrl: './user-manual.component.css'
+  styleUrls: ['./user-manual.component.css']
 })
 export class UserManualComponent {
+  manualVisible: boolean = false;
 
-  visible: boolean = true;
-
-    showDialog() {
-        this.visible = true;
-    }
-
+  showDialog() {
+    this.manualVisible = true;
+  }
 }
