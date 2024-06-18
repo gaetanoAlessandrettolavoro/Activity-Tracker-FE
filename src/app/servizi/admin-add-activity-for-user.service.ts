@@ -26,7 +26,6 @@ export class AdminAddActivityForUserService {
       switchMap(userId => {
         activity.userID = userId;
         const activityToSend = { ...activity };
-        console.log(typeof(activityToSend.activityDate));
         return this.http.post(apiUrl, activityToSend, { withCredentials: true });
       })
     );
