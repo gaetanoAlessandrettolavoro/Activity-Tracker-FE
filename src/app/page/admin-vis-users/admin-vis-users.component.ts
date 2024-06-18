@@ -144,8 +144,7 @@ export class AdminvisuserComponent implements OnInit {
     this.usersArray.set([]);
     this.filterUsers();
     this.users.getData().subscribe((data: any) => {
-      data.data.document.forEach((item: any) => {7
-        console.log(item)
+      data.data.document.forEach((item: any) => {
         this.usersArray().push({
           firstName: item.firstName,
           lastName: item.lastName,

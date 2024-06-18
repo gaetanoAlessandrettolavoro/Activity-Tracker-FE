@@ -22,7 +22,7 @@
         <td style="width: 250px; display: flex; justify-content: space-around;">
           <button class="activity-button" (click)="getActivity(rowData._id)">Attività</button>
           <addactivityforuser [userID]="rowData._id"/>
-          <button class="info-button"><i class="pi pi-pencil"></i></button>
+          <button class="info-button"><i class="pi pi-user-edit"></i></button>
           <delete-user [user]="rowData" (userDeleted)="userDeleted()"/>
         </td>
       </tr>
