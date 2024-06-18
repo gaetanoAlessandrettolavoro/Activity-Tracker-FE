@@ -45,7 +45,6 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
             if(element.isActive === true){
               this.activities.push({
                 taskName: element.taskName,
-                activityDate: new Date(element.activityDate),
                 startTime : new Date(element.startTime),
                 endTime : new Date(element.endTime),
                 notes: element.notes,
