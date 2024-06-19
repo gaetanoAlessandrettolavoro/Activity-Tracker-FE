@@ -31,6 +31,9 @@ export class EditActivityFormComponent implements OnInit{
   tasksToPrint = signal<string[]>([]);
   selectedTask = signal<string>("");
 
+  maxDate = new Date();
+  minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth());
+
   ngOnInit() {
     const newActivity: Activity = {...this.activity};
     this.taskService.getAllTasks().subscribe((result: TaskResponse) => {
@@ -43,7 +46,6 @@ export class EditActivityFormComponent implements OnInit{
   }
 
   activityForm = new FormGroup({
-    data: new FormControl(this.activityToEdit().activityDate, [Validators.required]),
     orarioInizio: new FormControl(this.activityToEdit().startTime, [Validators.required]),
     orarioFine: new FormControl(this.activityToEdit().endTime, [Validators.required]),
     taskName: new FormControl(this.activityToEdit().taskName, [Validators.required]),
@@ -51,7 +53,14 @@ export class EditActivityFormComponent implements OnInit{
   })
 
   onSubmitForm() {
-    const updatedActivity: Activity = {...this.activityToEdit(), activityDate: this.activityForm.value.data, startTime: this.activityForm.value.orarioInizio, endTime: this.activityForm.value.orarioFine, taskName: this.activityForm.value.taskName, notes: this.activityForm.value.note};
+    const [year, month, day, hours, minutes] = [
+      this.activityForm.value.orarioInizio.getFullYear(),
+      this.activityForm.value.orarioInizio.getMonth(),
+      this.activityForm.value.orarioInizio.getDate(),
+      this.activityForm.value.orarioFine.getHours(),
+      this.activityForm.value.orarioFine.getMinutes()
+    ]
+    const updatedActivity: Activity = {...this.activityToEdit(), startTime: this.activityForm.value.orarioInizio, endTime: new Date(year, month, day, hours, minutes), taskName: this.activityForm.value.taskName, notes: this.activityForm.value.note};
     this.modifyActivity.updateUserActivities(updatedActivity, updatedActivity._id).subscribe((result) => {
       this.activityEdited.emit(true);
     });
