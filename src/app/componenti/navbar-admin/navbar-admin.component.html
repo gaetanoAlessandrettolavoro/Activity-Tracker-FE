@@ -5,10 +5,7 @@
         <app-add-type-activity></app-add-type-activity>
         <h1>Admin</h1>
         <app-dropdown-menu></app-dropdown-menu>
-        <p-button (click)="showDialogManual()" icon="pi pi-question-circle" [rounded]="true" [text]="true" />
-
-        <div *ngIf="visiblemanual">
-            <app-user-manual></app-user-manual>
-        </div>
+        <app-user-manual></app-user-manual>
+      
     </div>
 </div>
