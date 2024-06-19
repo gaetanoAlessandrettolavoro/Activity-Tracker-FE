@@ -1,26 +1,57 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { GetUserService } from './get-user.service';
+
+export interface BasicData {
+  labels: string[];
+  datasets: [
+    {
+      label: string;
+      data: number[];
+      backgroundColor: string[];
+      borderColor: string[];
+      borderWidth: number;
+    },
+  ];
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChartsService {
+  constructor(private http: HttpClient, private getUser: GetUserService) {}
 
-  constructor(private http: HttpClient) { }
-
-  hoursPerActivity() {
-    const apiUrl = "http://localhost:3000/api/v1/activities/hoursPerActivity?isActive=true";
-
-    const documentsToReturn: any[] = [];
-
-    this.http.get(apiUrl, { withCredentials: true }).subscribe((res: any) => {
-      for (let act of res.data.activities) {
-        if(!!act.hours) {
-          documentsToReturn.push(act)
+  hoursPerActivity(): Observable<BasicData[]> {
+    const apiUrl =
+      'http://localhost:3000/api/v1/activities/hoursPerActivity?isActive=true';
+      
+    return this.http.get(apiUrl, { withCredentials: true }).pipe(
+      map((res: any) => {
+        if (res && res.data && res.data.activities) {
+          let basicData: BasicData = {
+            labels: res.data.activities.map((act: any) => {
+              return `${act.taskName} - ${act.userID}`}),
+            datasets: [
+              {
+                label: 'Ore per attività',
+                data: res.data.activities.map((act: any) => act.hours),
+                backgroundColor: ['rgba(255, 159, 64, 0.2)'],
+                borderColor: ['rgb(255, 159, 64)'],
+                borderWidth: 1,
+              },
+            ],
+          };
+          return [basicData];
+        } else {
+          throw new Error('Invalid response structure');
         }
-      }
-    })
-
-    return documentsToReturn;
+      }),
+      catchError((error) => {
+        console.error('Error fetching activities:', error);
+        return [];
+      }),
+    );
   }
 }
