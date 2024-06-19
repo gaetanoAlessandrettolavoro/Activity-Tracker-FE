@@ -3,9 +3,10 @@ import { MenubarModule } from 'primeng/menubar';
 import { ButtonModule } from 'primeng/button';
 import { UserManualComponent } from '../user-manual/user-manual.component';
 import { RouterLink } from '@angular/router';
-import { DropdownMenuComponent } from "../drop-down/drop-down.component";
+
 import { ServiceloginService } from '../../servizi/servicelogin.service';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+import { DropDownUserComponent } from "../drop-down-user/drop-down-user.component";
 
 interface UserNameResponse {
     data: {
@@ -19,7 +20,7 @@ interface UserNameResponse {
     standalone: true,
     templateUrl: './navbar-attrecenti.component.html',
     styleUrls: ['./navbar-attrecenti.component.css'],
-    imports: [MenubarModule, ButtonModule, UserManualComponent, RouterLink, DropdownMenuComponent, SidebarComponent]
+    imports: [MenubarModule, ButtonModule, UserManualComponent, RouterLink, SidebarComponent, DropDownUserComponent]
 })
 export class NavbarAttrecentiComponent implements OnInit {
     @ViewChild(SidebarComponent) sidebarComponent!: SidebarComponent;

@@ -9,14 +9,13 @@ import { LogoutService } from '../../servizi/logout.service';
 import { UserManualComponent } from '../user-manual/user-manual.component';
 
 @Component({
-  selector: 'app-dropdown-menu',
+  selector: 'app-drop-down-user',
   standalone: true,
-  templateUrl: './drop-down.component.html',
-  styleUrls: ['./drop-down.component.css'],
   imports: [MenubarModule, MenuModule, CommonModule, ButtonModule,UserManualComponent],
+  templateUrl: './drop-down-user.component.html',
+  styleUrl: './drop-down-user.component.css'
 })
-
-export class DropdownMenuComponent implements OnInit {
+export class DropDownUserComponent implements OnInit {
   menuVisible: boolean = false;
   items!: MenuItem[];
   isAdmin: boolean = false; 
@@ -47,7 +46,7 @@ export class DropdownMenuComponent implements OnInit {
 
   navigateBasedOnRole() {
   
-      this.router.navigate(['impostazioniadmin']);
+      this.router.navigate(['impostazioniutente']);
    
   }
   logout() {

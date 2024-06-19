@@ -1,9 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
+import { MenubarModule } from 'primeng/menubar';
+import { ButtonModule } from 'primeng/button'
+import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { UserTaskCreationComponent } from '../user-task-creation/user-task-creation.component';
 import { UserManualComponent } from '../user-manual/user-manual.component';
-import { DropdownMenuComponent } from "../drop-down/drop-down.component";
-import { ServiceloginService } from '../../servizi/servicelogin.service';
 import { SidebarComponent } from "../sidebar/sidebar.component";
+import { DropDownUserComponent } from "../drop-down-user/drop-down-user.component";
+
 
 
 @Component({
@@ -11,29 +15,21 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
     standalone: true,
     templateUrl: './navbarimpostutente.component.html',
     styleUrl: './navbarimpostutente.component.css',
-    imports: [ButtonModule, UserManualComponent, DropdownMenuComponent, SidebarComponent]
+    imports: [MenubarModule, ButtonModule, RouterLink, CommonModule, UserTaskCreationComponent, UserManualComponent, SidebarComponent, DropDownUserComponent]
 })
 export class NavbarimpostutenteComponent {
     @ViewChild(SidebarComponent) sidebarComponent!: SidebarComponent;
 
+    visible = false
+    visiblemanual = false
 
-    constructor(private servizio: ServiceloginService) {}
-
-    firstName! : string
-    lastName! : string
-
-    ngOnInit() {
-        this.servizio.getUsernamelastNameUser().subscribe({
-            next: (result: any) => {
-                this.firstName = result.data.firstName
-                this.lastName = result.data.lastName
-            },
-            error: (error: any) => {
-                console.error('Si è verificato un errore:', error);
-            }
-        });
+    showDialog(){
+      this.visible = !this.visible
     }
 
-    
+    showDialogManual(){
+      this.visiblemanual = !this.visiblemanual
+    }
+
 
 }

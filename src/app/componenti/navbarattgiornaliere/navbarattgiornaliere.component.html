@@ -1,7 +1,15 @@
-<div style="display: flex; justify-content: space-between;">
-    <app-sidebar-admin></app-sidebar-admin>
-    <div class="right">
-        <app-dropdown-menu></app-dropdown-menu>
-        <app-user-manual></app-user-manual>
-</div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+
+
+<app-sidebar></app-sidebar>
+  <p style="position: absolute; left: 75em;">{{firstName}}</p>
+  <p style="position: absolute; left: 80em;">{{lastName}}</p>
+  <div class="right">
+    
+    <app-drop-down-user></app-drop-down-user>
+    <app-user-manual></app-user-manual>
+    
+    
+   
+  </div>
 </div>

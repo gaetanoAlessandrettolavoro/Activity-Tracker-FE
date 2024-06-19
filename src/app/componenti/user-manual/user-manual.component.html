@@ -1,32 +1,34 @@
 <div class="card flex justify-content-center">
-    <p-dialog 
+  
+  <p-button (click)="showDialog()" icon="pi pi-question-circle" [rounded]="true" [text]="true" />
+  <p-dialog 
       header="Manuale Utente" 
-      [(visible)]="manualVisible" 
+      [(visible)]="visible" 
       [modal]="true" 
       [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
       [style]="{ width: '50vw' }" 
       [draggable]="false" 
       [resizable]="false">
+         <h3>Come registrarsi</h3>
+          <p>
+              L'utente ha la possibilità di registrarsi inserendo i dati anagrafici,l'email aziendale e creare una nuova password e visualizzare il messaggio di conferma nell'email.
+          </p>    
+          <h3>Come creare un'attività</h3>
+          <p>
+              Una volta che la registrazione è stata effettuata correttamente si procederà al login,si accede alla pagina home dell'utente.Nella pagina è possibile creare l'attività giornaliera tramite un modulo dove verranno inseriti i dati richiesti.
+          </p>
+           <h3>Come modificare l'attività</h3>
+           <p>L'utente ha la possibilità di modificare l'attività giornaliera in caso di eventuali errori commessi durante la creazione. L'utente ha anche la possibilità di eliminare l'attività giornaliera creata.</p>
   
-      <h3>Come registrarsi</h3>
-      <p>
-        L'utente ha la possibilità di registrarsi inserendo i dati anagrafici,l'email aziendale e creare una nuova password e visualizzare il messaggio di conferma nell'email.
-      </p>    
-  
-      <h3>Come creare un'attività</h3>
-      <p>
-        Una volta che la registrazione è stata effettuata correttamente si procederà al login,si accede alla pagina home dell'utente.Nella pagina è possibile creare l'attività giornaliera tramite un modulo dove verranno inseriti i dati richiesti.
-      </p>
-  
-      <h3>Come modificare l'attività</h3>
-      <p>L'utente ha la possibilità di modificare l'attività giornaliera in caso di eventuali errori commessi durante la creazione. L'utente ha anche la possibilità di eliminare l'attività giornaliera creata.</p>
-  
-      <h3>Come visualizzare le attività precedenti</h3>
-      <p>E' possibile visualizzare le attività precedenti e anche impostare un filtro per ordine di data o attività.</p>
-  
-      <h3>Come reimpostare la password</h3>
-      <p>L'utente ha la possibilità di cambiare la propria password dalla pagina impostazioni.
-        In caso di password smarrita è possibile richiedere il reset della password.</p>
-    </p-dialog>
-  </div>
-  
+          <h3>Come visualizzare le attività precedenti</h3>
+          <p>E' possibile visualizzare le attività precedenti e anche impostare un filtro per ordine di data o attività.</p>
+          <h3>Come reimpostare la password</h3>
+          <p>L'utente ha la possibilità di cambiare la propria password dalla pagina impostazioni.
+              In caso di password smarrita è possibile richiedere il reset della password.</p>
+
+          </p-dialog>
+
+</div>
+
+
+
