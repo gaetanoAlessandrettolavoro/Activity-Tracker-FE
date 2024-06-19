@@ -16,6 +16,7 @@ import { NotFoundComponent } from './page/404/404.component';
 import { authuserGuard } from './guardie/authuser.guard';
 import { userGuard } from './guardie/user.guard';
 import { homeGuard } from './guardie/home.guard';
+import { GraficiComponent } from './page/grafici/grafici.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
@@ -31,6 +32,7 @@ export const routes: Routes = [
     { path: 'impostazioniadmin', component: AdminrouteComponent, canActivate: [authGuard] },
     { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
     { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
+    { path: 'grafici', component: GraficiComponent },
 
 
     // Questa rotta deve restare per ultima 
