@@ -4,9 +4,12 @@
         <p-floatLabel>
             <p-calendar
             inputId="calendar"
-            formControlName="data"
+            formControlName="orarioInizio"
             [inline]="true"
-            [(ngModel)]="activityToEdit().activityDate"
+            [(ngModel)]="activityToEdit().startTime"
+            dateFormat="yyyy--mm-dd"
+            [minDate]="minDate"
+            [maxDate]="maxDate"
             />
             <label for="calendar">Data</label>
         </p-floatLabel>
@@ -40,8 +43,8 @@
             <p-dropdown 
             inputId="taskName"
             formControlName="taskName"
-            [options]="tasksToPrint()" 
-            [(ngModel)]="selectedTask"/>
+            [options]="tasks()"
+            optionLabel="taskName"/>
             <label for="taskName">Attività</label>
         </p-floatLabel>
     </div>

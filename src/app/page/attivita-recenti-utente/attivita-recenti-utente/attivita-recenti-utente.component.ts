@@ -61,7 +61,6 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
         this.rowItems.push({
           taskID: item.taskID,
           taskName: item.taskName,
-          activityDate: new Date(item.activityDate), // Updated
           startTime: new Date(item.startTime), // Updated
           endTime: new Date(item.endTime), // Updated
           notes: item.notes,
@@ -82,12 +81,12 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       const matchesText =
         !searchText ||
         item.taskName.toLowerCase().includes(searchText.toLowerCase());
-      const itemDate = new Date(item.activityDate);
+      const itemDate = new Date(item.startTime);
       const date = this.formatDate(itemDate); 
       const matchesDate =
         !fromDate && !toDate
           ? true
-          : this.isDateInRange(item.activityDate, fromDate, toDate); // Updated
+          : this.isDateInRange(item.startTime, fromDate, toDate); // Updated
       return matchesText && matchesDate;
     });
   }
