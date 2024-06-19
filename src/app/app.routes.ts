@@ -13,20 +13,22 @@ import { AdminrouteComponent } from './page/rotta-impostazioniadmin/rotta-impost
 import { authGuard } from './guardie/auth.guard';
 import { AdminModeDatiUserSpeComponent } from './page/admin-mode-dati-user-spe/admin-mode-dati-user-spe.component';
 import { NotFoundComponent } from './page/404/404.component';
+import { authuserGuard } from './guardie/authuser.guard';
+import { userGuard } from './guardie/user.guard';
+import { homeGuard } from './guardie/home.guard';
 
 export const routes: Routes = [
-    { path: 'home', component: HomePageComponent },
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
-    { path: 'registrati', component: RegisterComponent },
-    { path: 'attivitaprecedentiutente', component: AttivitaRecentiUtenteComponent, canActivate: [authGuard] },
+    { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
+    { path: 'login', component: LoginComponent,canActivate: [homeGuard,userGuard] },
+    { path: 'registrati', component: RegisterComponent,canActivate: [homeGuard,userGuard] },
+    { path: 'attivitaprecedentiutente', component: AttivitaRecentiUtenteComponent,canActivate:[authuserGuard] },
     { path: 'admin-vis-utente-specifico/:id', component: AdminVisUtenteSpecificoComponent, canActivate: [authGuard] },
     { path: 'passworddimenticata', component: EmaildimenticataComponent },
     { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
     { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
-    { path: 'impostazioniutente', component: UserRouteComponent, canActivate: [authGuard] },
+    { path: 'impostazioniutente', component: UserRouteComponent,canActivate:[authuserGuard] },
     { path: 'impostazioniadmin', component: AdminrouteComponent, canActivate: [authGuard] },
-    { path: 'userhome', component: UserHomeComponent, canActivate: [authGuard] },
+    { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
     { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
 
 
