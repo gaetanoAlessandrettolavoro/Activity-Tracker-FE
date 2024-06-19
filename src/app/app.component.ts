@@ -6,14 +6,14 @@ import { AttivitaRecentiUtenteComponent } from './page/attivita-recenti-utente/a
 import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.component';
 import { UserManualComponent } from './componenti/user-manual/user-manual.component';
 import { UserTaskCreationComponent } from './componenti/user-task-creation/user-task-creation.component';
-import { NavbarimpostutenteComponent } from "./componenti/navbarimpostutente/navbarimpostutente.component";
+import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [UserTaskCreationComponent, RouterOutlet, AdminvisuserComponent, AttivitaRecentiUtenteComponent, UserManualComponent, UserHomeComponent, AdminvisuserComponent, NavbarimpostutenteComponent]
+    imports: [UserTaskCreationComponent, RouterOutlet, AdminvisuserComponent, AttivitaRecentiUtenteComponent, UserManualComponent, UserHomeComponent, AdminvisuserComponent, UserRouteComponent]
 })
 export class AppComponent {
   title = 'ActivityTracker-FE';

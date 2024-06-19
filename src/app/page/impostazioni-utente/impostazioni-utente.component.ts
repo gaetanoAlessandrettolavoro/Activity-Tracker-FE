@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { NavbarimpostutenteComponent } from '../../componenti/navbarimpostutente/navbarimpostutente.component';
+import { NavbarimpostutenteComponent } from "../../componenti/navbarimpostutente/navbarimpostutente.component";
+
+
+
 
 @Component({
-  selector: 'app-impostazioniutente',
-  templateUrl: './impostazioni-utente.component.html',
-  styleUrls: ['./impostazioni-utente.component.css'],
-  standalone: true,
-  imports:[RouterLink,NavbarimpostutenteComponent]
+    selector: 'app-impostazioniutente',
+    templateUrl: './impostazioni-utente.component.html',
+    styleUrls: ['./impostazioni-utente.component.css'],
+    standalone: true,
+    imports: [RouterLink, NavbarimpostutenteComponent]
 })
 export class UserRouteComponent {
 goBack() {
