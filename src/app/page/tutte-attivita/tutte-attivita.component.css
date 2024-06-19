@@ -1,6 +1,15 @@
 .box {
     margin: auto 5%
 }
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+.center{
+    padding:50px auto 10px auto ;
+}
 
 .filter {
     width: fit-content;

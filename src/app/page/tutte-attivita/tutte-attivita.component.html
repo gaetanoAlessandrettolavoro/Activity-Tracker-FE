@@ -1,33 +1,9 @@
 <app-admin-vis-tutte-att-users />
-
-<div class="filter">
-  <input
-    type="text"
-    pInputText
-    [(ngModel)]="textFilter"
-    placeholder="Nome, cognome o attività"
-  />
-  <p-button
-    type="button"
-    pRipple
-    [text]="true"
-    [rounded]="true"
-    [plain]="true"
-    [icon]="'pi pi-filter'"
-    (click)="onClickSetFilter()"
-  />
-  <p-button
-    type="button"
-    pRipple
-    [text]="true"
-    [rounded]="true"
-    [plain]="true"
-    [icon]="'pi pi-filter-slash'"
-    (click)="onClickRemoveFilter()"
-  />
+<div class="center">
+<h1>Tutte le attività</h1>
 </div>
-
 <div class="box">
+
   <p-table
     [value]="rowItems"
     [lazy]="true"
