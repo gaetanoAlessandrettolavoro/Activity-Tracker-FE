@@ -11,6 +11,7 @@ import { TasksService } from '../../servizi/tasks.service';
 import { Task } from '../../models/taskModel';
 import { TaskResponse } from '../../models/taskResponseModel';
 import { ModificAttivitàAdminVisUtenteSpecificoService } from '../../servizi/modific-attività-admin-vis-utente-specifico.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'edit-activity-form',
@@ -28,8 +29,7 @@ export class EditActivityFormComponent implements OnInit{
 
   activityToEdit = signal<any>({});
   tasks = signal<Task[]>([]);
-  tasksToPrint = signal<string[]>([]);
-  selectedTask = signal<string>("");
+  prevTask = signal<Task>({} as Task);
 
   maxDate = new Date();
   minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth());
@@ -38,10 +38,9 @@ export class EditActivityFormComponent implements OnInit{
     const newActivity: Activity = {...this.activity};
     this.taskService.getAllTasks().subscribe((result: TaskResponse) => {
       this.tasks.set(result.data.document);
-      this.tasksToPrint.set(this.tasks().map((task) => task.taskName));
     });
     this.activityToEdit.set(newActivity);
-    this.selectedTask.set(this.activity.taskName);
+    this.prevTask.set({taskName: this.activity.taskName, _id: this.activity.taskID });
     this.taskService.getAllTasks()
   }
 
@@ -60,7 +59,7 @@ export class EditActivityFormComponent implements OnInit{
       this.activityForm.value.orarioFine.getHours(),
       this.activityForm.value.orarioFine.getMinutes()
     ]
-    const updatedActivity: Activity = {...this.activityToEdit(), startTime: this.activityForm.value.orarioInizio, endTime: new Date(year, month, day, hours, minutes), taskName: this.activityForm.value.taskName, notes: this.activityForm.value.note};
+    const updatedActivity: Activity = {...this.activityToEdit(), startTime: this.activityForm.value.orarioInizio, endTime: new Date(year, month, day, hours, minutes), taskName: this.activityForm.value.taskName.taskName, notes: this.activityForm.value.note, taskID: this.activityForm.value.taskName._id};
     this.modifyActivity.updateUserActivities(updatedActivity, updatedActivity._id).subscribe((result) => {
       this.activityEdited.emit(true);
     });

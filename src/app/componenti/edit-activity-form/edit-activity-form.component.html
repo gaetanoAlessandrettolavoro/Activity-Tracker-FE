@@ -43,8 +43,8 @@
             <p-dropdown 
             inputId="taskName"
             formControlName="taskName"
-            [options]="tasksToPrint()" 
-            [(ngModel)]="selectedTask"/>
+            [options]="tasks()"
+            optionLabel="taskName"/>
             <label for="taskName">Attività</label>
         </p-floatLabel>
     </div>
