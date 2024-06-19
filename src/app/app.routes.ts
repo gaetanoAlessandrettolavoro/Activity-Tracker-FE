@@ -32,7 +32,7 @@ export const routes: Routes = [
     { path: 'impostazioniadmin', component: AdminrouteComponent, canActivate: [authGuard] },
     { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
     { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
-    { path: 'grafici', component: GraficiComponent },
+    { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
 
 
     // Questa rotta deve restare per ultima 
