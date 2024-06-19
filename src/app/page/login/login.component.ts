@@ -63,10 +63,11 @@ export class LoginComponent {
       this.servizio.login(postData).subscribe({
         next: (result: any) => {
           this.servizio.setUser(result.data);
-          if (this.servizio.isAdmin()) {
-            this.router.navigate(['/homeadmin']);
-          } else {
-            this.router.navigate(['/userhome']);
+          if(result.data.role == "user"){
+            this.router.navigate(["/userhome"])
+          }
+          if(result.data.role == "admin"){
+            this.router.navigate(["/homeadmin"])
           }
         },
         error: (err) => {
