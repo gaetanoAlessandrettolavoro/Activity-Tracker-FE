@@ -75,7 +75,7 @@ export class UserTaskCreationComponent implements OnInit {
 
     this.userForm = new FormGroup({
       notes: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      activityDate: new FormControl('', Validators.required),
+     
       startTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
       selectedTask: new FormControl('', Validators.required),
@@ -88,10 +88,8 @@ export class UserTaskCreationComponent implements OnInit {
 
   onSubmit() {
     if (this.userForm.valid) {
-      let date = this.userForm.get('activityDate')?.value.split('-');
-      let year = parseInt(date[0]);
-      let month = parseInt(date[1]) - 1;
-      let day = parseInt(date[2]);
+      let date = new Date();
+      let [year, month, day] = [date.getFullYear(), date.getMonth(), date.getDate() ]
       let start = this.userForm.get('startTime')?.value.split(':');
       let startH = parseInt(start[0]);
       let startM = parseInt(start[1]);

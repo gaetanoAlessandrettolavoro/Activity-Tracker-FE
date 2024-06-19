@@ -19,6 +19,7 @@ import { homeGuard } from './guardie/home.guard';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'login', component: LoginComponent,canActivate: [homeGuard,userGuard] },
     { path: 'registrati', component: RegisterComponent,canActivate: [homeGuard,userGuard] },
     { path: 'attivitaprecedentiutente', component: AttivitaRecentiUtenteComponent,canActivate:[authuserGuard] },
