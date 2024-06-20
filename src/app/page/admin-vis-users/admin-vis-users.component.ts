@@ -5,7 +5,6 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../componenti/footer/footer.component';
-import { GetusersService } from '../../servizi/getusers.service';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +15,7 @@ import { Router } from '@angular/router';
 import { NavbarAdminComponent } from "../../componenti/navbar-admin/navbar-admin.component";
 import { DialogModule } from 'primeng/dialog';
 import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 
 @Component({
@@ -27,7 +27,7 @@ import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactiv
 })
 export class AdminvisuserComponent implements OnInit {
 
-  constructor(private users: GetusersService, private activityUserService: ActivityUserService,private router: Router) {}
+  constructor(private users: AdminserviceService, private activityUserService: ActivityUserService,private router: Router) {}
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
@@ -54,7 +54,7 @@ export class AdminvisuserComponent implements OnInit {
       this.visible = true;
   }
 
-  limit!: number;
+  limit: number = 10
   first: number = 0;
   rows: number = 10;
 
@@ -71,7 +71,7 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.users.getData().subscribe((data: any) => {
+    this.users.getUsers({limit : this.limit}).subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
         this.usersArray().push({
           firstName: item.firstName,
@@ -100,9 +100,10 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   onPageChange(event: any) {
+    console.log(event)
     const pageNumber = (event.page + 1);
     this.usersArray.set([]);
-    this.users.getData25(pageNumber, this.limit).subscribe((data: any) => {
+    this.users.getUsers({pageNumber : pageNumber,limit : this.limit}).subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
         console.log(item);
         this.usersArray().push({
@@ -121,7 +122,7 @@ export class AdminvisuserComponent implements OnInit {
 
   changeLimit() {
     const currentPage = this.first / this.rows + 1; // Calcola la pagina corrente
-    this.users.getData25(currentPage, this.limit).subscribe((data: any) => {
+    this.users.getUsers({pageNumber : currentPage,limit : this.limit}).subscribe((data: any) => {
       this.usersArray.set([]);
       data.data.document.forEach((item: any) => {
         console.log(item);
@@ -143,7 +144,7 @@ export class AdminvisuserComponent implements OnInit {
     console.log('User deleted');
     this.usersArray.set([]);
     this.filterUsers();
-    this.users.getData().subscribe((data: any) => {
+    this.users.getUsers({limit : this.limit}).subscribe((data: any) => {
       data.data.document.forEach((item: any) => {
         this.usersArray().push({
           firstName: item.firstName,

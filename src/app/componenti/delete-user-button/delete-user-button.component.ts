@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../models/userModel';
-import { DeleteUserService } from '../../servizi/delete-user.service';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 @Component({
   selector: 'delete-user',
@@ -13,7 +13,7 @@ export class DeleteUserButtonComponent {
   @Input({required: true}) user!: User;
   @Output() userDeleted = new EventEmitter<boolean>();
 
-  constructor(private deleteUser: DeleteUserService) {}
+  constructor(private deleteUser: AdminserviceService) {}
 
   onClickDelete(){
     if(!!this.user._id){
@@ -21,7 +21,7 @@ export class DeleteUserButtonComponent {
         alert('Non puoi eliminare un amministratore');
       } else {
         if (confirm(`Vuoi eliminare l'utente ${this.user.firstName} ${this.user.lastName} con codice fiscale "${this.user.codiceFiscale}" e email "${this.user.email}"?`) == true) {
-          this.deleteUser.deactivate(this.user._id).subscribe(() => {
+          this.deleteUser.deleteUser(this.user._id).subscribe(() => {
             this.userDeleted.emit(true);
           });
         }

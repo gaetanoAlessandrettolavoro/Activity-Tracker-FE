@@ -12,6 +12,7 @@ import { AdminVisTutteAttUsersComponent } from "../../componenti/admin-vis-tutte
 import { FooterComponent } from "../../componenti/footer/footer.component";
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { MessageService } from 'primeng/api';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
@@ -19,10 +20,9 @@ import { MessageService } from 'primeng/api';
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
     imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, FooterComponent, DeleteActivityButtonComponent],
-    providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router,private http: HttpClient, private messageService: MessageService) { }
+  constructor(private route: ActivatedRoute, private router: Router,private admin : AdminserviceService) { }
   activities: Activity[] = [];
 
 
@@ -39,7 +39,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      this.getUser(id).subscribe({
+      this.admin.getOneUserActivity(id).subscribe({
         next: (result: any) => {
           result.data.activities.forEach((element: any) => {
             if(element.isActive === true){
@@ -70,7 +70,5 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
    }
   
   
-  getUser(data: any): Observable<any> {
-    return this.http.get<any>(` http://localhost:3000/api/v1/users/${data}/activities`,{ withCredentials: true })
-  }
+  
 }

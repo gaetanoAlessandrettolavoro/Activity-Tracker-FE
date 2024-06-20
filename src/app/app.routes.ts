@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomePageComponent } from './page/home-page/home-page.component';
 import { AttivitaRecentiUtenteComponent } from './page/attivita-recenti-utente/attivita-recenti-utente/attivita-recenti-utente.component';
 import { LoginComponent } from './page/login/login.component';
-import { RegisterComponent } from './page/page/register/register.component';
+import { RegisterComponent } from './page/register/register.component';
 import { UserHomeComponent } from './page/user-home/user-home.component';
 import { AdminVisUtenteSpecificoComponent } from './page/admin-vis-utente-specifico/admin-vis-utente-specifico.component';
 import { EmaildimenticataComponent } from './page/emaildimenticata/email-password-dimenticata/email-password-dimenticata.component';
