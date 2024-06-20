@@ -10,11 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { FilterService } from 'primeng/api';
 import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component';
 import { FooterComponent } from '../../componenti/footer/footer.component';
-import { TutteAttivitàUserService } from '../../servizi/tutte-attività-user.service';
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { catchError, of } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
-import e from 'express';
 import { AdminserviceService } from '../../servizi/adminservice.service';
 
 interface rowItem extends Activity {
@@ -59,7 +57,7 @@ export class TutteAttivitaComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private userServ: AdminserviceService,
-    private activities: TutteAttivitàUserService,
+  
   ) {}
 
   findUser(id: string): Promise<any> {
@@ -81,8 +79,8 @@ export class TutteAttivitaComponent implements OnInit {
     if (!page) {
       page = 1;
     }
-    this.activities
-      .recuperaTutteLeAttivita(page, limit)
+    this.userServ
+      .getAllUsersActivities(page, limit)
       .pipe(
         catchError((err) => {
           console.error(
@@ -95,6 +93,7 @@ export class TutteAttivitaComponent implements OnInit {
       .subscribe(async (result) => {
         console.log(`Page ${page}, limit ${limit}`)
         const newRows: rowItem[] = [];
+        //@ts-ignores
         for (let activity of result.data.document) {
           if (activity.isActive) {
             let foundUser = await this.findUser(activity.userID);
@@ -111,8 +110,10 @@ export class TutteAttivitaComponent implements OnInit {
             }
           }
         }
+    
         this.originalRowItems = newRows;
         this.rowItems = newRows;
+        //@ts-ignore
         this.totalRecords = result.totalDocuments;
       });
       

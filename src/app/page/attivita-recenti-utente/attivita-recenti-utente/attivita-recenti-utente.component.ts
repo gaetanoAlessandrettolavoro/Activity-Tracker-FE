@@ -9,7 +9,7 @@ import { FooterComponent } from '../../../componenti/footer/footer.component';
 import { FilterService } from 'primeng/api';
 import { Activity } from '../../../models/activityModel';
 import { DeleteActivityButtonComponent } from '../../../componenti/delete-activity-button/delete-activity-button.component';
-import { GetActivityUserService } from '../../../servizi/get-activity.service';
+import { ActivitiesServicesService } from '../../../servizi/activities-services.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -45,7 +45,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    private getActivityUserService: GetActivityUserService,
+    private activitiesservices: ActivitiesServicesService,
     private route: ActivatedRoute,
   ) {
     this.filterForm = new FormGroup({
@@ -56,7 +56,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getActivityUserService.getData().subscribe((data) => {
+    this.activitiesservices.getActivities().subscribe((data) => {
       data.data.userActivities.forEach((item: Activity) => {
         this.rowItems.push({
           taskID: item.taskID,

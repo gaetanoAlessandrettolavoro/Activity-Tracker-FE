@@ -43,6 +43,11 @@ export class AdminserviceService {
       return this.http.post(apiUrl, {taskName:typeActivityData},{withCredentials:true});
     }
 
+    getAllUsersActivities(page: number, limit: number){
+      let apiUrl = 'http://localhost:3000/api/v1/activities';
+      return this.http.get(`${this.apiUrl}?page=${page}&limit=${limit}&sort=_id`,{withCredentials:true});
+    }
+
 
 
 

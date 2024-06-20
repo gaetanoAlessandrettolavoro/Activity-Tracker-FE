@@ -14,10 +14,10 @@ import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
-import { AdminAddActivityForUserService } from '../../servizi/admin-add-activity-for-user.service';
+import { ActivitiesServicesService } from '../../servizi/activities-services.service';
 import { Activity } from '../../models/activityModel';
 import { Task } from '../../models/taskModel';
-import { TasksService } from '../../servizi/tasks.service';
+import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { TaskResponse } from '../../models/taskResponseModel';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -59,10 +59,11 @@ export class UserTaskCreationComponent implements OnInit {
   visible: boolean = true;
 
   constructor(
-    private addService: AdminAddActivityForUserService,
-    private tasksServ: TasksService,
+    private servicetasks: ServiceTasksService,
     private route: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private activitiesservices:ActivitiesServicesService
+
   ) {
     this.currentDateTime = new Date();
     setInterval(() => {
@@ -71,7 +72,7 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tasksServ.getAllTasks().subscribe((result: TaskResponse) => (this.tasks = result.data.document));
+    this.servicetasks.getAllTasks().subscribe((result: TaskResponse) => (this.tasks = result.data.document));
 
     this.userForm = new FormGroup({
       notes: new FormControl('', [Validators.required, Validators.maxLength(100)]),
@@ -113,9 +114,8 @@ export class UserTaskCreationComponent implements OnInit {
   getToken(data: any) {
     console.log(data);
     this.route.params.subscribe((params) => {
-      this.newPassword(data).subscribe({
+      this.activitiesservices.createActivity(data).subscribe({
         next: (result: any) => {
-          console.log('ciao');
         },
         error: (error: any) => {
           console.error('Si è verificato un errore:', error);
@@ -124,7 +124,5 @@ export class UserTaskCreationComponent implements OnInit {
     });
   }
 
-  newPassword(data: any): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/v1/activities', data, { withCredentials: true });
-  }
+  
 }
