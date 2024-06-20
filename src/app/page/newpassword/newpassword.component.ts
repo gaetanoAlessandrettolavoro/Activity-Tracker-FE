@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { Observable } from 'rxjs';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
   selector: 'app-newpassword',
@@ -28,7 +29,7 @@ import { Observable } from 'rxjs';
 })
 export class NewpasswordComponent {
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private userService: UserServiceService) {}
 
   userForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
@@ -69,7 +70,7 @@ export class NewpasswordComponent {
     this.route.params.subscribe(params => {
       const token = params['id'];
       console.log(token)
-    this.newPassword(token).subscribe({
+    this.userService.resetPassword(token, { password: this.userForm.value.password,passwordConfirm: this.userForm.value.passwordc }).subscribe({
       next: (result: any) => {
         console.log("ciao");
       },
@@ -79,9 +80,5 @@ export class NewpasswordComponent {
     });
   }
 
-  
-  newPassword(data: any): Observable<any> {
-    return this.http.patch<any>(`http://localhost:3000/api/v1/users/resetPassword/${data}`, { password: this.userForm.value.password,passwordConfirm: this.userForm.value.passwordc });
-  }
 }  
 

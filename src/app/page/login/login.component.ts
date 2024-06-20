@@ -12,10 +12,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { ServiceloginService } from '../../servizi/servicelogin.service';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
   selector: 'app-login',
@@ -46,8 +46,8 @@ export class LoginComponent {
 
   constructor(
     private router: Router,
-    private servizio: ServiceloginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private userService: UserServiceService
   ) {}
 
   visible: boolean = false;
@@ -61,9 +61,9 @@ export class LoginComponent {
         password: this.userForm.value.password ?? '',
       };
 
-      this.servizio.login(postData).subscribe({
+      this.userService.login(postData).subscribe({
         next: (result: any) => {
-          this.servizio.setUser(result.data);
+          this.userService.getRole(result.data);
           if(result.data.role == "user"){
             this.router.navigate(["/userhome"])
           }

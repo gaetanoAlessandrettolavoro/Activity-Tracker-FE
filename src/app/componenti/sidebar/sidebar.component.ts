@@ -4,8 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
-import { LogoutService } from '../../servizi/logout.service';
 import { Router } from '@angular/router';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,10 +17,10 @@ import { Router } from '@angular/router';
 export class SidebarComponent {
   sidebarVisible: boolean = false;
 
-  constructor(private logoutService: LogoutService, private router: Router) { }
+  constructor(private userService: UserServiceService, private router: Router) { }
 
   logout() {
-    this.logoutService.logout().subscribe(
+    this.userService.logout().subscribe(
       response => {
         this.router.navigate(['/home']);
       },
