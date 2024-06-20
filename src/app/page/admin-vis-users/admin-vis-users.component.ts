@@ -8,7 +8,6 @@ import { FooterComponent } from '../../componenti/footer/footer.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import { ActivityUserService } from '../../servizi/activity-user.service';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
 import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
@@ -16,6 +15,7 @@ import { NavbarAdminComponent } from "../../componenti/navbar-admin/navbar-admin
 import { DialogModule } from 'primeng/dialog';
 import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
 import { AdminserviceService } from '../../servizi/adminservice.service';
+
 
 
 @Component({
@@ -27,7 +27,7 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 })
 export class AdminvisuserComponent implements OnInit {
 
-  constructor(private users: AdminserviceService, private activityUserService: ActivityUserService,private router: Router) {}
+  constructor(private users: AdminserviceService,private router: Router) {}
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
@@ -87,7 +87,7 @@ export class AdminvisuserComponent implements OnInit {
   }
   getActivity(id: string) {
     const userId = id;
-    this.activityUserService.getActivities(userId).subscribe((result: any) => {
+    this.users.getOneUserActivity(userId).subscribe((result: any) => {
       this.userActivities = result;
       if(result.data.activities.length == 0){
         this.visibleNoActivity = true

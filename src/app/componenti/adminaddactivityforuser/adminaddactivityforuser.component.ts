@@ -14,10 +14,10 @@ import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
-import { AdminAddActivityForUserService } from '../../servizi/admin-add-activity-for-user.service';
+import { ActivitiesServicesService } from '../../servizi/activities-services.service';
 import { Activity } from '../../models/activityModel';
 import { Task } from '../../models/taskModel';
-import { TasksService } from '../../servizi/tasks.service';
+import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { TaskResponse } from '../../models/taskResponseModel';
 
 @Component({
@@ -31,7 +31,7 @@ export class AdminaddactivityforuserComponent {
 
   @Input({required: true}) userID!: string;
 
-  constructor(private addService: AdminAddActivityForUserService, private tasksServ: TasksService) { }
+  constructor( private servicetasks: ServiceTasksService,private activitiesservice:ActivitiesServicesService) { }
 
   firstName: any;
   lastName: any;
@@ -48,7 +48,7 @@ export class AdminaddactivityforuserComponent {
   }
 
   ngOnInit() {
-    this.tasksServ.getAllTasks().subscribe((result: TaskResponse) => this.tasks = result.data.document)
+    this.servicetasks.getAllTasks().subscribe((result: TaskResponse) => this.tasks = result.data.document)
 
     this.userForm = new FormGroup({
       notes: new FormControl('', [
@@ -81,7 +81,7 @@ export class AdminaddactivityforuserComponent {
         notes: this.userForm.get("notes")?.value,
         taskID: this.userForm.get("taskName")?.value._id
       };
-      this.addService.addActivityForUser(activityToSend, this.userID).subscribe((result: any) => console.log(result));
+      this.activitiesservice.createActivity(activityToSend, this.userID).subscribe((result: any) => console.log(result));
     } else {
       console.log('Form not valid');
     }

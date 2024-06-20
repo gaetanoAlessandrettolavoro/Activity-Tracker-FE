@@ -7,10 +7,10 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { RippleModule } from 'primeng/ripple';
 import { Activity } from '../../models/activityModel';
-import { TasksService } from '../../servizi/tasks.service';
+import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { Task } from '../../models/taskModel';
 import { TaskResponse } from '../../models/taskResponseModel';
-import { ModificAttivitàAdminVisUtenteSpecificoService } from '../../servizi/modific-attività-admin-vis-utente-specifico.service';
+import { ActivitiesServicesService } from '../../servizi/activities-services.service';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -25,7 +25,7 @@ export class EditActivityFormComponent implements OnInit{
 
   @Output() activityEdited = new EventEmitter<boolean>(false);
 
-  constructor(private taskService: TasksService, private modifyActivity: ModificAttivitàAdminVisUtenteSpecificoService) {}
+  constructor(private servicetasks: ServiceTasksService, private activitiesservice:ActivitiesServicesService) {}
 
   activityToEdit = signal<any>({});
   tasks = signal<Task[]>([]);
@@ -36,12 +36,12 @@ export class EditActivityFormComponent implements OnInit{
 
   ngOnInit() {
     const newActivity: Activity = {...this.activity};
-    this.taskService.getAllTasks().subscribe((result: TaskResponse) => {
+    this.servicetasks.getAllTasks().subscribe((result: TaskResponse) => {
       this.tasks.set(result.data.document);
     });
     this.activityToEdit.set(newActivity);
     this.prevTask.set({taskName: this.activity.taskName, _id: this.activity.taskID });
-    this.taskService.getAllTasks()
+    this.servicetasks.getAllTasks()
   }
 
   activityForm = new FormGroup({
@@ -60,7 +60,7 @@ export class EditActivityFormComponent implements OnInit{
       this.activityForm.value.orarioFine.getMinutes()
     ]
     const updatedActivity: Activity = {...this.activityToEdit(), startTime: this.activityForm.value.orarioInizio, endTime: new Date(year, month, day, hours, minutes), taskName: this.activityForm.value.taskName.taskName, notes: this.activityForm.value.note, taskID: this.activityForm.value.taskName._id};
-    this.modifyActivity.updateUserActivities(updatedActivity, updatedActivity._id).subscribe((result) => {
+    this.activitiesservice.updateActivities(updatedActivity, updatedActivity._id).subscribe((result) => {
       this.activityEdited.emit(true);
     });
   }
