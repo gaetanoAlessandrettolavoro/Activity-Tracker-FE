@@ -5,8 +5,8 @@ import { MenubarModule } from 'primeng/menubar';
 import { MenuModule } from 'primeng/menu';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { LogoutService } from '../../servizi/logout.service';
 import { UserManualComponent } from '../user-manual/user-manual.component';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
   selector: 'app-dropdown-menu',
@@ -20,7 +20,7 @@ export class DropdownMenuComponent implements OnInit {
   menuVisible: boolean = false;
   items!: MenuItem[];
   isAdmin: boolean = false; 
-  constructor(private router: Router, private logoutService: LogoutService) {} 
+  constructor(private router: Router, private userService: UserServiceService) {} 
   ngOnInit() {
     this.items = [
       { 
@@ -51,7 +51,7 @@ export class DropdownMenuComponent implements OnInit {
    
   }
   logout() {
-    this.logoutService.logout().subscribe(
+    this.userService.logout().subscribe(
       response => {
         this.router.navigate(['/home']);
       },

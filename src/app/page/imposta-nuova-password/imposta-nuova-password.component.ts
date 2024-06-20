@@ -8,6 +8,7 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
   selector: 'app-imposta-nuova-password',
@@ -27,7 +28,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ImpostaNuovaPasswordComponent {
 
-  constructor(private router: ActivatedRoute, private http: HttpClient) { }
+  constructor(private router: ActivatedRoute, private userService: UserServiceService) { }
 
   userForm = new FormGroup({
     oldPassword: new FormControl('', Validators.required),
@@ -44,7 +45,11 @@ export class ImpostaNuovaPasswordComponent {
 
   getToken() {
     this.router.params.subscribe(params => {
-      this.newPassword().subscribe({
+      this.userService.updatePassword({
+        passwordCurrent: this.userForm.value.oldPassword,
+        password: this.userForm.value.password,
+        passwordConfirm: this.userForm.value.confirmPassword
+      }).subscribe({
         next: (result: any) => {
           console.log(result);
         },
@@ -53,17 +58,5 @@ export class ImpostaNuovaPasswordComponent {
         }
       });
     });
-  }
-
-  newPassword(): Observable<any> {
-    return this.http.patch<any>(
-      'http://localhost:3000/api/v1/users/updateMyPassword',
-      {
-        passwordCurrent: this.userForm.value.oldPassword,
-        password: this.userForm.value.password,
-        passwordConfirm: this.userForm.value.confirmPassword
-      },
-      { withCredentials: true } // Corrected the position of withCredentials
-    );
   }
 }

@@ -1,8 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, NgModule } from '@angular/core';
-import { FormsModule, NgModel } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { Observable } from 'rxjs';
+import { UserServiceService } from '../../../servizi/user-service.service';
 
 @Component({
   selector: 'app-emaildimenticata',
@@ -13,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class EmaildimenticataComponent {
 
-  constructor(private http : HttpClient){}
+  constructor(private userService: UserServiceService){}
    
 
 value: any;
@@ -21,7 +20,7 @@ userForm: any;
   email: string = '';
 
   submit() {
-    this.postUser(this.email).subscribe({
+    this.userService.forgotPassword(this.email).subscribe({
       next: (result: any) => {
         console.log(result)
       },
@@ -29,12 +28,6 @@ userForm: any;
         console.error('Si è verificato un errore:', error);
       }
     });
-  }
-
-  postUser(data: any): Observable<any> {
-    const params = { email: data }; 
-  
-    return this.http.post<any>('http://localhost:3000/api/v1/users/forgotPassword?uri=127.0.0.1', { email: data });
   }
   
 }

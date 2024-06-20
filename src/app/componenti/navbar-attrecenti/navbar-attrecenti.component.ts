@@ -4,9 +4,9 @@ import { ButtonModule } from 'primeng/button';
 import { UserManualComponent } from '../user-manual/user-manual.component';
 import { RouterLink } from '@angular/router';
 
-import { ServiceloginService } from '../../servizi/servicelogin.service';
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { DropDownUserComponent } from "../drop-down-user/drop-down-user.component";
+import { UserServiceService } from '../../servizi/user-service.service';
 
 interface UserNameResponse {
     data: {
@@ -28,10 +28,10 @@ export class NavbarAttrecentiComponent implements OnInit {
     firstName: string = '';
     lastName: string = '';
 
-    constructor(private servizio: ServiceloginService) {}
+    constructor(private userService: UserServiceService) {}
 
     ngOnInit() {
-        this.servizio.getUsernamelastNameUser().subscribe({
+        this.userService.getMe().subscribe({
             next: (result: UserNameResponse) => {
                 this.firstName = result.data.firstName;
                 this.lastName = result.data.lastName;

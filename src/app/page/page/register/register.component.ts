@@ -25,10 +25,10 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { PostRegisterService } from '../../../servizi/post-register.service';
 import { User } from '../../../models/userModel';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { UserServiceService } from '../../../servizi/user-service.service';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -61,7 +61,7 @@ export class RegisterComponent {
   constructor(
     private messageService: MessageService,
     private router: Router,
-    @Inject(PostRegisterService) private servizio: PostRegisterService
+    @Inject(UserServiceService) private userService: UserServiceService
   ) {}
 
   visible: boolean = false;
@@ -152,9 +152,9 @@ export class RegisterComponent {
         email: this.userForm.value.email,
         codiceFiscale: this.userForm.value.TaxIDcode,
       };
-      this.servizio
-        .sendData(postData)
-        .subscribe({ next: (result: any) => 'ciao' });
+      this.userService
+        .register(postData)
+        .subscribe({ next: (result: any) => console.log(result) });
       console.log(postData);
     } else {
       console.log('Form not valid');
