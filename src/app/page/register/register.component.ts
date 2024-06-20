@@ -25,10 +25,10 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { User } from '../../../models/userModel';
+import { User } from '../../models/userModel';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { UserServiceService } from '../../../servizi/user-service.service';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 interface UploadEvent {
   originalEvent: Event;

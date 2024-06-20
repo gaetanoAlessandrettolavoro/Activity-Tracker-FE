@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { ServiceModalAddTypeActivityService } from '../../servizi/service-modal-add-type-activity.service';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 @Component({
   selector: 'app-add-type-activity',
@@ -15,10 +15,10 @@ import { ServiceModalAddTypeActivityService } from '../../servizi/service-modal-
 export class AddTypeActivityComponent {
   visible: boolean = false;
    taskname:string = "";
-   constructor(private service:ServiceModalAddTypeActivityService){}
+   constructor(private addActivity:AdminserviceService){}
 
   submit(){
-this.service.addTypeActivity(this.taskname).subscribe((result:any)=>{
+this.addActivity.addTask(this.taskname).subscribe((result:any)=>{
   this.visible=false;
   this.taskname="";
   console.log(result)

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { GetUserService } from './get-user.service';
+
 
 export interface BasicData {
   labels: string[];
@@ -21,7 +21,7 @@ export interface BasicData {
   providedIn: 'root',
 })
 export class ChartsService {
-  constructor(private http: HttpClient, private getUser: GetUserService) {}
+  constructor(private http: HttpClient) {}
 
   hoursPerActivity(): Observable<BasicData[]> {
     const apiUrl =

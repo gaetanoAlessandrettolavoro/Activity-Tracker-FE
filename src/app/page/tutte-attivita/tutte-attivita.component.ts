@@ -12,10 +12,10 @@ import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { TutteAttivitàUserService } from '../../servizi/tutte-attività-user.service';
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
-import { GetUserService } from '../../servizi/get-user.service';
 import { catchError, of } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import e from 'express';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 interface rowItem extends Activity {
   user: {
@@ -58,13 +58,13 @@ export class TutteAttivitaComponent implements OnInit {
 
   constructor(
     private filterService: FilterService,
-    private userServ: GetUserService,
+    private userServ: AdminserviceService,
     private activities: TutteAttivitàUserService,
   ) {}
 
   findUser(id: string): Promise<any> {
     return this.userServ
-      .getData(id)
+      .getOneUserActivity(id)
       .pipe(
         catchError((err) => {
           console.error(
