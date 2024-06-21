@@ -25,6 +25,10 @@ export class AdminserviceService {
     return this.http.get<any>(this.apiUrl,{withCredentials : true})
     }
 
+    getOneUser(id: string): Observable<any> {
+      return this.http.get<any>(`${this.apiUrl}/${id}`, { withCredentials: true });
+    }
+
     getOneUserActivity(data: any): Observable<any> {
       return this.http.get<any>(`http://localhost:3000/api/v1/users/${data}/activities`,{ withCredentials: true })
     }
@@ -45,7 +49,7 @@ export class AdminserviceService {
 
     getAllUsersActivities(page: number, limit: number){
       let apiUrl = 'http://localhost:3000/api/v1/activities';
-      return this.http.get(`${this.apiUrl}?page=${page}&limit=${limit}&sort=_id`,{withCredentials:true});
+      return this.http.get(`${apiUrl}?page=${page}&limit=${limit}&sort=_id`,{withCredentials:true});
     }
 
 
