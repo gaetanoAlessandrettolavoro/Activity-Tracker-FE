@@ -1,44 +1,86 @@
-<div style="display: flex; justify-content: center; margin-top: 130px;">
-    <div class="card">
-        <div class="margin-left">
-            <h1>Profilo utente 1</h1>
-            <div class="center">
-                <div class="header">
-                    <img src="https://www.tnt-endourology.com/wp-content/uploads/2016/05/icona2.png" width="100px"
-                        height="70px" />
-                    <h2>Dati utente</h2>
-                </div>
-                <div class="form-container">
-                    <div class="right">
-                        <input class="name" type="text" formControlName="name" placeholder="Nome (Obbligatorio)" />
-                        <input class="surname" type="text" formControlName="surname"
-                            placeholder="Cognome (Obbligatorio)" />
-                    </div>
-                    <div class="right">
-                        <input class="email" type="text" formControlName="email" placeholder="Email (Obbligatorio)"
-                            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" />
-                        <input class="codfisc" type="text" formControlName="TaxIDcode"
-                            pattern="^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$"
-                            placeholder="Codice fiscale (Obbligatorio)" />
-                    </div>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profilo Utente</title>
+</head>
+<body>
+    <script>
+    function patchUser() {
+        const userId = document.getElementById('userId').value;
+        const name = document.getElementById('name').value;
+        const surname = document.getElementById('surname').value;
+        const email = document.getElementById('email').value;
+        const codfisc = document.getElementById('codfisc').value;
 
-                    <div class="margin-left">
-                        <br>
-                        <div style="display: flex; justify-content: flex-end; margin-right: 10px;">
-                            <button pButton type="button" label="cambio password" (click)="CambioPassword()"
-                                class="p-button p-button-secc">Cambia Password</button>
+        const data = {
+            name: name,
+            surname: surname,
+            email: email,
+            TaxIDcode: codfisc
+        };
+
+        fetch(`/api/v1/users/${userId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            document.getElementById('message').innerText = 'Dati utente aggiornati con successo!';
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            document.getElementById('message').innerText = 'Errore durante l\'aggiornamento dei dati utente.';
+        });
+    }
+    </script>
+    <div style="display: flex; justify-content: center; margin-top: 130px;">
+        <div class="card">
+            <div class="margin-left">
+                <h1>Profilo utente 1</h1>
+                <div class="center">
+                    <div class="header">
+                        <img src="https://www.tnt-endourology.com/wp-content/uploads/2016/05/icona2.png" width="100px" height="70px" />
+                        <h2>Dati utente</h2>
+                    </div>
+                    <div class="form-container">
+                        <div class="right">
+                            <input id="userId" type="hidden" value="1" />
+                            <input class="name" id="name" type="text" formControlName="name" placeholder="Nome (Obbligatorio)" />
+                            <input class="surname" id="surname" type="text" formControlName="surname" placeholder="Cognome (Obbligatorio)" />
                         </div>
-                        <div class="actions">
-                            <button pButton type="button" label="Annulla le modifiche" (click)="resetForm()"
-                                class="p-button p-button-danger">Annulla le modifiche</button>
-                            <button pButton type="button" label="Modifica" (click)="editForm()"
-                                class="p-button p-button-success">Modifica</button>
-                            <button pButton type="submit" label="Salva" (click)="saveForm()"
-                                class="p-button p-button-secondary">Salva</button>
+                        <div class="right">
+                            <input class="email" id="email" type="text" formControlName="email" placeholder="Email (Obbligatorio)"
+                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" />
+                            <input class="codfisc" id="codfisc" type="text" formControlName="TaxIDcode"
+                                pattern="^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$"
+                                placeholder="Codice fiscale (Obbligatorio)" />
                         </div>
+
+                        <div class="margin-left">
+                            <br>
+                            <div style="display: flex; justify-content: flex-end; margin-right: 10px;">
+                                <button pButton type="button" label="cambio password" (click)="CambioPassword()" class="p-button p-button-secc">Cambia Password</button>
+                            </div>
+                            <div class="actions">
+                                <button pButton type="button" label="Annulla le modifiche" (click)="resetForm()" class="p-button p-button-danger">Annulla le modifiche</button>
+                                <button pButton type="button" label="Modifica" (click)="editForm()" class="p-button p-button-success">Modifica</button>
+                                <button pButton type="button" label="Salva" onclick="patchUser()" class="p-button p-button-secondary">Salva</button>
+                            </div>
+                        </div>
+
+                        <div id="message" style="margin-top: 20px;"></div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>
+</html>
+
