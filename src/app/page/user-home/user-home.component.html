@@ -1,8 +1,8 @@
+<app-user-task-creation (buttonClicked)="onChildButtonClick()"></app-user-task-creation>
 
-
-@if (!!dailyActivity) {
+@if (dailyActivity().length > 0) {
   @defer {
-    <daily-activity [inputDailyActivity]="dailyActivity" />
+    <daily-activity [inputDailyActivity]="dailyActivity()" />
   } @loading {
     <div class="loading">
       <p-progressSpinner ariaLabel="loading" />
@@ -13,8 +13,7 @@
     </div>
   }
 }
-
-@if (!dailyActivity) {
+@if (dailyActivity().length === 0) {
   @defer {
     
     <no-daily-activity />

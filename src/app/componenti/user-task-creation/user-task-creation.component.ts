@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -56,7 +56,13 @@ export class UserTaskCreationComponent implements OnInit {
   tasks: Task[] = [];
   selectedCity: Task | undefined;
   userForm!: FormGroup;
-  visible: boolean = true;
+  visible: boolean = false;
+
+  @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
+
+  showDialog() {
+    this.visible = true;
+  }
 
   constructor(
     private servicetasks: ServiceTasksService,
@@ -115,7 +121,10 @@ export class UserTaskCreationComponent implements OnInit {
     console.log(data);
     this.route.params.subscribe((params) => {
       this.activitiesservices.createActivity(data).subscribe({
-        next: (result: any) => {
+        next: (result: any) => {7
+          if(result.status == "success"){
+            this.buttonClicked.emit("Valore");
+          }
         },
         error: (error: any) => {
           console.error('Si è verificato un errore:', error);
