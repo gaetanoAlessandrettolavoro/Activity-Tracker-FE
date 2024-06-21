@@ -21,5 +21,10 @@ export class DailyActivityComponent implements OnInit{
 
   ngOnInit() {
     this.dailyActivity.set(this.inputDailyActivity);
+    console.log(this.dailyActivity())
   }
+
+  
+
+
 }
