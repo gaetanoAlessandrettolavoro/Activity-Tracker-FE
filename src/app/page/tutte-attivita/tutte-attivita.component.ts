@@ -62,7 +62,7 @@ export class TutteAttivitaComponent implements OnInit {
 
   findUser(id: string): Promise<any> {
     return this.userServ
-      .getOneUserActivity(id)
+      .getOneUser(id)
       .pipe(
         catchError((err) => {
           console.error(
@@ -90,10 +90,8 @@ export class TutteAttivitaComponent implements OnInit {
           return of({ data: { document: [] } }); // Restituisci un array vuoto in caso di errore
         }),
       )
-      .subscribe(async (result) => {
-        console.log(`Page ${page}, limit ${limit}`)
+      .subscribe(async (result:any) => {
         const newRows: rowItem[] = [];
-        //@ts-ignores
         for (let activity of result.data.document) {
           if (activity.isActive) {
             let foundUser = await this.findUser(activity.userID);
@@ -127,11 +125,27 @@ export class TutteAttivitaComponent implements OnInit {
     this.loading = true;
 
     setTimeout(() => {
+      if(event?.first === 0){
+        this.getActivities(1);
+      }
       if(event?.first && event?.rows){
         this.getActivities((event?.first + event?.rows)/7)
       }
       this.loading = false;
-    }, 1000);
+    }, 500);
+  }
+
+  activityToSend(activity: rowItem): Activity{
+    return {
+      _id: activity._id,
+      userID: activity.userID,
+      taskID: activity.taskID,
+      taskName: activity.taskName,
+      startTime: new Date(activity.startTime),
+      endTime: new Date(activity.endTime),
+      notes: activity.notes,
+      isActive: activity.isActive,
+    }
   }
 
   onClickSetFilter() {}

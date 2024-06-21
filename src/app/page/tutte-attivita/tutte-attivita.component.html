@@ -50,7 +50,7 @@
         <td>{{ act.startTime | date: "HH:mm" }}</td>
         <td>{{ act.endTime | date:"HH:mm" }}</td>
         <td>{{ act.notes }}</td>
-        <td><edit-activity [activity]="act" /></td>
+        <td><edit-activity [activity]="activityToSend(act)" /></td>
         <td><delete-activity [activityID]="act._id" /></td>
       </tr>
     </ng-template>
