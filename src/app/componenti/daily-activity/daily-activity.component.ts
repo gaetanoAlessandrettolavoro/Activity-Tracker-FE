@@ -6,9 +6,9 @@ import { FooterComponent } from '../footer/footer.component';
 import { EditActivityButtonComponent } from '../edit-activity-button/edit-activity-button.component';
 import { Activity } from '../../models/activityModel';
 import { DeleteActivityButtonComponent } from '../delete-activity-button/delete-activity-button.component';
-import { GetActivityByDateService } from '../../servizi/get-activity-by-date.service';
 import { UserTaskCreationComponent } from '../user-task-creation/user-task-creation.component';
 import { NoDailyActivityComponent } from '../no-daily-activity/no-daily-activity.component';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 @Component({
   selector: 'daily-activity',
@@ -24,12 +24,12 @@ export class DailyActivityComponent {
   nodailyactivity: Boolean = false;
   dailyactivitycomponent: Boolean = false;
 
-  constructor(private getAct: GetActivityByDateService) {
+  constructor(private adminService: AdminserviceService) {
     this.oggettistampati = []; 
 
     effect(() => {
       console.log(this.dailyActivity());
-      this.getAct.getDaily().subscribe(
+      this.adminService.getActivitiesByDate().subscribe(
         (result: any) => {
           if (result.data.userActivities.length === 0) {
             console.log("non ci sono dati");

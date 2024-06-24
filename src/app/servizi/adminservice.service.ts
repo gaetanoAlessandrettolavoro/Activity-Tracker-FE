@@ -84,6 +84,6 @@ export class AdminserviceService {
     const today = currentDate.toISOString().split('T')[0];
     const [year, month, day] = today.split('-');
     const tomorrow = new Date(parseInt(year), parseInt(month)-1, parseInt(day)+2).toISOString().split('T')[0];
-    return this.http.get(`${apiUrl}${currentDate}&startTime[lt]=${tomorrow}&isActive=true`, { withCredentials: true });
+    return this.http.get(`${apiUrl}${today}&startTime[lt]=${tomorrow}&isActive=true`, { withCredentials: true });
   }
 }
