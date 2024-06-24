@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -94,6 +95,7 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   onSubmit() {
+    this.buttonClicked.emit("valore da spedire")
     if (this.userForm.valid) {
       let date = new Date();
       let [year, month, day] = [date.getFullYear(), date.getMonth(), date.getDate() ]
