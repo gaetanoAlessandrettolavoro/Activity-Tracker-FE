@@ -13,16 +13,19 @@ import { FooterComponent } from "../../componenti/footer/footer.component";
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { MessageService } from 'primeng/api';
 import { AdminserviceService } from '../../servizi/adminservice.service';
+import { ToastModule } from 'primeng/toast';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
     standalone: true,
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
-    imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, FooterComponent, DeleteActivityButtonComponent],
+    imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, FooterComponent, DeleteActivityButtonComponent, ToastModule],
+    providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router,private admin : AdminserviceService) { }
+  constructor(private route: ActivatedRoute, private router: Router,private admin : AdminserviceService, private userService: UserServiceService, private messageService: MessageService) { }
   activities: Activity[] = [];
 
 
@@ -34,7 +37,29 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     { field: 'notes', header: 'Note' },
   ];
 
-
+  show(statusCode: number) {
+    if (statusCode === 401) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 401',
+        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
+      });
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    }
+    if (statusCode === 500) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 500',
+        detail: 'Errore interno del server, riprova più tardi.',
+      });
+    }
+    if (statusCode === 400) {
+      this.router.navigate(['**']);
+    }
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -57,18 +82,9 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
           console.log(this.activities)
         },
         error: (err) => {
-          if(err.status === 400){
-            this.show404()
-          }
+          this.show(err.status);
         }
       });
     });
-  }
-
-  show404(){
-    this.router.navigate(['**']);
-   }
-  
-  
-  
+  }  
 }

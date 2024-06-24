@@ -4,7 +4,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
@@ -22,6 +22,8 @@ import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { TaskResponse } from '../../models/taskResponseModel';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { MessageService } from 'primeng/api';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 interface City {
   taskName: string;
@@ -47,10 +49,11 @@ interface City {
     InputTextareaModule,
     DropdownModule,
     CalendarModule,
-    FloatLabelModule,
+    FloatLabelModule
   ],
   templateUrl: './user-task-creation.component.html',
-  styleUrls: ['./user-task-creation.component.css']
+  styleUrls: ['./user-task-creation.component.css'],
+  providers: [MessageService],
 })
 export class UserTaskCreationComponent implements OnInit {
   currentDateTime: Date;
@@ -61,6 +64,27 @@ export class UserTaskCreationComponent implements OnInit {
 
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 
+  show(statusCode: number) {
+    if (statusCode === 401) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 401',
+        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
+      });
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    }
+    if (statusCode === 500) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 500',
+        detail: 'Errore interno del server, riprova più tardi.',
+      });
+    }
+  }
+
   showDialog() {
     this.visible = true;
   }
@@ -68,9 +92,10 @@ export class UserTaskCreationComponent implements OnInit {
   constructor(
     private servicetasks: ServiceTasksService,
     private route: ActivatedRoute,
-    private http: HttpClient,
-    private activitiesservices:ActivitiesServicesService
-
+    private activitiesservices:ActivitiesServicesService,
+    private router: Router,
+    private messageService: MessageService,
+    private userService: UserServiceService
   ) {
     this.currentDateTime = new Date();
     setInterval(() => {
@@ -79,7 +104,7 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.servicetasks.getAllTasks().subscribe((result: TaskResponse) => (this.tasks = result.data.document));
+    this.servicetasks.getAllTasks().subscribe({next:(result: TaskResponse) => {this.tasks = result.data.document}, error: (error) => {this.show(error.status)}});
 
     this.userForm = new FormGroup({
       notes: new FormControl('', [Validators.required, Validators.maxLength(100)]),
@@ -129,7 +154,7 @@ export class UserTaskCreationComponent implements OnInit {
           }
         },
         error: (error: any) => {
-          console.error('Si è verificato un errore:', error);
+          this.show(error.status);
         },
       });
     });

@@ -1,13 +1,13 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import { RowToggler, TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
 import { ButtonModule } from 'primeng/button';
 import { Activity } from '../../models/activityModel';
 import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import { FilterService } from 'primeng/api';
+import { FilterService, MessageService } from 'primeng/api';
 import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
@@ -15,7 +15,9 @@ import { catchError, of } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { AdminserviceService } from '../../servizi/adminservice.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
+import { ToastModule } from 'primeng/toast';
+import { Router } from '@angular/router';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 
 interface rowItem extends Activity {
@@ -45,11 +47,12 @@ interface rowItem extends Activity {
     DeleteActivityButtonComponent,
     DatePipe,
     PaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ToastModule
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrl: './tutte-attivita.component.css',
-  providers: [RowToggler],
+  providers: [MessageService],
 })
 export class TutteAttivitaComponent implements OnInit {
   originalRowItems: rowItem[] = [];
@@ -65,18 +68,39 @@ export class TutteAttivitaComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private userServ: AdminserviceService,
-    private cdr: ChangeDetectorRef,
+    private messageService: MessageService,
+    private router: Router,
+    private userService: UserServiceService
   ) {}
+
+  show(statusCode: number) {
+    if(statusCode === 401){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 401',
+        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
+      });
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    }
+    if(statusCode === 500){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 500',
+        detail: 'Errore interno del server, riprova più tardi.',
+      });
+    }
+  }
+
 
   findUser(id: string): Promise<any> {
     return this.userServ
       .getOneUser(id)
       .pipe(
         catchError((err) => {
-          console.error(
-            "Si è verificato un errore durante la ricerca dell'utente:",
-            err,
-          );
+          this.show(err.status);
           return of(null); // Restituisci null in caso di errore
         }),
       )
@@ -91,10 +115,7 @@ export class TutteAttivitaComponent implements OnInit {
       .getAllUsersActivities(page, limit)
       .pipe(
         catchError((err) => {
-          console.error(
-            'Si è verificato un errore durante il recupero delle attività:',
-            err,
-          );
+          this.show(err.status);
           return of({ data: { document: [] } }); // Restituisci un array vuoto in caso di errore
         }),
       )
