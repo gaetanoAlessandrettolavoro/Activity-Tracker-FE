@@ -20,7 +20,7 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 export class DailyActivityComponent {
 
   dailyActivity = signal(0);
-  oggettistampati!: any[];
+  oggettistampati!: Activity[];
   nodailyactivity: Boolean = false;
   dailyactivitycomponent: Boolean = false;
 
@@ -45,7 +45,6 @@ export class DailyActivityComponent {
                 _id: element._id,
                 taskName: element.taskName,
                 taskID: element.taskID,
-                activityDate: new Date(element.activityDate),
                 startTime: new Date(element.startTime),
                 endTime: new Date(element.endTime),
                 notes: element.notes,
