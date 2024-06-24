@@ -11,6 +11,7 @@ import { Activity } from '../../../models/activityModel';
 import { DeleteActivityButtonComponent } from '../../../componenti/delete-activity-button/delete-activity-button.component';
 import { ActivitiesServicesService } from '../../../servizi/activities-services.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../../servizi/user-service.service';
 
@@ -28,6 +29,7 @@ import { UserServiceService } from '../../../servizi/user-service.service';
     NavbarAttrecentiComponent,
     FooterComponent,
     DeleteActivityButtonComponent,
+    PaginatorModule,
     ToastModule,
   ],
   providers: [MessageService],
@@ -46,6 +48,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     { field: 'endTime', header: 'Orario di fine' },
     { field: 'notes', header: 'Note' },
   ];
+  limitDefault = 5
+  limit: number = this.limitDefault; // Initialize limit with default value
+  first: number = 0;
+  rows: number = 10;
+  pageDefault = 1
 
   constructor(
     private filterService: FilterService,
@@ -82,61 +89,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.activitiesservices.getActivities().subscribe({
-      next: (data) => {
-        data.data.userActivities.forEach((item: Activity) => {
-          this.rowItems.push({
-            taskID: item.taskID,
-            taskName: item.taskName,
-            startTime: new Date(item.startTime), // Updated
-            endTime: new Date(item.endTime), // Updated
-            notes: item.notes,
-            _id: item._id,
-          });
-        });
-        this.filteredItems = [...this.rowItems];
-      },
-      error: (err) => {
-        this.show(err.status);
-      },
-    });
-
-    this.filterForm.valueChanges.subscribe({
-      next: () => {
-        this.filterActivities();
-      },
-      error: (err) => {
-        this.show(err.status);
-      }
-    });
-  }
-
-  filterActivities() {
-    const { searchText, fromDate, toDate } = this.filterForm.value;
-    this.filteredItems = this.rowItems.filter((item) => {
-      const matchesText =
-        !searchText ||
-        item.taskName.toLowerCase().includes(searchText.toLowerCase());
-      const itemDate = new Date(item.startTime);
-      const date = this.formatDate(itemDate);
-      const matchesDate =
-        !fromDate && !toDate
-          ? true
-          : this.isDateInRange(item.startTime, fromDate, toDate); // Updated
-      return matchesText && matchesDate;
-    });
-  }
-
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-
   isDateInRange(date: Date, fromDate: string, toDate: string): boolean {
-    // Updated
     const activityDate = new Date(date);
 
     const from = fromDate ? new Date(fromDate) : null;
@@ -160,7 +113,77 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     }
   }
 
+  formatDate(date: Date): string {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  filterActivities() {
+    const { searchText, fromDate, toDate } = this.filterForm.value;
+    this.filteredItems = this.rowItems.filter((item) => {
+      const matchesText =
+        !searchText ||
+        item.taskName.toLowerCase().includes(searchText.toLowerCase());
+      const itemDate = new Date(item.startTime);
+      const date = this.formatDate(itemDate);
+      const matchesDate =
+        !fromDate && !toDate
+          ? true
+          : this.isDateInRange(item.startTime, fromDate, toDate);
+      return matchesText && matchesDate;
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadActivities(this.pageDefault, this.limitDefault);
+
+    this.filterForm.valueChanges.subscribe({
+      next: () => {
+        this.filterActivities();
+      },
+      error: (err) => {
+        this.show(err.status);
+      }
+    });
+  }
+  
+  loadActivities(pageNumber: number, limit: number): void {
+    this.activitiesservices.getActivities({ pageNumber, limit }).subscribe((data) => {
+      this.rowItems = data.data.userActivities.map((item: Activity) => ({
+        taskID: item.taskID,
+        taskName: item.taskName,
+        startTime: new Date(item.startTime),
+        endTime: new Date(item.endTime),
+        notes: item.notes,
+        _id: item._id,
+      }));
+      this.filteredItems = [...this.rowItems];
+    });
+
+    this.filterForm.valueChanges.subscribe({
+      next: () => {
+        this.filterActivities();
+      },
+      error: (err) => {
+        this.show(err.status);
+      }
+    });
+  }
+
+
   reload() {
     window.location.reload();
+  }
+
+  onPageChange(event: any): void {
+    const pageNumber = event.page + 1;
+    this.pageDefault = pageNumber;
+    this.loadActivities(pageNumber, this.limit); // Use the current limit value
+  }
+
+  changeLimit(): void {
+    this.loadActivities(this.pageDefault, this.limit);
   }
 }

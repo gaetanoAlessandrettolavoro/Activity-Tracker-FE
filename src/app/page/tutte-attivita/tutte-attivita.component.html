@@ -1,7 +1,7 @@
 <p-toast />
-<app-admin-vis-tutte-att-users />
+<app-admin-vis-tutte-att-users></app-admin-vis-tutte-att-users>
 
-<h1>Tutte le attività</h1>
+  <h1>Tutte le attività</h1>
 
 
 
@@ -16,7 +16,6 @@
 <div class="box">
 
 
-
   <p-table
   [value]="filteredItems.length ? filteredItems : rowItems"
   [lazy]="true"
@@ -26,7 +25,7 @@
   rowGroupMode="subheader"
   groupRowsBy="user.codiceFiscale"
   [paginator]="true"
-  [rows]="7"
+  [rows]="limit"
   [totalRecords]="totalRecords"
   [loading]="loading"
   [style]="{ 'max-width': '90%', 'margin': '0 auto' }">
@@ -60,14 +59,26 @@
     <ng-template pTemplate="body" let-act let-rowIndex="rowIndex">
       <tr>
         <td>{{ act.taskName }}</td>
-        <td>{{ act.startTime | date: "dd/MM/yyyy" }}</td>
-        <td>{{ act.startTime | date: "HH:mm" }}</td>
-        <td>{{ act.endTime | date:"HH:mm" }}</td>
+        <td>{{ act.startTime | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ act.startTime | date: 'HH:mm' }}</td>
+        <td>{{ act.endTime | date: 'HH:mm' }}</td>
         <td>{{ act.notes }}</td>
-        <td><edit-activity [activity]="activityToSend(act)" /></td>
-        <td><delete-activity [activityID]="act._id" /></td>
+        <td><edit-activity [activity]="activityToSend(act)"></edit-activity></td>
+        <td><delete-activity [activityID]="act._id"></delete-activity></td>
       </tr>
     </ng-template>
   </p-table>
 </div>
-
+<br>
+<div style="display: flex; justify-content: center;flex-direction: column;align-items: center;">
+<input
+  type="number"
+  pInputText
+  [(ngModel)]="tempLimit" 
+  placeholder="Inserisci il limite"
+  style="width: 160px;"
+/>
+<br>
+<p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
+</div>
+<br /><br />

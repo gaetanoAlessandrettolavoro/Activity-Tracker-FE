@@ -14,13 +14,13 @@ export class ActivitiesServicesService {
 
   getActivities(parameter?:{pageNumber?: number, limit?: number}): Observable<any> {
     if(parameter?.limit  && !parameter?.pageNumber){
-      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isAcive=true`, {withCredentials : true});
+      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isActive=true`, {withCredentials : true});
     }
     else if(parameter?.pageNumber && !parameter?.limit){
-      return this.httpclient.get<any>(`${this.apiUrl}?page=${parameter?.pageNumber}&isAcive=true`, {withCredentials : true});
+      return this.httpclient.get<any>(`${this.apiUrl}?page=${parameter?.pageNumber}&isActive=true`, {withCredentials : true});
     }
     if(parameter?.limit && parameter.pageNumber){
-      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isAcive=true`, {withCredentials : true});
+      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isActive=true`, {withCredentials : true});
     }
     return this.httpclient.get<any>(`${this.apiUrl}?isActive=true`,{withCredentials : true})
 

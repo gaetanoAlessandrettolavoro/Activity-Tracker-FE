@@ -51,7 +51,7 @@ interface rowItem extends Activity {
     ToastModule
   ],
   templateUrl: './tutte-attivita.component.html',
-  styleUrl: './tutte-attivita.component.css',
+  styleUrls: ['./tutte-attivita.component.css'],
   providers: [MessageService],
 })
 export class TutteAttivitaComponent implements OnInit {
@@ -64,6 +64,13 @@ export class TutteAttivitaComponent implements OnInit {
   isFiltered = signal<boolean>(false);
   totalRecords!: number;
   loading: boolean = false;
+  limitDefault = 4;
+  limit: number = this.limitDefault;
+  usersArray: any[] = [];
+  first: number = 0;
+  rows: number = 10;
+
+  tempLimit: number = this.limitDefault; // Aggiungi una variabile temporanea
 
   constructor(
     private filterService: FilterService,
@@ -102,12 +109,12 @@ export class TutteAttivitaComponent implements OnInit {
         catchError((err) => {
           this.show(err.status);
           return of(null); // Restituisci null in caso di errore
-        }),
+        })
       )
       .toPromise();
   }
 
-  async getActivities(page?: number, limit: number = 7) {
+  async getActivities(page?: number, limit: number = this.limitDefault) {
     if (!page) {
       page = 1;
     }
@@ -117,9 +124,9 @@ export class TutteAttivitaComponent implements OnInit {
         catchError((err) => {
           this.show(err.status);
           return of({ data: { document: [] } }); // Restituisci un array vuoto in caso di errore
-        }),
+        })
       )
-      .subscribe(async (result:any) => {
+      .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
           if (activity.isActive) {
@@ -137,7 +144,7 @@ export class TutteAttivitaComponent implements OnInit {
             }
           }
         }
-        console.log('New Rows:', newRows); // Log per vedere i nuovi elementi
+
         this.originalRowItems = newRows;
         this.rowItems = newRows;
         this.filteredItems = [...this.rowItems]; // Inizializza filteredItems con tutte le attività
@@ -157,18 +164,19 @@ export class TutteAttivitaComponent implements OnInit {
     });
   
     // Carica le attività
-    await this.getActivities(1);
+    await this.getActivities(1, this.limit);
   }
 
   loadActivities(event: TableLazyLoadEvent) {
     this.loading = true;
 
     setTimeout(() => {
-      if(event?.first === 0){
-        this.getActivities(1);
-      }
-      if(event?.first && event?.rows){
-        this.getActivities((event?.first + event?.rows)/7)
+      if (event?.first === 0) {
+        this.getActivities(1, this.limit);
+      } else if (event?.first !== undefined) {
+        const rows = event?.rows ?? this.limit;
+        const page = Math.floor(event.first / rows) + 1;
+        this.getActivities(page, rows);
       }
       this.loading = false;
     }, 500);
@@ -192,7 +200,7 @@ export class TutteAttivitaComponent implements OnInit {
     }
   }
   
-  activityToSend(activity: rowItem): Activity {
+  activityToSend(activity: rowItem): Activity  {
     return {
       _id: activity._id,
       userID: activity.userID,
@@ -202,7 +210,17 @@ export class TutteAttivitaComponent implements OnInit {
       endTime: new Date(activity.endTime),
       notes: activity.notes,
       isActive: activity.isActive,
-    }
+    };
+  }
+
+  changeLimit() {
+    this.limit = this.tempLimit; // Aggiorna il limite con il valore temporaneo
+    this.getActivities(1, this.limit);
+  }
+
+  onPageChange(event: any) {
+    const pageNumber = event.page + 1;
+    this.getActivities(pageNumber, this.limit);
   }
 
   onClickSetFilter() {
