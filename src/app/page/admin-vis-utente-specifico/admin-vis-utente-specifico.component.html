@@ -2,6 +2,9 @@
 <app-admin-vis-tutte-att-users></app-admin-vis-tutte-att-users>
 
 <div class="table-container">
+  <div style="margin-bottom: 10px; display: flex; justify-content: flex-end;">
+  <addactivityforuser [userID]="idunivoco"/>
+</div>
     <p-table [columns]="cols" [value]="activities" [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header" let-columns>
         <tr>
