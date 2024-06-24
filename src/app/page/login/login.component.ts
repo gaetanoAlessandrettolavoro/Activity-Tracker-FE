@@ -72,8 +72,6 @@ export class LoginComponent {
           }
         },
         error: (err) => {
-          console.error('Login failed', err);
-          if (err.status === 401) {
             let numberValue = parseInt(
               localStorage.getItem('submit') ?? '0',
               10
@@ -84,11 +82,16 @@ export class LoginComponent {
               localStorage.setItem('submit', numberValue.toString());
             }
 
+            if(numberValue == 4){
+              setTimeout(() => {
+                localStorage.removeItem('submit');
+              }, 5000);
+            }
+
             if (numberValue < 4) {
-              this.show();
+              this.show(err.status);
             }
           }
-        },
       });
     } else {
       console.log('Form not valid');
@@ -103,12 +106,21 @@ export class LoginComponent {
     this.router.navigate(['home']);
   }
 
-  show() {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Errore 401',
-      detail: 'Verifica la tua email e la tua password e riprova.',
-    });
+  show(statusCode: number) {
+    if(statusCode === 401){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 401',
+        detail: 'Verifica la tua email e la tua password e riprova.',
+      });
+    }
+    if(statusCode === 500){
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 500',
+        detail: 'Errore interno del server, riprova più tardi.',
+      });
+    }
   }
 
   onInputEmail(event: Event): void {

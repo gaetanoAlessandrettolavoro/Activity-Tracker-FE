@@ -6,11 +6,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../../componenti/edit-activity-button/edit-activity-button.component';
 import { NavbarAttrecentiComponent } from '../../../componenti/navbar-attrecenti/navbar-attrecenti.component';
 import { FooterComponent } from '../../../componenti/footer/footer.component';
-import { FilterService } from 'primeng/api';
+import { FilterService, MessageService } from 'primeng/api';
 import { Activity } from '../../../models/activityModel';
 import { DeleteActivityButtonComponent } from '../../../componenti/delete-activity-button/delete-activity-button.component';
 import { ActivitiesServicesService } from '../../../servizi/activities-services.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { UserServiceService } from '../../../servizi/user-service.service';
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -26,7 +28,9 @@ import { ActivatedRoute, Router } from '@angular/router';
     NavbarAttrecentiComponent,
     FooterComponent,
     DeleteActivityButtonComponent,
+    ToastModule,
   ],
+  providers: [MessageService],
 })
 export class AttivitaRecentiUtenteComponent implements OnInit {
   rowItems: Activity[] = [];
@@ -47,6 +51,8 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     private filterService: FilterService,
     private activitiesservices: ActivitiesServicesService,
     private route: ActivatedRoute,
+    private userService: UserServiceService,
+    private messageService: MessageService,
   ) {
     this.filterForm = new FormGroup({
       searchText: new FormControl(''),
@@ -55,23 +61,54 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.activitiesservices.getActivities().subscribe((data) => {
-      data.data.userActivities.forEach((item: Activity) => {
-        this.rowItems.push({
-          taskID: item.taskID,
-          taskName: item.taskName,
-          startTime: new Date(item.startTime), // Updated
-          endTime: new Date(item.endTime), // Updated
-          notes: item.notes,
-          _id: item._id,
-        });
+  show(statusCode: number) {
+    if (statusCode === 401) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 401',
+        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
       });
-      this.filteredItems = [...this.rowItems];
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    }
+    if (statusCode === 500) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 500',
+        detail: 'Errore interno del server, riprova più tardi.',
+      });
+    }
+  }
+
+  ngOnInit(): void {
+    this.activitiesservices.getActivities().subscribe({
+      next: (data) => {
+        data.data.userActivities.forEach((item: Activity) => {
+          this.rowItems.push({
+            taskID: item.taskID,
+            taskName: item.taskName,
+            startTime: new Date(item.startTime), // Updated
+            endTime: new Date(item.endTime), // Updated
+            notes: item.notes,
+            _id: item._id,
+          });
+        });
+        this.filteredItems = [...this.rowItems];
+      },
+      error: (err) => {
+        this.show(err.status);
+      },
     });
 
-    this.filterForm.valueChanges.subscribe(() => {
-      this.filterActivities();
+    this.filterForm.valueChanges.subscribe({
+      next: () => {
+        this.filterActivities();
+      },
+      error: (err) => {
+        this.show(err.status);
+      }
     });
   }
 
@@ -82,7 +119,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
         !searchText ||
         item.taskName.toLowerCase().includes(searchText.toLowerCase());
       const itemDate = new Date(item.startTime);
-      const date = this.formatDate(itemDate); 
+      const date = this.formatDate(itemDate);
       const matchesDate =
         !fromDate && !toDate
           ? true
@@ -90,14 +127,13 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       return matchesText && matchesDate;
     });
   }
-  
+
   formatDate(date: Date): string {
     const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
-  
 
   isDateInRange(date: Date, fromDate: string, toDate: string): boolean {
     // Updated
