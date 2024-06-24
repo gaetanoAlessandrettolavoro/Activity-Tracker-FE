@@ -38,7 +38,7 @@
     ></p-paginator> <!-- totalRecords will need to be modified based on the actual database data -->
   </div>
   <input type="text" pInputText [(ngModel)]="limit" placeholder="Inserisci il limite" /> <br><br>
-  <p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
+  <p-button label="Invia" (click)="changeLimit()" size="small"></p-button> {{limit}}
 </div>
 
 <div *ngIf="userActivities.length > 0" class="user-activities-container">

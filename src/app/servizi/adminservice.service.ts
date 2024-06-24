@@ -40,12 +40,9 @@ export class AdminserviceService {
     });
   }
 
-  getOneUserActivity(data: any): Observable<any> {
-    return this.http.get<any>(
-      `http://localhost:3000/api/v1/users/${data}/activities`,
-      { withCredentials: true },
-    );
-  }
+    getOneUserActivity(data: any,pageNumber : any,limit:any): Observable<any> {
+      return this.http.get<any>(`http://localhost:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}`,{ withCredentials: true })
+    }
 
   patchUser(id: string, data: User): Observable<any> {
     const url = `${this.apiUrl}/${id}`;

@@ -26,4 +26,21 @@
         </tr>
       </ng-template>
     </p-table>
+    <p-paginator 
+    (onPageChange)="onPageChange($event)" 
+    [first]="first" 
+    [rows]="rows" 
+    [totalRecords]="120" 
+    ></p-paginator> <!-- totalRecords will need to be modified based on the actual database data -->
+    <div style="display: flex; justify-content: center;flex-direction: column;align-items: center;">
+      <input
+        type="number"
+        [(ngModel)]="limit" 
+        pInputText
+        placeholder="Inserisci il limite"
+        style="width: 160px;"
+      />
+      <br>
+      <p-button label="Invia" (click)="changeLimit()"  size="small"></p-button> {{limit}}
+      </div>
   </div>

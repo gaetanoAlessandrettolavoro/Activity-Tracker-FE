@@ -9,10 +9,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AdminVisTutteAttUsersComponent } from "../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component";
-import { FooterComponent } from "../../componenti/footer/footer.component";
+
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { MessageService } from 'primeng/api';
 import { AdminserviceService } from '../../servizi/adminservice.service';
+import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../servizi/user-service.service';
 
@@ -21,13 +22,17 @@ import { UserServiceService } from '../../servizi/user-service.service';
     standalone: true,
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
-    imports: [TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, FooterComponent, DeleteActivityButtonComponent, ToastModule],
+    imports: [PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, DeleteActivityButtonComponent, ToastModule],
     providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private router: Router,private admin : AdminserviceService, private userService: UserServiceService, private messageService: MessageService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private admin: AdminserviceService, private messageService: MessageService, private userService: UserServiceService) { }
+  first: number = 0;
+  rows: number = 10;
+  limit!: number;
+  limitDefault = 5;
+  pageDefault = 1;
   activities: Activity[] = [];
-
 
   cols = [
     { field: 'taskName', header: 'Attività' },
@@ -64,27 +69,49 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      this.admin.getOneUserActivity(id).subscribe({
-        next: (result: any) => {
-          result.data.activities.forEach((element: any) => {
-            if(element.isActive === true){
-              this.activities.push({
-                taskName: element.taskName,
-                startTime : new Date(element.startTime),
-                endTime : new Date(element.endTime),
-                notes: element.notes,
-                taskID: element.taskID,
-                _id: element._id,
-                isActive: element.isActive
-              });
-            }
-          });
-          console.log(this.activities)
-        },
-        error: (err) => {
-          this.show(err.status);
-        }
-      });
+      this.fetchActivities(id, this.pageDefault, this.limitDefault);
     });
-  }  
+  }
+
+  show404() {
+    this.router.navigate(['**']);
+  }
+
+  changeLimit(): void {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.fetchActivities(id, this.pageDefault, this.limit);
+    });
+  }
+
+  onPageChange(event: any): void {
+    const pageNumber = (event.page + 1);
+    this.pageDefault = pageNumber;
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.fetchActivities(id, pageNumber, this.limit);
+    });
+  }
+
+  private fetchActivities(id: string, page: number, limit: number): void {
+    this.activities = []; // Reset the array before fetching new data
+    this.admin.getOneUserActivity(id, page, limit).subscribe({
+      next: (result: any) => {
+        this.activities = result.data.activities.map((element: any) => ({
+          taskName: element.taskName,
+          startTime: new Date(element.startTime),
+          endTime: new Date(element.endTime),
+          notes: element.notes,
+          taskID: element.taskID,
+          _id: element._id,
+          isActive: element.isActive
+        }));
+      },
+      error: (err) => {
+        if (err.status === 400) {
+          this.show404();
+        }
+      }
+    });
+  }
 }

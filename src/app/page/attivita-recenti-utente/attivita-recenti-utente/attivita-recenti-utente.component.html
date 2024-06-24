@@ -1,6 +1,6 @@
 <p-toast />
 <app-navbar-attrecenti></app-navbar-attrecenti>
-<h1>Attività recenti</h1>
+<h1>Storico attività</h1>
 <div class="table-container">
   <div class="filter-container" [formGroup]="filterForm">
     <div class="fix">
@@ -36,12 +36,27 @@
             rowData[col.field] }}
         </td>
         <td>
-        
           <edit-activity [activity]="rowData" (activityEdited)="reload()"></edit-activity>
-          <delete-activity [activityID]="rowData._id" (click)="reload()" ></delete-activity>
-         
+          <delete-activity [activityID]="rowData._id" (click)="reload()"></delete-activity>
         </td>
       </tr>
     </ng-template>
   </p-table>
+  <p-paginator 
+    (onPageChange)="onPageChange($event)" 
+    [first]="first" 
+    [rows]="rows" 
+    [totalRecords]="120">
+  </p-paginator> <!-- totalRecords will need to be modified based on the actual database data -->
+
+  <div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+    <input
+      type="number"
+      [(ngModel)]="limit" 
+      pInputText
+      placeholder="Inserisci il limite"
+      style="width: 160px;">
+    <br>
+    <p-button label="Invia" (click)="changeLimit()" size="small"></p-button> {{limit}}
+  </div>
 </div>

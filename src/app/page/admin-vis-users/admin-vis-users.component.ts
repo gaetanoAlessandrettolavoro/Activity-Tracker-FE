@@ -91,10 +91,11 @@ export class AdminvisuserComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
-
-  limit: number = 10;
+  limitDefault = 5
+  limit! : number
   first: number = 0;
   rows: number = 10;
+  pageDefault = 1
 
   filterUsers() {
     this.filteredUsers = this.usersArray().filter((user) => {
@@ -112,7 +113,7 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.users.getUsers({ limit: this.limit }).subscribe({
+    this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
@@ -133,7 +134,7 @@ export class AdminvisuserComponent implements OnInit {
   }
   getActivity(id: string) {
     const userId = id;
-    this.users.getOneUserActivity(userId).subscribe({
+    this.users.getOneUserActivity(userId,this.pageDefault,this.limitDefault).subscribe({
       next: (result: any) => {
         this.userActivities = result;
         if (result.data.activities.length == 0) {
