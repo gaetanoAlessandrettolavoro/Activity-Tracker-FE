@@ -8,6 +8,7 @@ import { FooterComponent } from '../../componenti/footer/footer.component';
 import { Activity } from '../../models/activityModel';
 import { GetActivityByDateService } from '../../servizi/get-activity-by-date.service';
 import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 @Component({
   selector: 'app-user-home',
@@ -21,11 +22,11 @@ export class UserHomeComponent implements OnInit{
 
   dailyActivity  = signal<Activity[]>([]);
 
-  constructor(private getAct: GetActivityByDateService) { 
+  constructor(private adminService: AdminserviceService) { 
 
   }    
   ngOnInit(): void {
-    this.getAct.getDaily().subscribe(
+    this.adminService.getActivitiesByDate().subscribe(
       (result: any) => {
         console.log(result)
         if(result.data.userActivities.length !== 0) {
