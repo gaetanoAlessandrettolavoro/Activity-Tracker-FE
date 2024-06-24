@@ -65,7 +65,7 @@ export class AdminserviceService {
   getAllUsersActivities(page: number, limit: number) {
     let apiUrl = 'http://localhost:3000/api/v1/activities';
     return this.http.get(
-      `${apiUrl}?page=${page}&limit=${limit}&sort=_id&isActive=true`,
+      `${apiUrl}?page=${page}&limit=${limit}&sort=_id`,
       { withCredentials: true },
     );
   }

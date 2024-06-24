@@ -33,6 +33,7 @@
     <ng-template pTemplate="header">
       <tr>
         <th class="activities">Attività</th>
+        <th>Stato</th>
         <th>Data</th>
         <th class="times">Orario di inizio</th>
         <th class="times">Orario di fine</th>
@@ -43,7 +44,7 @@
     </ng-template>
     <ng-template pTemplate="groupheader" let-act>
       <tr pRowGroupHeader>
-        <td colspan="7">
+        <td colspan="8">
           <img
             [alt]="act.user.firstName"
             src="https://i.pinimg.com/200x150/60/13/a3/6013a33f806d8d74f43ee2eb565ff4dc.jpg"
@@ -59,9 +60,11 @@
     <ng-template pTemplate="body" let-act let-rowIndex="rowIndex">
       <tr>
         <td>{{ act.taskName }}</td>
-        <td>{{ act.startTime | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ act.startTime | date: 'HH:mm' }}</td>
-        <td>{{ act.endTime | date: 'HH:mm' }}</td>
+        <td *ngIf="act.isActive"><i class="pi pi-circle-fill" style="color: green"></i></td>
+        <td *ngIf="!act.isActive"><i class="pi pi-circle-fill" style="color: red"></i></td>
+        <td>{{ act.startTime | date: "dd/MM/yyyy" }}</td>
+        <td>{{ act.startTime | date: "HH:mm" }}</td>
+        <td>{{ act.endTime | date:"HH:mm" }}</td>
         <td>{{ act.notes }}</td>
         <td><edit-activity [activity]="activityToSend(act)"></edit-activity></td>
         <td><delete-activity [activityID]="act._id"></delete-activity></td>
