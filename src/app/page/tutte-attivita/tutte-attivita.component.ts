@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
@@ -48,7 +48,8 @@ interface rowItem extends Activity {
     DatePipe,
     PaginatorModule,
     ReactiveFormsModule,
-    ToastModule
+    ToastModule,
+    NgIf
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrls: ['./tutte-attivita.component.css'],
@@ -129,7 +130,6 @@ export class TutteAttivitaComponent implements OnInit {
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
-          if (activity.isActive) {
             let foundUser = await this.findUser(activity.userID);
             if (foundUser) {
               newRows.push({
@@ -141,7 +141,6 @@ export class TutteAttivitaComponent implements OnInit {
                   propic: foundUser.data.propic,
                 },
               });
-            }
           }
         }
 
