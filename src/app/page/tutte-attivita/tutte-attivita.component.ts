@@ -14,8 +14,13 @@ import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-
 import { catchError, of } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { AdminserviceService } from '../../servizi/adminservice.service';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 interface rowItem extends Activity {
+  cognome: string;
+  nome: string;
   user: {
     codiceFiscale: string;
     firstName: string;
@@ -40,6 +45,7 @@ interface rowItem extends Activity {
     DeleteActivityButtonComponent,
     DatePipe,
     PaginatorModule,
+    ReactiveFormsModule
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrl: './tutte-attivita.component.css',
@@ -48,6 +54,8 @@ interface rowItem extends Activity {
 export class TutteAttivitaComponent implements OnInit {
   originalRowItems: rowItem[] = [];
   rowItems: rowItem[] = [];
+  filteredItems: Activity[] = [];
+  filterForm!: FormGroup;
 
   textFilter = signal<string>('');
   isFiltered = signal<boolean>(false);
@@ -57,7 +65,7 @@ export class TutteAttivitaComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private userServ: AdminserviceService,
-  
+    private cdr: ChangeDetectorRef,
   ) {}
 
   findUser(id: string): Promise<any> {
@@ -108,17 +116,27 @@ export class TutteAttivitaComponent implements OnInit {
             }
           }
         }
-    
+        console.log('New Rows:', newRows); // Log per vedere i nuovi elementi
         this.originalRowItems = newRows;
         this.rowItems = newRows;
+        this.filteredItems = [...this.rowItems]; // Inizializza filteredItems con tutte le attività
         //@ts-ignore
         this.totalRecords = result.totalDocuments;
       });
-      
   }
 
   async ngOnInit() {
-    this.getActivities(1);
+    this.filterForm = new FormGroup({
+      searchText: new FormControl('')
+    });
+
+    // Aggiungi questo qui
+    this.filterForm.valueChanges.subscribe(() => {
+      this.filterActivities();
+    });
+  
+    // Carica le attività
+    await this.getActivities(1);
   }
 
   loadActivities(event: TableLazyLoadEvent) {
@@ -135,7 +153,25 @@ export class TutteAttivitaComponent implements OnInit {
     }, 500);
   }
 
-  activityToSend(activity: rowItem): Activity{
+  filterActivities() {
+    const { searchText } = this.filterForm.value;
+  
+    if (!searchText) {
+      // se il campo di ricerca è vuoto, ripristina tutte le attività
+      this.filteredItems = [...this.rowItems];
+    } else {
+      // fifiltra le attività in base al testo di ricerca
+      this.filteredItems = this.rowItems.filter((item) => {
+        const matchesText =
+          item.taskName.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.user.lastName.toLowerCase().includes(searchText.toLowerCase());
+        return matchesText;
+      });
+    }
+  }
+  
+  activityToSend(activity: rowItem): Activity {
     return {
       _id: activity._id,
       userID: activity.userID,
@@ -148,7 +184,16 @@ export class TutteAttivitaComponent implements OnInit {
     }
   }
 
-  onClickSetFilter() {}
+  onClickSetFilter() {
+    this.filterActivities();
+  }
 
-  onClickRemoveFilter() {}
+  onClickRemoveFilter() {
+    this.filterForm.reset();
+    this.rowItems = [...this.originalRowItems];
+    this.filteredItems = [...this.originalRowItems]; 
+    console.log('Filter removed, items restored:', this.filteredItems); 
+  }
+  
+  
 }

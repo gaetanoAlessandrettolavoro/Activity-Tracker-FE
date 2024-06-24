@@ -1,19 +1,44 @@
-.box {
-    margin: auto 5%
-}
-h1 {
+h1{
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 24px;
-}
-.center{
-    padding:50px auto 10px auto ;
+    margin-top: 60px;
+    margin-bottom: 70px;
+    text-align: center;
+    font-size:50px;
+
 }
 
-.filter {
-    width: fit-content;
-    margin: 2% auto 2% 5%;
+.filter-container{
+    margin-left: 70px;
+}
+
+
+
+input[type="text"] {
+    padding: 5px;
+    font-family: "Roboto Mono", monospace;
+    color: #000000;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+} 
+
+
+
+.box{
+    
+   
+    margin-top: 100px;
+}
+
+
+
+
+  
+
+
+
+.center{
+    padding:50px auto 10px auto ;
 }
 
 
@@ -42,3 +67,5 @@ h1 {
 #paginator > span {
     margin: auto 0.5em;
 }
+
+
