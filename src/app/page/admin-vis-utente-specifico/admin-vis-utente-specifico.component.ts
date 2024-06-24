@@ -16,13 +16,14 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
     standalone: true,
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
-    imports: [PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, DeleteActivityButtonComponent, ToastModule],
+    imports: [AdminaddactivityforuserComponent,PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, DeleteActivityButtonComponent, ToastModule],
     providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
@@ -33,6 +34,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   limitDefault = 5;
   pageDefault = 1;
   activities: Activity[] = [];
+  idunivoco! : string
 
   cols = [
     { field: 'taskName', header: 'Attività' },
@@ -69,6 +71,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
+      this.idunivoco = id
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
     });
   }
@@ -115,3 +118,5 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     });
   }
 }
+
+
