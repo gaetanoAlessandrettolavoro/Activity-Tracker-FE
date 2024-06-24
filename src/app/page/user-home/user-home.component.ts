@@ -6,7 +6,6 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 
 import { Activity } from '../../models/activityModel';
-import { GetActivityByDateService } from '../../servizi/get-activity-by-date.service';
 import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
 import { AdminserviceService } from '../../servizi/adminservice.service';
 
