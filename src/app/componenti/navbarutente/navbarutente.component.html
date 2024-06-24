@@ -1,7 +1,6 @@
 <div style="display: flex; justify-content: space-between;">
     <app-sidebar></app-sidebar>
         <div class="right">
-            <button (click)="showDialog()" style="background-color: #A1C1D9; color: white; border: none; border-radius: 8px; height: 28px;">Crea attività +</button>
             <app-drop-down-user></app-drop-down-user>
             <app-user-manual></app-user-manual>
     </div>
@@ -9,5 +8,3 @@
     <div *ngIf="visible">
         <app-user-task-creation />
     </div>
-
-
