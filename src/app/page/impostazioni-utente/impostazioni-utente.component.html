@@ -4,6 +4,15 @@
   <div class="card">
     <div class="header">
       <img src="https://www.tnt-endourology.com/wp-content/uploads/2016/05/icona2.png" width="150" height="150" />
+      <p-fileUpload 
+          mode="basic"
+          chooseLabel="Cambia immagine" 
+          chooseIcon="pi pi-upload"
+          name="demo[]" 
+          url="https://www.primefaces.org/cdn/api/upload.php" 
+          accept="image/*" 
+          maxFileSize="1000000" 
+          (onUpload)="onUpload($event)" />
       <div class="center">
         <h1>Dati Anagrafici</h1>
       </div>

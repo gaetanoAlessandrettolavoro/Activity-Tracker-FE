@@ -46,7 +46,7 @@ export class DropDownUserComponent implements OnInit {
 
   navigateBasedOnRole() {
   
-      this.router.navigate(['impostazioniutente']);
+      this.router.navigate(['/impostazioni']);
    
   }
   logout() {
