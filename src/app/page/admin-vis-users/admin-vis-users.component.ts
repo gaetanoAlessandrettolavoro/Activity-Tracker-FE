@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
 import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
@@ -23,6 +23,7 @@ import { UserServiceService } from '../../servizi/user-service.service';
   templateUrl: './admin-vis-users.component.html',
   styleUrls: ['./admin-vis-users.component.css'],
   imports: [
+    ReactiveFormsModule,
     TableModule,
     ButtonModule,
     CommonModule,
@@ -41,11 +42,20 @@ import { UserServiceService } from '../../servizi/user-service.service';
   providers: [MessageService],
 })
 export class AdminvisuserComponent implements OnInit {
+filterForm: any;
+ActivitySurname() {
+throw new Error('Method not implemented.');
+}
+ActivityName() {
+throw new Error('Method not implemented.');
+}
+  filterByName: any;
+  filterBySurname: any;
   constructor(
     private users: AdminserviceService,
     private router: Router,
     private messageService: MessageService,
-    private userService: UserServiceService
+    private userService: UserServiceService,
   ) {}
   usersArray = signal<User[]>([]);
   value!: string;
@@ -91,26 +101,30 @@ export class AdminvisuserComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
-  limitDefault = 5;
-  limit!: number;
+  limitDefault = 5
+  limit! : number
   first: number = 0;
   rows: number = 10;
-  pageDefault = 1;
-
+  pageDefault = 1
   filterUsers() {
+      console.log('Search Text:', this.searchText);
     this.filteredUsers = this.usersArray().filter((user) => {
-      const matchesText =
+      const matchesNameOrSurname =
         !this.searchText ||
         user.firstName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        user.codiceFiscale
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(this.searchText.toLowerCase());
+      const matchesText =
+        !this.searchText ||
+        user.codiceFiscale.toLowerCase().includes(this.searchText.toLowerCase()) ||
         user.email.toLowerCase().includes(this.searchText.toLowerCase());
-      const matchesDate = true;
-      return matchesText && matchesDate;
+      console.log('Matches Name/Surname:', matchesNameOrSurname);
+      console.log('Matches Text:', matchesText);
+      return matchesNameOrSurname && matchesText;
     });
+    console.log('Filtered Users:', this.filteredUsers);
   }
+  
+  
 
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
@@ -134,21 +148,19 @@ export class AdminvisuserComponent implements OnInit {
   }
   getActivity(id: string) {
     const userId = id;
-    this.users
-      .getOneUserActivity(userId, this.pageDefault, this.limitDefault)
-      .subscribe({
-        next: (result: any) => {
-          this.userActivities = result;
-          if (result.data.activities.length == 0) {
-            this.visibleNoActivity = true;
-          } else {
-            this.router.navigate(['/admin-vis-utente-specifico', userId]);
-          }
-        },
-        error: (err) => {
-          this.show(err.status);
-        },
-      });
+    this.users.getOneUserActivity(userId,this.pageDefault,this.limitDefault).subscribe({
+      next: (result: any) => {
+        this.userActivities = result;
+        if (result.data.activities.length == 0) {
+          this.visibleNoActivity = true;
+        } else {
+          this.router.navigate(['/admin-vis-utente-specifico', userId]);
+        }
+      },
+      error: (err) => {
+        this.show(err.status);
+      },
+    });
     console.log(this.userActivities);
   }
 
@@ -156,9 +168,8 @@ export class AdminvisuserComponent implements OnInit {
     console.log(event);
     const pageNumber = event.page + 1;
     this.usersArray.set([]);
-    console.log(this.limit);
     this.users
-      .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
+      .getUsers({ pageNumber: pageNumber, limit: this.limit })
       .subscribe({
         next: (data: any) => {
           data.data.document.forEach((item: any) => {
@@ -182,10 +193,9 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   changeLimit() {
-    const currentPage = this.first / this.rows + 1;
-    this.limitDefault = this.limit;
+    const currentPage = this.first / this.rows + 1; // Calcola la pagina corrente
     this.users
-      .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
+      .getUsers({ pageNumber: currentPage, limit: this.limit })
       .subscribe({
         next: (data: any) => {
           this.usersArray.set([]);
@@ -229,7 +239,8 @@ export class AdminvisuserComponent implements OnInit {
       },
       error: (err) => {
         this.show(err.status);
-      },
+      }
     });
   }
+
 }

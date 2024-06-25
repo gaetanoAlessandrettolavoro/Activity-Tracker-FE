@@ -3,7 +3,9 @@
 
 <h1>Tutti gli Utenti ({{ limitDefault }})</h1>
 <div class="filter-container">
-  <p-table
+  <i style="margin-right: 5px;" class="pi pi-search"></i>
+  <input type="text" pInputText placeholder="Cerca per nome o cognome" [(ngModel)]="searchText" (input)="filterUsers()">
+<p-table
     [columns]="cols"
     [value]="filteredUsers"
     [tableStyle]="{ 'min-width': '50rem' }"
