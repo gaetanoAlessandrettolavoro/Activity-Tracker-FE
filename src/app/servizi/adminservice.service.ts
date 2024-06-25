@@ -46,7 +46,7 @@ export class AdminserviceService {
 
   patchUser(id: string, data: User): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.patch<any>(url, data);
+    return this.http.patch<any>(url, data, { withCredentials: true });
   }
 
   deleteUser(id: string): Observable<any> {

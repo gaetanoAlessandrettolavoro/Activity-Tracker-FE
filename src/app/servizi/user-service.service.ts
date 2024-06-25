@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { User } from '../models/userModel';
 
 @Injectable({
   providedIn: 'root',
@@ -67,5 +68,10 @@ export class UserServiceService {
         this.router.navigate(['/login']);
       }),
     );
+  }
+
+  updateMe(data: any): Observable<any> {
+    let apiUrl = 'http://localhost:3000/api/v1/users/updateMe';
+    return this.http.patch<any>(apiUrl, data, { withCredentials: true });
   }
 }

@@ -38,13 +38,6 @@ export class ImpostaNuovaPasswordComponent {
   
   onSubmit() {
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
-    }
-    this.getToken()
-  }
-
-  getToken() {
-    this.router.params.subscribe(params => {
       this.userService.updatePassword({
         passwordCurrent: this.userForm.value.oldPassword,
         password: this.userForm.value.password,
@@ -57,6 +50,6 @@ export class ImpostaNuovaPasswordComponent {
           console.error('Si è verificato un errore:', error);
         }
       });
-    });
+    }
   }
 }
