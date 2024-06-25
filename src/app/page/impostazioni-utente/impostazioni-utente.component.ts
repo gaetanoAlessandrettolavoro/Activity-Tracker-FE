@@ -28,31 +28,44 @@ export class UserRouteComponent implements OnInit {
 
   constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService) {}
 
-  show(statusCode: number) {
-    if(statusCode === 401){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
-      setTimeout(() => {
-        this.userService.logout();
-        this.router.navigate(['/login']);
-      }, 3000);
-    }
-    if(statusCode === 500){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
-    }
-    if(statusCode === 1) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore',
-        detail: 'Il form non è valido',
-      });
+  showError(statusCode: number) {
+    switch (statusCode) {
+      case 400:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 400',
+          detail: 'Errore durante la richiesta, riprova più tardi.',
+        });
+        break;
+      case 401:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 401',
+          detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
+        });
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+        break;
+      case 429:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 429',
+          detail: 'Troppi tentativi di accesso, riprova tra un\'ora.',
+        });
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+        break;
+      case 500:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 500',
+          detail: 'Errore interno del server, riprova più tardi.',
+        });
+        break;
     }
   }
 
@@ -62,7 +75,7 @@ export class UserRouteComponent implements OnInit {
         this.user.set(result.data);
       },
       error: (error) => {
-        this.show(error.status);
+        this.showError(error.status);
       }
     })
   }
@@ -90,10 +103,10 @@ export class UserRouteComponent implements OnInit {
           });
           this.getInfo();
         },
-        error: (error) => this.show(error.status)
+        error: (error) => this.showError(error.status)
       });
     } else {
-      this.show(1);
+      this.showError(1);
     }
   }
 

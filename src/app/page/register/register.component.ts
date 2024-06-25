@@ -66,11 +66,42 @@ export class RegisterComponent {
 
   visible: boolean = false;
 
-  showDialog() {
-    console.log('showDialog function called');
-    this.visible = true;
-  }
-  
+  showError(statusCode: number) {
+    switch (statusCode) {
+      case 1:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore',
+          detail: 'I campi del form non sono validi. Riprova.',
+        });
+        break;
+      case 400:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 400',
+          detail: 'Richiesta non valida, riprova.',
+        });
+        break;
+      case 429:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 429',
+          detail: 'Troppi tentativi di accesso, riprova tra un\'ora.',
+        });
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+        break;
+      case 500:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 500',
+          detail: 'Errore interno del server, riprova più tardi.',
+        });
+        break;
+    }
+  }  
 
   show() {
     this.messageService.add({
@@ -135,14 +166,13 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    this.formSubmitted = true;
     if (
       !this.userForm.value.name ||
       !this.userForm.value.surname ||
       !this.userForm.value.TaxIDcode ||
       !this.userForm.value.email
     ) {
-      console.error('Error!');
+      this.showError(1);
     } else if (this.userForm.valid) {
       console.log('Form Submitted!', this.userForm.value);
       this.Validform = true;
@@ -154,7 +184,16 @@ export class RegisterComponent {
       };
       this.userService
         .register(postData)
-        .subscribe({ next: (result: any) => console.log(result) });
+        .subscribe({
+          next: (result: any) => {
+            console.log(result)
+            this.visible = true;
+            this.formSubmitted = true;
+          },
+          error: (error) => {
+            this.showError(error.status);
+          },
+        });
       console.log(postData);
     } else {
       console.log('Form not valid');

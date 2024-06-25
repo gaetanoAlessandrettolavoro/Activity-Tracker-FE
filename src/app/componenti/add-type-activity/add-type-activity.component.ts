@@ -34,23 +34,50 @@ export class AddTypeActivityComponent {
   ) {}
 
   show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
-      setTimeout(() => {
-        this.userService.logout();
-        this.router.navigate(['/login']);
-      }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    switch (statusCode) {
+      case 400:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 400',
+          detail: 'Richiesta non valida, riprova.',
+        });
+        break;
+      case 401:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 401',
+          detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
+        });
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+        break;
+      case 403:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 403',
+          detail: 'Non hai i permessi per eseguire questa azione.',
+        });
+        break;
+        case 429:
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Errore 429',
+            detail: 'Troppi tentativi di accesso, riprova tra un\'ora.',
+          });
+          setTimeout(() => {
+            this.userService.logout();
+            this.router.navigate(['/login']);
+          }, 3000);
+          break;
+      case 500:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 500',
+          detail: 'Errore interno del server, riprova più tardi.',
+        });
+        break;
     }
   }
 

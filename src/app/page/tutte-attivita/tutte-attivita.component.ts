@@ -79,7 +79,7 @@ export class TutteAttivitaComponent implements OnInit {
     private userService: UserServiceService
   ) {}
 
-  show(statusCode: number) {
+  showError(statusCode: number) {
     if(statusCode === 401){
       this.messageService.add({
         severity: 'error',
@@ -106,7 +106,7 @@ export class TutteAttivitaComponent implements OnInit {
       .getOneUser(id)
       .pipe(
         catchError((err) => {
-          this.show(err.status);
+          this.showError(err.status);
           return of(null); // Restituisci null in caso di errore
         })
       )
@@ -121,7 +121,7 @@ export class TutteAttivitaComponent implements OnInit {
       .getAllUsersActivities(page, limit)
       .pipe(
         catchError((err) => {
-          this.show(err.status);
+          this.showError(err.status);
           return of({ data: { document: [] } }); // Restituisci un array vuoto in caso di errore
         })
       )

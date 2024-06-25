@@ -89,12 +89,12 @@ export class LoginComponent {
             }
 
             if (numberValue < 4) {
-              this.show(err.status);
+              this.showError(err.status);
             }
           }
       });
     } else {
-      console.log('Form not valid');
+      this.showError(400);
     }
   }
 
@@ -106,20 +106,40 @@ export class LoginComponent {
     this.router.navigate(['home']);
   }
 
-  show(statusCode: number) {
-    if(statusCode === 401){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Verifica la tua email e la tua password e riprova.',
-      });
-    }
-    if(statusCode === 500){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+  showError(statusCode: number) {
+    switch (statusCode) {
+      case 400: 
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 400',
+          detail: 'Per favore fornisci un\'email e una password',
+        });
+        break;
+      case 401:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 401',
+          detail: 'Verifica la tua email e la tua password e riprova.',
+        });
+        break;
+      case 429:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 429',
+          detail: 'Troppi tentativi di accesso, riprova tra un\'ora.',
+        });
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+        break;
+      case 500:
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Errore 500',
+          detail: 'Errore interno del server, riprova più tardi.',
+        });
+        break;
     }
   }
 

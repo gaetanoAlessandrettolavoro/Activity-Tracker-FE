@@ -22,14 +22,21 @@ export class DeleteUserButtonComponent {
   ) {}
 
   show(statusCode: number) {
-    if (statusCode === 401) {
-      console.log('Errore 401');
-      alert('Sembra che tu non sia autenticato. Accedi per continuare.');
-      this.userService.logout();
-      this.router.navigate(['/login']);
-    }
-    if (statusCode === 500) {
-      alert('Errore interno del server, riprova più tardi.');
+    switch (statusCode) {
+      case 401:
+        alert('Sembra che tu non sia autenticato. Accedi per continuare.');
+        this.userService.logout();
+        this.router.navigate(['/login']);
+        break;
+      case 403:
+        alert('Non puoi eliminare un amministratore');
+        break;
+      case 404:
+        alert('Utente non trovato');
+        break;
+      case 500:
+        alert('Errore interno del server, riprova più tardi.');
+        break;
     }
   }
 
