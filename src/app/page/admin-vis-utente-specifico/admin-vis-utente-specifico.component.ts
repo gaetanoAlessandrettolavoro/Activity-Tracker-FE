@@ -27,6 +27,7 @@ import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactiv
     providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
+  apiUrl: any;
   constructor(private route: ActivatedRoute, private router: Router, private admin: AdminserviceService, private messageService: MessageService, private userService: UserServiceService) { }
   first: number = 0;
   rows: number = 10;
@@ -34,7 +35,8 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   limitDefault = 5;
   pageDefault = 1;
   activities: Activity[] = [];
-  idunivoco! : string
+  idunivoco! : string;
+  userEmail: string = ''; 
 
   cols = [
     { field: 'taskName', header: 'Attività' },
@@ -73,9 +75,13 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
       const id = params['id'];
       this.idunivoco = id
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      this.admin.getOneUser(id).subscribe({
+        next:(res)=>{this.userEmail=res.data.email}
+      })
     });
-  }
+    
 
+  }
   show404() {
     this.router.navigate(['**']);
   }
@@ -118,5 +124,3 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     });
   }
 }
-
-
