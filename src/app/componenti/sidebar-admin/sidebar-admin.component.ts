@@ -4,13 +4,13 @@ import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
   selector: 'app-sidebar-admin',
   standalone: true,
-  imports: [SidebarModule,ButtonModule,RippleModule,AvatarModule,StyleClassModule],
+  imports: [SidebarModule,ButtonModule,RippleModule,AvatarModule,StyleClassModule, RouterLink],
   templateUrl: './sidebar-admin.component.html',
   styleUrl: './sidebar-admin.component.css'
 })
