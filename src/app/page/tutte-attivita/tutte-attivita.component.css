@@ -1,10 +1,8 @@
 h1{
     display: flex;
     justify-content: center;
-    margin-top: 60px;
-    margin-bottom: 70px;
     text-align: center;
-    font-size:50px;
+    font-size:30px;
 
 }
 
@@ -27,7 +25,7 @@ input[type="text"] {
 .box{
     
    
-    margin-top: 100px;
+    margin-top: 10px;
 }
 
 
