@@ -1,3 +1,4 @@
+<div *ngIf="isUser">
 <p-sidebar [(visible)]="sidebarVisible">
   
   <br>
@@ -30,7 +31,46 @@
 </p-sidebar>
 <p-button  (click)="sidebarVisible = true" icon="pi pi-bars"  [style]="{'background-color': 'white','color' : 'black','border':'none'}" />
 
+</div>
 
 
+<div *ngIf="isAdmin">
+  <p-sidebar [(visible)]="sidebarVisible">
+    
+    <br>
+    <li><i class="pi pi-home"></i> <a href="homeadmin">Dashboard</a></li>
+
+    <br>
+    <li><i class="pi pi-calendar-times"></i><a href="tutteattivita">Tutte le attività</a></li>
+
+  <br>
+  <li><i class="pi pi-user"></i> <a href="impostazioniadmin">Impostazioni admin</a></li>
+  
+    <br>
+    <li><i class="pi pi-sign-out"></i> <button style="background:none; border:none; padding:0;font-family: Verdana, Geneva, Tahoma, sans-serif;font-weight: bold; color:red; text-decoration:none; cursor:pointer;margin-bottom: 10px;" (click)="logout()">Logout</button></li>
+  
+  
+  
+    <hr>
+  
+    <h1 style="font-size:25px; margin-top: 20px;">Contatti</h1>
+    <br>
+    <li>
+      <i class="pi pi-at"></i> Email: <a href="mailto:Activitytrackerinfo.it">Activitytrackerinfo.it</a>
+    </li>
+    <br>
+    <li>
+      <i class="pi pi-phone"></i> Telefono: <a href="tel:327205005">327205005</a>
+    </li>
+    <br>
+    <li>
+      <i class="pi pi-print"></i> Fax: <a href="fax:0911634824">0911634824</a>
+    </li>
+  </p-sidebar>
+  <p-button  (click)="sidebarVisible = true" icon="pi pi-bars"  [style]="{'background-color': 'white','color' : 'black','border':'none'}" />
+  
+  
+
+</div>
 
 

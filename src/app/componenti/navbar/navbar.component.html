@@ -1,0 +1,78 @@
+
+<div *ngIf="isAdmin">
+
+    <div class="left">
+
+    <app-sidebar></app-sidebar>
+
+</div>
+
+<div class="right" >
+
+    <h1>Admin</h1>
+
+    
+    <app-user-manual></app-user-manual>
+    <app-dropdown-menu></app-dropdown-menu>
+    
+
+</div>
+</div>
+<div *ngIf="isUser">
+
+    <div class="left">
+
+    <app-sidebar></app-sidebar>
+
+</div>
+
+<div class="right">
+    
+    <app-user-manual></app-user-manual>
+    <app-dropdown-menu></app-dropdown-menu>
+ 
+
+</div>
+</div>
+
+
+<div *ngIf="isNotAuthenticated">
+    <div style="display: flex; justify-content: space-between; align-items: center">
+        <h1 style="margin-left: 5px">Activity Tracker</h1>
+        <div
+          class="right"
+          style="display: flex; align-items: center; margin-right: 5px"
+        >
+          <button
+            (click)="navigateToRegister()"
+            style="
+              background-color: #a1c1d9;
+              border: none;
+              border-radius: 8px;
+              height: 40px;
+              margin-right: 20px;
+              margin-top: 55px;
+              cursor: pointer;
+            "
+          >
+            Registrati
+          </button>
+          <button
+            (click)="navigateToLogin()"
+            style="
+              background-color: #a1c1d9;
+              border: none;
+              border-radius: 8px;
+              height: 40px;
+              margin-right: 20px;
+              margin-top: 55px;
+              cursor: pointer;
+            "
+          >
+            Accedi
+          </button>
+        </div>
+      </div>
+      
+</div>
+

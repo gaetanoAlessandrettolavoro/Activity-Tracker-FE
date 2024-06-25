@@ -1,7 +1,16 @@
-<p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="isVisible()"></p-button>
-
-<div *ngIf="menuVisible">
-  <p-menu (click)="isVisibleUser()" #menu [model]="items" [style]="{'position': 'absolute','right': '15px', }"></p-menu>
+<div *ngIf="isAdmin">
+    <div>
+        <p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="showMenu = !showMenu"></p-button>
+        <p-menu *ngIf="showMenu" (click)="showMenu = false" #menu [model]="items" [style]="{'position': 'absolute','right': '15px'}"></p-menu>
+    </div>
+    
 </div>
+<div *ngIf="isUser">
+    <div>
+        <p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="showMenu = !showMenu"></p-button>
+        <p-menu *ngIf="showMenu" (click)="showMenu = false" #menu [model]="items" [style]="{'position': 'absolute','right': '15px'}"></p-menu>
+    </div>
+</div>
+
 
 
