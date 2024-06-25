@@ -8,7 +8,6 @@ import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { FilterService, MessageService } from 'primeng/api';
-import { AdminVisTutteAttUsersComponent } from '../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { catchError, of } from 'rxjs';
@@ -42,7 +41,6 @@ interface rowItem extends Activity {
     RippleModule,
     InputTextModule,
     FormsModule,
-    AdminVisTutteAttUsersComponent,
     FooterComponent,
     DeleteActivityButtonComponent,
     DatePipe,

@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
 import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
-import { NavbarAdminComponent } from '../../componenti/navbar-admin/navbar-admin.component';
+
 import { DialogModule } from 'primeng/dialog';
 import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
 import { AdminserviceService } from '../../servizi/adminservice.service';
@@ -18,27 +18,12 @@ import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
 
 @Component({
-  selector: 'app-admin-vis-user',
-  standalone: true,
-  templateUrl: './admin-vis-users.component.html',
-  styleUrls: ['./admin-vis-users.component.css'],
-  imports: [
-    TableModule,
-    ButtonModule,
-    CommonModule,
-    FooterComponent,
-    PaginatorModule,
-    InputTextModule,
-    FormsModule,
-    DeleteUserButtonComponent,
-    NavbarAdminComponent,
-    DialogModule,
-    ButtonModule,
-    InputTextModule,
-    AdminaddactivityforuserComponent,
-    ToastModule,
-  ],
-  providers: [MessageService],
+    selector: 'app-admin-vis-user',
+    standalone: true,
+    templateUrl: './admin-vis-users.component.html',
+    styleUrls: ['./admin-vis-users.component.css'],
+    imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent,DialogModule, ButtonModule, InputTextModule, AdminaddactivityforuserComponent,ToastModule],
+    providers: [MessageService],
 })
 export class AdminvisuserComponent implements OnInit {
   constructor(

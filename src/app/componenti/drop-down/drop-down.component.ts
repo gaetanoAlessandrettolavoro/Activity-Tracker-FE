@@ -19,8 +19,21 @@ import { UserServiceService } from '../../servizi/user-service.service';
 export class DropdownMenuComponent implements OnInit {
   menuVisible: boolean = false;
   items!: MenuItem[];
-  isAdmin: boolean = false; 
+  isUser: boolean = false; 
+  isAdmin:boolean=false;
+  showMenu:boolean= false;
+
   constructor(private router: Router, private userService: UserServiceService) {} 
+  ngDoCheck(){
+    if(localStorage.getItem("utente")){
+      console.log("utente")
+      this.isUser = true
+    }
+    else if(localStorage.getItem("admin")){
+          console.log("admin")
+          this.isAdmin = true
+    }
+  }
   ngOnInit() {
     this.items = [
       { 
@@ -38,12 +51,7 @@ export class DropdownMenuComponent implements OnInit {
     this.menuVisible = !this.menuVisible;
   }
 
-   usermanual : boolean = false
-
-  isVisibleUser() {
-   this.usermanual = !this.usermanual;
-  }
-
+  
 
   navigateBasedOnRole() {
   

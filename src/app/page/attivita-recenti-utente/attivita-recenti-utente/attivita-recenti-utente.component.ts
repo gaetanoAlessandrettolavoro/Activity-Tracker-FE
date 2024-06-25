@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../../componenti/edit-activity-button/edit-activity-button.component';
-import { NavbarAttrecentiComponent } from '../../../componenti/navbar-attrecenti/navbar-attrecenti.component';
+
 import { FooterComponent } from '../../../componenti/footer/footer.component';
 import { FilterService, MessageService } from 'primeng/api';
 import { Activity } from '../../../models/activityModel';
@@ -26,7 +26,7 @@ import { UserServiceService } from '../../../servizi/user-service.service';
     CommonModule,
     ReactiveFormsModule,
     EditActivityButtonComponent,
-    NavbarAttrecentiComponent,
+  
     FooterComponent,
     DeleteActivityButtonComponent,
     PaginatorModule,

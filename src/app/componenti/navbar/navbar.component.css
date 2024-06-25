@@ -1,0 +1,33 @@
+/* Stile per la navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 10px;
+    
+    
+   
+   
+  }
+  
+ 
+  .left {
+    display: flex;
+    align-items: center; 
+    margin-left:5px;
+  }
+  
+ 
+  .right {
+    display: flex;
+    align-items: center; 
+    margin-left: auto;
+    flex-direction: row-reverse;
+    margin-top:-35px;
+    margin-bottom: 30px;
+    margin-right: 5px;
+
+  }
+  
+ 
+ 

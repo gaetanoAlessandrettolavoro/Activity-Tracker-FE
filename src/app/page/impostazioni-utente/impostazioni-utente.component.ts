@@ -1,12 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NavbarimpostutenteComponent } from "../../componenti/navbarimpostutente/navbarimpostutente.component";
 import { User } from '../../models/userModel';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
+
+
 
 
 
@@ -15,7 +16,7 @@ import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
     templateUrl: './impostazioni-utente.component.html',
     styleUrls: ['./impostazioni-utente.component.css'],
     standalone: true,
-    imports:  [RouterLink, NavbarimpostutenteComponent, ToastModule, FormsModule, ReactiveFormsModule, FileUploadModule],
+    imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
     providers: [MessageService]
 })
 export class UserRouteComponent implements OnInit {

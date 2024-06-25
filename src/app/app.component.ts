@@ -7,14 +7,29 @@ import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.co
 import { UserManualComponent } from './componenti/user-manual/user-manual.component';
 import { UserTaskCreationComponent } from './componenti/user-task-creation/user-task-creation.component';
 import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
+import { NavbarComponent } from './componenti/navbar/navbar.component';
+import { CommonModule } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [UserTaskCreationComponent, RouterOutlet, AdminvisuserComponent, AttivitaRecentiUtenteComponent, UserManualComponent, UserHomeComponent, AdminvisuserComponent, UserRouteComponent]
+    imports: [CommonModule,NavbarComponent,UserTaskCreationComponent, RouterOutlet, AdminvisuserComponent, AttivitaRecentiUtenteComponent, UserManualComponent, UserHomeComponent, AdminvisuserComponent]
 })
 export class AppComponent {
   title = 'ActivityTracker-FE';
+  showNavbar: boolean = false;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        
+        this.showNavbar = !event.url.includes('/login');
+      }
+    });
+  }
+
+  
 }
