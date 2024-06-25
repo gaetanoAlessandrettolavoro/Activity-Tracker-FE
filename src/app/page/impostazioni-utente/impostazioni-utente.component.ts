@@ -1,9 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { User } from '../../models/userModel';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 
@@ -14,7 +16,8 @@ import { MessageService } from 'primeng/api';
     templateUrl: './impostazioni-utente.component.html',
     styleUrls: ['./impostazioni-utente.component.css'],
     standalone: true,
-    imports: [RouterLink]
+    imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
+    providers: [MessageService]
 })
 export class UserRouteComponent implements OnInit {
   user = signal<User>({} as User);

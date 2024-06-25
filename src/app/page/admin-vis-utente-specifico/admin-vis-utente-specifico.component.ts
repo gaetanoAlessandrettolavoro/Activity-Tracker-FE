@@ -8,8 +8,6 @@ import { Activity } from '../../models/activityModel';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { AdminVisTutteAttUsersComponent } from "../../componenti/admin-vis-tutte-att-users/admin-vis-tutte-att-users.component";
-
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { MessageService } from 'primeng/api';
 import { AdminserviceService } from '../../servizi/adminservice.service';
@@ -23,7 +21,7 @@ import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactiv
     standalone: true,
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
-    imports: [AdminaddactivityforuserComponent,PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, AdminVisTutteAttUsersComponent, DeleteActivityButtonComponent, ToastModule],
+    imports: [AdminaddactivityforuserComponent,PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, DeleteActivityButtonComponent, ToastModule],
     providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
