@@ -9,7 +9,6 @@ import { EmaildimenticataComponent } from './page/emaildimenticata/email-passwor
 import { TutteAttivitaComponent } from './page/tutte-attivita/tutte-attivita.component';
 import { AdminvisuserComponent } from './page/admin-vis-users/admin-vis-users.component';
 import { UserRouteComponent } from './page/impostazioni-utente/impostazioni-utente.component';
-import { AdminrouteComponent } from './page/rotta-impostazioniadmin/rotta-impostazioniadmin.component';
 import { authGuard } from './guardie/auth.guard';
 import { AdminModeDatiUserSpeComponent } from './page/admin-mode-dati-user-spe/admin-mode-dati-user-spe.component';
 import { NotFoundComponent } from './page/404/404.component';
@@ -17,6 +16,7 @@ import { authuserGuard } from './guardie/authuser.guard';
 import { userGuard } from './guardie/user.guard';
 import { homeGuard } from './guardie/home.guard';
 import { GraficiComponent } from './page/grafici/grafici.component';
+import { ImpostaNuovaPasswordComponent } from './page/imposta-nuova-password/imposta-nuova-password.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
@@ -28,11 +28,11 @@ export const routes: Routes = [
     { path: 'passworddimenticata', component: EmaildimenticataComponent },
     { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
     { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
-    { path: 'impostazioniutente', component: UserRouteComponent,canActivate:[authuserGuard] },
-    { path: 'impostazioniadmin', component: AdminrouteComponent, canActivate: [authGuard] },
+    { path: 'impostazioni', component: UserRouteComponent,canActivate:[authGuard] },
     { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
     { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
+    { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[authGuard] },
 
 
     // Questa rotta deve restare per ultima 
