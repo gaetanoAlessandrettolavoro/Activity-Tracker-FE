@@ -45,7 +45,7 @@ export class AdminvisuserComponent implements OnInit {
     private users: AdminserviceService,
     private router: Router,
     private messageService: MessageService,
-    private userService: UserServiceService,
+    private userService: UserServiceService
   ) {}
   usersArray = signal<User[]>([]);
   value!: string;
@@ -91,11 +91,11 @@ export class AdminvisuserComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
-  limitDefault = 5
-  limit! : number
+  limitDefault = 5;
+  limit!: number;
   first: number = 0;
   rows: number = 10;
-  pageDefault = 1
+  pageDefault = 1;
 
   filterUsers() {
     this.filteredUsers = this.usersArray().filter((user) => {
@@ -107,7 +107,7 @@ export class AdminvisuserComponent implements OnInit {
           .toLowerCase()
           .includes(this.searchText.toLowerCase()) ||
         user.email.toLowerCase().includes(this.searchText.toLowerCase());
-      const matchesDate = true; // Always true since we're not filtering by date anymore
+      const matchesDate = true;
       return matchesText && matchesDate;
     });
   }
@@ -134,19 +134,21 @@ export class AdminvisuserComponent implements OnInit {
   }
   getActivity(id: string) {
     const userId = id;
-    this.users.getOneUserActivity(userId,this.pageDefault,this.limitDefault).subscribe({
-      next: (result: any) => {
-        this.userActivities = result;
-        if (result.data.activities.length == 0) {
-          this.visibleNoActivity = true;
-        } else {
-          this.router.navigate(['/admin-vis-utente-specifico', userId]);
-        }
-      },
-      error: (err) => {
-        this.show(err.status);
-      },
-    });
+    this.users
+      .getOneUserActivity(userId, this.pageDefault, this.limitDefault)
+      .subscribe({
+        next: (result: any) => {
+          this.userActivities = result;
+          if (result.data.activities.length == 0) {
+            this.visibleNoActivity = true;
+          } else {
+            this.router.navigate(['/admin-vis-utente-specifico', userId]);
+          }
+        },
+        error: (err) => {
+          this.show(err.status);
+        },
+      });
     console.log(this.userActivities);
   }
 
@@ -154,8 +156,9 @@ export class AdminvisuserComponent implements OnInit {
     console.log(event);
     const pageNumber = event.page + 1;
     this.usersArray.set([]);
+    console.log(this.limit);
     this.users
-      .getUsers({ pageNumber: pageNumber, limit: this.limit })
+      .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
           data.data.document.forEach((item: any) => {
@@ -179,9 +182,10 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   changeLimit() {
-    const currentPage = this.first / this.rows + 1; // Calcola la pagina corrente
+    const currentPage = this.first / this.rows + 1;
+    this.limitDefault = this.limit;
     this.users
-      .getUsers({ pageNumber: currentPage, limit: this.limit })
+      .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
           this.usersArray.set([]);
@@ -225,7 +229,7 @@ export class AdminvisuserComponent implements OnInit {
       },
       error: (err) => {
         this.show(err.status);
-      }
+      },
     });
   }
 }
