@@ -17,6 +17,7 @@ import { userGuard } from './guardie/user.guard';
 import { homeGuard } from './guardie/home.guard';
 import { GraficiComponent } from './page/grafici/grafici.component';
 import { ImpostaNuovaPasswordComponent } from './page/imposta-nuova-password/imposta-nuova-password.component';
+import { NewpasswordComponent } from './page/newpassword/newpassword.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
@@ -33,6 +34,7 @@ export const routes: Routes = [
     { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[authGuard] },
+    { path:'resetPassword/:id', component:NewpasswordComponent},
 
 
     // Questa rotta deve restare per ultima 
