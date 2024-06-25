@@ -18,6 +18,7 @@ import { homeGuard } from './guardie/home.guard';
 import { GraficiComponent } from './page/grafici/grafici.component';
 import { ImpostaNuovaPasswordComponent } from './page/imposta-nuova-password/imposta-nuova-password.component';
 import { NewpasswordComponent } from './page/newpassword/newpassword.component';
+import { bothRolesGuard } from './guardie/bothRoles.guard';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
@@ -29,7 +30,7 @@ export const routes: Routes = [
     { path: 'passworddimenticata', component: EmaildimenticataComponent },
     { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
     { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
-    { path: 'impostazioni', component: UserRouteComponent,canActivate:[authGuard] },
+    { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
     { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
     { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },

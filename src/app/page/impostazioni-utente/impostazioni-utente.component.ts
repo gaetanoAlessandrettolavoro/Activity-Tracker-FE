@@ -1,18 +1,21 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavbarimpostutenteComponent } from "../../componenti/navbarimpostutente/navbarimpostutente.component";
 import { User } from '../../models/userModel';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+
+
 
 @Component({
     selector: 'app-impostazioniutente',
     templateUrl: './impostazioni-utente.component.html',
     styleUrls: ['./impostazioni-utente.component.css'],
     standalone: true,
-    imports: [RouterLink, NavbarimpostutenteComponent, ToastModule, FormsModule, ReactiveFormsModule],
+    imports:  [RouterLink, NavbarimpostutenteComponent, ToastModule, FormsModule, ReactiveFormsModule, FileUploadModule],
     providers: [MessageService]
 })
 export class UserRouteComponent implements OnInit {
@@ -23,6 +26,7 @@ export class UserRouteComponent implements OnInit {
     lastName: new FormControl(this.user().lastName, [Validators.required]),
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
   })
+  image! : any
 
   constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService) {}
 
@@ -91,5 +95,14 @@ export class UserRouteComponent implements OnInit {
     } else {
       this.show(1);
     }
+  }
+
+  onUpload(event: any) {
+    const file = new File([event.files[0].name], "foo.txt", {
+      type: "text/plain",
+    });
+    
+    this.image = file
+    console.log(file)
   }
 }

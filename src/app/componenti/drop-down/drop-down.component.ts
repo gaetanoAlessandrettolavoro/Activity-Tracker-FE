@@ -47,7 +47,7 @@ export class DropdownMenuComponent implements OnInit {
 
   navigateBasedOnRole() {
   
-      this.router.navigate(['impostazioniadmin']);
+      this.router.navigate(['/impostazioni']);
    
   }
   logout() {
