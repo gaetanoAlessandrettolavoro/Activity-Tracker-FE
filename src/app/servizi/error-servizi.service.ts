@@ -19,11 +19,19 @@ export class ErrorServiziService {
 
   messages: Message[] = [
     {
+      statusCode: 1,
+      errorMessage: {
+        severity: 'error',
+        summary: 'Errore',
+        detail: 'Form non valido'
+      }
+    },
+    {
       statusCode: 400,
       errorMessage: {
         severity: 'error',
         summary: 'Errore 400',
-        detail: 'Errore durante la richiesta, riprova più tardi.',
+        detail: 'Richiesta non valida, riprova.',
       }
     },
     {
@@ -68,17 +76,9 @@ export class ErrorServiziService {
     }
   ]
 
-  getErrorMessage(statusCode: number): any{
-    let response:any = this.messages.find((mess: Message) => {
-      if(mess.statusCode === statusCode) {
-        return mess.errorMessage;
-      }
-      return {
-        severity: 'error',
-        summary: 'Errore',
-        detail: 'Errore generico',
-      }
-    });
+  getErrorMessage(statusCode: number): Message['errorMessage']{
+    let index = this.messages.findIndex((mess: Message) => mess.statusCode === statusCode);
+    let response = this.messages[index].errorMessage;
     if(!!response) {
       return response;
     }
