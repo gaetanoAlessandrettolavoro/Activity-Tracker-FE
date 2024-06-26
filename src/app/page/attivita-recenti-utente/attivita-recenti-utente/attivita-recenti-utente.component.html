@@ -1,5 +1,4 @@
-
-<p-toast />
+<p-toast></p-toast>
 <h1>Attività recenti</h1>
 <div class="table-container">
   <div class="filter-container" [formGroup]="filterForm">
@@ -10,11 +9,11 @@
     
     <div class="date-input">
       <label for="fromDate">Da:</label>
-      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate">
+      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate" (change)="startTime()">
     </div>
-    <div class="date-input">
+     <div class="date-input">
       <label for="toDate">A:</label>
-      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="toDate">
+      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="endTime" (change)="endTime()"> 
     </div>
   </div>
 
@@ -59,4 +58,4 @@
     <br>
     <p-button label="Invia" (click)="changeLimit()" size="small"></p-button> {{limit}}
   </div>
-</div>
+
