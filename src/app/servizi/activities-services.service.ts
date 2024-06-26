@@ -12,19 +12,23 @@ export class ActivitiesServicesService {
   private apiUrl = 'http://localhost:3000/api/v1/activities/me'; 
 
 
-  getActivities(parameter?:{pageNumber?: number, limit?: number}): Observable<any> {
-    if(parameter?.limit  && !parameter?.pageNumber){
-      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isActive=true&sort=-startTime`, {withCredentials : true});
+  getActivities(parameter?:{pageNumber?: number, limit?: number, fromDate?: string, toDate?: string}): Observable<any> {
+    let url = `${this.apiUrl}?isActive=true`;
+  
+    if(parameter?.limit){
+      url += `&limit=${parameter.limit}&sort=-startTime`;
     }
-    else if(parameter?.pageNumber && !parameter?.limit){
-      return this.httpclient.get<any>(`${this.apiUrl}?page=${parameter?.pageNumber}&isActive=true&sort=-startTime`, {withCredentials : true});
+    if(parameter?.pageNumber){
+      url += `&page=${parameter.pageNumber}&sort=-startTime`;
     }
-    if(parameter?.limit && parameter.pageNumber){
-      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isActive=true&sort=-startTime`, {withCredentials : true});
-    }
-    return this.httpclient.get<any>(`${this.apiUrl}?isActive=true`,{withCredentials : true})
 
+    if(parameter?.toDate && parameter?.fromDate){
+      url += `&startTime[gte]=${parameter.fromDate}&endTime[lte]=${parameter.toDate}&sort=-startTime`;
+    }
+  
+    return this.httpclient.get<any>(url, {withCredentials : true});
   }
+  
 
   createActivity(activity: Activity, userID?: string): Observable<any> {
     const apiUrl = `http://localhost:3000/api/v1/activities`;;
@@ -41,11 +45,13 @@ export class ActivitiesServicesService {
   }
 
   deleteActivity(activityID: string): Observable<any>{
-    const apiUrl = `http://localhost:3000/api/v1/activities/${activityID}`;
+    const apiUrl = "http://localhost:3000/api/v1/activities/";
 
     console.log("Deleting activity with ID: " + activityID);
 
-    return this.httpclient.delete(apiUrl,{ withCredentials: true });
+    return this.httpclient.delete(apiUrl+activityID, { withCredentials: true });
   }
     
   }
+
+

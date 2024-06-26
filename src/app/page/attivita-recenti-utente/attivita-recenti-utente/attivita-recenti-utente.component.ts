@@ -4,7 +4,6 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../../componenti/edit-activity-button/edit-activity-button.component';
-
 import { FooterComponent } from '../../../componenti/footer/footer.component';
 import { FilterService, MessageService } from 'primeng/api';
 import { Activity } from '../../../models/activityModel';
@@ -26,7 +25,6 @@ import { UserServiceService } from '../../../servizi/user-service.service';
     CommonModule,
     ReactiveFormsModule,
     EditActivityButtonComponent,
-  
     FooterComponent,
     DeleteActivityButtonComponent,
     PaginatorModule,
@@ -35,9 +33,15 @@ import { UserServiceService } from '../../../servizi/user-service.service';
   providers: [MessageService],
 })
 export class AttivitaRecentiUtenteComponent implements OnInit {
+
+
+  
+
   rowItems: Activity[] = [];
   filteredItems: Activity[] = [];
   filterForm: FormGroup;
+  start! : any
+  end! : any
 
   router = inject(Router);
 
@@ -48,11 +52,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     { field: 'endTime', header: 'Orario di fine' },
     { field: 'notes', header: 'Note' },
   ];
-  limitDefault = 5
+  limitDefault = 5;
   limit: number = this.limitDefault; // Initialize limit with default value
   first: number = 0;
   rows: number = 10;
-  pageDefault = 1
+  pageDefault = 1;
 
   constructor(
     private filterService: FilterService,
@@ -64,9 +68,22 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     this.filterForm = new FormGroup({
       searchText: new FormControl(''),
       fromDate: new FormControl(''),
-      toDate: new FormControl(''),
+      endTime: new FormControl(''),
     });
   }
+
+  startTime() {
+    this.start = this.filterForm.value.fromDate
+    console.log(this.start)
+    this.loadActivities(this.pageDefault, this.limitDefault);
+  }
+
+  endTime() {
+    this.end = this.filterForm.value.endTime
+    console.log(this.end)
+    this.loadActivities(this.pageDefault,this.limitDefault,this.start,this.end)
+  }
+
 
   show(statusCode: number) {
     if (statusCode === 401) {
@@ -148,9 +165,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       }
     });
   }
+
+  loadActivities(pageNumber: number, limit: number, fromDate?: string, toDate?: string): void {
   
-  loadActivities(pageNumber: number, limit: number): void {
-    this.activitiesservices.getActivities({ pageNumber, limit }).subscribe((data) => {
+    
+    this.activitiesservices.getActivities({ pageNumber, limit, fromDate: this.start, toDate: this.end }).subscribe((data) => {
       this.rowItems = data.data.userActivities.map((item: Activity) => ({
         taskID: item.taskID,
         taskName: item.taskName,
@@ -160,18 +179,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
         _id: item._id,
       }));
       this.filteredItems = [...this.rowItems];
-    });
-
-    this.filterForm.valueChanges.subscribe({
-      next: () => {
-        this.filterActivities();
-      },
-      error: (err) => {
-        this.show(err.status);
-      }
+      this.filterActivities(); 
     });
   }
-
 
   reload() {
     window.location.reload();
@@ -180,10 +190,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   onPageChange(event: any): void {
     const pageNumber = event.page + 1;
     this.pageDefault = pageNumber;
-    this.loadActivities(pageNumber, this.limit); // Use the current limit value
+    this.loadActivities(pageNumber, this.limit, this.filterForm.value.fromDate, this.filterForm.value.toDate); // Use the current limit value and date filters
   }
 
   changeLimit(): void {
-    this.loadActivities(this.pageDefault, this.limit);
+    this.loadActivities(this.pageDefault, this.limit, this.filterForm.value.fromDate, this.filterForm.value.toDate);
   }
 }
+
