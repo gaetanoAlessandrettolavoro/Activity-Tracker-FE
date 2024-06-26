@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../../servizi/user-service.service';
+import { ErrorServiziService } from '../../../servizi/error-servizi.service';
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -57,9 +58,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private activitiesservices: ActivitiesServicesService,
-    private route: ActivatedRoute,
     private userService: UserServiceService,
     private messageService: MessageService,
+    private errors: ErrorServiziService
   ) {
     this.filterForm = new FormGroup({
       searchText: new FormControl(''),
@@ -68,24 +69,15 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     });
   }
 
-  show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode)); 
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -144,30 +136,35 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
         this.filterActivities();
       },
       error: (err) => {
-        this.show(err.status);
+        this.showError(err.status);
       }
     });
   }
   
   loadActivities(pageNumber: number, limit: number): void {
-    this.activitiesservices.getActivities({ pageNumber, limit }).subscribe((data) => {
-      this.rowItems = data.data.userActivities.map((item: Activity) => ({
-        taskID: item.taskID,
-        taskName: item.taskName,
-        startTime: new Date(item.startTime),
-        endTime: new Date(item.endTime),
-        notes: item.notes,
-        _id: item._id,
-      }));
-      this.filteredItems = [...this.rowItems];
-    });
+    this.activitiesservices.getActivities({ pageNumber, limit }).subscribe({
+      next: (data) => {
+        this.rowItems = data.data.userActivities.map((item: Activity) => ({
+          taskID: item.taskID,
+          taskName: item.taskName,
+          startTime: new Date(item.startTime),
+          endTime: new Date(item.endTime),
+          notes: item.notes,
+          _id: item._id,
+        }));
+        this.filteredItems = [...this.rowItems];
+      },
+      error: (error) => {
+        this.showError(error.status)
+      }
+  });
 
     this.filterForm.valueChanges.subscribe({
       next: () => {
         this.filterActivities();
       },
       error: (err) => {
-        this.show(err.status);
+        this.showError(err.status);
       }
     });
   }

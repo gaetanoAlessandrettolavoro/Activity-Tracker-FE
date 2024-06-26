@@ -15,6 +15,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
@@ -26,7 +27,7 @@ import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactiv
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
   apiUrl: any;
-  constructor(private route: ActivatedRoute, private router: Router, private admin: AdminserviceService, private messageService: MessageService, private userService: UserServiceService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private admin: AdminserviceService, private messageService: MessageService, private userService: UserServiceService, private errors: ErrorServiziService) { }
   first: number = 0;
   rows: number = 10;
   limit!: number;
@@ -44,60 +45,20 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     { field: 'notes', header: 'Note' },
   ];
 
-  show(statusCode: number) {
-    switch (statusCode) {
-      case 400:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 400',
-          detail: 'Errore durante la richiesta, riprova più tardi.',
-        });
-        this.router.navigate(['**']);
-        break;
-      case 401:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 401',
-          detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-        });
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 403:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 403',
-          detail: 'Non hai i permessi per eseguire questa azione.',
-        });
-        break;
-      case 404:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 404',
-          detail: 'Utente non trovato.',
-        });
-        this.router.navigate(['**']);
-        break;
-      case 429:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 429',
-          detail: 'Troppi tentativi di accesso, riprova tra un\'ora.',
-        });
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 500:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 500',
-          detail: 'Errore interno del server, riprova più tardi.',
-        });
-        break;
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else if(statusCode === 400 || statusCode === 404) {      
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.router.navigate(["**"]);
+      }, 1000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -112,9 +73,6 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     });
     
 
-  }
-  show404() {
-    this.router.navigate(['**']);
   }
 
   changeLimit(): void {
@@ -148,9 +106,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
         }));
       },
       error: (err) => {
-        if (err.status === 400) {
-          this.show404();
-        }
+        this.showError(err.status);
       }
     });
   }

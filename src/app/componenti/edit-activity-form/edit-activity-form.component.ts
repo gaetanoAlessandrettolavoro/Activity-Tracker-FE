@@ -29,6 +29,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ToastModule } from 'primeng/toast';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'edit-activity-form',
@@ -59,6 +60,7 @@ export class EditActivityFormComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
     private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
   activityToEdit = signal<any>({});
@@ -68,24 +70,15 @@ export class EditActivityFormComponent implements OnInit {
   maxDate = new Date();
   minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth());
 
-  show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -96,7 +89,7 @@ export class EditActivityFormComponent implements OnInit {
         this.tasks.set(result.data.document);
       },
       error: (error) => {
-        this.show(error.status);
+        this.showError(error.status);
       },
     });
     this.activityToEdit.set(newActivity);
@@ -143,7 +136,7 @@ export class EditActivityFormComponent implements OnInit {
           this.activityEdited.emit(true);
         },
         error: (err) => {
-          this.show(err.status);
+          this.showError(err.status);
         },
       });
   }

@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'basic-chart',
@@ -23,26 +24,18 @@ export class BasicChartComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
     private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
-  show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -59,7 +52,7 @@ export class BasicChartComponent implements OnInit {
         this.basicData = data[0];
       },
       error: (error) => {
-        this.show(parseInt(error.message));
+        this.showError(parseInt(error.message));
       }
     });
 

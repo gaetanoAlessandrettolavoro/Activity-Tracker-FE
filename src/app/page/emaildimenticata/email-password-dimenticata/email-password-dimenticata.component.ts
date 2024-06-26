@@ -4,6 +4,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { UserServiceService } from '../../../servizi/user-service.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ErrorServiziService } from '../../../servizi/error-servizi.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-emaildimenticata',
@@ -15,38 +17,23 @@ import { MessageService } from 'primeng/api';
 })
 export class EmaildimenticataComponent {
 
-  constructor(private userService: UserServiceService, private messageService: MessageService){}
+  constructor(private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router){}
 
   showError(statusCode: number) {
-    switch (statusCode) {
-      case 403: 
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 403',
-          detail: 'L\'utente non è attivo o non è stato accettato, per favore contatta l\'amministratore.',
-        });
-        break;
-      case 404:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 404',
-          detail: 'Nessun utente trovato con queste credenziali, per favore registrati.',
-        });
-        break;
-      case 429:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 429',
-          detail: 'Troppi tentativi di accesso, riprova più tardi.',
-        });
-        break;
-      case 500:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 500',
-          detail: 'Errore interno del server, riprova più tardi.',
-        });
-        break;
+    if(statusCode === 403) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 403',
+        detail: 'L\'utente non è attivo o non è stato accettato, per favore contatta l\'amministratore.',
+      });
+    } else if(statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
    

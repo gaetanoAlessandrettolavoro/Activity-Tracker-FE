@@ -17,7 +17,7 @@ export class ErrorServiziService {
 
   constructor() { }
 
-  messages: Message[] = [
+  private messages: Message[] = [
     {
       statusCode: 1,
       errorMessage: {

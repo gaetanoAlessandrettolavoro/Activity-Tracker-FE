@@ -16,6 +16,7 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
     selector: 'app-admin-vis-user',
@@ -30,7 +31,8 @@ export class AdminvisuserComponent implements OnInit {
     private users: AdminserviceService,
     private router: Router,
     private messageService: MessageService,
-    private userService: UserServiceService
+    private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
   usersArray = signal<User[]>([]);
@@ -56,43 +58,14 @@ export class AdminvisuserComponent implements OnInit {
   visibleNoActivity: boolean = false;
 
   showError(statusCode: number) {
-    switch (statusCode) {
-      case 401:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 401',
-          detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-        });
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 403:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 403',
-          detail: 'Non hai i permessi per eseguire questa azione.',
-        });
-        break;
-      case 429:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 429',
-          detail: 'Troppi tentativi di accesso, riprova tra un\'ora.',
-        });
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 500:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 500',
-          detail: 'Errore interno del server, riprova più tardi.',
-        });
-        break;
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 

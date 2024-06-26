@@ -29,6 +29,7 @@ import { User } from '../../models/userModel';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -61,7 +62,8 @@ export class RegisterComponent {
   constructor(
     private messageService: MessageService,
     private router: Router,
-    @Inject(UserServiceService) private userService: UserServiceService
+    @Inject(UserServiceService) private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
   visible: boolean = false;
@@ -69,36 +71,20 @@ export class RegisterComponent {
   showError(statusCode: number) {
     switch (statusCode) {
       case 1:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore',
-          detail: 'I campi del form non sono validi. Riprova.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(1));
         break;
       case 400:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 400',
-          detail: 'Richiesta non valida, riprova.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(400));
         break;
       case 429:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 429',
-          detail: 'Troppi tentativi di accesso, riprova tra un\'ora.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(429));
         setTimeout(() => {
           this.userService.logout();
           this.router.navigate(['/login']);
         }, 3000);
         break;
       case 500:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 500',
-          detail: 'Errore interno del server, riprova più tardi.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(500));
         break;
     }
   }  

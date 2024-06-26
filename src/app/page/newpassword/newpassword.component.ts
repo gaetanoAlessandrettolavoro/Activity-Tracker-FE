@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'app-newpassword',
@@ -33,44 +34,24 @@ providers: [MessageService],
 })
 export class NewpasswordComponent {
 
-  constructor(private route: ActivatedRoute, private userService: UserServiceService, private messageService: MessageService) {}
+  constructor(private route: ActivatedRoute, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) {}
 
   showError(statusCode: number) {
     switch (statusCode) {
       case 1:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 1',
-          detail: 'Form non valido, riprova.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(1));
         break;
       case 400: 
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 400',
-          detail: 'Errore durante la richiesta, riprova più tardi.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(400));
         break;
       case 404:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 404',
-          detail: 'Nessun utente trovato con quest\'email, per favore registrati.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(404));
         break;
       case 429:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 429',
-          detail: 'Troppi tentativi di accesso, riprova più tardi.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(429));
         break;
       case 500:
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Errore 500',
-          detail: 'Errore interno del server, riprova più tardi.',
-        });
+        this.messageService.add(this.errors.getErrorMessage(500));
         break;
     }
   }

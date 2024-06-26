@@ -17,6 +17,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 
 interface rowItem extends Activity {
@@ -76,27 +77,19 @@ export class TutteAttivitaComponent implements OnInit {
     private userServ: AdminserviceService,
     private messageService: MessageService,
     private router: Router,
-    private userService: UserServiceService
+    private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
   showError(statusCode: number) {
-    if(statusCode === 401){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if(statusCode === 500){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
