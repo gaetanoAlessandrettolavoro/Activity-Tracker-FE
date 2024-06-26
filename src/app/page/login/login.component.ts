@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'app-login',
@@ -47,7 +48,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private userService: UserServiceService
+    private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
   visible: boolean = false;
@@ -89,12 +91,12 @@ export class LoginComponent {
             }
 
             if (numberValue < 4) {
-              this.show(err.status);
+              this.showError(err.status);
             }
           }
       });
     } else {
-      console.log('Form not valid');
+      this.showError(400);
     }
   }
 
@@ -106,20 +108,21 @@ export class LoginComponent {
     this.router.navigate(['home']);
   }
 
-  show(statusCode: number) {
-    if(statusCode === 401){
+  showError(statusCode: number) {
+    if(statusCode === 401) {
       this.messageService.add({
         severity: 'error',
         summary: 'Errore 401',
         detail: 'Verifica la tua email e la tua password e riprova.',
       });
-    }
-    if(statusCode === 500){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else if (statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 

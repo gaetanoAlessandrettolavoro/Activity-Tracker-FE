@@ -6,6 +6,7 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
     selector: 'app-impostazioniutente',
@@ -26,33 +27,17 @@ export class UserRouteComponent implements OnInit {
   })
   image! : any
 
-  constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService) {}
+  constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) {}
 
-  show(statusCode: number) {
-    if(statusCode === 401){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if(statusCode === 500){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
-    }
-    if(statusCode === 1) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore',
-        detail: 'Il form non è valido',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -62,7 +47,7 @@ export class UserRouteComponent implements OnInit {
         this.user.set(result.data);
       },
       error: (error) => {
-        this.show(error.status);
+        this.showError(error.status);
       }
     })
   }
@@ -90,10 +75,10 @@ export class UserRouteComponent implements OnInit {
           });
           this.getInfo();
         },
-        error: (error) => this.show(error.status)
+        error: (error) => this.showError(error.status)
       });
     } else {
-      this.show(1);
+      this.showError(1);
     }
   }
 

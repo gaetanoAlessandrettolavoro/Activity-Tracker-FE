@@ -23,6 +23,7 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'daily-activity',
@@ -55,7 +56,7 @@ export class DailyActivityComponent {
   rows: number = 10;
   totale! : number
   conteggio! : string
-  constructor(private adminService: AdminserviceService, private messageService: MessageService, private userService: UserServiceService, private router: Router) {
+  constructor(private adminService: AdminserviceService, private messageService: MessageService, private userService: UserServiceService, private router: Router, private errors: ErrorServiziService) {
     this.oggettistampati = [];
 
     effect(() => {
@@ -107,31 +108,22 @@ export class DailyActivityComponent {
           }
 
           if (numberValue < 4) {
-            this.show(err.status);
+            this.showError(err.status);
           }
         }
       });
     });
   }
 
-  show(statusCode: number) {
-    if(statusCode === 401){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if(statusCode === 500){
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -193,7 +185,7 @@ export class DailyActivityComponent {
                     }
             
                     if (numberValue < 4) {
-                      this.show(err.status);
+                      this.showError(err.status);
                     }
                   }
                 });
@@ -247,7 +239,7 @@ export class DailyActivityComponent {
                   }
           
                   if (numberValue < 4) {
-                    this.show(err.status);
+                    this.showError(err.status);
                   }
                 }
               });
@@ -307,7 +299,7 @@ export class DailyActivityComponent {
         }
 
         if (numberValue < 4) {
-          this.show(err.status);
+          this.showError(err.status);
         }
       }
     });

@@ -29,6 +29,7 @@ import { User } from '../../models/userModel';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -61,16 +62,32 @@ export class RegisterComponent {
   constructor(
     private messageService: MessageService,
     private router: Router,
-    @Inject(UserServiceService) private userService: UserServiceService
+    @Inject(UserServiceService) private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
   visible: boolean = false;
 
-  showDialog() {
-    console.log('showDialog function called');
-    this.visible = true;
-  }
-  
+  showError(statusCode: number) {
+    switch (statusCode) {
+      case 1:
+        this.messageService.add(this.errors.getErrorMessage(1));
+        break;
+      case 400:
+        this.messageService.add(this.errors.getErrorMessage(400));
+        break;
+      case 429:
+        this.messageService.add(this.errors.getErrorMessage(429));
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+        break;
+      case 500:
+        this.messageService.add(this.errors.getErrorMessage(500));
+        break;
+    }
+  }  
 
   show() {
     this.messageService.add({
@@ -135,14 +152,13 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    this.formSubmitted = true;
     if (
       !this.userForm.value.name ||
       !this.userForm.value.surname ||
       !this.userForm.value.TaxIDcode ||
       !this.userForm.value.email
     ) {
-      console.error('Error!');
+      this.showError(1);
     } else if (this.userForm.valid) {
       console.log('Form Submitted!', this.userForm.value);
       this.Validform = true;
@@ -154,7 +170,16 @@ export class RegisterComponent {
       };
       this.userService
         .register(postData)
-        .subscribe({ next: (result: any) => console.log(result) });
+        .subscribe({
+          next: (result: any) => {
+            console.log(result)
+            this.visible = true;
+            this.formSubmitted = true;
+          },
+          error: (error) => {
+            this.showError(error.status);
+          },
+        });
       console.log(postData);
     } else {
       console.log('Form not valid');

@@ -8,6 +8,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'app-add-type-activity',
@@ -31,26 +32,18 @@ export class AddTypeActivityComponent {
     private router: Router,
     private userService: UserServiceService,
     private messageService: MessageService,
+    private errors: ErrorServiziService
   ) {}
 
   show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 

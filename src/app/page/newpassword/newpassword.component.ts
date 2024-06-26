@@ -10,6 +10,9 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { Observable } from 'rxjs';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'app-newpassword',
@@ -22,14 +25,36 @@ import { UserServiceService } from '../../servizi/user-service.service';
     PasswordModule,
     ButtonModule,
     RippleModule,
-    CommonModule
+    CommonModule,
+    ToastModule
   ],
   templateUrl: './newpassword.component.html',
-  styleUrl: './newpassword.component.css'
+  styleUrl: './newpassword.component.css',
+providers: [MessageService],
 })
 export class NewpasswordComponent {
 
-  constructor(private route: ActivatedRoute, private userService: UserServiceService) {}
+  constructor(private route: ActivatedRoute, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) {}
+
+  showError(statusCode: number) {
+    switch (statusCode) {
+      case 1:
+        this.messageService.add(this.errors.getErrorMessage(1));
+        break;
+      case 400: 
+        this.messageService.add(this.errors.getErrorMessage(400));
+        break;
+      case 404:
+        this.messageService.add(this.errors.getErrorMessage(404));
+        break;
+      case 429:
+        this.messageService.add(this.errors.getErrorMessage(429));
+        break;
+      case 500:
+        this.messageService.add(this.errors.getErrorMessage(500));
+        break;
+    }
+  }
 
   userForm = new FormGroup({
     password: new FormControl('', [Validators.required]),
@@ -61,7 +86,7 @@ export class NewpasswordComponent {
       this.submit = true;
       this.campovuoto = false;
     } else {
-      console.log('Form not valid');
+      this.showError(1);
     }
   }
 
@@ -75,8 +100,9 @@ export class NewpasswordComponent {
         console.log("ciao");
       },
       error: (error: any) => {
-        console.error('Si è verificato un errore:', error);
-     } })
+        this.showError(error.status);
+     }
+    })
     });
   }
 

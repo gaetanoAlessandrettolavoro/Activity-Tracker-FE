@@ -27,6 +27,7 @@ import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { TaskResponse } from '../../models/taskResponseModel';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
   selector: 'addactivityforuser',
@@ -63,6 +64,7 @@ export class AdminaddactivityforuserComponent {
     private router: Router,
     private userService: UserServiceService,
     private messageService: MessageService,
+    private errors: ErrorServiziService
   ) {}
 
   firstName: any;
@@ -75,24 +77,15 @@ export class AdminaddactivityforuserComponent {
 
   visible: boolean = false;
 
-  show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -104,7 +97,7 @@ export class AdminaddactivityforuserComponent {
     this.servicetasks.getAllTasks().subscribe({
       next: (result: TaskResponse) => (this.tasks = result.data.document),
       error: (error) => {
-        this.show(error.status);
+        this.showError(error.status);
       },
     });
 
@@ -141,7 +134,7 @@ export class AdminaddactivityforuserComponent {
       };
       this.activitiesservice
         .createActivity(activityToSend, this.userID)
-        .subscribe({ next: (result: any) => {console.log(result)}, error: err => {this.show(err.status); }});
+        .subscribe({ next: (result: any) => {console.log(result)}, error: err => {this.showError(err.status); }});
     } else {
       console.log('Form not valid');
     }

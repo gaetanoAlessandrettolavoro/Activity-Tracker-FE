@@ -24,6 +24,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 interface City {
   taskName: string;
@@ -64,38 +65,14 @@ export class UserTaskCreationComponent implements OnInit {
 
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 
-  show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
-      setTimeout(() => {
-        this.userService.logout();
-        this.router.navigate(['/login']);
-      }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
-    }
-  }
-
-  showDialog() {
-    this.visible = true;
-  }
-
   constructor(
     private servicetasks: ServiceTasksService,
     private route: ActivatedRoute,
     private activitiesservices:ActivitiesServicesService,
     private router: Router,
     private messageService: MessageService,
-    private userService: UserServiceService
+    private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {
     this.currentDateTime = new Date();
     setInterval(() => {
@@ -103,8 +80,24 @@ export class UserTaskCreationComponent implements OnInit {
     }, 1000); // Update the date and time every second
   }
 
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+    }
+  }
+
+  showDialog() {
+    this.visible = true;
+  }
+
   ngOnInit() {
-    this.servicetasks.getAllTasks().subscribe({next:(result: TaskResponse) => {this.tasks = result.data.document}, error: (error) => {this.show(error.status)}});
+    this.servicetasks.getAllTasks().subscribe({next:(result: TaskResponse) => {this.tasks = result.data.document}, error: (error) => {this.showError(error.status)}});
 
     this.userForm = new FormGroup({
       notes: new FormControl('', [Validators.required, Validators.maxLength(100)]),
@@ -154,7 +147,7 @@ export class UserTaskCreationComponent implements OnInit {
           }
         },
         error: (error: any) => {
-          this.show(error.status);
+          this.showError(error.status);
         },
       });
     });

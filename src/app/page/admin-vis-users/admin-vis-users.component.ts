@@ -16,6 +16,7 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
     selector: 'app-admin-vis-user',
@@ -30,7 +31,8 @@ export class AdminvisuserComponent implements OnInit {
     private users: AdminserviceService,
     private router: Router,
     private messageService: MessageService,
-    private userService: UserServiceService
+    private userService: UserServiceService,
+    private errors: ErrorServiziService
   ) {}
 
   usersArray = signal<User[]>([]);
@@ -55,24 +57,15 @@ export class AdminvisuserComponent implements OnInit {
 
   visibleNoActivity: boolean = false;
 
-  show(statusCode: number) {
-    if (statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
-      });
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if (statusCode === 500) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 500',
-        detail: 'Errore interno del server, riprova più tardi.',
-      });
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -131,7 +124,7 @@ export class AdminvisuserComponent implements OnInit {
         this.filterUsers();
       },
       error: (err) => {
-        this.show(err.status);
+        this.showError(err.status);
       },
     });
   }
@@ -149,7 +142,7 @@ export class AdminvisuserComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.show(err.status);
+          this.showError(err.status);
         },
       });
     console.log(this.userActivities);
@@ -178,7 +171,7 @@ export class AdminvisuserComponent implements OnInit {
           this.filterUsers();
         },
         error: (err) => {
-          this.show(err.status);
+          this.showError(err.status);
         },
       });
     console.log(pageNumber);
@@ -206,7 +199,7 @@ export class AdminvisuserComponent implements OnInit {
           this.filterUsers();
         },
         error: (err) => {
-          this.show(err.status);
+          this.showError(err.status);
         },
       });
     console.log(this.limit);
@@ -231,7 +224,7 @@ export class AdminvisuserComponent implements OnInit {
         this.filterUsers();
       },
       error: (err) => {
-        this.show(err.status);
+        this.showError(err.status);
       },
     });
   }

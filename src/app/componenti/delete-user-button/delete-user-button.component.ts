@@ -21,14 +21,19 @@ export class DeleteUserButtonComponent {
     private router: Router,
   ) {}
 
-  show(statusCode: number) {
-    if (statusCode === 401) {
-      console.log('Errore 401');
-      alert('Sembra che tu non sia autenticato. Accedi per continuare.');
-      this.userService.logout();
-      this.router.navigate(['/login']);
-    }
-    if (statusCode === 500) {
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      if(statusCode === 401) alert('Sembra che tu non sia autenticato. Accedi per continuare.');
+      if(statusCode === 429) alert('Troppi tentativi di accesso, riprova tra un\'ora')
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else if (statusCode === 403) {
+      alert('Non puoi eliminare un amministratore');
+    } else if (statusCode === 404) {
+      alert('Utente non trovato');
+    } else if(statusCode === 500) {
       alert('Errore interno del server, riprova più tardi.');
     }
   }
@@ -48,7 +53,7 @@ export class DeleteUserButtonComponent {
               this.userDeleted.emit(true);
             },
             error: (error) => {
-              this.show(error.status);
+              this.showError(error.status);
             },
           });
         }
