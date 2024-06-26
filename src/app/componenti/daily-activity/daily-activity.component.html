@@ -1,3 +1,4 @@
+
 <p-toast />
 <div *ngIf="nodailyactivity">
     <no-daily-activity />
@@ -29,5 +30,28 @@
             </tr>
         </ng-template>
     </p-table>
+    <div style="display: flex; justify-content: flex-end;">
+        {{conteggio}}
+    </div>
+</div>
+  <div class="card flex justify-content-center">
+    <p-paginator
+      (onPageChange)="onPageChange($event)"
+      [first]="first"
+      [rows]="rows"
+      [totalRecords]=120
+    ></p-paginator>
+    <!-- totalRecords will need to be modified based on the actual database data -->
+  </div>
+  <div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+  <input
+    type="text"
+    pInputText
+    [(ngModel)]="limit"
+    placeholder="Inserisci il limite"
+  />
+  <br />
+  <p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
+  <br>
 </div>
 </div>

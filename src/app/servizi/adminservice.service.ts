@@ -14,41 +14,24 @@ export class AdminserviceService {
   getUsers(parameter?: {
     limit?: number;
     pageNumber?: number;
-    nameToSearch?: string;
   }): Observable<any> {
     if (parameter?.limit && !parameter?.pageNumber) {
-      if(parameter?.nameToSearch){
-        return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&firstName=${parameter.nameToSearch}`, {
-          withCredentials: true,
-        });
-      }
       return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}`, {
         withCredentials: true,
       });
     } else if (parameter?.pageNumber && !parameter?.limit) {
-      if(parameter?.nameToSearch){
-        return this.http.get<any>(`${this.apiUrl}?page=${parameter.pageNumber}&firstName=${parameter.nameToSearch}`, {
-          withCredentials: true,
-        });
-      }
       return this.http.get<any>(
         `${this.apiUrl}?page=${parameter?.pageNumber}`,
         { withCredentials: true },
       );
     }
     if (parameter?.limit && parameter.pageNumber) {
-      if(parameter?.nameToSearch){
-        return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&page=${parameter.pageNumber}&firstName=${parameter.nameToSearch}`, {
-          withCredentials: true,
-        });
-      }
       return this.http.get<any>(
         `${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}`,
         { withCredentials: true },
       );
     }
     return this.http.get<any>(this.apiUrl, { withCredentials: true });
-  
   }
 
   getOneUser(id: string): Observable<any> {
@@ -58,7 +41,7 @@ export class AdminserviceService {
   }
 
     getOneUserActivity(data: any,pageNumber : any,limit:any): Observable<any> {
-      return this.http.get<any>(`http://localhost:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}`,{ withCredentials: true })
+      return this.http.get<any>(`http://localhost:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true`,{ withCredentials: true })
     }
 
   patchUser(id: string, data: User): Observable<any> {
@@ -87,17 +70,25 @@ export class AdminserviceService {
     );
   }
 
-  getActivitiesByDate(date?: Date) {
+  getActivitiesByDate(parameter? : {date?: Date,pageNumber? : number,limit?:number}) {
     const apiUrl = 'http://localhost:3000/api/v1/activities/me?startTime[gte]=';
     let currentDate!: Date;
-    if(!!date) {
-      currentDate = date;
+    if(!!parameter?.date) {
+      currentDate = parameter.date;
     } else {
       currentDate = new Date();
     }
     const today = currentDate.toISOString().split('T')[0];
     const [year, month, day] = today.split('-');
     const tomorrow = new Date(parseInt(year), parseInt(month)-1, parseInt(day)+2).toISOString().split('T')[0];
-    return this.http.get(`${apiUrl}${today}&startTime[lt]=${tomorrow}&isActive=true`, { withCredentials: true });
+    return this.http.get(`${apiUrl}${today}&startTime[lt]=${tomorrow}&page=${parameter?.pageNumber}&limit=${parameter?.limit}&isActive=true&sort=-startTime`, { withCredentials: true });
   }
 }
+
+
+
+
+
+
+
+

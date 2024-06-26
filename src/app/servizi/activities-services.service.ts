@@ -14,13 +14,13 @@ export class ActivitiesServicesService {
 
   getActivities(parameter?:{pageNumber?: number, limit?: number}): Observable<any> {
     if(parameter?.limit  && !parameter?.pageNumber){
-      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isActive=true`, {withCredentials : true});
+      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isActive=true&sort=-startTime`, {withCredentials : true});
     }
     else if(parameter?.pageNumber && !parameter?.limit){
-      return this.httpclient.get<any>(`${this.apiUrl}?page=${parameter?.pageNumber}&isActive=true`, {withCredentials : true});
+      return this.httpclient.get<any>(`${this.apiUrl}?page=${parameter?.pageNumber}&isActive=true&sort=-startTime`, {withCredentials : true});
     }
     if(parameter?.limit && parameter.pageNumber){
-      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isActive=true`, {withCredentials : true});
+      return this.httpclient.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isActive=true&sort=-startTime`, {withCredentials : true});
     }
     return this.httpclient.get<any>(`${this.apiUrl}?isActive=true`,{withCredentials : true})
 
@@ -41,14 +41,11 @@ export class ActivitiesServicesService {
   }
 
   deleteActivity(activityID: string): Observable<any>{
-    const apiUrl = "http://localhost:3000/api/v1/activities/";
+    const apiUrl = `http://localhost:3000/api/v1/activities/${activityID}`;
 
     console.log("Deleting activity with ID: " + activityID);
 
-    return this.httpclient.delete(apiUrl+activityID, { withCredentials: true });
+    return this.httpclient.delete(apiUrl,{ withCredentials: true });
   }
     
   }
-
-
-

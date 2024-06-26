@@ -1,4 +1,6 @@
+
 <p-toast />
+
 <h1 class="table-title" >Attività di {{userEmail}}</h1>
 <div class="table-container">
   <div style="margin-bottom: 10px; display: flex; justify-content: flex-end;">
@@ -23,7 +25,7 @@
           </td>
           <td>
             <edit-activity [activity]="rowData"></edit-activity>
-            <delete-activity [activityID]="rowData['_id']"></delete-activity>
+            <delete-activity [activityID]="rowData._id"></delete-activity>
           </td>
         </tr>
       </ng-template>
@@ -46,3 +48,4 @@
       <p-button label="Invia" (click)="changeLimit()"  size="small"></p-button> {{limit}}
       </div>
   </div>
+
