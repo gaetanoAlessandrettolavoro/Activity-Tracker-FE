@@ -1,13 +1,24 @@
 <div *ngIf="isAdmin">
     <div>
-        <p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="showMenu = !showMenu"></p-button>
+        <p-avatar (click)="showMenu = !showMenu"
+    [style]="{'margin-right':'90px', 'margin-top':'5px'}"
+    [image]="propic"
+    severity="danger">
+
+</p-avatar>
         <p-menu *ngIf="showMenu" (click)="showMenu = false" #menu [model]="items" [style]="{'position': 'absolute','right': '15px'}"></p-menu>
     </div>
     
 </div>
 <div *ngIf="isUser">
     <div>
-        <p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="showMenu = !showMenu"></p-button>
+        <!-- <p-button icon="pi pi-user" [rounded]="true" [text]="true" (click)="showMenu = !showMenu"></p-button> -->
+        <p-avatar (click)="showMenu = !showMenu"
+    [style]="{'margin-right':'90px', 'margin-top':'5px'}"
+    [image]="propic"
+    severity="danger">
+
+</p-avatar>
         <p-menu *ngIf="showMenu" (click)="showMenu = false" #menu [model]="items" [style]="{'position': 'absolute','right': '15px'}"></p-menu>
     </div>
 </div>
