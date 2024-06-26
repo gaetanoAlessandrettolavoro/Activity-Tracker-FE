@@ -1,15 +1,11 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../models/userModel';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { FileUploadModule } from 'primeng/fileupload';
-
-
-
-
+import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
 
 @Component({
     selector: 'app-impostazioniutente',
@@ -20,6 +16,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     providers: [MessageService]
 })
 export class UserRouteComponent implements OnInit {
+  formData = new FormData();
   user = signal<User>({} as User);
 
   userForm = new FormGroup({
@@ -80,10 +77,12 @@ export class UserRouteComponent implements OnInit {
         firstName: this.user().firstName,
         lastName: this.user().lastName,
         codiceFiscale: this.user().codiceFiscale,
-        propic: this.user().propic
+        propic: this.formData
       }
+      console.log(updatedUser);
       this.userService.updateMe(updatedUser).subscribe({
         next: (res) => {
+          console.log(updatedUser);
           this.messageService.add({
             severity: 'success',
             summary: 'Modifiche salvate',
@@ -99,11 +98,8 @@ export class UserRouteComponent implements OnInit {
   }
 
   onUpload(event: any) {
-    const file = new File([event.files[0].name], "foo.txt", {
-      type: "text/plain",
-    });
-    
-    this.image = file
-    console.log(file)
+    this.image = event.files[0];
+    this.formData = event.files[0];
+    console.log(this.formData)
   }
 }

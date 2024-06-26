@@ -16,10 +16,6 @@
   margin:auto;
 }
 
-.center {
-  text-align: center;
-}
-
 .header {
   display: flex;
   justify-content: space-between; /* Allinea l'immagine e il titolo */
@@ -48,6 +44,14 @@
   .header .center {
     margin: 0;
   }
+}
+
+.upload-container img {
+  margin-right: 10px;
+}
+
+.upload-container span {
+  margin-right: 10px;
 }
 
 .top, .bottom {
