@@ -32,6 +32,7 @@ export class AdminvisuserComponent implements OnInit {
     private messageService: MessageService,
     private userService: UserServiceService
   ) {}
+
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
@@ -44,6 +45,8 @@ export class AdminvisuserComponent implements OnInit {
   ];
 
   filteredUsers: User[] = [];
+  searchFirstName: string = ''; 
+  searchLastName: string = ''; 
   searchText: string = '';
   fromDate: string = '';
   toDate: string = '';
@@ -84,19 +87,34 @@ export class AdminvisuserComponent implements OnInit {
 
   filterUsers() {
     this.filteredUsers = this.usersArray().filter((user) => {
-      const matchesText =
-        !this.searchText ||
-        user.firstName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        user.codiceFiscale
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        user.email.toLowerCase().includes(this.searchText.toLowerCase());
-      const matchesDate = true;
-      return matchesText && matchesDate;
-    });
-  }
+      const matchesFirstName =
+        !this.searchFirstName ||
+        user.firstName.toLowerCase().includes(this.searchFirstName.toLowerCase());
 
+      const matchesLastName =
+        !this.searchLastName ||
+        user.lastName.toLowerCase().includes(this.searchLastName.toLowerCase());
+
+      const matchesCodiceFiscale =
+        !this.searchText ||
+        user.codiceFiscale.toLowerCase().includes(this.searchText.toLowerCase());
+
+      const matchesEmail =
+        !this.searchText ||
+        user.email.toLowerCase().includes(this.searchText.toLowerCase());
+
+      const matchesDate = true;
+
+      return (
+        matchesFirstName &&
+        matchesLastName &&
+        matchesCodiceFiscale &&
+        matchesEmail &&
+        matchesDate
+      );
+    });
+  
+  }
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
