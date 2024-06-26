@@ -1,4 +1,5 @@
 <button class="info-button" (click)="showDialog()"><i class="pi pi-pencil"></i></button>
-<p-dialog header="Modifica Attività" [(visible)]="visible" [style]="{ width: 'fit-content' }">
+<p-dialog header="Modifica Attività" [(visible)]="visible" [style]="{ width: 'fit-content' }" [modal]="true">
     <edit-activity-form [activity]="activityToPass" (activityEdited)="edited()"/>
 </p-dialog>
+
