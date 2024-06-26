@@ -32,9 +32,9 @@ export class DeleteActivityButtonComponent {
   }
 
   deleteActivity(){
-    console.log(this.activityID);
     if(confirm("Sei sicuro di voler eliminare l'attività?")){
-      this.activitiesservice.deleteActivity(this.activityID).subscribe({next: (result) => {console.log(result)}, error: (error) => {this.show(error.status)}});
+      this.activitiesservice.deleteActivity(this.activityID).subscribe(result => (console.log(result)));
+      window.location.reload();
     }
   }
 }
