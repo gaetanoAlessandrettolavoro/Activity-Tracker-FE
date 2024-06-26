@@ -14,24 +14,41 @@ export class AdminserviceService {
   getUsers(parameter?: {
     limit?: number;
     pageNumber?: number;
+    nameToSearch?: string;
   }): Observable<any> {
     if (parameter?.limit && !parameter?.pageNumber) {
+      if(parameter?.nameToSearch){
+        return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&firstName=${parameter.nameToSearch}`, {
+          withCredentials: true,
+        });
+      }
       return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}`, {
         withCredentials: true,
       });
     } else if (parameter?.pageNumber && !parameter?.limit) {
+      if(parameter?.nameToSearch){
+        return this.http.get<any>(`${this.apiUrl}?page=${parameter.pageNumber}&firstName=${parameter.nameToSearch}`, {
+          withCredentials: true,
+        });
+      }
       return this.http.get<any>(
         `${this.apiUrl}?page=${parameter?.pageNumber}`,
         { withCredentials: true },
       );
     }
     if (parameter?.limit && parameter.pageNumber) {
+      if(parameter?.nameToSearch){
+        return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&page=${parameter.pageNumber}&firstName=${parameter.nameToSearch}`, {
+          withCredentials: true,
+        });
+      }
       return this.http.get<any>(
         `${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}`,
         { withCredentials: true },
       );
     }
     return this.http.get<any>(this.apiUrl, { withCredentials: true });
+  
   }
 
   getOneUser(id: string): Observable<any> {
