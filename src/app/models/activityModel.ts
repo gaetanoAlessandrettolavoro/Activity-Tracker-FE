@@ -10,4 +10,5 @@ export interface Activity {
     notes: string;
     userID?: User["_id"];
     isActive?: boolean;
+    hours?: string;
 }

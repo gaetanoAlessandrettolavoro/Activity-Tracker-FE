@@ -1,4 +1,31 @@
 <p-toast />
-<div class="card">
-    <p-chart type="bar" [data]="basicData" [options]="basicOptions" />
+<div class="flex-auto calendario">
+    <label for="icondisplay" class="font-bold block mb-2"> Data: </label>
+    <p-calendar 
+        [(ngModel)]="date" 
+        [iconDisplay]="'input'" 
+        [showIcon]="true" 
+        inputId="icondisplay"
+        dateFormat="dd-mm-yy"
+        (onSelect)="selectedDate()"
+        [maxDate]="tomorrow" />
 </div>
+
+<div class="card">
+    <p-chart type="bar" [data]="basicData" [options]="basicOptions" (onDataSelect)="handleClick($event)" height="400" />
+</div>
+
+<p-dialog header="Attività {{clickedTaskName}} ({{clickedUser().email}})" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <div class="user">
+        <h2>Utente:</h2>
+        <p>{{clickedUser().firstName}} {{clickedUser().lastName}}</p>
+    </div>
+    <div class="activity">
+        <h2>Attività:</h2>
+        <p><b>Data:</b> {{clickedActivity().startTime | date:"dd-MM-yyyy"}}</p>
+        <p><b>Orario di inizio:</b> {{clickedActivity().startTime | date:"HH:mm"}}</p>
+        <p><b>Orario di fine:</b> {{clickedActivity().endTime | date:"HH:mm"}}</p>
+        <p><b>Note:</b> {{clickedActivity().notes}}</p>
+        <p><b>Ore di Attività:</b> {{clickedActivity().hours}}</p>
+    </div>
+</p-dialog>

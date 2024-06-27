@@ -43,4 +43,8 @@ export class SidebarComponent {
       },
     );
   }
+
+  close() {
+    this.sidebarVisible = false;
+  }
 }

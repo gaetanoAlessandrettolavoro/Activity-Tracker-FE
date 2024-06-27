@@ -87,4 +87,12 @@ export class UserRouteComponent implements OnInit {
     this.formData = event.files[0];
     console.log(this.formData)
   }
+
+  changePwd() {
+    this.router.navigate(['/cambio-password']);
+  }
+
+  close() {
+    this.router.navigate(['/']);
+  }
 }

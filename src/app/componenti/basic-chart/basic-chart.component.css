@@ -1,0 +1,11 @@
+.card {
+    width: 90%;
+    margin: auto;
+}
+
+.calendario {
+    width:fit-content;
+    margin: 0 auto 2em auto;
+    display: flex;
+    flex-flow: column wrap;
+}
