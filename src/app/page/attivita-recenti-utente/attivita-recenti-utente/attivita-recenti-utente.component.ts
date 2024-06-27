@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../../servizi/user-service.service';
-import { ErrorServiziService } from '../../../servizi/error-servizi.service';
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -62,9 +61,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   constructor(
     private filterService: FilterService,
     private activitiesservices: ActivitiesServicesService,
+    private route: ActivatedRoute,
     private userService: UserServiceService,
     private messageService: MessageService,
-    @Inject(ErrorServiziService)private errors: ErrorServiziService
   ) {
     this.filterForm = new FormGroup({
       searchText: new FormControl(''),
@@ -72,7 +71,6 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       endTime: new FormControl(''),
     });
   }
-
 
   startTime() {
     this.start = this.filterForm.value.fromDate
@@ -87,15 +85,24 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
 
-  showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
-      this.messageService.add(this.errors.getErrorMessage(statusCode)); 
+  show(statusCode: number) {
+    if (statusCode === 401) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 401',
+        detail: 'Sembra che tu non sia autenticato. Accedi per continuare.',
+      });
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    } else {
-      this.messageService.add(this.errors.getErrorMessage(statusCode));
+    }
+    if (statusCode === 500) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Errore 500',
+        detail: 'Errore interno del server, riprova più tardi.',
+      });
     }
   }
 
@@ -154,13 +161,15 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
         this.filterActivities();
       },
       error: (err) => {
-        this.showError(err.status);
+        this.show(err.status);
       }
     });
   }
-  
+
   loadActivities(pageNumber: number, limit: number, fromDate?: string, toDate?: string): void {
-    this.activitiesservices.getActivities({ pageNumber, limit,fromDate: this.start, toDate: this.end }).subscribe((data) => {
+  
+    
+    this.activitiesservices.getActivities({ pageNumber, limit, fromDate: this.start, toDate: this.end }).subscribe((data) => {
       this.rowItems = data.data.userActivities.map((item: Activity) => ({
         taskID: item.taskID,
         taskName: item.taskName,
@@ -170,19 +179,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
         _id: item._id,
       }));
       this.filteredItems = [...this.rowItems];
-    });
-
-    this.filterForm.valueChanges.subscribe({
-      next: () => {
-        this.filterActivities();
-      },
-      error: (err) => {
-        this.showError(err.status);
-      }
+      this.filterActivities(); 
     });
   }
-  
-  
 
   reload() {
     window.location.reload();
