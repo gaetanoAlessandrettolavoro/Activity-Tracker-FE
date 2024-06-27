@@ -1,5 +1,19 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:600|Noto+Sans|Open+Sans:400,700&display=swap");
-@import "primeicons/primeicons.css";
+
+.add-activity {
+  border: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  border-radius: 12px;
+  background-color: #a1c1d9;
+  color: white;
+  margin-right: 20px;
+}
 
 textarea {
   border: 2px solid #ccc;

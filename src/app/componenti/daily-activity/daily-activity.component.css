@@ -1,4 +1,8 @@
 @import "primeicons/primeicons.css";
+#create-activity {
+    width: fit-content;
+    margin: auto 20px auto auto;
+}
 .card{
     width: 90%;
     margin: auto;

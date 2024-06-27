@@ -2,9 +2,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import {
   Component,
-  Input,
-  OnInit,
-  booleanAttribute,
   effect,
   signal,
 } from '@angular/core';

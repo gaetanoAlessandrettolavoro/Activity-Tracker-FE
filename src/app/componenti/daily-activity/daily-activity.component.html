@@ -3,7 +3,9 @@
 <div *ngIf="nodailyactivity">
     <no-daily-activity />
 </div>
-<app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
+<div id="create-activity">
+  <app-user-task-creation (buttonClicked)="gestiscivalori($event)" style="margin-left: 50px;"/>
+</div>
 <div *ngIf="dailyactivitycomponent">
 <br><br>
 <h1>Attività giornaliera</h1>

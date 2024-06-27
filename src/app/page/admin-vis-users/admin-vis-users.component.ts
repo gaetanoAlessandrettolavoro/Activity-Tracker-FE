@@ -9,9 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
 import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
-
 import { DialogModule } from 'primeng/dialog';
-import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
 import { AdminserviceService } from '../../servizi/adminservice.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -19,13 +17,14 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { AdminatoacceptusersComponent } from '../../componenti/adminatoacceptusers/adminatoacceptusers.component';
+import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
 
 @Component({
     selector: 'app-admin-vis-user',
     standalone: true,
     templateUrl: './admin-vis-users.component.html',
     styleUrls: ['./admin-vis-users.component.css'],
-    imports: [AdminatoacceptusersComponent,TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent,DialogModule, ButtonModule, InputTextModule, AdminaddactivityforuserComponent,ToastModule],
+    imports: [AdminatoacceptusersComponent,TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent,DialogModule, ButtonModule, InputTextModule, UserTaskCreationComponent,ToastModule],
     providers: [MessageService],
 })
 export class AdminvisuserComponent implements OnInit {
