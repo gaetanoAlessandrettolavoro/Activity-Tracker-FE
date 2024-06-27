@@ -1,6 +1,6 @@
 <p-toast />
 <div class="card flex justify-content-center">
-  <button (click)="showDialog()" [style]="{'position': 'absolute','top' : '50px','left':'80rem'}" class="add-activity"><i class="pi pi-file-plus"></i></button>
+  <button (click)="showDialog()" class="add-activity"><i class="pi pi-file-plus"></i></button>
   <p-dialog header="Nuova attività" [(visible)]="visible" [modal]="true"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '28vw', height: '80vh' }"
     [draggable]="false" [resizable]="false">

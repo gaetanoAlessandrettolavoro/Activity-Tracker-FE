@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
@@ -58,6 +57,8 @@ export class UserTaskCreationComponent implements OnInit {
   activityDate: Date = new Date();
   maxDate: string = new Date().toISOString().split('T')[0];
   minDate: string = new Date(this.activityDate.getFullYear(), this.activityDate.getMonth(), 2).toISOString().split('T')[0];
+
+  @Input() userID!: string;
 
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 
@@ -132,8 +133,8 @@ export class UserTaskCreationComponent implements OnInit {
   getToken(data: any) {
     console.log(data);
     this.route.params.subscribe((params) => {
-      this.activitiesservices.createActivity(data).subscribe({
-        next: (result: any) => {7
+      this.activitiesservices.createActivity(data, this.userID).subscribe({
+        next: (result: any) => {
           if(result.status == "success"){
             this.buttonClicked.emit("Valore");
           }
