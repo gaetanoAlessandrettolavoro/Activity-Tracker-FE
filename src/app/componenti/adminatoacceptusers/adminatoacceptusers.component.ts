@@ -15,6 +15,7 @@ import { MessagesModule } from 'primeng/messages';
 import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 
 
 
@@ -56,29 +57,40 @@ export class AdminatoacceptusersComponent {
     { name: 'Paris', code: 'PRS' },
   ];
 
-  visible: boolean = false;
+  visible: boolean = true;
 
   showDialog() {
     this.visible = true;
   }
 
-  products!: any
+  products: any[] = [];
+  conteggio! : any
 
-    constructor() {}
+
+    constructor(private admin : AdminserviceService) {}
 
     ngOnInit() {
-        this.products = [{name:'Gaetano',cognome:'Alessandretto'},
-        {name:'Francesco',cognome:'Pala'},
-        {name:'Mario',cognome:'Rossi'},
-        {name:'Giuseppe',cognome:'Pisani'},
-          
-        ]
+      this.admin.isAccetpedFalse().subscribe({
+        next: (value) => {
+          console.log(value)
+          this.conteggio = value.results
+          this.products = value.data.document.map((element: any) => {
+            return { name: element.firstName, cognome: element.lastName,codicefiscale:element.codiceFiscale,email:element.email,id:element._id };
+          });
+        },
+        error: (err) => {
+          console.error('Error fetching data', err);
+        }
+      });
     }
 
+    accetta(id:any){
+      this.admin.acceptedUser(id).subscribe(result => console.log(result))
+    }
 
+    rifiuta(id:any){
+      this.admin.rejectUser(id).subscribe(result => console.log(result))
+    }
     
 
-  
-}
-
-
+    }

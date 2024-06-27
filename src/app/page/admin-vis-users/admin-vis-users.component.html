@@ -3,6 +3,10 @@
 
 <h1>Tutti gli Utenti</h1>
 <div class="filter-container">
+  <div style="display: flex; justify-content: flex-end;">
+  <p-button (click)="changemodaladmin()" label="Utenti da accettare" />
+  <br><br>
+</div>
   <p-table
     [columns]="cols"
     [value]="filteredUsers"
@@ -113,5 +117,7 @@
       </h3>
     </p-dialog>
   </div>
-  
+  <div *ngIf="modaldmin">
+    <app-adminatoacceptusers></app-adminatoacceptusers>
+  </div>
 </div>

@@ -1,3 +1,4 @@
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -83,12 +84,20 @@ export class AdminserviceService {
     const tomorrow = new Date(parseInt(year), parseInt(month)-1, parseInt(day)+2).toISOString().split('T')[0];
     return this.http.get(`${apiUrl}${today}&startTime[lt]=${tomorrow}&page=${parameter?.pageNumber}&limit=${parameter?.limit}&isActive=true&sort=-startTime`, { withCredentials: true });
   }
+
+  isAccetpedFalse(){
+    const apiUrll = 'http://localhost:3000/api/v1/users?isAccepted=false&isActive=true'
+    return this.http.get<any>(apiUrll,{ withCredentials: true });
+  }
+
+  acceptedUser(id: any) {
+    return this.http.patch<any>(`http://localhost:3000/api/v1/users/changeStatus/${id}`,{isAccepted: true,isActive:true},{withCredentials : true});
+  }
+
+  rejectUser(id: any) {
+   return this.http.patch<any>(`http://localhost:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{withCredentials : true});
+  }
+ 
+
+
 }
-
-
-
-
-
-
-
-

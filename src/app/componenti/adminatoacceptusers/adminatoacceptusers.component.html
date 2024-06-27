@@ -1,11 +1,11 @@
+
 <div class="card flex justify-content-center">
-    <p-button (click)="showDialog()" label="Show"></p-button>
     <p-dialog
-        header="Richieste utenti"
+        header="Richieste utenti ({{conteggio}})"
         [(visible)]="visible"
         [modal]="true"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-        [style]="{ width: '35vw', height: '80vh' }"
+        [style]="{ width: '50vw', height: '80vh' }"
         [draggable]="false"
         [resizable]="false"
     >
@@ -18,9 +18,11 @@
                     <tr class="product-row">
                         <td>{{ product.name }}</td>
                         <td>{{ product.cognome }}</td>
+                        <td>{{ product.codicefiscale }}</td>
+                        <td>{{ product.email }}</td>
                         <td class="buttons-cell">
-                            <button style=" height: 19px ;border: none; background-color: blue; color: white; border-radius: 5px;">Accetta</button>
-                            <button style=" height: 19px ;border: none; background-color: red; color: white; border-radius: 5px;">Elimina</button>
+                            <button (click)="accetta(product.id)" style=" height: 19px ;border: none; background-color: blue; color: white; border-radius: 5px;">Accetta</button>
+                            <button (click)="rifiuta(product.id)" style=" height: 19px ;border: none; background-color: red; color: white; border-radius: 5px;">Elimina</button>
                         </td>
                     </tr>
                 </ng-template>
