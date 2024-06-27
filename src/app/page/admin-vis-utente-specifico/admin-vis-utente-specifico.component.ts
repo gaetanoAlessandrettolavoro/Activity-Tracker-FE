@@ -6,23 +6,21 @@ import { FormsModule } from '@angular/forms';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
 import { Activity } from '../../models/activityModel';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { MessageService } from 'primeng/api';
 import { AdminserviceService } from '../../servizi/adminservice.service';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../servizi/user-service.service';
-import { AdminaddactivityforuserComponent } from '../../componenti/adminaddactivityforuser/adminaddactivityforuser.component';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
     standalone: true,
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
-    imports: [AdminaddactivityforuserComponent,PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, DeleteActivityButtonComponent, ToastModule],
+    imports: [PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, DeleteActivityButtonComponent, ToastModule, UserTaskCreationComponent],
     providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
