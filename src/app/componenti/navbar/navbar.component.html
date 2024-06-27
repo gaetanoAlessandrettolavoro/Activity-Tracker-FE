@@ -4,16 +4,23 @@
     <div class="left">
 
     <app-sidebar></app-sidebar>
+    <img src="../assets/Logo.png">
 
 </div>
 
 <div class="right" >
 
-    <h1>Admin</h1>
+   
 
     
     <app-user-manual></app-user-manual>
     <app-dropdown-menu></app-dropdown-menu>
+  
+    <div class="userEmail">{{ userEmail }}</div>
+
+
+
+
     
 
 </div>
@@ -23,6 +30,7 @@
     <div class="left">
 
     <app-sidebar></app-sidebar>
+    <img src="../assets/Logo.png">
 
 </div>
 
@@ -30,15 +38,21 @@
     
     <app-user-manual></app-user-manual>
     <app-dropdown-menu></app-dropdown-menu>
+    
+    <div class="userEmail">{{ userEmail }}</div>
+
+
  
 
 </div>
+
 </div>
 
 
 <div *ngIf="isNotAuthenticated">
     <div style="display: flex; justify-content: space-between; align-items: center">
         <h1 style="margin-left: 5px">Activity Tracker</h1>
+        <img src="../assets/Logo.png">
         <div
           class="right"
           style="display: flex; align-items: center; margin-right: 5px"

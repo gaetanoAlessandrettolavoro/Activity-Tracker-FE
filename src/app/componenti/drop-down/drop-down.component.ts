@@ -7,13 +7,15 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { UserManualComponent } from '../user-manual/user-manual.component';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 @Component({
   selector: 'app-dropdown-menu',
   standalone: true,
   templateUrl: './drop-down.component.html',
   styleUrls: ['./drop-down.component.css'],
-  imports: [MenubarModule, MenuModule, CommonModule, ButtonModule,UserManualComponent],
+  imports: [AvatarGroupModule,AvatarModule,MenubarModule, MenuModule, CommonModule, ButtonModule,UserManualComponent],
 })
 
 export class DropdownMenuComponent implements OnInit {
@@ -22,6 +24,7 @@ export class DropdownMenuComponent implements OnInit {
   isUser: boolean = false; 
   isAdmin:boolean=false;
   showMenu:boolean= false;
+  propic: string='';
 
   constructor(private router: Router, private userService: UserServiceService) {} 
   ngDoCheck(){
@@ -34,7 +37,8 @@ export class DropdownMenuComponent implements OnInit {
           this.isAdmin = true
     }
   }
-  ngOnInit() {
+  ngOnInit():void {
+    
     this.items = [
       { 
         label: 'Impostazioni', 
@@ -46,10 +50,35 @@ export class DropdownMenuComponent implements OnInit {
       },
     ];
     console.log('Menu items:', this.items);
+
+    this.userService.getMe().subscribe({
+      next: (userData: any) => {
+        console.log('User data:', userData); 
+
+        
+        
+
+       
+        if (userData && userData.data && userData.data.propic) {
+          this.propic = userData.data.propic;
+        } else {
+          console.error('URL immagine profilo non trovato nei dati utente');
+        }
+      },
+      error: (err) => {
+        console.error('Errore nel recupero dei dati utente:', err);
+      }
+    });
+
+    
   }
   isVisible() {
     this.menuVisible = !this.menuVisible;
   }
+
+  
+
+  
 
   
 

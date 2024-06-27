@@ -1,22 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 import { UserManualComponent } from "../user-manual/user-manual.component";
 import { DropdownMenuComponent } from "../drop-down/drop-down.component";
 import { SidebarComponent } from "../sidebar/sidebar.component";
 import { Router } from '@angular/router';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 
 
 @Component({
+  
     selector: 'app-navbar',
     standalone: true,
     templateUrl: './navbar.component.html',
     styleUrl: './navbar.component.css',
-    imports: [CommonModule, UserManualComponent, DropdownMenuComponent, SidebarComponent]
+    imports: [CommonModule, UserManualComponent, DropdownMenuComponent, SidebarComponent,AvatarGroupModule,AvatarModule]
 })
-export class NavbarComponent {
-  constructor(private router: Router) {}
+export class NavbarComponent implements OnInit {
+
+  userEmail: string='';
+ 
+  
+  constructor(private router: Router,private userService: UserServiceService) {}
+  
   isNotAuthenticated:boolean=true
   isAdmin :boolean= false
   isUser:boolean = false
@@ -42,6 +51,24 @@ export class NavbarComponent {
      
     }
   
+  }
+
+  ngOnInit(): void {
+    this.userService.getMe().subscribe({
+      next: (userData: any) => {
+        console.log('User data:', userData); 
+
+        
+        if (userData && userData.data && userData.data.email) {
+          this.userEmail = userData.data.email;
+        } else {
+          console.error('Email non trovata nei dati utente');
+        }
+      }
+
+       
+    
+    });
   }
 
   
