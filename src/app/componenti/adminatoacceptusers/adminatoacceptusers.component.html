@@ -1,7 +1,6 @@
-
 <div class="card flex justify-content-center">
     <p-dialog
-        header="Richieste utenti ({{conteggio}})"
+        header="Richieste utenti {{conteggio}}"
         [(visible)]="visible"
         [modal]="true"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
@@ -10,6 +9,9 @@
         [resizable]="false"
     >
         <div class="card" style="display: flex; justify-content: center;">
+            <div *ngIf="usersfalse" style="display: flex; align-items: center; justify-content: center;">
+                <h2>Non ci sono utenti da accettare</h2>
+            </div>
             <p-table [value]="products" [tableStyle]="{ 'min-width': '1', 'display': 'flex', 'align-items': 'center', 'margin': 'auto' }">
                 <ng-template pTemplate="header">
                     <!-- Definisci gli header qui se necessario -->
