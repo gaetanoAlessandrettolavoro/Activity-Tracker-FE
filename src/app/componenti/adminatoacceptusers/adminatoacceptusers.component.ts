@@ -65,6 +65,7 @@ export class AdminatoacceptusersComponent {
 
   products: any[] = [];
   conteggio! : any
+  usersfalse! : any
 
 
     constructor(private admin : AdminserviceService) {}
@@ -73,7 +74,13 @@ export class AdminatoacceptusersComponent {
       this.admin.isAccetpedFalse().subscribe({
         next: (value) => {
           console.log(value)
-          this.conteggio = value.results
+          if(value.results === 0){
+            this.usersfalse = true
+          }
+          else{
+            this.usersfalse = false
+            this.conteggio = `(${value.results})`
+          }
           this.products = value.data.document.map((element: any) => {
             return { name: element.firstName, cognome: element.lastName,codicefiscale:element.codiceFiscale,email:element.email,id:element._id };
           });
