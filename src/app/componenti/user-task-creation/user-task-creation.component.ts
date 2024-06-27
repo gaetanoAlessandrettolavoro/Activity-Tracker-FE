@@ -1,6 +1,6 @@
 
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -20,16 +20,10 @@ import { Activity } from '../../models/activityModel';
 import { Task } from '../../models/taskModel';
 import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { TaskResponse } from '../../models/taskResponseModel';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
-interface City {
-  taskName: string;
-  taskId: any;
-}
 
 @Component({
   selector: 'app-user-task-creation',
@@ -57,11 +51,13 @@ interface City {
   providers: [MessageService],
 })
 export class UserTaskCreationComponent implements OnInit {
-  currentDateTime: Date;
   tasks: Task[] = [];
   selectedCity: Task | undefined;
   userForm!: FormGroup;
   visible: boolean = false;
+  activityDate: Date = new Date();
+  maxDate: string = new Date().toISOString().split('T')[0];
+  minDate: string = new Date(this.activityDate.getFullYear(), this.activityDate.getMonth(), 2).toISOString().split('T')[0];
 
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 
@@ -73,12 +69,7 @@ export class UserTaskCreationComponent implements OnInit {
     private messageService: MessageService,
     private userService: UserServiceService,
     private errors: ErrorServiziService
-  ) {
-    this.currentDateTime = new Date();
-    setInterval(() => {
-      this.currentDateTime = new Date();
-    }, 1000); // Update the date and time every second
-  }
+  ) {}
 
   showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {
@@ -97,11 +88,12 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.minDate, this.maxDate)
     this.servicetasks.getAllTasks().subscribe({next:(result: TaskResponse) => {this.tasks = result.data.document}, error: (error) => {this.showError(error.status)}});
 
     this.userForm = new FormGroup({
       notes: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-     
+      date: new FormControl(this.activityDate.toISOString().split('T')[0]),
       startTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
       selectedTask: new FormControl('', Validators.required),
@@ -113,10 +105,10 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   onSubmit() {
-    this.buttonClicked.emit("valore da spedire")
+    this.buttonClicked.emit("valore da spedire");
     if (this.userForm.valid) {
-      let date = new Date();
-      let [year, month, day] = [date.getFullYear(), date.getMonth(), date.getDate() ]
+      console.log(this.userForm.value.date)
+      let [year, month, day] = [this.userForm.value.date.split('-')[0],this.userForm.value.date.split('-')[1],this.userForm.value.date.split('-')[2]];
       let start = this.userForm.get('startTime')?.value.split(':');
       let startH = parseInt(start[0]);
       let startM = parseInt(start[1]);
@@ -125,15 +117,15 @@ export class UserTaskCreationComponent implements OnInit {
       let endM = parseInt(end[1]);
       const selectedTask = this.userForm.get('selectedTask')?.value;
       const activityToSend: Activity = {
-        startTime: new Date(year, month, day, startH, startM),
-        endTime: new Date(year, month, day, endH, endM),
+        startTime: new Date(year, month-1, day, startH, startM),
+        endTime: new Date(year, month-1, day, endH, endM),
         taskName: selectedTask.taskName,
         taskID: selectedTask._id,
         notes: this.userForm.get('notes')?.value,
       };
       this.getToken(activityToSend);
     } else {
-      console.log('Form not valid');
+      this.showError(1);
     }
   }
 
@@ -147,6 +139,7 @@ export class UserTaskCreationComponent implements OnInit {
           }
         },
         error: (error: any) => {
+          console.error(error)
           this.showError(error.status);
         },
       });
