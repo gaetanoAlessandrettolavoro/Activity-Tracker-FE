@@ -7,7 +7,7 @@
     <div style="display: flex; justify-content: center">
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
         <div class="date-container" style="text-align: center;">
-          <input type="date" min="minDate" max="maxDate" formControlName="date"/>
+          <input type="date" min="{{minDate}}" max="{{maxDate}}" formControlName="date"/>
         </div>
         <div style="display: flex">
           <div>
