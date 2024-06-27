@@ -38,9 +38,13 @@
           <edit-activity [activity]="rowData" (activityEdited)="reload()"></edit-activity>
           <delete-activity [activityID]="rowData._id" (click)="reload()"></delete-activity>
         </td>
+        
       </tr>
     </ng-template>
   </p-table>
+  <div style="display: flex; justify-content: flex-end; ">
+    {{conteggio}}
+  </div>
   <p-paginator 
     (onPageChange)="onPageChange($event)" 
     [first]="first" 
@@ -56,6 +60,6 @@
       placeholder="Inserisci il limite"
       style="width: 160px;">
     <br>
-    <p-button label="Invia" (click)="changeLimit()" size="small"></p-button> {{limit}}
+    <p-button label="Invia" (click)="changeLimit()" size="small"></p-button> 
   </div>
 

@@ -75,7 +75,10 @@ export class DailyActivityComponent {
   fetchActivities() {
     this.adminService.getActivitiesByDate({ pageNumber: this.page, limit: this.limit }).subscribe({
       next: (result: any) => {
-        console.log(result)
+        if(result.results === 0){
+          alert("Attività finite!")
+          window.location.reload()
+        }
         this.conteggio = result.results + " di " + result.totalDocuments;
         if (result.data.userActivities.length === 0) {
           this.nodailyactivity = true;
