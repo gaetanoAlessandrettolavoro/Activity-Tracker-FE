@@ -18,13 +18,14 @@ import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { AdminatoacceptusersComponent } from '../../componenti/adminatoacceptusers/adminatoacceptusers.component';
 
 @Component({
     selector: 'app-admin-vis-user',
     standalone: true,
     templateUrl: './admin-vis-users.component.html',
     styleUrls: ['./admin-vis-users.component.css'],
-    imports: [TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent,DialogModule, ButtonModule, InputTextModule, AdminaddactivityforuserComponent,ToastModule],
+    imports: [AdminatoacceptusersComponent,TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent,DialogModule, ButtonModule, InputTextModule, AdminaddactivityforuserComponent,ToastModule],
     providers: [MessageService],
 })
 export class AdminvisuserComponent implements OnInit {
@@ -40,6 +41,7 @@ export class AdminvisuserComponent implements OnInit {
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
+  modaldmin : boolean = false
 
   cols = [
     { field: 'firstName', header: 'Nome' },
@@ -81,6 +83,10 @@ export class AdminvisuserComponent implements OnInit {
   pageDefault = 1;
   conteggio! : any
 
+  changemodaladmin(){
+    this.modaldmin = !this.modaldmin
+    console.log(this.modaldmin)
+  }
 
   filterUsers() {
     this.filteredUsers = this.usersArray().filter((user) => {
