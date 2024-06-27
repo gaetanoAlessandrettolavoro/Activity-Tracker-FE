@@ -17,6 +17,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'app-admin-vis-user',
@@ -32,7 +33,8 @@ export class AdminvisuserComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private userService: UserServiceService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private cdref: ChangeDetectorRef
   ) {}
 
   usersArray = signal<User[]>([]);
@@ -77,6 +79,8 @@ export class AdminvisuserComponent implements OnInit {
   first: number = 0;
   rows: number = 10;
   pageDefault = 1;
+  conteggio! : any
+
 
   filterUsers() {
     this.filteredUsers = this.usersArray().filter((user) => {
@@ -111,6 +115,7 @@ export class AdminvisuserComponent implements OnInit {
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
+        this.conteggio = data.results + " di " + data.totalDocumentsActive
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
             firstName: item.firstName,
@@ -145,11 +150,9 @@ export class AdminvisuserComponent implements OnInit {
           this.showError(err.status);
         },
       });
-    console.log(this.userActivities);
   }
 
   onPageChange(event: any) {
-    console.log(event);
     const pageNumber = event.page + 1;
     this.usersArray.set([]);
     console.log(this.limit);
@@ -157,6 +160,9 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
+          console.log(data.results)
+          console.log( data.results + "/" + data.totalDocuments)
+          this.conteggio = data.results + " di " + data.totalDocumentsActive
           data.data.document.forEach((item: any) => {
             console.log(item);
             this.usersArray().push({
@@ -169,12 +175,12 @@ export class AdminvisuserComponent implements OnInit {
             });
           });
           this.filterUsers();
+          this.cdref.detectChanges(); // Forza il rilevamento delle modifiche
         },
         error: (err) => {
           this.showError(err.status);
         },
       });
-    console.log(pageNumber);
   }
 
   changeLimit() {
@@ -184,9 +190,11 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
+          console.log(data.results)
+          console.log(data)
+          this.conteggio = data.results + " di " + data.totalDocumentsActive
           this.usersArray.set([]);
           data.data.document.forEach((item: any) => {
-            console.log(item);
             this.usersArray().push({
               firstName: item.firstName,
               lastName: item.lastName,
@@ -202,7 +210,6 @@ export class AdminvisuserComponent implements OnInit {
           this.showError(err.status);
         },
       });
-    console.log(this.limit);
   }
 
   userDeleted() {
@@ -229,3 +236,4 @@ export class AdminvisuserComponent implements OnInit {
     });
   }
 }
+
