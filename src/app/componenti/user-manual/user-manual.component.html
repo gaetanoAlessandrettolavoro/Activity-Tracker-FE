@@ -1,34 +1,83 @@
 <div class="card flex justify-content-center">
-  
-  <p-button (click)="showDialog()" icon="pi pi-question-circle" [rounded]="true" [text]="true" />
-  <p-dialog 
-      header="Manuale Utente" 
-      [(visible)]="visible" 
-      [modal]="true" 
-      [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-      [style]="{ width: '50vw' }" 
-      [draggable]="false" 
-      [resizable]="false">
-         <h3>Come registrarsi</h3>
-          <p>
-              L'utente ha la possibilità di registrarsi inserendo i dati anagrafici,l'email aziendale e creare una nuova password e visualizzare il messaggio di conferma nell'email.
-          </p>    
-          <h3>Come creare un'attività</h3>
-          <p>
-              Una volta che la registrazione è stata effettuata correttamente si procederà al login,si accede alla pagina home dell'utente.Nella pagina è possibile creare l'attività giornaliera tramite un modulo dove verranno inseriti i dati richiesti.
-          </p>
-           <h3>Come modificare l'attività</h3>
-           <p>L'utente ha la possibilità di modificare l'attività giornaliera in caso di eventuali errori commessi durante la creazione. L'utente ha anche la possibilità di eliminare l'attività giornaliera creata.</p>
-  
-          <h3>Come visualizzare le attività precedenti</h3>
-          <p>E' possibile visualizzare le attività precedenti e anche impostare un filtro per ordine di data o attività.</p>
-          <h3>Come reimpostare la password</h3>
-          <p>L'utente ha la possibilità di cambiare la propria password dalla pagina impostazioni.
-              In caso di password smarrita è possibile richiedere il reset della password.</p>
+    <p-button (click)="showDialog()" icon="pi pi-question-circle" [rounded]="true" [text]="true" />
+    <p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+        [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
 
-          </p-dialog>
+        <h3><span class="custom-span">Utente</span></h3>
 
+        <h3>Come registrarsi?</h3>
+        <p>
+            L'utente ha la possibilità di registrarsi inserendo i dati anagrafici, l'email aziendale e creare una nuova
+            password e visualizzare il messaggio di conferma nell'email.
+        </p>
+
+        <h3>Come creare un'attività?</h3>
+        <p>
+            Una volta che la registrazione è stata effettuata correttamente si procederà al login, si accede alla pagina
+            home dell'utente. Nella pagina è possibile creare l'attività giornaliera tramite un modulo dove verranno
+            inseriti i dati richiesti.
+        </p>
+
+        <h3>Come modificare l'attività?</h3>
+        <p>
+            L'utente ha la possibilità di modificare l'attività giornaliera in caso di eventuali errori commessi durante
+            la creazione. L'utente ha anche la possibilità di eliminare l'attività giornaliera creata.
+        </p>
+
+        <h3>Come visualizzare le attività precedenti?</h3>
+        <p>
+            E' possibile visualizzare le attività precedenti e anche impostare un filtro per ordine di data o attività.
+        </p>
+
+        <h3>Come reimpostare la password?</h3>
+        <p>
+            L'utente ha la possibilità di cambiare la propria password dalla pagina impostazioni. In caso di password
+            smarrita è possibile richiedere il reset della password.
+        </p>
+
+        <h3>Attività recenti</h3>
+        <p>L'utente può: modificare, rimuovere l'attività,
+            può cercare per nome o data l'attività con il filtro in alto alla tabella
+        </p>
+
+        <h3>Impostazioni utente</h3>
+        <p>L'utente può modificare i dati anagrafici e la foto profilo tranne l'email,
+            può cambiare la password.
+        </p>
+
+        <h3><span class="custom-span">Admin</span></h3>
+
+        <h3>Come visualizzare gli Utenti?</h3>
+        <p>
+            L'admin può visualizzare gli utenti nella dashboard facendo il login.
+        </p>
+        <h3>Cosa può fare l'admin con l'utente specifico?</h3>
+
+        <p>-Visualizzare le attività</p>
+        <p>-Assegnare un attività</p>
+        <p>-Modificare utente</p>
+        <p>-Eliminare l'utente</p>
+
+        <h3>Admin può organizzare la disposizione numerica della tabella per numero di utenti
+            scendendo in basso e inserendo il numero nel filtro</h3>
+
+        <h3>Attività dell'Utente specifico</h3>
+        <p>
+            L'admin può visualizzare le attività dell'utente specifico cliccando sul primo pulsante della dashboard.
+            All'interno delle attività dell'utente l'admin può:
+        </p>
+        <p>- modificare l'attività</p>
+        <p>- eliminare l'attività</p>
+        <p>Admin può anche assegnare una nuova attività, con il bottone in alto alla tabella</p>
+
+
+        <h3>Impostazioni admin</h3>
+        <p>L'admin può modificare i dati anagrafici e la foto profilo tranne l'email, può cambiare la password.
+        </p>
+
+        <h3>Cambio password</h3>
+        <p>Obbligo di compilamento password precedente, nuova password e conferma nuova password </p>
+        <p>cliccando chiudi l'admin viene reindirizzato alle impostazioni</p>
+
+    </p-dialog>
 </div>
-
-
-

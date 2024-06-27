@@ -1,0 +1,5 @@
+/* styles.css o component-specific CSS */
+.custom-span {
+    font-size: 1.5rem; /* Dimensione del carattere leggermente più grande rispetto al grassetto */
+    color: red; /* Colore rosso */
+}
