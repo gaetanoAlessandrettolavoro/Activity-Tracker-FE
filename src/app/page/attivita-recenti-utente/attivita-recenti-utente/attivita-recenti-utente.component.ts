@@ -57,6 +57,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   first: number = 0;
   rows: number = 10;
   pageDefault = 1;
+  conteggio! : any
 
   constructor(
     private filterService: FilterService,
@@ -167,9 +168,12 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
   loadActivities(pageNumber: number, limit: number, fromDate?: string, toDate?: string): void {
-  
-    
     this.activitiesservices.getActivities({ pageNumber, limit, fromDate: this.start, toDate: this.end }).subscribe((data) => {
+      if(data.results === 0){
+        alert("Attività finite!")
+        this.reload()
+      }
+      this.conteggio = data.results + " di " + data.totalDocuments
       this.rowItems = data.data.userActivities.map((item: Activity) => ({
         taskID: item.taskID,
         taskName: item.taskName,

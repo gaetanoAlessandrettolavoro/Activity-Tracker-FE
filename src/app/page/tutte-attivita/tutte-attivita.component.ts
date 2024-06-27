@@ -118,8 +118,12 @@ export class TutteAttivitaComponent implements OnInit {
       )
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
+        if(result.results === 0){
+          alert("Attività finite!")
+          window.location.reload()
+        }
         for (let activity of result.data.document) {
-          this.conteggio = result.results + " di " + result.totalDocumentsActive
+          this.conteggio = result.results + " di " + result.counters.documentsActive
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({

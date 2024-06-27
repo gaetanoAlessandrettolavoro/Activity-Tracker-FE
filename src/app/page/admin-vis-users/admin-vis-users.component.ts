@@ -121,7 +121,7 @@ export class AdminvisuserComponent implements OnInit {
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
-        this.conteggio = data.results + " di " + data.totalDocumentsActive
+        this.conteggio = data.results + " di " + data.counters.documentsActive
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
             firstName: item.firstName,
@@ -166,9 +166,12 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          console.log(data.results)
+          if(data.results == 0){
+            alert("non ci sono più utenti")
+            window.location.reload()
+          }
           console.log( data.results + "/" + data.totalDocuments)
-          this.conteggio = data.results + " di " + data.totalDocumentsActive
+          this.conteggio = data.results + " di " + data.counters.documentsActive
           data.data.document.forEach((item: any) => {
             console.log(item);
             this.usersArray().push({
@@ -196,9 +199,7 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          console.log(data.results)
-          console.log(data)
-          this.conteggio = data.results + " di " + data.totalDocumentsActive
+          this.conteggio = data.results + " di " + data.counters.documentsActive
           this.usersArray.set([]);
           data.data.document.forEach((item: any) => {
             this.usersArray().push({
