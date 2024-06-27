@@ -2,12 +2,12 @@
 <p-sidebar [(visible)]="sidebarVisible">
   
   <br>
-  <li><i class="pi pi-home"></i> <a routerLink="/userhome">Dashboard</a></li>
+  <li><i class="pi pi-home"></i> <a routerLink="/userhome" (click)="close()">Dashboard</a></li>
 
   <br>
-  <li><i class="pi pi-calendar-times"></i> <a routerLink="/attivitaprecedentiutente">Attività precedenti</a></li>
+  <li><i class="pi pi-calendar-times"></i> <a routerLink="/attivitaprecedentiutente" (click)="close()">Attività precedenti</a></li>
 <br>
-<li><i class="pi pi-user"></i> <a routerLink="/impostazioni">Impostazioni utente</a></li>
+<li><i class="pi pi-user"></i> <a routerLink="/impostazioni" (click)="close()">Impostazioni utente</a></li>
 
   <br>
   <li><i class="pi pi-sign-out"></i> <button style="background:none; border:none; padding:0;font-family: Verdana, Geneva, Tahoma, sans-serif;font-weight: bold; color:red; text-decoration:none; cursor:pointer;margin-bottom: 10px;" (click)="logout()">Logout</button></li>
@@ -38,17 +38,17 @@
   <p-sidebar [(visible)]="sidebarVisible">
     
     <br>
-    <li><i class="pi pi-home"></i> <a routerLink="/homeadmin">Dashboard</a></li>
+    <li><i class="pi pi-home"></i> <a routerLink="/homeadmin" (click)="close()">Dashboard</a></li>
 
     <br>
-    <li><i class="pi pi-calendar-times"></i><a routerLink="/tutteattivita">Tutte le attività</a></li>
+    <li><i class="pi pi-calendar-times"></i><a routerLink="/tutteattivita" (click)="close()">Tutte le attività</a></li>
 
     <br>
-    <li><i class="pi pi-user"></i> <a routerLink="/impostazioni">Impostazioni admin</a></li>
-
-    <br>
-    <li><i class="pi pi-chart-bar"></i><a routerLink="/grafici">Statistiche</a></li>
+    <li><i class="pi pi-chart-bar"></i><a routerLink="/grafici" (click)="close()">Statistiche</a></li>
     
+    <br>
+    <li><i class="pi pi-user"></i> <a routerLink="/impostazioni" (click)="close()">Impostazioni admin</a></li>
+
     <br>
     <li><i class="pi pi-sign-out"></i> <button style="background:none; border:none; padding:0;font-family: Verdana, Geneva, Tahoma, sans-serif;font-weight: bold; color:red; text-decoration:none; cursor:pointer;margin-bottom: 10px;" (click)="logout()">Logout</button></li>
   
