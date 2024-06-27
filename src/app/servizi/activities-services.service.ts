@@ -30,6 +30,11 @@ export class ActivitiesServicesService {
   }
   
 
+  getOneActivity(id: string) {
+    let apiUrl = "http://localhost:3000/api/v1/activities/";
+    return this.httpclient.get(`${apiUrl}${id}`, {withCredentials: true});
+  }
+
   createActivity(activity: Activity, userID?: string): Observable<any> {
     const apiUrl = `http://localhost:3000/api/v1/activities`;;
         const activityToSend = { ...activity, userID: userID };
