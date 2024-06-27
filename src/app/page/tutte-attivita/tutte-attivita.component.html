@@ -3,12 +3,25 @@
   <h1>Tutte le attività</h1>
 
 
-<div class="filter-container" [formGroup]="filterForm">
-  <div style="display: flex; justify-content: flex-end; margin-right: 80px; align-items: center;">
-    <i style="margin-right: 5px;" class="pi pi-search"></i>
-    <input type="text" pInputText placeholder="Cerca per nome, cognome o attività" formControlName="searchText" style="width: 318px;">
+  <div [formGroup]="filterForm" class="filter-row">
+    <div class="filter-container">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText placeholder="Cerca per nome, cognome o attività" formControlName="searchText" style="width: 200px;">
+    </div>
+    
+    <div class="date-input">
+      <label for="fromDate">Da:</label>
+      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate">
+    </div>
+    
+    <div class="date-input">
+      <label for="toDate">A:</label>
+      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="toDate">
+    </div>
   </div>
-</div>
+  
+  
+
 
 <div class="box">
 

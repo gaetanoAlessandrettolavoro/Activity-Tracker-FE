@@ -144,11 +144,14 @@ export class TutteAttivitaComponent implements OnInit {
   }
 
   async ngOnInit() {
+    // Inizializza il FormGroup con i campi di filtro
     this.filterForm = new FormGroup({
-      searchText: new FormControl('')
+      searchText: new FormControl(''),
+      fromDate: new FormControl(''),
+      toDate: new FormControl('')
     });
-
-    // Aggiungi questo qui
+  
+    // Aggiungi un listener per le modifiche nel FormGroup
     this.filterForm.valueChanges.subscribe(() => {
       this.filterActivities();
     });
@@ -156,7 +159,7 @@ export class TutteAttivitaComponent implements OnInit {
     // Carica le attività
     await this.getActivities(1, this.limit);
   }
-
+  
   loadActivities(event: TableLazyLoadEvent) {
     this.loading = true;
 
@@ -173,20 +176,43 @@ export class TutteAttivitaComponent implements OnInit {
   }
 
   filterActivities() {
-    const { searchText } = this.filterForm.value;
+    const { searchText, fromDate, toDate } = this.filterForm.value;
+    this.filteredItems = this.rowItems.filter((item) => {
+      const matchesText =
+        !searchText ||
+        item.taskName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.user.lastName.toLowerCase().includes(searchText.toLowerCase());
   
-    if (!searchText) {
-      // se il campo di ricerca è vuoto, ripristina tutte le attività
-      this.filteredItems = [...this.rowItems];
+      const itemDate = new Date(item.startTime);
+      const matchesDate = this.isDateInRange(itemDate, fromDate, toDate);
+  
+      return matchesText && matchesDate;
+    });
+  }
+  
+
+  isDateInRange(date: Date, fromDate: string, toDate: string): boolean {
+    const activityDate = new Date(date);
+  
+    const from = fromDate ? new Date(fromDate) : null;
+    const to = toDate ? new Date(toDate) : null;
+  
+    if (from) {
+      from.setHours(0, 0, 0, 0);
+    }
+    if (to) {
+      to.setHours(23, 59, 59, 999);
+    }
+  
+    if (from && to) {
+      return activityDate >= from && activityDate <= to;
+    } else if (from) {
+      return activityDate >= from;
+    } else if (to) {
+      return activityDate <= to;
     } else {
-      // fifiltra le attività in base al testo di ricerca
-      this.filteredItems = this.rowItems.filter((item) => {
-        const matchesText =
-          item.taskName.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
-          item.user.lastName.toLowerCase().includes(searchText.toLowerCase());
-        return matchesText;
-      });
+      return true;
     }
   }
   

@@ -6,22 +6,71 @@ h1{
 
 }
 
-.filter-container{
-    margin-left: 70px;
-}
-
-
-
-input[type="text"] {
+.filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px; 
+    margin-bottom: 20px; 
+  }
+  
+  .filter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .date-input {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .date-input label {
+    margin-right: 5px;
+  }
+  
+  input[type="date"],
+  input[type="text"] {
     padding: 5px;
     font-family: "Roboto Mono", monospace;
     color: #000000;
     border: 1px solid #cccccc;
     border-radius: 5px;
-} 
-
-
-
+  }
+  
+  input[type="date"] {
+    background-color: #0080ff;
+    color: #ffffff;
+  }
+  
+  input[type="text"] {
+    width: 200px; 
+  }
+  
+  ::-webkit-calendar-picker-indicator {
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  
+  .pi-search {
+    font-size: 15px;
+    color: #6c757d;
+  }
+  
+  @media (max-width: 767px) {
+    .filter-row {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .date-input {
+      margin-top: 10px;
+    }
+  }
+  
 .box{
     
    
@@ -66,4 +115,22 @@ input[type="text"] {
     margin: auto 0.5em;
 }
 
+
+@media (max-width: 767px) {
+    .filter-container {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .fix{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-right: 2px;
+    }
+
+    .date-input {
+        margin-top: 10px;
+    }
+}
 
