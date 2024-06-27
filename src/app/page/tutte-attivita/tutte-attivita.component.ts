@@ -23,12 +23,9 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 interface rowItem extends Activity {
   cognome: string;
   nome: string;
-  user: {
-    codiceFiscale: string;
-    firstName: string;
-    lastName: string;
-    propic: string;
-  };
+  firstName:string;
+  lastName:string;
+  
 }
 
 @Component({
@@ -115,34 +112,31 @@ export class TutteAttivitaComponent implements OnInit {
       .pipe(
         catchError((err) => {
           this.showError(err.status);
-          return of({ data: { document: [] } }); // Restituisci un array vuoto in caso di errore
+          return of({ data: { document: [] } });
         })
       )
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
-            let foundUser = await this.findUser(activity.userID);
-            if (foundUser) {
-              newRows.push({
-                ...activity,
-                user: {
-                  codiceFiscale: foundUser.data.codiceFiscale,
-                  firstName: foundUser.data.firstName,
-                  lastName: foundUser.data.lastName,
-                  propic: foundUser.data.propic,
-                },
-              });
+          let foundUser = await this.findUser(activity.userID);
+          if (foundUser) {
+            newRows.push({
+              ...activity,
+              cognome: foundUser.data.lastName,  // Assegna lastName a cognome
+              nome: foundUser.data.firstName,   // Assegna firstName a nome
+              firstName: foundUser.data.firstName,  // Nuovo campo firstName
+              lastName: foundUser.data.lastName,    // Nuovo campo lastName
+            });
           }
         }
-
+  
         this.originalRowItems = newRows;
         this.rowItems = newRows;
-        this.filteredItems = [...this.rowItems]; // Inizializza filteredItems con tutte le attività
-        //@ts-ignore
+        this.filteredItems = [...this.rowItems];
         this.totalRecords = result.totalDocuments;
       });
   }
-
+  
   async ngOnInit() {
     // Inizializza il FormGroup con i campi di filtro
     this.filterForm = new FormGroup({
@@ -160,20 +154,20 @@ export class TutteAttivitaComponent implements OnInit {
     await this.getActivities(1, this.limit);
   }
   
-  loadActivities(event: TableLazyLoadEvent) {
-    this.loading = true;
+  // loadActivities(event: TableLazyLoadEvent) {
+  //   this.loading = true;
 
-    setTimeout(() => {
-      if (event?.first === 0) {
-        this.getActivities(1, this.limit);
-      } else if (event?.first !== undefined) {
-        const rows = event?.rows ?? this.limit;
-        const page = Math.floor(event.first / rows) + 1;
-        this.getActivities(page, rows);
-      }
-      this.loading = false;
-    }, 500);
-  }
+  //   setTimeout(() => {
+  //     if (event?.first === 0) {
+  //       this.getActivities(1, this.limit);
+  //     } else if (event?.first !== undefined) {
+  //       const rows = event?.rows ?? this.limit;
+  //       const page = Math.floor(event.first / rows) + 1;
+  //       this.getActivities(page, rows);
+  //     }
+  //     this.loading = false;
+  //   }, 500);
+  // }
 
   filterActivities() {
     const { searchText, fromDate, toDate } = this.filterForm.value;
@@ -181,8 +175,8 @@ export class TutteAttivitaComponent implements OnInit {
       const matchesText =
         !searchText ||
         item.taskName.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.user.lastName.toLowerCase().includes(searchText.toLowerCase());
+        item.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.lastName.toLowerCase().includes(searchText.toLowerCase());
   
       const itemDate = new Date(item.startTime);
       const matchesDate = this.isDateInRange(itemDate, fromDate, toDate);
@@ -225,7 +219,7 @@ export class TutteAttivitaComponent implements OnInit {
       startTime: new Date(activity.startTime),
       endTime: new Date(activity.endTime),
       notes: activity.notes,
-      isActive: activity.isActive,
+      
     };
   }
 
