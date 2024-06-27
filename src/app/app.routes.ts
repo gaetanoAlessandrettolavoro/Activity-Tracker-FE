@@ -32,7 +32,7 @@ export const routes: Routes = [
     { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
     { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
     { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
-    { path: 'admin-mode-dati-user-spe', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
+    { path: 'utenti/:id', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
     { path:'resetPassword/:id', component:NewpasswordComponent},
