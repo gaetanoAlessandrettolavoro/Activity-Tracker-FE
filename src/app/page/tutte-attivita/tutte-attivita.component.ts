@@ -66,6 +66,7 @@ export class TutteAttivitaComponent implements OnInit {
   usersArray: any[] = [];
   first: number = 0;
   rows: number = 10;
+  conteggio! : any
 
   tempLimit: number = this.limitDefault; // Aggiungi una variabile temporanea
 
@@ -118,6 +119,7 @@ export class TutteAttivitaComponent implements OnInit {
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
+          this.conteggio = result.results + " di " + result.totalDocumentsActive
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({
@@ -154,21 +156,6 @@ export class TutteAttivitaComponent implements OnInit {
     await this.getActivities(1, this.limit);
   }
   
-  // loadActivities(event: TableLazyLoadEvent) {
-  //   this.loading = true;
-
-  //   setTimeout(() => {
-  //     if (event?.first === 0) {
-  //       this.getActivities(1, this.limit);
-  //     } else if (event?.first !== undefined) {
-  //       const rows = event?.rows ?? this.limit;
-  //       const page = Math.floor(event.first / rows) + 1;
-  //       this.getActivities(page, rows);
-  //     }
-  //     this.loading = false;
-  //   }, 500);
-  // }
-
   filterActivities() {
     const { searchText, fromDate, toDate } = this.filterForm.value;
     this.filteredItems = this.rowItems.filter((item) => {

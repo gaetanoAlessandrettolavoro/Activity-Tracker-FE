@@ -6,20 +6,20 @@
   <div [formGroup]="filterForm" class="filter-row">
     <div class="filter-container">
       <i class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Cerca per nome, cognome o attività" formControlName="searchText" style="width: 200px;">
+      <input type="text" pInputText placeholder="Cerca per nome, cognome o attività" formControlName="searchText" style="width: 310px;">
     </div>
-    
+    <div style="display: flex; margin-right: 80px;">
     <div class="date-input">
       <label for="fromDate">Da:</label>
       <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate">
     </div>
     
     <div class="date-input">
-      <label for="toDate">A:</label>
+      <label for="toDate" style="margin-left: 8px;">A:</label>
       <input id="toDate" type="date" pInputText placeholder="A data" formControlName="toDate">
     </div>
   </div>
-  
+</div>
   
 
 
@@ -65,6 +65,9 @@
   </ng-template>
 </p-table>
 
+<div style="display: flex; justify-content: flex-end; margin-right: 80px;">
+  {{conteggio}}
+</div>
 
 </div>
 <br>
@@ -89,3 +92,4 @@
 <p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
 </div>
 <br /><br />
+
