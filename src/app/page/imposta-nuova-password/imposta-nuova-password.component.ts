@@ -32,6 +32,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
   providers: [MessageService],
 })
 export class ImpostaNuovaPasswordComponent {
+  route: any;
 
   constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) { }
 
@@ -86,5 +87,8 @@ export class ImpostaNuovaPasswordComponent {
     } else {
       this.showError(1);
     }
+  }
+  chiudi() {
+    this.route.navigate(['/impostazioni']); 
   }
 }
