@@ -1,7 +1,7 @@
 <p-toast />
 
 
-<h1>Tutti gli Utenti ({{ limitDefault }})</h1>
+<h1>Tutti gli Utenti</h1>
 <div class="filter-container">
   <p-table
     [columns]="cols"
@@ -40,6 +40,9 @@
       </tr>
     </ng-template>
   </p-table>
+  <div style="display: flex; justify-content: flex-end;">
+    {{conteggio}}
+</div>
   <div class="card flex justify-content-center">
     <p-paginator
       (onPageChange)="onPageChange($event)"
@@ -110,4 +113,5 @@
       </h3>
     </p-dialog>
   </div>
+  
 </div>
