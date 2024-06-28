@@ -1,92 +1,111 @@
-@import "primeicons/primeicons.css";
-
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  margin: auto;
+  height: 90vh;
 }
 
 .card {
-  width: 882px;
-  height: 344px;
+  max-width: 90%;
+  height: fit-content;
   border: 1px solid #ccc;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.center {
-  text-align: center;
+  margin:auto;
 }
 
 .header {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding: 2em 9em;
 }
 
-.header h2 {
+.header img {
+  margin-right: 10px;
+}
+
+.header .center {
   margin-left: 10px;
 }
 
-.right {
+@media screen and (max-width: 750px){
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+  .header img {
+    margin: 0;
+  }
+
+  .header .center {
+    margin: 0;
+  }
+}
+
+.upload-container img {
+  margin-right: 10px;
+}
+
+.upload-container span {
+  margin-right: 10px;
+}
+
+.top, .bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 10px;
 }
 
-.right input {
+@media screen and (max-width: 515px){
+  .top, .bottom {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.top input, .bottom input {
   flex: 1;
   margin: 0 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 8px;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-.right input:hover {
-  border-color: #a1c1d9;
-}
-
-.right input:focus {
-  outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 10px rgba(0, 200, 100, 0.5);
-}
-
-.right input:active {
-  border-color: #f44336;
-  box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
-}
-
-.codfisc-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-  width: 100%;
-}
-
-.cambio-password {
-  margin-left: 10px;
 }
 
 .actions {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  margin-top: 20px;
+  margin: 1.7em 1.2em auto auto;
+  width: fit-content;
+  flex-flow: row wrap; 
+  font-size:0;
 }
 
-.actions button {
-  margin: 0 10px;
+.actions a {
+  margin: 0.5em 0;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  color: black;
 }
 
+.actions a:hover {
+  text-decoration: underline;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
+}
+  
+input[type="text"]:focus {
+  border-color: dodgerblue;
+}
+  
 .p-button {
   color: white;
   background-color: #a1c1d9;
@@ -94,42 +113,5 @@
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.p-button-success {
-  background-color: #4CAF50;
-}
-
-.p-button-danger {
-  background-color: #f44336;
-}
-
-.p-button-secondary {
-  background-color: #a1c1d9;
-}
-
-/* Media query per schermi con larghezza massima di 400px */
-@media only screen and (max-width: 400px) {
-  .container {
-    padding: 0 3px;
-  }
-
-  .card {
-    width: auto;
-    padding: 8px;
-  }
-
-  .header h2 {
-    font-size: 1rem;
-  }
-
-  .right input {
-    font-size: 0.7rem;
-    padding: 5px;
-  }
-
-  .actions button {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-  }
+  margin: 10px;
 }

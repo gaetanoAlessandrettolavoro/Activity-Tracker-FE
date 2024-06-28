@@ -36,7 +36,7 @@
             Attività
           </button>
           <app-user-task-creation [userID]="rowData._id" />
-          <button class="info-button"><i class="pi pi-user-edit"></i></button>
+          <button class="info-button" (click)="editUser(rowData._id)"><i class="pi pi-user-edit"></i></button>
           <delete-user [user]="rowData._id" (userDeleted)="userDeleted()" />
         </td>
       </tr>
