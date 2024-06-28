@@ -53,6 +53,11 @@ export class ImpostaNuovaPasswordComponent {
     password: new FormControl('', Validators.required),
     confirmPassword: new FormControl('', Validators.required),
   });
+
+  
+  chiudi() {
+    this.route.navigate(['/impostazioni']); 
+  }
   
   onSubmit() {
     if (this.userForm.valid) {
@@ -62,7 +67,10 @@ export class ImpostaNuovaPasswordComponent {
         passwordConfirm: this.userForm.value.confirmPassword
       }).subscribe({
         next: (result: any) => {
-          console.log(result);
+          this.showError(250);
+          setTimeout(() => {
+            this.router.navigate(['/impostazioni']);
+          }, 1000);
         },
         error: (error: any) => {
           this.showError(error.status);
@@ -71,8 +79,5 @@ export class ImpostaNuovaPasswordComponent {
     } else {
       this.showError(1);
     }
-  }
-  chiudi() {
-    this.route.navigate(['/impostazioni']); 
   }
 }

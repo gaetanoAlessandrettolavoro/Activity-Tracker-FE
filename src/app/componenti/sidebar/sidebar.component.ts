@@ -24,12 +24,10 @@ export class SidebarComponent {
 
   ngDoCheck(){
     if(localStorage.getItem("utente")){
-      console.log("utente")
       this.isUser = true
     }
     else if(localStorage.getItem("admin")){
-          console.log("admin")
-          this.isAdmin = true
+      this.isAdmin = true
     }
   }
 
