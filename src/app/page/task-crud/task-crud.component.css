@@ -1,0 +1,56 @@
+@import "primeicons/primeicons.css";
+
+table {
+    margin: 20px auto;
+    margin-bottom: 10px;
+    margin-left: 100%;
+    margin-right: 100%;
+    padding: 0 20px;
+}
+
+button {
+    margin-right: 5px;
+}
+
+.delete-button {
+    color: white;
+    background-color: red;
+    border-radius: 12px;
+    padding: 10px;
+    margin-right: 20px;
+    border: none;
+    cursor: pointer;
+    float: right;
+}
+
+.delete-button i {
+    font-size: 20px;
+}
+
+@media (max-width: 600px) {
+    table {
+        margin: 20px auto;
+        margin-left: 10px;
+        margin-right: 10px;
+        width: auto; 
+    }
+
+    button {
+        margin-right: 5px;
+    }
+
+    .delete-button {
+        color: white;
+        background-color: red;
+        border-radius: 12px;
+        padding: 10px;
+        margin-right: 20px;
+        border: none;
+        cursor: pointer;
+        float: right;
+    }
+
+    .delete-button i {
+        font-size: 20px;
+    }
+}

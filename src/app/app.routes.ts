@@ -19,6 +19,7 @@ import { GraficiComponent } from './page/grafici/grafici.component';
 import { ImpostaNuovaPasswordComponent } from './page/imposta-nuova-password/imposta-nuova-password.component';
 import { NewpasswordComponent } from './page/newpassword/newpassword.component';
 import { bothRolesGuard } from './guardie/bothRoles.guard';
+import { TaskComponent } from './page/task-crud/task-crud.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
@@ -36,7 +37,7 @@ export const routes: Routes = [
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
     { path:'resetPassword/:id', component:NewpasswordComponent},
-
+{path:'tasks', component:TaskComponent},
 
     // Questa rotta deve restare per ultima 
     { path:'**',component: NotFoundComponent }
