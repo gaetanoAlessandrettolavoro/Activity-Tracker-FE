@@ -1,4 +1,3 @@
-
 <p-toast />
 
 <h1 class="table-title" >Attività di {{userEmail}}</h1>
@@ -30,6 +29,9 @@
         </tr>
       </ng-template>
     </p-table>
+    <div style="display: flex; justify-content: flex-end;">
+    {{conteggio}}
+  </div>
     <p-paginator 
     (onPageChange)="onPageChange($event)" 
     [first]="first" 
@@ -45,7 +47,7 @@
         style="width: 160px;"
       />
       <br>
-      <p-button label="Invia" (click)="changeLimit()"  size="small"></p-button> {{limit}}
+      <p-button label="Invia" (click)="changeLimit()"  size="small"></p-button> 
       </div>
+      <br>
   </div>
-
