@@ -96,7 +96,4 @@ export class AdminserviceService {
   rejectUser(id: any) {
    return this.http.patch<any>(`http://localhost:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{withCredentials : true});
   }
- 
-
-
 }
