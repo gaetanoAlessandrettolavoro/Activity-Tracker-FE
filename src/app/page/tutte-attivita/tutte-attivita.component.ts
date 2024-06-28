@@ -18,6 +18,9 @@ import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { PrimeIcons } from 'primeng/api';
+import { SortEvent } from 'primeng/api';
+
 
 
 interface rowItem extends Activity {
@@ -67,6 +70,16 @@ export class TutteAttivitaComponent implements OnInit {
   first: number = 0;
   rows: number = 10;
   conteggio! : any
+
+  cols = [
+    { fields: 'firstName', header:'Nome'},
+    { fields: 'lastName', header:'Cognome'},
+    { field: 'taskName', header: 'Attività' },
+    { field: 'activityDate', header: 'Data' },
+    { field: 'startTime', header: 'Orario di inizio' },
+    { field: 'endTime', header: 'Orario di fine' },
+    { field: 'notes', header: 'Note' },
+  ];
 
   tempLimit: number = this.limitDefault; // Aggiungi una variabile temporanea
 
@@ -230,6 +243,13 @@ export class TutteAttivitaComponent implements OnInit {
     this.filteredItems = [...this.originalRowItems]; 
     console.log('Filter removed, items restored:', this.filteredItems); 
   }
+
+  reload() {
+    window.location.reload();
+  }
+
+
+  
   
   
 }
