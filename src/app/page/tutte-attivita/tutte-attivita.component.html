@@ -37,16 +37,36 @@
   [style]="{ 'max-width': '90%', 'margin': '0 auto' }">
   <ng-template pTemplate="header">
     <tr>
-      <th>Nome</th>
-      <th>Cognome</th> 
-      <th class="activities">Attività</th>
-      <th>Data</th>
-      <th class="times">Orario di inizio</th>
-      <th class="times">Orario di fine</th>
-      <th class="notes">Note</th>
+      <th pSortableColumn="firstName" [style.width.px]="150">
+        Nome
+        <p-sortIcon field="firstName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="lastName" [style.width.px]="150">
+        Cognome
+        <p-sortIcon field="lastName"></p-sortIcon>
+      </th> 
+      <th pSortableColumn="taskName" class="activities" [style.width.px]="150">
+        Attività
+        <p-sortIcon field="taskName"></p-sortIcon>
+      </th>
+      <th pSortableColumn="startTime"[style.width.px]="150">
+        Data
+        <p-sortIcon field="startTime"></p-sortIcon>
+      </th>
+      <th pSortableColumn="startTime" class="times"[style.width.px]="200">
+        Orario di inizio
+        <p-sortIcon field="startTime"></p-sortIcon>
+      </th>
+      <th pSortableColumn="endTime" class="times"[style.width.px]="200">
+        Orario di fine
+        <p-sortIcon field="endTime"></p-sortIcon>
+      </th>
+      <th pSortableColumn="notes" class="notes"[style.width.px]="150">
+        Note
+        <p-sortIcon field="notes"></p-sortIcon>
+      </th>
       <th class="buttons"></th>
       <th class="buttons"></th>
-      
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
@@ -60,10 +80,10 @@
       <td>{{ rowData.notes }}</td>
       <td><edit-activity [activity]="activityToSend(rowData)"></edit-activity></td>
       <td><delete-activity [activityID]="rowData._id"></delete-activity></td>
-      
     </tr>
   </ng-template>
 </p-table>
+
 
 <div style="display: flex; justify-content: flex-end; width: 90%; margin: auto; background-color: white; padding: 0.5em 1em;">
   {{conteggio}}
