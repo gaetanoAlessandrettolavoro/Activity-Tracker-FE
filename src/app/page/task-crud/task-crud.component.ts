@@ -11,27 +11,31 @@ import { TableModule } from 'primeng/table';
   standalone:true,
   imports:[DatePipe,TableModule,NgForOf]
 })
-export class TaskComponent implements OnInit{
-  tasks: Task[]=[];
-  constructor(private Taskservice:ServiceTasksService){
 
-  }
+export class TaskComponent implements OnInit {
+  tasks: Task[] = [];
+  cols = [
+    { field: '_id', header: 'ID Task' },
+    { field: 'taskName', header: 'Nome Task' }
+   
+  ];
 
-  readTask() {
-    this.Taskservice.getAllTasks().subscribe({
-      next:(res:any)=>{
-       this.tasks = res.data.document
-       console.log(this.tasks)
+  constructor(private Taskservice: ServiceTasksService) { }
 
-      }
-    })
-  }
   ngOnInit(): void {
     this.readTask();
   }
 
-
-  deleteTask(index: number) {
-    this.tasks.splice(index, 1);
+  readTask() {
+    this.Taskservice.getAllTasks().subscribe((res: any) => {
+      this.tasks = res.data.document;
+      console.log(this.tasks);
+    });
   }
-}
+
+  deleteTask(id: string) {
+    this.Taskservice.deleteTask(id).subscribe(() => {
+      this.tasks = this.tasks.filter(task => task._id !== id);
+    });
+  }
+} 
