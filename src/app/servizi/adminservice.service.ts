@@ -16,18 +16,18 @@ export class AdminserviceService {
     pageNumber?: number;
   }): Observable<any> {
     if (parameter?.limit && !parameter?.pageNumber) {
-      return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}`, {
+      return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isActive=true`, {
         withCredentials: true,
       });
     } else if (parameter?.pageNumber && !parameter?.limit) {
       return this.http.get<any>(
-        `${this.apiUrl}?page=${parameter?.pageNumber}`,
+        `${this.apiUrl}?page=${parameter?.pageNumber}&isActive=true`,
         { withCredentials: true },
       );
     }
     if (parameter?.limit && parameter.pageNumber) {
       return this.http.get<any>(
-        `${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}`,
+        `${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isActive=true`,
         { withCredentials: true },
       );
     }
@@ -96,7 +96,4 @@ export class AdminserviceService {
   rejectUser(id: any) {
    return this.http.patch<any>(`http://localhost:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{withCredentials : true});
   }
- 
-
-
 }
