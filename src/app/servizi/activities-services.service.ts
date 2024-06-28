@@ -12,22 +12,29 @@ export class ActivitiesServicesService {
   private apiUrl = 'http://localhost:3000/api/v1/activities/me'; 
 
 
-  getActivities(parameter?:{pageNumber?: number, limit?: number, fromDate?: string, toDate?: string}): Observable<any> {
+  getActivities(parameters?: { pageNumber?: number, limit?: number, fromDate?: string, toDate?: string, searchText?: string }): Observable<any> {
     let url = `${this.apiUrl}?isActive=true`;
   
-    if(parameter?.limit){
-      url += `&limit=${parameter.limit}&sort=-startTime`;
+    if (parameters?.limit) {
+      url += `&limit=${parameters.limit}&sort=-startTime`;
     }
-    if(parameter?.pageNumber){
-      url += `&page=${parameter.pageNumber}&sort=-startTime`;
+    if (parameters?.pageNumber) {
+      url += `&page=${parameters.pageNumber}&sort=-startTime`;
     }
 
-    if(parameter?.toDate && parameter?.fromDate){
-      url += `&startTime[gte]=${parameter.fromDate}&endTime[lte]=${parameter.toDate}&sort=-startTime`;
+    if (parameters?.fromDate) {
+      url += `&startTime[gte]=${parameters.fromDate}`;
+    }
+    if (parameters?.toDate) {
+      url += `&endTime[lte]=${parameters.toDate}`;
+    }
+    
+    if (parameters?.searchText) {
+      url += `&searchText=${parameters.searchText}`;
     }
   
-    return this.httpclient.get<any>(url, {withCredentials : true});
-  }
+    return this.httpclient.get<any>(url, { withCredentials: true });
+}
   
 
   getOneActivity(id: string) {

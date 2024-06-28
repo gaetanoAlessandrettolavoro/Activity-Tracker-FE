@@ -52,6 +52,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     { field: 'endTime', header: 'Orario di fine' },
     { field: 'notes', header: 'Note' },
   ];
+  
   limitDefault = 5;
   limit: number = this.limitDefault; // Initialize limit with default value
   first: number = 0;
@@ -75,13 +76,13 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   startTime() {
     this.start = this.filterForm.value.fromDate
-    console.log(this.start)
+    console.log('Start Date:', this.start);
     this.loadActivities(this.pageDefault, this.limitDefault);
   }
 
   endTime() {
     this.end = this.filterForm.value.endTime
-    console.log(this.end)
+    console.log('End Date:', this.end);
     this.loadActivities(this.pageDefault,this.limitDefault,this.start,this.end)
   }
 
@@ -140,6 +141,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   filterActivities() {
     const { searchText, fromDate, toDate } = this.filterForm.value;
+    console.log('Search Text:', searchText);
     this.filteredItems = this.rowItems.filter((item) => {
       const matchesText =
         !searchText ||
@@ -168,6 +170,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
   loadActivities(pageNumber: number, limit: number, fromDate?: string, toDate?: string): void {
+    console.log('Loading Activities. Page:', pageNumber, 'Limit:', limit, 'From Date:', fromDate, 'To Date:', toDate);
     this.activitiesservices.getActivities({ pageNumber, limit, fromDate: this.start, toDate: this.end }).subscribe((data) => {
       this.conteggio = data.results + " di " + data.totalDocuments
       this.rowItems = data.data.userActivities.map((item: Activity) => ({
@@ -189,11 +192,13 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   onPageChange(event: any): void {
     const pageNumber = event.page + 1;
+    console.log('Page Change. New Page Number:', pageNumber);
     this.pageDefault = pageNumber;
     this.loadActivities(pageNumber, this.limit, this.filterForm.value.fromDate, this.filterForm.value.toDate); // Use the current limit value and date filters
   }
 
   changeLimit(): void {
+    console.log('Limit Change. New Limit:', this.limit);
     this.loadActivities(this.pageDefault, this.limit, this.filterForm.value.fromDate, this.filterForm.value.toDate);
   }
 }
