@@ -37,30 +37,14 @@ export class ImpostaNuovaPasswordComponent {
   constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) { }
 
   showError(statusCode: number) {
-    switch (statusCode) {
-      case 1:
-        this.messageService.add(this.errors.getErrorMessage(1));
-        break;
-      case 400: 
-        this.messageService.add(this.errors.getErrorMessage(400));
-        break;
-      case 401:
-        this.messageService.add(this.errors.getErrorMessage(401));
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 429:
-        this.messageService.add(this.errors.getErrorMessage(429));
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 500:
-        this.messageService.add(this.errors.getErrorMessage(500));
-        break;
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -81,7 +65,7 @@ export class ImpostaNuovaPasswordComponent {
           console.log(result);
         },
         error: (error: any) => {
-          console.error('Si è verificato un errore:', error);
+          this.showError(error.status);
         }
       });
     } else {

@@ -99,7 +99,7 @@ form .button {
   left: -100%;
   z-index: -3;
   transition: all 0.4s;
-  background-color: #a1c1d9;
+  background-color: #0F6DAF;
 }
 .button:hover .inner {
   left: 0;

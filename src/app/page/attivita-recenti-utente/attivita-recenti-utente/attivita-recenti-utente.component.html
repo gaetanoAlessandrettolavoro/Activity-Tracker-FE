@@ -9,11 +9,11 @@
     
     <div class="date-input">
       <label for="fromDate">Da:</label>
-      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate" (change)="startTime()">
+      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate" (change)="startTime()" style="background-color: #0F6DAF;">
     </div>
     <div class="date-input">
       <label for="toDate">A:</label>
-      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="endTime" (change)="endTime()"> 
+      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="endTime" (change)="endTime()" style="background-color: #0F6DAF;"> 
     </div>
   </div>
 
@@ -61,6 +61,6 @@
       placeholder="Inserisci il limite"
       style="width: 160px;">
     <br>
-    <p-button label="Invia" (click)="changeLimit()" size="small"></p-button> {{limit}}
+    <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button> {{limit}}
   </div>
 </div>

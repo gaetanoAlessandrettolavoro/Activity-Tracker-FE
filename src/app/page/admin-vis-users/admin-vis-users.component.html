@@ -2,7 +2,7 @@
 <h1>Tutti gli Utenti</h1>
 <div class="filter-container">
   <div style="display: flex; justify-content: flex-end;">
-  <p-button (click)="changemodaladmin()" label="Utenti da accettare" />
+  <p-button (click)="changemodaladmin()" label="Utenti da accettare" [style]="{'background-color': '#0F6DAF'}"/>
   <br><br>
 </div>
   <p-table
@@ -61,7 +61,7 @@
     placeholder="Inserisci il limite"
   />
   <br /><br />
-  <p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
+  <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button>
 </div>
 
 <div *ngIf="userActivities.length > 0" class="user-activities-container">

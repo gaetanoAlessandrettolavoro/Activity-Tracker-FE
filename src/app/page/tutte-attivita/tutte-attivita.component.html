@@ -11,12 +11,12 @@
     <div style="display: flex; margin-right: 80px;">
     <div class="date-input">
       <label for="fromDate">Da:</label>
-      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate">
+      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate" style="background-color: #0F6DAF;">
     </div>
     
     <div class="date-input">
       <label for="toDate" style="margin-left: 8px;">A:</label>
-      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="toDate">
+      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="toDate" style="background-color: #0F6DAF;">
     </div>
   </div>
 </div>
@@ -89,7 +89,7 @@
   style="width: 160px;"
 />
 <br>
-<p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
+<p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button>
 </div>
 <br /><br />
 
