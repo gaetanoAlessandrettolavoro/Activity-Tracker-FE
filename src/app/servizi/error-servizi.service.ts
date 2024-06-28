@@ -27,6 +27,14 @@ export class ErrorServiziService {
       }
     },
     {
+      statusCode: 250,
+      errorMessage: {
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Password cambiata con successo.'
+      }
+    },
+    {
       statusCode: 400,
       errorMessage: {
         severity: 'error',
