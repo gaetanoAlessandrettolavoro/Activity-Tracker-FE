@@ -34,17 +34,14 @@ export class NavbarComponent implements OnInit {
   ngDoCheck(){
   
     if(localStorage.getItem("utente")){
-      console.log("utente")
       this.isUser = true
       this.isNotAuthenticated=false
     }
     else if(localStorage.getItem("admin")){
-          console.log("admin")
           this.isAdmin = true
           this.isNotAuthenticated=false
     }
     else if (!localStorage.getItem("admin") && !localStorage.getItem("utente")){
-      console.log("non autenticato")
       this.isAdmin=false
       this.isUser=false
       this.isNotAuthenticated=true

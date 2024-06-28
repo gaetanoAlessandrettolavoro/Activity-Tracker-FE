@@ -165,10 +165,6 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          if(data.results == 0){
-            alert("non ci sono più utenti")
-            window.location.reload()
-          }
           console.log( data.results + "/" + data.totalDocuments)
           this.conteggio = data.results + " di " + data.counters.documentsActive
           data.data.document.forEach((item: any) => {

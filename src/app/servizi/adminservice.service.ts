@@ -1,4 +1,3 @@
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -42,7 +41,7 @@ export class AdminserviceService {
   }
 
     getOneUserActivity(data: any,pageNumber : any,limit:any): Observable<any> {
-      return this.http.get<any>(`http://localhost:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true`,{ withCredentials: true })
+      return this.http.get<any>(`http://localhost:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true&sort=-startTime`,{ withCredentials: true })
     }
 
   patchUser(id: string, data: User): Observable<any> {

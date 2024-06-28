@@ -29,11 +29,9 @@ export class DropdownMenuComponent implements OnInit {
   constructor(private router: Router, private userService: UserServiceService) {} 
   ngDoCheck(){
     if(localStorage.getItem("utente")){
-      console.log("utente")
       this.isUser = true
     }
     else if(localStorage.getItem("admin")){
-          console.log("admin")
           this.isAdmin = true
     }
   }

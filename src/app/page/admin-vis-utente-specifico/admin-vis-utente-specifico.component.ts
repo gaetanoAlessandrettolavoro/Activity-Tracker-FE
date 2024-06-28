@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -34,6 +35,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   activities: Activity[] = [];
   idunivoco! : string;
   userEmail: string = ''; 
+  conteggio! : any
 
   cols = [
     { field: 'taskName', header: 'Attività' },
@@ -64,6 +66,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     this.route.params.subscribe(params => {
       const id = params['id'];
       this.idunivoco = id
+      console.log(this.limitDefault)
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
       this.admin.getOneUser(id).subscribe({
         next:(res)=>{this.userEmail=res.data.email}
@@ -76,16 +79,26 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   changeLimit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      this.fetchActivities(id, this.pageDefault, this.limit);
+      if(this.limit == undefined)
+        this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      else{
+        this.fetchActivities(id, this.pageDefault, this.limit);
+      }
     });
   }
 
   onPageChange(event: any): void {
     const pageNumber = (event.page + 1);
     this.pageDefault = pageNumber;
+    console.log(this.pageDefault)
     this.route.params.subscribe(params => {
       const id = params['id'];
+      console.log(this.limit)
+      if(this.limit == undefined)
+      this.fetchActivities(id, pageNumber, this.limitDefault);
+    else{
       this.fetchActivities(id, pageNumber, this.limit);
+    }
     });
   }
 
@@ -93,6 +106,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     this.activities = []; // Reset the array before fetching new data
     this.admin.getOneUserActivity(id, page, limit).subscribe({
       next: (result: any) => {
+        this.conteggio = result.results + " di " + result.totalDocuments;
         this.activities = result.data.activities.map((element: any) => ({
           taskName: element.taskName,
           startTime: new Date(element.startTime),
