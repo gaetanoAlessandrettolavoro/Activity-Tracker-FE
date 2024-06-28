@@ -84,12 +84,6 @@ input[type="text"] {
     border-radius: 12px;
 }
 
-.info-button {
-    background-color: #a1c1d9;
-    color: white;
-    margin-right: 20px;
-}
-
 .delete-button {
     background-color: orangered;
     color: black;

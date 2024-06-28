@@ -40,7 +40,8 @@ export class AdminvisuserComponent implements OnInit {
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
-  modaldmin : boolean = false
+  modaldmin : boolean = false;
+  totalRecords: number = 1;
 
   cols = [
     { field: 'firstName', header: 'Nome' },
@@ -76,7 +77,7 @@ export class AdminvisuserComponent implements OnInit {
     this.visible = true;
   }
   limitDefault = 5;
-  limit!: number;
+  limit: number = this.limitDefault;
   first: number = 0;
   rows: number = 10;
   pageDefault = 1;
@@ -121,6 +122,7 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = data.results + " di " + data.counters.documentsActive
+        this.totalRecords = data.counters.documentsActive;
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
             firstName: item.firstName,

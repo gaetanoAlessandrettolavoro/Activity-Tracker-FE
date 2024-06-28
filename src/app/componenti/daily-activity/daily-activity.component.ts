@@ -48,9 +48,9 @@ export class DailyActivityComponent {
   limit : number = 4
   page : number = 1
   first: number = 0;
-  rows: number = 10;
   totale! : number
-  conteggio! : string
+  conteggio! : string;
+  totalRecords: number = 1;
 
   constructor(
     private adminService: AdminserviceService, 
@@ -73,6 +73,7 @@ export class DailyActivityComponent {
     this.adminService.getActivitiesByDate({ pageNumber: this.page, limit: this.limit }).subscribe({
       next: (result: any) => {
         this.conteggio = result.results + " di " + result.totalDocuments;
+        this.totalRecords = result.totalDocuments;
         if (result.data.userActivities.length === 0) {
           this.nodailyactivity = true;
           this.dailyactivitycomponent = false;

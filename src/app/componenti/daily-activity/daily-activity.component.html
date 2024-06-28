@@ -1,9 +1,9 @@
 <p-toast />
-<div *ngIf="nodailyactivity">
-    <no-daily-activity />
-</div>
 <div id="create-activity">
   <app-user-task-creation (buttonClicked)="gestiscivalori($event)" style="margin-left: 50px;"/>
+</div>
+<div *ngIf="nodailyactivity">
+    <no-daily-activity />
 </div>
 <div *ngIf="dailyactivitycomponent">
 <br><br>
@@ -31,7 +31,7 @@
             </tr>
         </ng-template>
     </p-table>
-    <div style="display: flex; justify-content: flex-end;">
+    <div style="display: flex; justify-content: flex-end; background-color: white; padding-right: 1em;">
         {{conteggio}}
     </div>
 </div>
@@ -39,20 +39,20 @@
     <p-paginator
       (onPageChange)="onPageChange($event)"
       [first]="first"
-      [rows]="rows"
-      [totalRecords]=120
+      [rows]="limit"
+      [totalRecords]="totalRecords"
     ></p-paginator>
     <!-- totalRecords will need to be modified based on the actual database data -->
   </div>
-  <div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
-  <input
-    type="text"
-    pInputText
-    [(ngModel)]="limit"
-    placeholder="Inserisci il limite"
-  />
-  <br />
-  <p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
-  <br>
-</div>
+  <div style="display: flex; justify-content: center; flex-direction: column; align-items: center; background-color: white; width: 90%; margin: auto">
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="limit"
+      placeholder="Inserisci il limite"
+    />
+    <br />
+    <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button>
+    <br>
+  </div>
 </div>

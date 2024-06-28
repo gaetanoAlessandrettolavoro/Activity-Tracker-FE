@@ -59,7 +59,7 @@ export class TutteAttivitaComponent implements OnInit {
 
   textFilter = signal<string>('');
   isFiltered = signal<boolean>(false);
-  totalRecords!: number;
+  totalRecords: number = 1;
   loading: boolean = false;
   limitDefault = 4;
   limit: number = this.limitDefault;
@@ -135,7 +135,7 @@ export class TutteAttivitaComponent implements OnInit {
         this.originalRowItems = newRows;
         this.rowItems = newRows;
         this.filteredItems = [...this.rowItems];
-        this.totalRecords = result.totalDocuments;
+        this.totalRecords = result.counters.documentsActive;
       });
   }
   

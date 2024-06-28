@@ -28,14 +28,14 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   apiUrl: any;
   constructor(private route: ActivatedRoute, private router: Router, private admin: AdminserviceService, private messageService: MessageService, private userService: UserServiceService, private errors: ErrorServiziService) { }
   first: number = 0;
-  rows: number = 10;
-  limit!: number;
   limitDefault = 5;
+  limit: number = this.limitDefault;
   pageDefault = 1;
   activities: Activity[] = [];
   idunivoco! : string;
   userEmail: string = ''; 
-  conteggio! : any
+  conteggio! : any;
+  totalRecords: number = 1;
 
   cols = [
     { field: 'taskName', header: 'Attività' },
@@ -107,6 +107,7 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     this.admin.getOneUserActivity(id, page, limit).subscribe({
       next: (result: any) => {
         this.conteggio = result.results + " di " + result.totalDocuments;
+        this.totalRecords = result.totalDocuments;
         this.activities = result.data.activities.map((element: any) => ({
           taskName: element.taskName,
           startTime: new Date(element.startTime),

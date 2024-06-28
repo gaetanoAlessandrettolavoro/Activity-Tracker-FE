@@ -1,10 +1,6 @@
 .backgorund {
-    height: 100dvh;
-    background-image: linear-gradient(
-        rgba(255, 255, 255, 0.7),
-        rgba(255, 255, 255, 0.7)
-      ),
-      url("../../../assets/Immagine WhatsApp 2024-05-15 ore 12.08.54_344a7fa8.jpg");
+    height: 74dvh;
+    background-image: url("../../../assets/Immagine\ WhatsApp\ 2024-05-15\ ore\ 12.08.54_344a7fa8\ \(3\).png");
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
@@ -14,6 +10,6 @@
 h1 {
     width: fit-content;
     margin: 0 auto;
-    padding-top: 5em;
+    padding-top: 3.5em;
     font-weight: 600;
 }

@@ -14,6 +14,7 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin:auto;
+  background-color: white;
 }
 
 .header {
@@ -108,7 +109,7 @@ input[type="text"]:focus {
   
 .p-button {
   color: white;
-  background-color: #a1c1d9;
+  background-color: #0F6DAF;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;

@@ -2,7 +2,7 @@
 <h1>Tutti gli Utenti</h1>
 <div class="filter-container">
   <div style="display: flex; justify-content: flex-end;">
-  <p-button (click)="changemodaladmin()" label="Utenti da accettare" />
+  <p-button (click)="changemodaladmin()" label="Utenti da accettare" [style]="{'background-color': '#0F6DAF'}"/>
   <br><br>
 </div>
   <p-table
@@ -37,31 +37,33 @@
           </button>
           <app-user-task-creation [userID]="rowData._id" />
           <button class="info-button" (click)="editUser(rowData._id)"><i class="pi pi-user-edit"></i></button>
-          <delete-user [user]="rowData._id" (userDeleted)="userDeleted()" />
+          <delete-user [user]="rowData" (userDeleted)="userDeleted()" />
         </td>
       </tr>
     </ng-template>
   </p-table>
-  <div style="display: flex; justify-content: flex-end;">
+  <div style="display: flex; justify-content: flex-end; background-color: white; padding: 0.5em 1em">
     {{conteggio}}
 </div>
   <div class="card flex justify-content-center">
     <p-paginator
       (onPageChange)="onPageChange($event)"
       [first]="first"
-      [rows]="rows"
-      [totalRecords]="120"
+      [rows]="limit"
+      [totalRecords]="totalRecords"
     ></p-paginator>
     <!-- totalRecords will need to be modified based on the actual database data -->
   </div>
-  <input
-    type="text"
-    pInputText
-    [(ngModel)]="limit"
-    placeholder="Inserisci il limite"
-  />
-  <br /><br />
-  <p-button label="Invia" (click)="changeLimit()" size="small"></p-button>
+  <div style="background-color: white;">
+    <input
+      type="text"
+      pInputText
+      [(ngModel)]="limit"
+      placeholder="Inserisci il limite"
+    />
+    <br /><br />
+    <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button>
+  </div>
 </div>
 
 <div *ngIf="userActivities.length > 0" class="user-activities-container">
