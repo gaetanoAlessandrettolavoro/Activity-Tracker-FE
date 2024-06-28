@@ -46,14 +46,17 @@
       </tr>
     </ng-template>
   </p-table>
+  <div style="display: flex; justify-content: flex-end; background-color: white; padding-right: 1em;">
+    {{conteggio}}
+  </div>
   <p-paginator 
     (onPageChange)="onPageChange($event)" 
     [first]="first" 
-    [rows]="rows" 
-    [totalRecords]="filteredItems.length">
+    [rows]="limit" 
+    [totalRecords]="totalRecords">
   </p-paginator>
 
-  <div style="display: flex; justify-content: center; flex-direction: column; align-items: center;">
+  <div style="display: flex; justify-content: center; flex-direction: column; align-items: center; background-color: white;">
     <input
       type="number"
       [(ngModel)]="limit" 

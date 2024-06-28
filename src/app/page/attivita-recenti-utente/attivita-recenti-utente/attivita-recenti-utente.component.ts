@@ -56,9 +56,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   limitDefault = 5;
   limit: number = this.limitDefault; // Initialize limit with default value
   first: number = 0;
-  rows: number = 10;
   pageDefault = 1;
-  conteggio! : any
+  conteggio! : any;
+  totalRecords: number = 1;
 
   constructor(
     private filterService: FilterService,
@@ -173,6 +173,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     console.log('Loading Activities. Page:', pageNumber, 'Limit:', limit, 'From Date:', fromDate, 'To Date:', toDate);
     this.activitiesservices.getActivities({ pageNumber, limit, fromDate: this.start, toDate: this.end }).subscribe((data) => {
       this.conteggio = data.results + " di " + data.totalDocuments
+      this.totalRecords = data.totalDocuments;
       this.rowItems = data.data.userActivities.map((item: Activity) => ({
         taskID: item.taskID,
         taskName: item.taskName,

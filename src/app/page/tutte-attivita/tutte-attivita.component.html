@@ -65,31 +65,30 @@
   </ng-template>
 </p-table>
 
-<div style="display: flex; justify-content: flex-end; margin-right: 80px;">
+<div style="display: flex; justify-content: flex-end; width: 90%; margin: auto; background-color: white; padding: 0.5em 1em;">
   {{conteggio}}
 </div>
 
 </div>
-<br>
-<div class="card flex justify-content-center">
+<div class="card flex justify-content-center paginator">
   <p-paginator
     (onPageChange)="onPageChange($event)"
     [first]="first"
-    [rows]="rows"
-    [totalRecords]="120"
+    [rows]="limit"
+    [totalRecords]="totalRecords"
   ></p-paginator>
   <!-- totalRecords will need to be modified based on the actual database data -->
 </div>
-<div style="display: flex; justify-content: center;flex-direction: column;align-items: center;">
-<input
-  type="number"
-  pInputText
-  [(ngModel)]="tempLimit" 
-  placeholder="Inserisci il limite"
-  style="width: 160px;"
-/>
-<br>
-<p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button>
+<div style="display: flex; justify-content: center;flex-direction: column;align-items: center; background-color: white; width: 90%; margin:auto">
+  <input
+    type="number"
+    pInputText
+    [(ngModel)]="tempLimit" 
+    placeholder="Inserisci il limite"
+    style="width: 160px;"
+  />
+  <br>
+  <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button>
 </div>
 <br /><br />
 
