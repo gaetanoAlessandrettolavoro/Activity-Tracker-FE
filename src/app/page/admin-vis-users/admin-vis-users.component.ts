@@ -24,10 +24,12 @@ import { UserTaskCreationComponent } from '../../componenti/user-task-creation/u
     standalone: true,
     templateUrl: './admin-vis-users.component.html',
     styleUrls: ['./admin-vis-users.component.css'],
-    imports: [AdminatoacceptusersComponent,TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent,DialogModule, ButtonModule, InputTextModule, UserTaskCreationComponent,ToastModule],
+    imports: [AdminatoacceptusersComponent, TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent, DialogModule, ButtonModule, InputTextModule, UserTaskCreationComponent, ToastModule],
     providers: [MessageService],
 })
 export class AdminvisuserComponent implements OnInit {
+  totalRecords: unknown;
+
   constructor(
     private users: AdminserviceService,
     private router: Router,
@@ -40,8 +42,7 @@ export class AdminvisuserComponent implements OnInit {
   usersArray = signal<User[]>([]);
   value!: string;
   userActivities: any[] = [];
-  modaldmin : boolean = false;
-  totalRecords: number = 1;
+  modaldmin: boolean = false;
 
   cols = [
     { field: 'firstName', header: 'Nome' },
@@ -51,18 +52,17 @@ export class AdminvisuserComponent implements OnInit {
   ];
 
   filteredUsers: User[] = [];
-  searchFirstName: string = ''; 
-  searchLastName: string = ''; 
+  searchFirstName: string = '';
+  searchLastName: string = '';
   searchText: string = '';
   fromDate: string = '';
   toDate: string = '';
 
   visible: boolean = false;
-
   visibleNoActivity: boolean = false;
 
   showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
@@ -76,16 +76,17 @@ export class AdminvisuserComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
+
   limitDefault = 5;
-  limit: number = this.limitDefault;
+  limit!: number;
   first: number = 0;
   rows: number = 10;
   pageDefault = 1;
-  conteggio! : any
+  conteggio!: any;
 
-  changemodaladmin(){
-    this.modaldmin = !this.modaldmin
-    console.log(this.modaldmin)
+  changemodaladmin() {
+    this.modaldmin = !this.modaldmin;
+    console.log(this.modaldmin);
   }
 
   filterUsers() {
@@ -116,13 +117,12 @@ export class AdminvisuserComponent implements OnInit {
         matchesDate
       );
     });
-  
   }
+
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
-        this.conteggio = data.results + " di " + data.counters.documentsActive
-        this.totalRecords = data.counters.documentsActive;
+        this.conteggio = data.results + " di " + data.counters.documentsActive;
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
             firstName: item.firstName,
@@ -140,6 +140,7 @@ export class AdminvisuserComponent implements OnInit {
       },
     });
   }
+
   getActivity(id: string) {
     const userId = id;
     this.users
@@ -167,8 +168,8 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          console.log( data.results + "/" + data.totalDocuments)
-          this.conteggio = data.results + " di " + data.counters.documentsActive
+          console.log(data.results + "/" + data.totalDocuments);
+          this.conteggio = data.results + " di " + data.counters.documentsActive;
           data.data.document.forEach((item: any) => {
             console.log(item);
             this.usersArray().push({
@@ -181,7 +182,7 @@ export class AdminvisuserComponent implements OnInit {
             });
           });
           this.filterUsers();
-          this.cdref.detectChanges(); // Forza il rilevamento delle modifiche
+          this.cdref.detectChanges(); 
         },
         error: (err) => {
           this.showError(err.status);
@@ -196,7 +197,7 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          this.conteggio = data.results + " di " + data.counters.documentsActive
+          this.conteggio = data.results + " di " + data.counters.documentsActive;
           this.usersArray.set([]);
           data.data.document.forEach((item: any) => {
             this.usersArray().push({
@@ -218,10 +219,14 @@ export class AdminvisuserComponent implements OnInit {
 
   userDeleted() {
     console.log('User deleted');
-    this.usersArray.set([]);
-    this.filterUsers();
-    this.users.getUsers({ limit: this.limit }).subscribe({
+    this.refreshUsers(); 
+  }
+
+  refreshUsers() {
+    this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
+        this.conteggio = data.results + " di " + data.counters.documentsActive;
+        this.usersArray.set([]);
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
             firstName: item.firstName,
@@ -233,6 +238,7 @@ export class AdminvisuserComponent implements OnInit {
           });
         });
         this.filterUsers();
+        this.cdref.detectChanges(); 
       },
       error: (err) => {
         this.showError(err.status);
@@ -244,4 +250,3 @@ export class AdminvisuserComponent implements OnInit {
     this.router.navigate([`/utenti/${id}`]);
   }
 }
-
