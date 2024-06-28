@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getMe().subscribe({
       next: (userData: any) => {
-        console.log('User data:', userData); 
+        
 
         
         if (userData && userData.data && userData.data.email) {
