@@ -5,6 +5,25 @@
     margin: auto;
 }
 
+.top {
+    display: flex;
+}
+
+.in-top {
+    display: flex;
+    width: 40%;
+    margin: auto
+}
+
+.in-top > span {
+    margin: auto 5px auto auto;
+}
+
+.dropdown-filter {
+    margin: 30px auto 30px 5px;
+    width: fit-content;
+}
+ 
 .buttons {
     display: flex;
 }

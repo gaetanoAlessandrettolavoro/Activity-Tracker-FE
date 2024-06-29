@@ -1,6 +1,19 @@
 <p-toast />
+<div class="top">
+  <div class="in-top">
+    <add-type-activity (added)="getTasks()"/>
+  </div>
+  <div class="in-top">
+    <span>Filtra per: </span>
+    <p-dropdown 
+      placeholder="Filtro"
+      [options]="filterOptions"
+      class="dropdown-filter"
+      [(ngModel)]="filter"
+      (onChange)="filterTasks()" />
+  </div>
+</div>
 <div class="table">
-  <add-type-activity (added)="getTasks()"/>
     <p-table [columns]="cols" [value]="tasks">
     <ng-template pTemplate="header" let-columns>
       <tr>

@@ -11,7 +11,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { DialogModule } from 'primeng/dialog';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { KnobModule } from 'primeng/knob';
@@ -21,7 +21,7 @@ import { KnobModule } from 'primeng/knob';
   templateUrl: './task-crud.component.html',
   styleUrls: ['./task-crud.component.css'],
   standalone:true,
-  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, KnobModule],
+  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, KnobModule, FormsModule],
   providers: [MessageService]
 })
 
@@ -41,6 +41,8 @@ export class TaskComponent implements OnInit {
   stateToEdit!: string;
   states: string[] = ['To do', 'In progress', 'Done'];
   progress: number = 0;
+  filterOptions: string[] = ['Solo attive', 'Solo non attive', 'Tutte'];
+  filter!: string;
 
   editTaskForm = new FormGroup({
     taskName: new FormControl(this.taskToEdit().taskName, Validators.required),
@@ -64,6 +66,26 @@ export class TaskComponent implements OnInit {
 
   ngOnInit(): void {
     this.readTask();
+  }
+
+  filterTasks() {
+    if(this.filter === 'Solo attive') {
+      this.Taskservice.getAllTasks({isActive: true}).subscribe({
+        next: (res: any) => {
+          this.tasks = res.data.document;
+        },
+        error: (error) => this.showError(error.status)
+      });
+    } else if(this.filter === 'Solo non attive') {
+      this.Taskservice.getAllTasks({isNoActive: true}).subscribe({
+        next: (res: any) => {
+          this.tasks = res.data.document;
+        },
+        error: (error) => this.showError(error.status)
+      });
+    } else {
+      this.getTasks();
+    }
   }
 
   getTasks(): void {
