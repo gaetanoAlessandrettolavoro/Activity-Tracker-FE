@@ -42,7 +42,7 @@ export class TaskComponent implements OnInit {
   states: string[] = ['To do', 'In progress', 'Done'];
   progress: number = 0;
   filterOptions: string[] = ['Solo attive', 'Solo non attive', 'Tutte'];
-  filter!: string;
+  filter: string = 'Tutte';
 
   editTaskForm = new FormGroup({
     taskName: new FormControl(this.taskToEdit().taskName, Validators.required),
