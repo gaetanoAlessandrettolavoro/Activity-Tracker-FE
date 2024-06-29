@@ -1,20 +1,24 @@
+<p-toast />
 <div class="table">
+  <add-type-activity />
     <p-table [columns]="cols" [value]="tasks">
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th *ngFor="let col of columns">
           {{col.header}}
-          <p-sortIcon [field]="col.field"></p-sortIcon>
         </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-task>
-      <tr>
-        <td>{{task._id}}</td>
+      <tr [class.disabled]="!task.isActive">
+        <td *ngIf="task.isActive"><span class="pi pi-check-circle" style="color: green"></span></td>
+        <td *ngIf="!task.isActive"><span class="pi pi-times-circle" style="color: orangered"></span></td>
         <td>{{task.taskName}}</td>
-      
-        <td>
-          <button class="delete-button" (click)="deleteTask(task._id)"><i class="delete"></i>Delete</button>
+        <td>{{task.state}}</td>
+        <td><p-progressBar [value]="task.progressState" /></td>
+        <td class="buttons">
+          <button *ngIf="task.isActive" class="delete-button" (click)="deleteTask(task._id)">Elimina</button>
+          <button *ngIf="!task.isActive" class="disabled-delete-button">Elimina</button>
         </td>
       </tr>
     </ng-template>

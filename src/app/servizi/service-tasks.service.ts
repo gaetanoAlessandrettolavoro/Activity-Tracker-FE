@@ -17,12 +17,13 @@ export class ServiceTasksService {
   getAllTasks(): Observable<TaskResponse> {
     return this.http.get<TaskResponse>('http://localhost:3000/api/v1/tasks', { withCredentials: true });
   }
+
   updateTask(taskUpdate:Task){
-return this.http.patch<any>(`http://localhost:3000/api/v1/tasks/${taskUpdate._id}`,taskUpdate,{withCredentials:true});
+    return this.http.patch<any>(`http://localhost:3000/api/v1/tasks/${taskUpdate._id}`,taskUpdate,{withCredentials:true});
   }
+
   deleteTask(taskid:string){
     return this.http.delete<any>(`http://localhost:3000/api/v1/tasks/${taskid}`,{withCredentials:true});
-
   }
 }
 
