@@ -11,7 +11,7 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
-  selector: 'app-add-type-activity',
+  selector: 'add-type-activity',
   standalone: true,
   imports: [
     ButtonModule,
@@ -35,7 +35,7 @@ export class AddTypeActivityComponent {
     private errors: ErrorServiziService
   ) {}
 
-  show(statusCode: number) {
+  showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -55,7 +55,7 @@ export class AddTypeActivityComponent {
         console.log(result);
       },
       error: (error) => {
-        this.show(error.status);
+        this.showError(error.status);
       }
     });
   }
