@@ -28,7 +28,7 @@ import { UserTaskCreationComponent } from '../../componenti/user-task-creation/u
     providers: [MessageService],
 })
 export class AdminvisuserComponent implements OnInit {
-  totalRecords: unknown;
+  totalRecords: number = 1;
 
   constructor(
     private users: AdminserviceService,
@@ -78,7 +78,7 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   limitDefault = 5;
-  limit!: number;
+  limit: number = this.limitDefault;
   first: number = 0;
   rows: number = 10;
   pageDefault = 1;
@@ -123,6 +123,7 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = data.results + " di " + data.counters.documentsActive;
+        this.totalRecords = data.counters.documentsActive;
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
             firstName: item.firstName,
@@ -170,6 +171,7 @@ export class AdminvisuserComponent implements OnInit {
         next: (data: any) => {
           console.log(data.results + "/" + data.totalDocuments);
           this.conteggio = data.results + " di " + data.counters.documentsActive;
+          this.totalRecords = data.counters.documentsActive;
           data.data.document.forEach((item: any) => {
             console.log(item);
             this.usersArray().push({
@@ -198,6 +200,7 @@ export class AdminvisuserComponent implements OnInit {
       .subscribe({
         next: (data: any) => {
           this.conteggio = data.results + " di " + data.counters.documentsActive;
+          this.totalRecords = data.counters.documentsActive;
           this.usersArray.set([]);
           data.data.document.forEach((item: any) => {
             this.usersArray().push({
@@ -226,6 +229,7 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = data.results + " di " + data.counters.documentsActive;
+        this.totalRecords = data.counters.documentsActive;
         this.usersArray.set([]);
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
