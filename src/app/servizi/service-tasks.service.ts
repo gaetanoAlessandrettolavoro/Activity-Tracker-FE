@@ -18,7 +18,7 @@ export class ServiceTasksService {
     return this.http.get<TaskResponse>('http://localhost:3000/api/v1/tasks', { withCredentials: true });
   }
 
-  updateTask(taskUpdate:Task){
+  updateTask(taskUpdate: Task){
     return this.http.patch<any>(`http://localhost:3000/api/v1/tasks/${taskUpdate._id}`,taskUpdate,{withCredentials:true});
   }
 

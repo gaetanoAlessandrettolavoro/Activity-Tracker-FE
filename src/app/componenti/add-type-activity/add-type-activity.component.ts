@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -35,6 +35,8 @@ export class AddTypeActivityComponent {
     private errors: ErrorServiziService
   ) {}
 
+  @Output() added = new EventEmitter<boolean>();
+
   showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
@@ -53,6 +55,7 @@ export class AddTypeActivityComponent {
         this.visible = false;
         this.taskname = '';
         console.log(result);
+        this.added.emit(true);
       },
       error: (error) => {
         this.showError(error.status);

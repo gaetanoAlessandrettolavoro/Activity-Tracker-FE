@@ -38,6 +38,47 @@ tr.disabled > td {
     cursor: not-allowed;
 }
 
+.edit-button {
+    color: white;
+    background-color: #0F6DAF;
+    border-radius: 12px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin: auto;
+}
+
+.disabled-edit-button {
+    color: white;
+    background-color: #0F6DAF;
+    border-radius: 12px;
+    padding: 10px;
+    border: none;
+    margin: auto;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.modal-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.input-task-name {
+    width: fit-content;
+    margin: auto;
+}
+
+.dropdown {
+    margin: 30px auto;
+}
+
+.progress {
+    margin: 10px auto;
+}
+
 @media (max-width: 600px) {
     table {
         margin: 20px auto;

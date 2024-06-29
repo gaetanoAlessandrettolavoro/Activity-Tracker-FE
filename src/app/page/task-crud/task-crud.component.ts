@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { Task } from '../../models/taskModel';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
@@ -10,13 +10,18 @@ import { ToastModule } from 'primeng/toast';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { DialogModule } from 'primeng/dialog';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { KnobModule } from 'primeng/knob';
 
 @Component({
   selector: 'app-task',
   templateUrl: './task-crud.component.html',
   styleUrls: ['./task-crud.component.css'],
   standalone:true,
-  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf],
+  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, KnobModule],
   providers: [MessageService]
 })
 
@@ -28,7 +33,20 @@ export class TaskComponent implements OnInit {
     { field: 'state', header: 'Stato' },
     { field: 'progressState', header: 'Progresso' },
     { field: '', header: '' },
+    { field: '', header: '' }
   ];
+  visibleEdit: boolean = false;
+  taskToEdit = signal<Task>({} as Task);
+  taskNameToEdit!: string;
+  stateToEdit!: string;
+  states: string[] = ['To do', 'In progress', 'Done'];
+  progress: number = 0;
+
+  editTaskForm = new FormGroup({
+    taskName: new FormControl(this.taskToEdit().taskName, Validators.required),
+    state: new FormControl(this.taskToEdit().state, Validators.required),
+    progressState: new FormControl(this.taskToEdit().progressState, Validators.required)
+  })
 
   constructor(private Taskservice: ServiceTasksService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private userService: UserServiceService) { }
 
@@ -52,7 +70,6 @@ export class TaskComponent implements OnInit {
     this.Taskservice.getAllTasks().subscribe({
       next: (res: any) => {
         this.tasks = res.data.document;
-        console.log(this.tasks);
       },
       error: (error) => this.showError(error.status)
     });
@@ -69,5 +86,46 @@ export class TaskComponent implements OnInit {
       },
       error: (error) => this.showError(error.status)
     });
+  }
+
+  editTask(id: string) {
+    this.Taskservice.getSingleTask(id).subscribe({
+      next: (result: any) => {
+        this.taskToEdit.set(result.data.document);
+        this.taskNameToEdit = this.taskToEdit().taskName;
+        this.stateToEdit = result.data.document.state;
+        this.progress = result.data.document.progressState;
+        this.visibleEdit = true;
+      },
+      error: (error) => this.showError(error.status)
+    })
+  }
+
+  disableKnob() {
+    return this.editTaskForm.value.state === 'To do' || this.editTaskForm.value.state === 'Done';
+  }
+
+  onSubmitEditTask() {
+    if(this.editTaskForm.valid) {
+      const updatedTask = {...this.editTaskForm.value, isActive: true, _id: this.taskToEdit()._id};
+      if(updatedTask.state === 'To do'){
+        updatedTask.progressState = 1;
+      }
+      if(updatedTask.state === 'Done') {
+        updatedTask.progressState = 100;
+      }
+      //@ts-ignore
+      this.Taskservice.updateTask(updatedTask).subscribe({
+        next: (res) => {
+          this.getTasks();
+          this.visibleEdit = false;
+        },
+        error: (error) => {
+          console.error(error);
+          this.showError(error.status)}
+      })
+    } else {
+      this.showError(1);
+    }
   }
 } 

@@ -1,6 +1,6 @@
 <p-toast />
 <div class="table">
-  <add-type-activity />
+  <add-type-activity (added)="getTasks()"/>
     <p-table [columns]="cols" [value]="tasks">
     <ng-template pTemplate="header" let-columns>
       <tr>
@@ -16,11 +16,29 @@
         <td>{{task.taskName}}</td>
         <td>{{task.state}}</td>
         <td><p-progressBar [value]="task.progressState" /></td>
+        <td style="text-align: center;">
+          <button *ngIf="task.isActive" class="edit-button" (click)="editTask(task._id)">Modifica</button>
+          <button *ngIf="!task.isActive" class="disabled-edit-button">Modifica</button>
+        </td>
         <td class="buttons">
-          <button *ngIf="task.isActive" class="delete-button" (click)="deleteTask(task._id)">Elimina</button>
-          <button *ngIf="!task.isActive" class="disabled-delete-button">Elimina</button>
+          <button *ngIf="task.isActive" class="delete-button" (click)="deleteTask(task._id)">Chiudi</button>
+          <button *ngIf="!task.isActive" class="disabled-delete-button">Chiudi</button>
         </td>
       </tr>
     </ng-template>
   </p-table>
   </div>
+
+<p-dialog header="Modifica Task {{taskToEdit().taskName}}" [modal]="true" [(visible)]="visibleEdit" [style]="{ width: '25rem' }">
+  <form [formGroup]="editTaskForm" class="modal-form">
+    <input type="text" pInputText formControlName="taskName" [(ngModel)]="taskNameToEdit" class="input-task-name"/>
+    <p-dropdown 
+      formControlName="state"
+      [options]="states"
+      placeholder="Stato"
+      class="dropdown"
+      [(ngModel)]="stateToEdit" />
+    <p-knob [(ngModel)]="progress" valueTemplate="{value}%" formControlName="progressState" class="progress" [disabled]="disableKnob()" />
+    <button type="submit" class="edit-button" (click)="onSubmitEditTask()">Conferma</button>
+  </form>
+</p-dialog>
