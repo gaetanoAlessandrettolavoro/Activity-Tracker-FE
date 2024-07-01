@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -16,6 +16,9 @@ import { PasswordModule } from 'primeng/password';
 import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { AdminserviceService } from '../../servizi/adminservice.service';
+import { MessageService } from 'primeng/api';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { UserServiceService } from '../../servizi/user-service.service';
 
 
 
@@ -43,11 +46,12 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
     TableModule
   ],
   templateUrl: './adminatoacceptusers.component.html',
-  styleUrl: './adminatoacceptusers.component.css'
+  styleUrl: './adminatoacceptusers.component.css',
+  providers: [MessageService]
 })
 
 
-export class AdminatoacceptusersComponent {
+export class AdminatoacceptusersComponent implements OnInit {
 
   citiesc = [
     { name: 'New York', code: 'NY' },
@@ -69,14 +73,30 @@ export class AdminatoacceptusersComponent {
   buttonlampeggiante : any
 
 
-    constructor(private admin : AdminserviceService) {}
+  constructor(private admin : AdminserviceService, private messageService: MessageService, private errors: ErrorServiziService, private userService: UserServiceService, private router: Router) {}
+
+  showError(statusCode: number) {
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+    }
+  }
+
+  ngOnInit(): void {
+    this.fetchData();
+  }
 
   fetchData = () => {
   this.admin.isAccetpedFalse().subscribe({
     next: (value) => {
       console.log(value);
       if (value.results === 0) {
-        this.usersfalse = false;
+        this.usersfalse = true;
         this.buttonlampeggiante = false;
       } else {
         this.usersfalse = false;
@@ -88,7 +108,7 @@ export class AdminatoacceptusersComponent {
       });
     },
     error: (err) => {
-      console.error('Error fetching data', err);
+      this.showError(err.status);
     }
   });
 };
@@ -106,13 +126,23 @@ interval = setInterval(() => {
 
    
     accetta(id:any){
-      this.admin.acceptedUser(id).subscribe(result => console.log(result))
-      window.location.reload();
+      this.admin.acceptedUser(id).subscribe({
+        next: (result) => {
+          console.log(result)
+        },
+        error: (error) => this.showError(error.status)
+      })
+      this.fetchData();
     }
 
     rifiuta(id:any){
-      this.admin.rejectUser(id).subscribe(result => console.log(result))
-      window.location.reload();
+      this.admin.rejectUser(id).subscribe({
+        next: (result) => {
+          console.log(result)
+        },
+        error: (error) => this.showError(error.status)
+      })
+      this.fetchData();
     }
 
    
