@@ -7,13 +7,14 @@ import { StyleClassModule } from 'primeng/styleclass';
 import { Router, RouterLink } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { CommonModule } from '@angular/common';
+import { AdminatoacceptusersComponent } from "../adminatoacceptusers/adminatoacceptusers.component";
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [SidebarModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule,RouterLink,CommonModule],
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+    selector: 'app-sidebar',
+    standalone: true,
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.css'],
+    imports: [SidebarModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule, RouterLink, CommonModule, AdminatoacceptusersComponent]
 })
 export class SidebarComponent {
   
