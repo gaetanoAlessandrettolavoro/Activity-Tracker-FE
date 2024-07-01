@@ -2,7 +2,7 @@
 <h1>Tutti gli Utenti</h1>
 <div class="filter-container">
   <div style="display: flex; justify-content: flex-end;">
-  <p-button (click)="changemodaladmin()" label="Utenti da accettare" [style]="{'background-color': '#0F6DAF'}"/>
+    <app-adminatoacceptusers></app-adminatoacceptusers>
   <br><br>
 </div>
   <p-table
@@ -116,8 +116,5 @@
         Nessuna attività disponibile
       </h3>
     </p-dialog>
-  </div>
-  <div *ngIf="modaldmin">
-    <app-adminatoacceptusers></app-adminatoacceptusers>
   </div>
 </div>

@@ -57,7 +57,7 @@ export class AdminatoacceptusersComponent {
     { name: 'Paris', code: 'PRS' },
   ];
 
-  visible: boolean = true;
+  visible: boolean = false;
 
   showDialog() {
     this.visible = true;
@@ -66,38 +66,56 @@ export class AdminatoacceptusersComponent {
   products: any[] = [];
   conteggio! : any
   usersfalse! : any
+  buttonlampeggiante : any
 
 
     constructor(private admin : AdminserviceService) {}
 
-    ngOnInit() {
-      this.admin.isAccetpedFalse().subscribe({
-        next: (value) => {
-          console.log(value)
-          if(value.results === 0){
-            this.usersfalse = true
-          }
-          else{
-            this.usersfalse = false
-            this.conteggio = `(${value.results})`
-          }
-          this.products = value.data.document.map((element: any) => {
-            return { name: element.firstName, cognome: element.lastName,codicefiscale:element.codiceFiscale,email:element.email,id:element._id };
-          });
-        },
-        error: (err) => {
-          console.error('Error fetching data', err);
-        }
+  fetchData = () => {
+  this.admin.isAccetpedFalse().subscribe({
+    next: (value) => {
+      console.log(value);
+      if (value.results === 0) {
+        this.usersfalse = false;
+        this.buttonlampeggiante = false;
+      } else {
+        this.usersfalse = false;
+        this.buttonlampeggiante = true;
+        this.conteggio = `(${value.results})`;
+      }
+      this.products = value.data.document.map((element: any) => {
+        return { name: element.firstName, cognome: element.lastName, codicefiscale: element.codiceFiscale, email: element.email, id: element._id };
       });
+    },
+    error: (err) => {
+      console.error('Error fetching data', err);
     }
+  });
+};
 
+
+interval = setInterval(() => {
+  this.fetchData(); 
+}, 36000); 
+
+
+
+
+  
+    
+
+   
     accetta(id:any){
       this.admin.acceptedUser(id).subscribe(result => console.log(result))
+      window.location.reload();
     }
 
     rifiuta(id:any){
       this.admin.rejectUser(id).subscribe(result => console.log(result))
+      window.location.reload();
     }
+
+   
     
 
     }
