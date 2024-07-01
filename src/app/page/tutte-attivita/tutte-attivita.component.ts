@@ -132,7 +132,7 @@ export class TutteAttivitaComponent implements OnInit {
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
-          this.conteggio = result.results + " di " + result.counters.documentsActive
+          this.conteggio = result.results + " di " + result.counters.totalDocuments
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({
@@ -148,7 +148,7 @@ export class TutteAttivitaComponent implements OnInit {
         this.originalRowItems = newRows;
         this.rowItems = newRows;
         this.filteredItems = [...this.rowItems];
-        this.totalRecords = result.counters.documentsActive;
+        this.totalRecords = result.counters.totalDocuments;
       });
   }
   
