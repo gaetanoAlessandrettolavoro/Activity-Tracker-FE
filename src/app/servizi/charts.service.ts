@@ -13,9 +13,6 @@ export interface BasicData {
       backgroundColor: string[];
       borderColor: string[];
       borderWidth: number;
-      userID: string[];
-      _id: string[];
-      taskName: string[];
     },
   ];
 }
@@ -35,19 +32,33 @@ export class ChartsService {
     return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { withCredentials: true }).pipe(
       map((res: any) => {
         if (res && res.data && res.data.activities) {
+          let taskLabels: string[] = [];
+          for(let act of res.data.activities) {
+            if(!taskLabels.includes(act.taskName)) {
+              taskLabels.push(act.taskName);
+            }
+          }
+          let hoursSum: number[] = [];
+          for(let act of res.data.activities) {
+            for(let i = 0; i < taskLabels.length; i++) {
+              if(taskLabels[i] === act.taskName) {
+                if(!hoursSum[i]) {
+                  hoursSum[i] = parseFloat(act.hours);
+                } else {
+                  hoursSum[i] += parseFloat(act.hours);
+                }
+              }
+            }
+          }
           let basicData: BasicData = {
-            labels: res.data.activities.map((act: any) => {
-              return `${act.taskName}`}),
+            labels: taskLabels,
             datasets: [
               {
                 label: 'Ore per attività',
-                data: res.data.activities.map((act: any) => act.hours),
+                data: hoursSum,
                 backgroundColor: ['rgba(255, 159, 64, 0.2)'],
                 borderColor: ['rgb(255, 159, 64)'],
                 borderWidth: 1,
-                userID: res.data.activities.map((act: any) => act.userID),
-                _id: res.data.activities.map((act: any) => act._id),
-                taskName: res.data.activities.map((act: any) => act.taskName)
               },
             ],
           };
