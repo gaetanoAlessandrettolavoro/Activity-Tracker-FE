@@ -9,12 +9,12 @@ import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
-    selector: 'app-impostazioniutente',
-    templateUrl: './impostazioni-utente.component.html',
-    styleUrls: ['./impostazioni-utente.component.css'],
-    standalone: true,
-    imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
-    providers: [MessageService]
+  selector: 'app-impostazioniutente',
+  templateUrl: './impostazioni-utente.component.html',
+  styleUrls: ['./impostazioni-utente.component.css'],
+  standalone: true,
+  imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
+  providers: [MessageService]
 })
 export class UserRouteComponent implements OnInit {
   formData = new FormData();
@@ -24,13 +24,18 @@ export class UserRouteComponent implements OnInit {
     firstName: new FormControl(this.user().firstName, [Validators.required]),
     lastName: new FormControl(this.user().lastName, [Validators.required]),
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
-  })
-  image! : any
+  });
+  image!: any;
 
-  constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) {}
+  constructor(
+    private router: Router,
+    private userService: UserServiceService,
+    private messageService: MessageService,
+    private errors: ErrorServiziService
+  ) { }
 
   showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
@@ -49,7 +54,7 @@ export class UserRouteComponent implements OnInit {
       error: (error) => {
         this.showError(error.status);
       }
-    })
+    });
   }
 
   ngOnInit(): void {
@@ -57,21 +62,21 @@ export class UserRouteComponent implements OnInit {
   }
 
   saveChanges() {
-    if(this.userForm.valid){
+    if (this.userForm.valid) {
       const updatedUser = {
         firstName: this.user().firstName,
         lastName: this.user().lastName,
         codiceFiscale: this.user().codiceFiscale,
-        propic: this.formData
-      }
+        propic: this.image
+      };
       console.log(updatedUser);
       this.userService.updateMe(updatedUser).subscribe({
         next: (res) => {
-          console.log(updatedUser);
+          console.log(res);
           this.messageService.add({
             severity: 'success',
             summary: 'Modifiche salvate',
-            detail: 'Le modifiche sono state salvate con successo.',
+            detail: 'Le modifiche sono state salvate con successo.'
           });
           this.getInfo();
         },
@@ -83,9 +88,11 @@ export class UserRouteComponent implements OnInit {
   }
 
   onUpload(event: any) {
-    this.image = event.files[0];
-    this.formData = event.files[0];
-    console.log(this.formData)
+    const file = event.target.files[0];
+    if (file) {
+      this.formData.append('propic', file);
+      console.log(this.formData.get('propic')); // Per verificare che il file sia stato aggiunto
+    }
   }
 
   changePwd() {
@@ -94,5 +101,14 @@ export class UserRouteComponent implements OnInit {
 
   close() {
     this.router.navigate(['/']);
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files) {
+      const file: File = input.files[0];
+      this.image = file
+      console.log(file)
+    }
   }
 }
