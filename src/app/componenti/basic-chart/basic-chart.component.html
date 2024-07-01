@@ -8,24 +8,27 @@
         inputId="icondisplay"
         dateFormat="dd-mm-yy"
         (onSelect)="selectedDate()"
-        [maxDate]="tomorrow" />
+        [maxDate]="today" />
 </div>
 
 <div class="card">
     <p-chart type="bar" [data]="basicData" [options]="basicOptions" (onDataSelect)="handleClick($event)" height="400" />
 </div>
 
-<p-dialog header="Attività {{clickedTaskName}} ({{clickedUser().email}})" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
-    <div class="user">
-        <h2>Utente:</h2>
-        <p>{{clickedUser().firstName}} {{clickedUser().lastName}}</p>
+<p-dialog header="Dettaglio {{clickedTaskName}} ({{date | date:'dd-MM-yyyy'}})" [modal]="true" [(visible)]="visibleDetail" [style]="{ width: '25rem' }">
+    <div class="task">
+        <h2>Task: {{clickedTask().taskName}}</h2>
+        <p><b>Ore: </b>{{clickedHours() | number:'1.2'}}</p>
+        <p><b>Stato attuale: </b>{{clickedTask().state}}</p>
+        <p-progressBar [value]="clickedTask().progressState" />
     </div>
-    <div class="activity">
-        <h2>Attività:</h2>
-        <p><b>Data:</b> {{clickedActivity().startTime | date:"dd-MM-yyyy"}}</p>
-        <p><b>Orario di inizio:</b> {{clickedActivity().startTime | date:"HH:mm"}}</p>
-        <p><b>Orario di fine:</b> {{clickedActivity().endTime | date:"HH:mm"}}</p>
-        <p><b>Note:</b> {{clickedActivity().notes}}</p>
-        <p><b>Ore di Attività:</b> {{clickedActivity().hours}}</p>
+    <div class="users">
+        <h2>Dettagli:</h2>
+        <ng-container *ngFor="let act of detailsToPrint()">
+            <h4>{{act.user.firstName}} {{act.user.lastName}}</h4>
+            <p><b>Tempo:</b> {{act.activity.hours}}h ({{act.activity.startTime | date:'HH:mm'}}-{{act.activity.endTime | date:'HH:mm'}})</p>
+            <p><b>Note:</b> {{act.activity.notes}}</p>
+            <p-divider />
+        </ng-container>
     </div>
 </p-dialog>
