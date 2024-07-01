@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -11,7 +11,7 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 
 @Component({
-  selector: 'app-add-type-activity',
+  selector: 'add-type-activity',
   standalone: true,
   imports: [
     ButtonModule,
@@ -35,7 +35,9 @@ export class AddTypeActivityComponent {
     private errors: ErrorServiziService
   ) {}
 
-  show(statusCode: number) {
+  @Output() added = new EventEmitter<boolean>();
+
+  showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -53,9 +55,10 @@ export class AddTypeActivityComponent {
         this.visible = false;
         this.taskname = '';
         console.log(result);
+        this.added.emit(true);
       },
       error: (error) => {
-        this.show(error.status);
+        this.showError(error.status);
       }
     });
   }

@@ -1,30 +1,101 @@
 @import "primeicons/primeicons.css";
 
-table {
-    margin: 20px auto;
-    margin-bottom: 10px;
-    margin-left: 100%;
-    margin-right: 100%;
-    padding: 0 20px;
+.table {
+    width: 90%;
+    margin: auto;
 }
 
-button {
-    margin-right: 5px;
+.top {
+    display: flex;
+}
+
+.in-top {
+    display: flex;
+    width: 40%;
+    margin: auto
+}
+
+.in-top > span {
+    margin: auto 5px auto auto;
+}
+
+.dropdown-filter {
+    margin: 30px auto 30px 5px;
+    width: fit-content;
+}
+ 
+.buttons {
+    display: flex;
+}
+
+tr.disabled {
+    opacity: 0.8;
+}
+
+tr.disabled > td {
+    cursor: not-allowed;
 }
 
 .delete-button {
-    color: white;
-    background-color: red;
+    color: black;
+    background-color: orangered;
     border-radius: 12px;
     padding: 10px;
-    margin-right: 20px;
     border: none;
     cursor: pointer;
-    float: right;
+    margin: auto;
 }
 
-.delete-button i {
-    font-size: 20px;
+.disabled-delete-button {
+    color: black;
+    background-color: orangered;
+    border-radius: 12px;
+    padding: 10px;
+    border: none;
+    margin: auto;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.edit-button {
+    color: white;
+    background-color: #0F6DAF;
+    border-radius: 12px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin: auto;
+}
+
+.disabled-edit-button {
+    color: white;
+    background-color: #0F6DAF;
+    border-radius: 12px;
+    padding: 10px;
+    border: none;
+    margin: auto;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.modal-form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.input-task-name {
+    width: fit-content;
+    margin: auto;
+}
+
+.dropdown {
+    margin: 30px auto;
+}
+
+.progress {
+    margin: 10px auto;
 }
 
 @media (max-width: 600px) {
@@ -41,7 +112,7 @@ button {
 
     .delete-button {
         color: white;
-        background-color: red;
+        background-color: orangered;
         border-radius: 12px;
         padding: 10px;
         margin-right: 20px;

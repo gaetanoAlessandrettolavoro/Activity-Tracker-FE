@@ -8,21 +8,30 @@ import { TaskResponse } from '../models/taskResponseModel';
   providedIn: 'root'
 })
 export class ServiceTasksService { 
+  apiUrl = "http://localhost:3000/api/v1/tasks";
+
   constructor(private http: HttpClient) {}
 
   getSingleTask(id: string): Observable<TaskResponse> {
-    return this.http.get<TaskResponse>(`http://localhost:3000/api/v1/tasks/${id}`, { withCredentials: true });
+    return this.http.get<TaskResponse>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  getAllTasks(): Observable<TaskResponse> {
-    return this.http.get<TaskResponse>('http://localhost:3000/api/v1/tasks', { withCredentials: true });
+  getAllTasks(parameter?: {isActive?: boolean, isNoActive?: boolean}): Observable<TaskResponse> {
+    if(parameter?.isActive) {
+      return this.http.get<TaskResponse>(`${this.apiUrl}?isActive=true`, { withCredentials: true });
+    }
+    if(parameter?.isNoActive) {
+      return this.http.get<TaskResponse>(`${this.apiUrl}?isActive=false`, { withCredentials: true });
+    }
+    return this.http.get<TaskResponse>(`${this.apiUrl}`, { withCredentials: true });
   }
-  updateTask(taskUpdate:Task){
-return this.http.patch<any>(`http://localhost:3000/api/v1/tasks/${taskUpdate._id}`,taskUpdate,{withCredentials:true});
+
+  updateTask(taskUpdate: Task){
+    return this.http.patch<any>(`${this.apiUrl}/${taskUpdate._id}`,taskUpdate,{withCredentials:true});
   }
+
   deleteTask(taskid:string){
-    return this.http.delete<any>(`http://localhost:3000/api/v1/tasks/${taskid}`,{withCredentials:true});
-
+    return this.http.delete<any>(`${this.apiUrl}/${taskid}`,{withCredentials:true});
   }
 }
 
