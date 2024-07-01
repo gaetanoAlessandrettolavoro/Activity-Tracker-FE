@@ -125,27 +125,23 @@ interval = setInterval(() => {
     
 
    
-    accetta(id:any){
-      this.admin.acceptedUser(id).subscribe({
-        next: (result) => {
-          console.log(result)
-        },
-        error: (error) => this.showError(error.status)
-      })
-      this.fetchData();
-    }
+  accetta(id:any){
+    this.admin.acceptedUser(id).subscribe({
+      next: (result) => {
+        console.log(result)
+      },
+      error: (error) => this.showError(error.status)
+    })
+    this.fetchData();
+  }
 
-    rifiuta(id:any){
-      this.admin.rejectUser(id).subscribe({
-        next: (result) => {
-          console.log(result)
-        },
-        error: (error) => this.showError(error.status)
-      })
-      this.fetchData();
-    }
-
-   
-    
-
-    }
+  rifiuta(id:any){
+    this.admin.rejectUser(id).subscribe({
+      next: (result) => {
+        console.log(result)
+      },
+      error: (error) => this.showError(error.status)
+    })
+    this.fetchData();
+  }
+}

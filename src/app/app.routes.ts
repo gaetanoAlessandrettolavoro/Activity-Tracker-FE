@@ -37,7 +37,7 @@ export const routes: Routes = [
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
     { path:'resetPassword/:id', component:NewpasswordComponent},
-{path:'tasks', component:TaskComponent},
+    {path:'tasks', component:TaskComponent},
 
     // Questa rotta deve restare per ultima 
     { path:'**',component: NotFoundComponent }
