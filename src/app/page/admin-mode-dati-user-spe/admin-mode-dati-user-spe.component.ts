@@ -102,6 +102,7 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
     this.userService.forgotPassword(this.user().email).subscribe({
       next: (res) => {
         console.log(res);
+        this.messageService.add({severity: 'success', summary:'Success', detail:'L\'email per il reset della password è stata inviata.'})
       },
       error: (error) => console.error(error)
     })

@@ -16,6 +16,10 @@ export class ServiceTasksService {
     return this.http.get<TaskResponse>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
+  getSingleTaskByName(taskName: string) {
+    return this.http.get(`${this.apiUrl}?taskName=${taskName}`, { withCredentials: true });
+  }
+
   getAllTasks(parameter?: {isActive?: boolean, isNoActive?: boolean}): Observable<TaskResponse> {
     if(parameter?.isActive) {
       return this.http.get<TaskResponse>(`${this.apiUrl}?isActive=true`, { withCredentials: true });

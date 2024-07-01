@@ -11,14 +11,23 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 import { User } from '../../models/userModel';
 import { ActivitiesServicesService } from '../../servizi/activities-services.service';
 import { Activity } from '../../models/activityModel';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe, NgForOf } from '@angular/common';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
+import { ServiceTasksService } from '../../servizi/service-tasks.service';
+import { Task } from '../../models/taskModel';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { DividerModule } from 'primeng/divider';
+
+interface customInterface {
+  activity: Activity,
+  user: User
+}
 
 @Component({
   selector: 'basic-chart',
   standalone: true,
-  imports: [ChartModule, ToastModule, DialogModule, DatePipe, CalendarModule, FormsModule],
+  imports: [ChartModule, ToastModule, DialogModule, DatePipe, CalendarModule, FormsModule, ProgressBarModule, NgForOf, DividerModule, DecimalPipe],
   templateUrl: './basic-chart.component.html',
   styleUrl: './basic-chart.component.css',
   providers: [MessageService],
@@ -27,11 +36,13 @@ export class BasicChartComponent implements OnInit {
   basicData!: BasicData;
   basicOptions: any;
   clickedTaskName!: string;
-  clickedUser = signal<User>({} as User);
-  clickedActivity = signal<Activity>({} as Activity);
-  visible: boolean = false;
+  clickedTask = signal<Task>({} as Task);
+  clickedHours = signal<number>(0);
+  detailsActivities = signal<Activity[]>([]);
+  detailsToPrint = signal<customInterface[]>([]);
+  visibleDetail: boolean = false;
   date: Date = new Date();
-  tomorrow: Date = new Date();
+  today: Date = new Date();
 
   constructor(
     private chartServ: ChartsService,
@@ -40,7 +51,8 @@ export class BasicChartComponent implements OnInit {
     private userService: UserServiceService,
     private errors: ErrorServiziService,
     private adminService: AdminserviceService,
-    private activitiesService: ActivitiesServicesService
+    private activitiesService: ActivitiesServicesService,
+    private tasksService: ServiceTasksService
   ) {}
 
   showError(statusCode: number) {
@@ -114,19 +126,31 @@ export class BasicChartComponent implements OnInit {
   }
 
   handleClick(event: any) {
-    this.adminService.getOneUser(this.basicData.datasets[0].userID[event.element.index]).subscribe({
-      next: (res) => {
-        this.clickedUser.set(res.data);
-        this.clickedTaskName = this.basicData.datasets[0].taskName[event.element.index];
-        this.activitiesService.getOneActivity(this.basicData.datasets[0]._id[event.element.index]).subscribe({
-          next: (res: any) => {
-            this.clickedActivity.set(res.data.document);
-            this.visible = true;
+    this.detailsToPrint.set([]);
+    this.clickedTaskName = this.basicData.labels[event.element.index];
+    this.clickedHours.set(this.basicData.datasets[0].data[event.element.index]);
+    this.tasksService.getSingleTaskByName(this.basicData.labels[event.element.index]).subscribe({
+      next: (res: any) => {
+        this.clickedTask.set(res.data.document[0]);
+        this.activitiesService.getActivities({ taskName: this.basicData.labels[event.element.index], fromDate: this.date.toISOString().split('T')[0] }).subscribe({
+          next: (result) => {
+            this.detailsActivities.set(result.data.document);
+            for(let act of this.detailsActivities()){
+              //@ts-ignore
+              this.adminService.getOneUser(act.userID).subscribe({
+                next: (res) => {
+                  const newCustomItem: customInterface[] = [...this.detailsToPrint(), {activity: act, user: res.data}];
+                  this.detailsToPrint.set(newCustomItem);
+                  this.visibleDetail = true;
+                },
+                error: (error) => this.showError(error.status)
+              })
+            }
           },
-          error: (err) => this.showError(err.status)
+          error: (error) => this.showError(error.status)
         })
       },
-      error: (err) => this.showError(err.status)
+      error: (error) => this.showError(error.status)
     })
   }
 }

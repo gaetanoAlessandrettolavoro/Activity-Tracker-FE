@@ -12,8 +12,13 @@ export class ActivitiesServicesService {
   private apiUrl = 'http://localhost:3000/api/v1/activities/me'; 
 
 
-  getActivities(parameters?: { pageNumber?: number, limit?: number, fromDate?: string, toDate?: string, searchText?: string }): Observable<any> {
+  getActivities(parameters?: { pageNumber?: number, limit?: number, fromDate?: string, toDate?: string, searchText?: string, taskName?: string }): Observable<any> {
     let url = `${this.apiUrl}?isActive=true`;
+
+    if(!parameters?.pageNumber && !parameters?.limit && parameters?.fromDate && !parameters.toDate && !parameters.searchText && parameters.taskName) {
+      const nextDay = new Date(parseInt(parameters.fromDate.split('-')[0]), parseInt(parameters.fromDate.split('-')[1])-1, parseInt(parameters.fromDate.split('-')[2])+3).toISOString().split('T')[0];
+      return this.httpclient.get(`http://localhost:3000/api/v1/activities?taskName=${parameters.taskName}&startTime[gte]=${parameters.fromDate}&startTime[lt]=${nextDay}&isActive=true`, {withCredentials: true})
+    }
   
     if (parameters?.limit) {
       url += `&limit=${parameters.limit}&sort=-startTime`;
