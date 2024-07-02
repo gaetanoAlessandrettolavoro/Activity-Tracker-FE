@@ -15,6 +15,8 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { KnobModule } from 'primeng/knob';
+import { ActivitiesServicesService } from '../../servizi/activities-services.service';
+import { Activity } from '../../models/activityModel';
 
 @Component({
   selector: 'app-task',
@@ -42,7 +44,7 @@ export class TaskComponent implements OnInit {
     progressState: new FormControl(this.taskToEdit().progressState, Validators.required)
   })
 
-  constructor(private Taskservice: ServiceTasksService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private userService: UserServiceService) { }
+  constructor(private Taskservice: ServiceTasksService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private userService: UserServiceService, private activitiesService: ActivitiesServicesService) { }
 
   showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {
@@ -60,6 +62,35 @@ export class TaskComponent implements OnInit {
     this.getTasks(this.filter);
   }, 60 * 1000);
 
+  updateProgress(taskID: Task["_id"]) {
+    this.activitiesService.getActivityByTaskID(taskID).subscribe({
+      next: (res: any) => {
+        let activities: Activity[] = res.data.document;
+        let taskToUpdate: Task;
+        let sumHours: number = 0;
+        for(let act of activities) {
+          if(!!act.hours) {
+            sumHours += parseFloat(act.hours);
+          }
+        }
+        this.Taskservice.getSingleTask(taskID).subscribe({
+          next: (result: any) => {
+            taskToUpdate = result.data.document;
+            //@ts-ignore
+            let newProgress = (sumHours*100)/taskToUpdate.expectedHours;
+            const updatedTask: Task = {...taskToUpdate, progressState: newProgress};
+            this.Taskservice.updateTask(updatedTask).subscribe({
+              next: (ress: any) => {},
+              error: (err) => this.showError(err.status)
+            })
+          },
+          error: (error) => this.showError(error.status)
+        })
+      },
+      error: (err) => this.showError(err.status)
+    })
+  }
+
   ngOnInit(): void {
     this.getTasks();
   }
@@ -72,22 +103,55 @@ export class TaskComponent implements OnInit {
     if(!filter) {
       this.Taskservice.getAllTasks().subscribe({
         next: (res: any) => {
-          this.tasks = res.data.document;
+          let tasks = res.data.document;
+          for(let i = 0; i < tasks.length; i++ ) {
+            this.updateProgress(tasks[i]._id);
+            if(i === (tasks.length - 1)) {
+              this.Taskservice.getAllTasks().subscribe({
+                next: (result: any) => {
+                  this.tasks = result.data.document;
+                },
+                error: (err) => this.showError(err.status)
+              })
+            }
+          }
         },
         error: (error) => this.showError(error.status)
       });
     } else {
       if(this.filter === 'Solo attive') {
-        this.Taskservice.getAllTasks({isActive: true}).subscribe({
+        this.Taskservice.getAllTasks().subscribe({
           next: (res: any) => {
-            this.tasks = res.data.document;
+            let tasks = res.data.document;
+            for(let i = 0; i < tasks.length; i++ ) {
+              this.updateProgress(tasks[i]._id);
+              if(i === (tasks.length - 1)) {
+                this.Taskservice.getAllTasks({isActive: true}).subscribe({
+                  next: (result: any) => {
+                    this.tasks = result.data.document;
+                  },
+                  error: (err) => this.showError(err.status)
+                })
+              }
+            }
           },
           error: (error) => this.showError(error.status)
         });
       } else if(this.filter === 'Solo non attive') {
-        this.Taskservice.getAllTasks({isNoActive: true}).subscribe({
+        this.Taskservice.getAllTasks().subscribe({
           next: (res: any) => {
-            this.tasks = res.data.document;
+            let tasks = res.data.document;
+            for(let i = 0; i < tasks.length; i++ ) {
+              this.updateProgress(tasks[i]._id);
+              if(i === (tasks.length - 1)) {
+                this.Taskservice.getAllTasks({isNoActive: true}).subscribe({
+                  next: (result: any) => {
+                    this.tasks = result.data.document;
+                  },
+                  error: (err) => this.showError(err.status)
+                })
+              }
+            }
           },
           error: (error) => this.showError(error.status)
         });
