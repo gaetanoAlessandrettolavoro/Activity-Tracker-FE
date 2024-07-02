@@ -14,7 +14,6 @@ import { DialogModule } from 'primeng/dialog';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
-import { KnobModule } from 'primeng/knob';
 import { ActivitiesServicesService } from '../../servizi/activities-services.service';
 import { Activity } from '../../models/activityModel';
 
@@ -23,7 +22,7 @@ import { Activity } from '../../models/activityModel';
   templateUrl: './task-crud.component.html',
   styleUrls: ['./task-crud.component.css'],
   standalone:true,
-  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, KnobModule, FormsModule],
+  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, FormsModule],
   providers: [MessageService]
 })
 
@@ -196,10 +195,6 @@ export class TaskComponent implements OnInit {
       },
       error: (error) => this.showError(error.status)
     })
-  }
-
-  disableKnob() {
-    return this.editTaskForm.value.state === 'To do' || this.editTaskForm.value.state === 'Done';
   }
 
   onSubmitEditTask() {
