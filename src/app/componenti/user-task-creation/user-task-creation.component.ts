@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -43,7 +43,8 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
     InputTextareaModule,
     DropdownModule,
     CalendarModule,
-    FloatLabelModule
+    FloatLabelModule,
+    NgIf
   ],
   templateUrl: './user-task-creation.component.html',
   styleUrls: ['./user-task-creation.component.css'],
@@ -59,6 +60,8 @@ export class UserTaskCreationComponent implements OnInit {
   minDate: string = new Date(this.activityDate.getFullYear(), this.activityDate.getMonth(), 2).toISOString().split('T')[0];
 
   @Input() userID!: string;
+
+  @Input() hidden: boolean = false;
 
   @Output() buttonClicked: EventEmitter<string> = new EventEmitter<string>();
 

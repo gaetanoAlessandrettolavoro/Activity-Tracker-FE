@@ -1,54 +1,58 @@
 <p-toast />
 <div class="card flex justify-content-center">
-  <button (click)="showDialog()" class="add-activity"><i class="pi pi-file-plus"></i></button>
-  <p-dialog header="Nuova attività" [(visible)]="visible" [modal]="true"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '28vw', height: '80vh' }"
-    [draggable]="false" [resizable]="false">
-    <div style="display: flex; justify-content: center">
-      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <div class="date-container" style="text-align: center;">
-          <input type="date" min="{{minDate}}" max="{{maxDate}}" formControlName="date"/>
-        </div>
-        <div style="display: flex">
-          <div>
-            <h4 style="display: flex; justify-content: center; margin-right: 40px">
-              Orario di inizio
-            </h4>
-            <input type="time" style="margin-right: 25px" formControlName="startTime" />
+  @if(hidden) {
+    <button class="hidden-activity"><i class="pi pi-file-plus"></i></button>
+  } @else {
+    <button (click)="showDialog()" class="add-activity"><i class="pi pi-file-plus"></i></button>
+    <p-dialog header="Nuova attività" [(visible)]="visible" [modal]="true"
+      [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '28vw', height: '80vh' }"
+      [draggable]="false" [resizable]="false">
+      <div style="display: flex; justify-content: center">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <div class="date-container" style="text-align: center;">
+            <input type="date" min="{{minDate}}" max="{{maxDate}}" formControlName="date"/>
           </div>
-          <div>
-            <h4 style="display: flex; justify-content: center; margin-left: 15px">
-              Orario di fine
-            </h4>
-            <input type="time" style="margin-left: 15px" formControlName="endTime" />
+          <div style="display: flex">
+            <div>
+              <h4 style="display: flex; justify-content: center; margin-right: 40px">
+                Orario di inizio
+              </h4>
+              <input type="time" style="margin-right: 25px" formControlName="startTime" />
+            </div>
+            <div>
+              <h4 style="display: flex; justify-content: center; margin-left: 15px">
+                Orario di fine
+              </h4>
+              <input type="time" style="margin-left: 15px" formControlName="endTime" />
+            </div>
           </div>
-        </div>
-        <div style="
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-          ">
-          <h4>Attività</h4>
-          <div class="card flex justify-content-center">
-            <p-dropdown [options]="tasks" formControlName="selectedTask" optionLabel="taskName"
-              placeholder="Seleziona"></p-dropdown>
+          <div style="
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;
+            ">
+            <h4>Attività</h4>
+            <div class="card flex justify-content-center">
+              <p-dropdown [options]="tasks" formControlName="selectedTask" optionLabel="taskName"
+                placeholder="Seleziona"></p-dropdown>
+            </div>
           </div>
-        </div>
-        <div style="
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-          ">
-          <h4>Note</h4>
-          <textarea formControlName="notes" placeholder="Massimo 100 caratteri"></textarea>
-        </div>
-        <br />
-        <div style="display: flex; justify-content: center">
-          <p-button type="submit" label="Invia" (click)="noVisible()" [style]="{'background-color': '#0F6DAF'}"></p-button>
-        </div>
-      </form>
-    </div>
-  </p-dialog>
+          <div style="
+              display: flex;
+              justify-content: center;
+              flex-direction: column;
+              align-items: center;
+            ">
+            <h4>Note</h4>
+            <textarea formControlName="notes" placeholder="Massimo 100 caratteri"></textarea>
+          </div>
+          <br />
+          <div style="display: flex; justify-content: center">
+            <p-button type="submit" label="Invia" (click)="noVisible()" [style]="{'background-color': '#0F6DAF'}"></p-button>
+          </div>
+        </form>
+      </div>
+    </p-dialog>
+  }
 </div>
