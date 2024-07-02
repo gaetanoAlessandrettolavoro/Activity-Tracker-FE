@@ -11,4 +11,5 @@ export interface Activity {
     userID?: User["_id"];
     isActive?: boolean;
     hours?: string;
+    isTaskActive?: boolean;
 }
