@@ -59,8 +59,8 @@ export class AdminserviceService {
   }
 
   getAllUsersActivities(page: number, limit: number, active?: boolean) {
-    let apiUrl = 'http://localhost:3000/api/v1/activities';
-    let params = `?page=${page}&limit=${limit}&sort=_id`;
+    let apiUrl = 'http://localhost:3000/api/v1/activities?isActive=true&';
+    let params = `page=${page}&limit=${limit}&sort=_id`;
   
     if (active !== undefined) {
       params += `&isTaskActive=true`;
@@ -100,3 +100,18 @@ export class AdminserviceService {
    return this.http.patch<any>(`http://localhost:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{withCredentials : true});
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
