@@ -1,7 +1,10 @@
 <p-toast />
 <div class="top">
   <div class="in-top">
-    <add-type-activity (added)="getTasks()"/>
+    
+  </div>
+  <div class="in-top">
+    <h1 style="margin: auto">Tipi di attività</h1>
   </div>
   <div class="in-top">
     <span>Filtra per: </span>
@@ -14,12 +17,16 @@
   </div>
 </div>
 <div class="table">
-    <p-table [columns]="cols" [value]="tasks">
+    <p-table [value]="tasks">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th *ngFor="let col of columns">
-          {{col.header}}
-        </th>
+        <th><add-type-activity (added)="getTasks()" style="margin: auto"/></th>
+        <th>Nome Task</th>
+        <th>Stato</th>
+        <th>Tempo previsto</th>
+        <th>Progresso</th>
+        <th></th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-task>

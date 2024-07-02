@@ -27,15 +27,6 @@ import { KnobModule } from 'primeng/knob';
 
 export class TaskComponent implements OnInit {
   tasks: Task[] = [];
-  cols = [
-    { field: '', header: '' },
-    { field: 'taskName', header: 'Nome Task' },
-    { field: 'state', header: 'Stato' },
-    { field: 'expectedHours', header: 'Tempo previsto' },
-    { field: 'progressState', header: 'Progresso' },
-    { field: '', header: '' },
-    { field: '', header: '' }
-  ];
   visibleEdit: boolean = false;
   taskToEdit = signal<Task>({} as Task);
   taskNameToEdit!: string;
@@ -65,41 +56,45 @@ export class TaskComponent implements OnInit {
     }
   }
 
+  interval = setInterval(() => {
+    this.getTasks(this.filter);
+  }, 60 * 1000);
+
   ngOnInit(): void {
-    this.readTask();
+    this.getTasks();
   }
 
   filterTasks() {
-    if(this.filter === 'Solo attive') {
-      this.Taskservice.getAllTasks({isActive: true}).subscribe({
-        next: (res: any) => {
-          this.tasks = res.data.document;
-        },
-        error: (error) => this.showError(error.status)
-      });
-    } else if(this.filter === 'Solo non attive') {
-      this.Taskservice.getAllTasks({isNoActive: true}).subscribe({
+    this.getTasks(this.filter);
+  }
+
+  getTasks(filter?: string): void {
+    if(!filter) {
+      this.Taskservice.getAllTasks().subscribe({
         next: (res: any) => {
           this.tasks = res.data.document;
         },
         error: (error) => this.showError(error.status)
       });
     } else {
-      this.getTasks();
+      if(this.filter === 'Solo attive') {
+        this.Taskservice.getAllTasks({isActive: true}).subscribe({
+          next: (res: any) => {
+            this.tasks = res.data.document;
+          },
+          error: (error) => this.showError(error.status)
+        });
+      } else if(this.filter === 'Solo non attive') {
+        this.Taskservice.getAllTasks({isNoActive: true}).subscribe({
+          next: (res: any) => {
+            this.tasks = res.data.document;
+          },
+          error: (error) => this.showError(error.status)
+        });
+      } else {
+        this.getTasks();
+      }
     }
-  }
-
-  getTasks(): void {
-    this.Taskservice.getAllTasks().subscribe({
-      next: (res: any) => {
-        this.tasks = res.data.document;
-      },
-      error: (error) => this.showError(error.status)
-    });
-  }
-
-  readTask() {
-    this.getTasks();
   }
 
   deleteTask(id: string) {
