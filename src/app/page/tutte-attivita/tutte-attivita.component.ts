@@ -1,3 +1,4 @@
+
 import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
@@ -145,7 +146,7 @@ export class TutteAttivitaComponent implements OnInit {
         this.filteredItems = [...this.rowItems];
         this.totalRecords =  result.counters.documentsTaskActive
       });
-  }
+  } // stato attivita nome cognome
 
   onCityChange(event: any) {
     if(event.value.name == "Solo attivi"){
@@ -186,7 +187,7 @@ export class TutteAttivitaComponent implements OnInit {
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
           console.log(activity)
-          this.conteggio = result.results + " di " + result.counters.documentsActive
+          this.conteggio = result.results + " di " + result.counters.totalDocuments
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({
@@ -323,3 +324,4 @@ export class TutteAttivitaComponent implements OnInit {
   
   
 }
+
