@@ -1,56 +1,35 @@
-<p-toast />
 <div class="box">
   <form [formGroup]="activityForm" (ngSubmit)="onSubmitForm()">
     <div class="date">
-        <p-floatLabel>
-            <p-calendar
-            inputId="calendar"
-            formControlName="orarioInizio"
-            [inline]="true"
-            [(ngModel)]="activityToEdit().startTime"
-            dateFormat="yyyy--mm-dd"
-            [minDate]="minDate"
-            [maxDate]="maxDate"
-            />
-            <label for="calendar">Data</label>
-        </p-floatLabel>
+      <div class="date-container" style="text-align: center;">
+        <input type="date" min="{{minDate}}" max="{{maxDate}}" [value]="today" formControlName="date"/>
+        
+
+      </div>
+      <div style="display: flex; justify-content: center; margin-top: 10px;">
+        <div style="margin-right: 25px;">
+          <h4>Orario di inizio</h4>
+          <input type="time" formControlName="startTime" />
+        </div>
+        <div style="margin-left: 25px;">
+          <h4>Orario di fine</h4>
+          <input type="time" formControlName="endTime" />
+        </div>
+      </div>
     </div>
-    <div class="time">
+
+    <div style="text-align: center; margin-top: 20px;">
       <p-floatLabel>
-        <p-calendar
-          inputId="calendar-timeonly"
-          [timeOnly]="true"
-          [(ngModel)]="activityToEdit().startTime"
-          formControlName="orarioInizio"
-        />
-        <label for="calendar-timeonly" class="font-bold block mb-2">
-          Orario di inizio
-        </label>
+        <p-dropdown 
+          inputId="taskName"
+          formControlName="taskName"
+          [options]="tasks()"
+          optionLabel="taskName"/>
+        <label for="taskName">Attività</label>
       </p-floatLabel>
     </div>
-    <div class="time">
-      <p-floatLabel>
-        <p-calendar
-          inputId="calendar-timeonly"
-          [timeOnly]="true"
-          [(ngModel)]="activityToEdit().endTime"
-          formControlName="orarioFine"
-        />
-        <label for="calendar-timeonly"> Orario di fine </label>
-      </p-floatLabel>
-    </div>
-    <div>
-        <p-floatLabel>
-            <p-dropdown 
-            inputId="taskName"
-            formControlName="taskName"
-            [options]="tasks()"
-            optionLabel="taskName"/>
-            <label for="taskName">Attività</label>
-        </p-floatLabel>
-    </div>
-    <div class="note">
-        <br>
+
+    <div class="note" style="text-align: center; margin-top: 20px;">
       <p-floatLabel>
         <textarea
           inputId="note"
@@ -58,13 +37,12 @@
           cols="30"
           pInputTextarea
           formControlName="note"
-          [(ngModel)]="activityToEdit().notes"
-        >
+          [(ngModel)]="activityToEdit().notes">
         </textarea>
         <label for="note">Note</label>
       </p-floatLabel>
     </div>
 
-    <button pButton pRipple label="Invia" [disabled]="!activityForm.valid" type="submit"></button>
+    <button pButton pRipple label="Invia" [disabled]="!activityForm.valid" type="submit" style="margin-top: 20px;"></button>
   </form>
 </div>
