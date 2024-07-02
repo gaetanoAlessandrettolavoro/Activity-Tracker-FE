@@ -31,6 +31,7 @@ export class TaskComponent implements OnInit {
     { field: '', header: '' },
     { field: 'taskName', header: 'Nome Task' },
     { field: 'state', header: 'Stato' },
+    { field: 'expectedHours', header: 'Tempo previsto' },
     { field: 'progressState', header: 'Progresso' },
     { field: '', header: '' },
     { field: '', header: '' }
@@ -108,6 +109,21 @@ export class TaskComponent implements OnInit {
       },
       error: (error) => this.showError(error.status)
     });
+  }
+
+  reopenTask(taskID: string){
+    this.Taskservice.getSingleTask(taskID).subscribe({
+      next: (res: any) => {
+        const taskToReopen = {...res.data.document, isActive: true}
+        this.Taskservice.updateTask(taskToReopen).subscribe({
+          next: (result: any) => {
+            this.getTasks();
+          },
+          error: (error) => this.showError(error.status)
+        })
+      },
+      error: (err) => this.showError(err.status)
+    })
   }
 
   editTask(id: string) {

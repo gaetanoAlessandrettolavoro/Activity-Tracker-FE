@@ -46,15 +46,14 @@ tr.disabled > td {
     margin: auto;
 }
 
-.disabled-delete-button {
-    color: black;
-    background-color: orangered;
+.re-open-button {
+    color: white;
+    background-color: green;
     border-radius: 12px;
     padding: 10px;
     border: none;
+    cursor: pointer;
     margin: auto;
-    opacity: 0.5;
-    cursor: not-allowed;
 }
 
 .edit-button {
