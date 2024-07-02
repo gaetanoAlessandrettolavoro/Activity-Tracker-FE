@@ -9,6 +9,9 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { Task } from '../../models/taskModel';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @Component({
   selector: 'add-type-activity',
@@ -19,6 +22,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
     InputTextModule,
     FormsModule,
     ToastModule,
+    InputNumberModule,
   ],
   templateUrl: './add-type-activity.component.html',
   styleUrl: './add-type-activity.component.css',
@@ -27,6 +31,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 export class AddTypeActivityComponent {
   visible: boolean = false;
   taskname: string = '';
+  expectedHours: number = 1;
   constructor(
     private addActivity: AdminserviceService,
     private router: Router,
@@ -50,14 +55,24 @@ export class AddTypeActivityComponent {
   }
 
   submit() {
-    this.addActivity.addTask(this.taskname).subscribe({
+    const newTask = {
+      taskName: this.taskname,
+      expectedHours: this.expectedHours,
+      isActive: true,
+      state: 'To do',
+      progressState: 0
+    }
+    console.log(newTask);
+    this.addActivity.addTask(newTask).subscribe({
       next: (result: any) => {
         this.visible = false;
         this.taskname = '';
+        this.expectedHours = 0;
         console.log(result);
         this.added.emit(true);
       },
       error: (error) => {
+        console.error(error);
         this.showError(error.status);
       }
     });

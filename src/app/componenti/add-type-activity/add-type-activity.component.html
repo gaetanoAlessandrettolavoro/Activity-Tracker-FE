@@ -1,15 +1,53 @@
 <p-toast />
 <div class="card flex justify-content-center">
-    <button (click)="showDialog()" style="background-color: #0F6DAF; color: white; border: none; border-radius: 8px; height: 28px;font-size: 14px;">Aggiungi tipo di attività</button>
-    <p-dialog header="New Task" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }" class="dialog">
-        <span class="p-text-secondary block mb-5">Inserisci nome task</span>
-        <div class="flex align-items-center gap-3 mb-3 text">
-            
-            <input pInputText id="username" class="flex-auto" autocomplete="off" placeholder="Nome" [(ngModel)]="taskname" />
-        </div>
-       
-        <div class="flex justify-content-end gap-2 button-div" >
-            <p-button label="Save" (click)="submit()" class="button" [style]="{'background-color': '#0F6DAF'}"/>
-        </div>
-    </p-dialog>
+  <button
+    (click)="showDialog()"
+    style="
+      background-color: #0f6daf;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      height: 28px;
+      font-size: 14px;
+    "
+  >
+    Aggiungi tipo di attività
+  </button>
+  <p-dialog
+    header="New Task"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '25rem' }"
+    class="dialog"
+  >
+    <div class="flex align-items-center gap-3 mb-3 text">
+        <p style="margin-bottom: 5px;">Nome task</p>
+      <input
+        pInputText
+        id="username"
+        class="flex-auto"
+        autocomplete="off"
+        placeholder=""
+        [(ngModel)]="taskname"
+      />
+    </div>
+    <div>
+        <p style="margin-bottom: 5px;">Ore previste</p>
+      <p-inputNumber
+        [(ngModel)]="expectedHours"
+        inputId="minmax"
+        mode="decimal"
+        [min]="1"
+      />
+    </div>
+
+    <div class="flex justify-content-end gap-2 button-div">
+      <p-button
+        label="Save"
+        (click)="submit()"
+        class="button"
+        [style]="{ 'background-color': '#0F6DAF' }"
+      />
+    </div>
+  </p-dialog>
 </div>

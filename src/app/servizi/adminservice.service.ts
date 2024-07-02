@@ -53,13 +53,9 @@ export class AdminserviceService {
     return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  addTask(typeActivityData: string) {
+  addTask(task: {taskName: string, expectedHours: number}) {
     let apiUrl = 'http://localhost:3000/api/v1/tasks'; // URL dell'API
-    return this.http.post(
-      apiUrl,
-      { taskName: typeActivityData },
-      { withCredentials: true },
-    );
+    return this.http.post(apiUrl, task, { withCredentials: true });
   }
 
   getAllUsersActivities(page: number, limit: number) {
