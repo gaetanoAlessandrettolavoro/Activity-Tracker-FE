@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Activity } from '../models/activityModel';
+import { Task } from '../models/taskModel';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,11 @@ export class ActivitiesServicesService {
   getOneActivity(id: string) {
     let apiUrl = "http://localhost:3000/api/v1/activities/";
     return this.httpclient.get(`${apiUrl}${id}`, {withCredentials: true});
+  }
+
+  getActivityByTaskID(taskID: Task["_id"]) {
+    let apiUrl = `http://localhost:3000/api/v1/activities?taskID=${taskID}`;
+    return this.httpclient.get(apiUrl, {withCredentials: true})
   }
 
   createActivity(activity: Activity, userID?: string): Observable<any> {
