@@ -132,8 +132,8 @@ export class BasicChartComponent implements OnInit {
     this.tasksService.getSingleTaskByName(this.basicData.labels[event.element.index]).subscribe({
       next: (res: any) => {
         this.clickedTask.set(res.data.document[0]);
-        this.activitiesService.getActivities({ taskName: this.basicData.labels[event.element.index], fromDate: this.date.toISOString().split('T')[0] }).subscribe({
-          next: (result) => {
+        this.activitiesService.getActivitiesToChart({ taskName: this.basicData.labels[event.element.index], fromDate: this.date.toISOString().split('T')[0] }).subscribe({
+          next: (result: any) => {
             this.detailsActivities.set(result.data.document);
             for(let act of this.detailsActivities()){
               //@ts-ignore
