@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -103,24 +102,26 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   }
 
   private fetchActivities(id: string, page: number, limit: number): void {
-    this.activities = []; // Reset the array before fetching new data
-    this.admin.getOneUserActivity(id, page, limit).subscribe({
-      next: (result: any) => {
-        this.conteggio = result.results + " di " + result.totalDocuments;
-        this.totalRecords = result.totalDocuments;
-        this.activities = result.data.activities.map((element: any) => ({
-          taskName: element.taskName,
-          startTime: new Date(element.startTime),
-          endTime: new Date(element.endTime),
-          notes: element.notes,
-          taskID: element.taskID,
-          _id: element._id,
-          isActive: element.isActive
-        }));
-      },
-      error: (err) => {
-        this.showError(err.status);
-      }
-    });
-  }
+    this.activities = []; 
+  this.admin.getOneUserActivity(id, page, limit).subscribe({
+    next: (result: any) => {
+      this.conteggio = result.results + " di " + result.totalDocuments;
+      this.totalRecords = result.totalDocuments;
+      this.activities = result.data.activities.map((element: any) => ({
+        taskName: element.taskName,
+        startTime: new Date(element.startTime),
+        endTime: new Date(element.endTime),
+        notes: element.notes,
+        taskID: element.taskID,
+        _id: element._id,
+        isActive: element.isActive
+      }));
+      this.messageService.add({severity:'success', summary: 'Successo', detail: 'Dati caricati con successo!'});
+    },
+    error: (err) => {
+      this.showError(err.status);
+    }
+  });
+  
+}
 }
