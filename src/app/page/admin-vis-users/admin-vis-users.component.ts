@@ -123,6 +123,7 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = data.results + " di " + data.counters.documentsActive;
+        console.log(data)
         this.totalRecords = data.counters.documentsActive;
         data.data.document.forEach((item: any) => {
           this.usersArray().push({
@@ -169,7 +170,6 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          console.log(data.results + "/" + data.totalDocuments);
           this.conteggio = data.results + " di " + data.counters.documentsActive;
           this.totalRecords = data.counters.documentsActive;
           data.data.document.forEach((item: any) => {

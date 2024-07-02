@@ -58,13 +58,20 @@ export class AdminserviceService {
     return this.http.post(apiUrl, task, { withCredentials: true });
   }
 
-  getAllUsersActivities(page: number, limit: number) {
+  getAllUsersActivities(page: number, limit: number, active?: boolean) {
     let apiUrl = 'http://localhost:3000/api/v1/activities';
+    let params = `?page=${page}&limit=${limit}&sort=_id`;
+  
+    if (active !== undefined) {
+      params += `&isTaskActive=true`;
+    }
+  
     return this.http.get(
-      `${apiUrl}?page=${page}&limit=${limit}&sort=_id`,
+      `${apiUrl}${params}`,
       { withCredentials: true },
     );
   }
+  
 
   getActivitiesByDate(parameter? : {date?: Date,pageNumber? : number,limit?:number}) {
     const apiUrl = 'http://localhost:3000/api/v1/activities/me?startTime[gte]=';

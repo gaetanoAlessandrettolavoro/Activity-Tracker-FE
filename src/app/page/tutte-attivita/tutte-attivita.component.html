@@ -1,13 +1,22 @@
 <p-toast />
 
   <h1>Tutte le attività</h1>
-
-
   <div [formGroup]="filterForm" class="filter-row">
     <div class="filter-container">
       <i class="pi pi-search"></i>
       <input type="text" pInputText placeholder="Cerca per nome, cognome o attività" formControlName="searchText" style="width: 310px;">
     </div>
+    <div style="display: flex; margin-right: 5px;">
+    
+      <div class="card flex justify-content-center">
+        <p-dropdown 
+            [options]="cities" 
+            [(ngModel)]="selectedCity" 
+            optionLabel="name"
+            placeholder="Seleziona" 
+            (onChange)="onCityChange($event)" />
+    </div>
+      </div>
     <div style="display: flex; margin-right: 80px;">
     <div class="date-input">
       <label for="fromDate">Da:</label>
@@ -67,6 +76,7 @@
       </th>
       <th class="buttons"></th>
       <th class="buttons"></th>
+      <th class="stato">Stato</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
@@ -80,6 +90,8 @@
       <td>{{ rowData.notes }}</td>
       <td><edit-activity [activity]="activityToSend(rowData)"></edit-activity></td>
       <td><delete-activity [activityID]="rowData._id"></delete-activity></td>
+      <td *ngIf="rowData.isTaskActive"><span title="Doing" class="pi pi-circle-on" style="color: blue"></span></td>
+      <td *ngIf="!rowData.isTaskActive"><span title="Done" class="pi pi-circle-on" style="color: #558157"></span></td>
     </tr>
   </ng-template>
 </p-table>

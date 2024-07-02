@@ -70,6 +70,10 @@ export class TutteAttivitaComponent implements OnInit {
   first: number = 0;
   rows: number = 10;
   conteggio! : any
+  soloattivivariabile = false
+  page!:any
+  cities: any[] = []
+  selectedCity: any
 
   cols = [
     { fields: 'firstName', header:'Nome'},
@@ -79,6 +83,7 @@ export class TutteAttivitaComponent implements OnInit {
     { field: 'startTime', header: 'Orario di inizio' },
     { field: 'endTime', header: 'Orario di fine' },
     { field: 'notes', header: 'Note' },
+    {field: '',header: ''}
   ];
 
   tempLimit: number = this.limitDefault; // Aggiungi una variabile temporanea
@@ -104,6 +109,53 @@ export class TutteAttivitaComponent implements OnInit {
     }
   }
 
+  soloattivi(page?: number, limit: number = this.limitDefault) {
+    this.soloattivivariabile = true
+    if (!page) {
+      page = 1;
+    }
+    this.userServ
+      .getAllUsersActivities(page, limit,true)
+      .pipe(
+        catchError((err) => {
+          this.showError(err.status);
+          return of({ data: { document: [] } });
+        })
+      )
+      .subscribe(async (result: any) => {
+        const newRows: rowItem[] = [];
+        console.log(result)
+        for (let activity of result.data.document) {
+          console.log(result)
+          this.conteggio = result.results + " di " + result.counters.documentsTaskActive
+          let foundUser = await this.findUser(activity.userID);
+          if (foundUser) {
+            newRows.push({
+              ...activity,
+              cognome: foundUser.data.lastName,  // Assegna lastName a cognome
+              nome: foundUser.data.firstName,   // Assegna firstName a nome
+              firstName: foundUser.data.firstName,  // Nuovo campo firstName
+              lastName: foundUser.data.lastName,    // Nuovo campo lastName
+            });
+          }
+        }
+  
+        this.originalRowItems = newRows;
+        this.rowItems = newRows;
+        this.filteredItems = [...this.rowItems];
+        this.totalRecords =  result.counters.documentsTaskActive
+      });
+  }
+
+  onCityChange(event: any) {
+    if(event.value.name == "Solo attivi"){
+      this.soloattivi()
+    }
+    else{
+      this.getActivities(1, this.limit);
+    }
+}
+
 
   findUser(id: string): Promise<any> {
     return this.userServ
@@ -117,7 +169,7 @@ export class TutteAttivitaComponent implements OnInit {
       .toPromise();
   }
 
-  async getActivities(page?: number, limit: number = this.limitDefault) {
+  async getActivities(page?: number, limit: number = this.limitDefault,active ? : boolean) {
     if (!page) {
       page = 1;
     }
@@ -130,9 +182,11 @@ export class TutteAttivitaComponent implements OnInit {
         })
       )
       .subscribe(async (result: any) => {
+        console.log(result)
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
-          this.conteggio = result.results + " di " + result.counters.totalDocuments
+          console.log(activity)
+          this.conteggio = result.results + " di " + result.counters.documentsActive
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({
@@ -164,6 +218,11 @@ export class TutteAttivitaComponent implements OnInit {
     this.filterForm.valueChanges.subscribe(() => {
       this.filterActivities();
     });
+
+    this.cities = [
+      { name: 'Tutti', code: 'NY' },
+      { name: 'Solo attivi', code: 'RM' },
+  ];
   
     // Carica le attività
     await this.getActivities(1, this.limit);
@@ -225,12 +284,23 @@ export class TutteAttivitaComponent implements OnInit {
 
   changeLimit() {
     this.limit = this.tempLimit; // Aggiorna il limite con il valore temporaneo
-    this.getActivities(1, this.limit);
+    if(this.soloattivivariabile){
+      this.soloattivi(this.page, this.limit);
+    }
+    else{
+      this.getActivities(this.page, this.limit);
+    }
   }
 
   onPageChange(event: any) {
     const pageNumber = event.page + 1;
-    this.getActivities(pageNumber, this.limit);
+    this.page = pageNumber
+    if(this.soloattivivariabile){
+      this.soloattivi(pageNumber, this.limit);
+    }
+    else{
+      this.getActivities(pageNumber, this.limit);
+    }
   }
 
   onClickSetFilter() {
