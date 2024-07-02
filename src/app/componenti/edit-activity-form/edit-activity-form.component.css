@@ -9,21 +9,67 @@ form {
     height: fit-content;
     display: flex;
     flex-flow: column wrap;
+    margin-top: 0; 
+    margin-bottom: 0; 
 }
 
 div {
-    margin: 30px auto;
-}
-
-.note {
-    margin: auto;
+    margin: 5px auto; 
 }
 
 .p-button {
-    background-color: #0F6DAF;
-    border-color: #0F6DAF;
-    color: black;
+    background-color: blue; 
+    border-color: blue; 
+    color: rgb(252, 251, 251);
     width: 50%;
     margin: 1.5em auto;
-  }
+}
+
+input[type="date"] {
+    background-color: #0509ec;
+    padding: 5px;
+    font-family: "Roboto Mono", monospace;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
+
+input[type="time"] {
+    background-color: #0207fa;
+    padding: 5px;
+    font-family: "Roboto Mono", monospace;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 0; 
+    margin-bottom: 0; 
+}
   
+::-webkit-calendar-picker-indicator {
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.modifica-attivita {
+    margin-top: 0; 
+    margin-bottom: 0; 
+    padding-top: 0; 
+    padding-bottom: 0; 
+}

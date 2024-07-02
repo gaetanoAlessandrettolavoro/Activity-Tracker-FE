@@ -24,7 +24,7 @@ import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { Task } from '../../models/taskModel';
 import { TaskResponse } from '../../models/taskResponseModel';
 import { ActivitiesServicesService } from '../../servizi/activities-services.service';
-import { NgIf } from '@angular/common';
+import { DatePipe, NgIf } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
@@ -50,6 +50,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
   providers: [MessageService],
 })
 export class EditActivityFormComponent implements OnInit {
+  today = new Date().toISOString().split('T')[0];
   @Input({ required: true }) activity!: Activity;
 
   @Output() activityEdited = new EventEmitter<boolean>(false);
@@ -99,7 +100,6 @@ export class EditActivityFormComponent implements OnInit {
     });
     this.servicetasks.getAllTasks();
   }
-
   activityForm = new FormGroup({
     orarioInizio: new FormControl(this.activityToEdit().startTime, [
       Validators.required,
