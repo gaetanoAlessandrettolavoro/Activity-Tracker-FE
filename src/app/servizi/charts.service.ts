@@ -28,7 +28,7 @@ export class ChartsService {
     const thisDay = new Date(year, month, day).toISOString().split('T')[0];
     const nextDay = new Date(year, month, day+1).toISOString().split('T')[0];
     const apiUrl =
-      'http://localhost:3000/api/v1/activities/hoursPerActivity?isActive=true';
+      'http://localhost:3000/api/v1/activities?isActive=true';
     return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { withCredentials: true }).pipe(
       map((res: any) => {
         if (res && res.data && res.data.activities) {
