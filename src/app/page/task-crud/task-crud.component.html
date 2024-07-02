@@ -27,6 +27,7 @@
         <th>Progresso</th>
         <th></th>
         <th></th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-task>
@@ -36,7 +37,8 @@
         <td>{{task.taskName}}</td>
         <td>{{task.state}}</td>
         <td>{{task.expectedHours}} ore</td>
-        <td><p-progressBar [value]="task.progressState" /></td>
+        <td><p-progressBar [value]="task.progressState" [showValue]="false"/></td>
+        <td><b>{{task.progressState}}%</b></td>
         <td style="text-align: center;">
           <button *ngIf="task.isActive" class="edit-button" (click)="editTask(task._id)">Modifica</button>
           <button *ngIf="!task.isActive" class="disabled-edit-button">Modifica</button>
