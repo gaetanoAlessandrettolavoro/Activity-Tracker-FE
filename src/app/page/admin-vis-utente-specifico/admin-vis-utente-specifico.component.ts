@@ -116,7 +116,6 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
         _id: element._id,
         isActive: element.isActive
       }));
-      this.messageService.add({severity:'success', summary: 'Successo', detail: 'Dati caricati con successo!'});
     },
     error: (err) => {
       this.showError(err.status);
