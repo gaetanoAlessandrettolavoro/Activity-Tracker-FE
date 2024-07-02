@@ -31,15 +31,16 @@ export class ChartsService {
       'http://localhost:3000/api/v1/activities?isActive=true';
     return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { withCredentials: true }).pipe(
       map((res: any) => {
-        if (res && res.data && res.data.activities) {
+        console.log(res)
+        if (res && res.data && res.data.document) {
           let taskLabels: string[] = [];
-          for(let act of res.data.activities) {
+          for(let act of res.data.document) {
             if(!taskLabels.includes(act.taskName)) {
               taskLabels.push(act.taskName);
             }
           }
           let hoursSum: number[] = [];
-          for(let act of res.data.activities) {
+          for(let act of res.data.document) {
             for(let i = 0; i < taskLabels.length; i++) {
               if(taskLabels[i] === act.taskName) {
                 if(!hoursSum[i]) {

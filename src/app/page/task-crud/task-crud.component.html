@@ -28,6 +28,7 @@
         <td *ngIf="!task.isActive"><span class="pi pi-times-circle" style="color: orangered"></span></td>
         <td>{{task.taskName}}</td>
         <td>{{task.state}}</td>
+        <td>{{task.expectedHours}} ore</td>
         <td><p-progressBar [value]="task.progressState" /></td>
         <td style="text-align: center;">
           <button *ngIf="task.isActive" class="edit-button" (click)="editTask(task._id)">Modifica</button>
@@ -35,7 +36,7 @@
         </td>
         <td class="buttons">
           <button *ngIf="task.isActive" class="delete-button" (click)="deleteTask(task._id)">Chiudi</button>
-          <button *ngIf="!task.isActive" class="disabled-delete-button">Chiudi</button>
+          <button *ngIf="!task.isActive" class="re-open-button" (click)="reopenTask(task._id)">Riapri</button>
         </td>
       </tr>
     </ng-template>
