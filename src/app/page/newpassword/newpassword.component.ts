@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
@@ -34,25 +34,19 @@ providers: [MessageService],
 })
 export class NewpasswordComponent {
 
-  constructor(private route: ActivatedRoute, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) {}
+  constructor(private route: ActivatedRoute, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router) {}
 
   showError(statusCode: number) {
-    switch (statusCode) {
-      case 1:
-        this.messageService.add(this.errors.getErrorMessage(1));
-        break;
-      case 400: 
-        this.messageService.add(this.errors.getErrorMessage(400));
-        break;
-      case 404:
-        this.messageService.add(this.errors.getErrorMessage(404));
-        break;
-      case 429:
-        this.messageService.add(this.errors.getErrorMessage(429));
-        break;
-      case 500:
-        this.messageService.add(this.errors.getErrorMessage(500));
-        break;
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else if(statusCode === 400) {
+      this.messageService.add({severity:'error', summary:'Error', detail:'La password non rispetta i criteri previsti'});
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -97,7 +91,10 @@ export class NewpasswordComponent {
       console.log(token)
     this.userService.resetPassword(token, { password: this.userForm.value.password,passwordConfirm: this.userForm.value.passwordc }).subscribe({
       next: (result: any) => {
-        console.log("ciao");
+        this.messageService.add({severity:'success', summary:'Success', detail: 'Password modificata con successo. Ti reindirizzeremo al login'});
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
       },
       error: (error: any) => {
         this.showError(error.status);
