@@ -57,65 +57,10 @@ interface UploadEvent {
   providers: [MessageService, HttpClientModule],
 })
 export class RegisterComponent {
-  title = 'ActivityTracker-FE';
-
-  constructor(
-    private messageService: MessageService,
-    private router: Router,
-    @Inject(UserServiceService) private userService: UserServiceService,
-    private errors: ErrorServiziService
-  ) {}
-
-  visible: boolean = false;
-
-  showError(statusCode: number) {
-    switch (statusCode) {
-      case 1:
-        this.messageService.add(this.errors.getErrorMessage(1));
-        break;
-      case 400:
-        this.messageService.add(this.errors.getErrorMessage(400));
-        break;
-      case 429:
-        this.messageService.add(this.errors.getErrorMessage(429));
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 500:
-        this.messageService.add(this.errors.getErrorMessage(500));
-        break;
-    }
-  }  
-
-  show() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: 'Message Content',
-    });
-  }
-
+  showSuccessMessage: boolean = false;
   formSubmitted: boolean = false;
-  value!: string;
-  checked: boolean = false;
+  visible: boolean = false;
   Validform: boolean = false;
-
-  passwordMatchValidator: ValidatorFn = (
-    control: AbstractControl
-  ): ValidationErrors | null => {
-    const password = control.get('pswd');
-    const confirmPassword = control.get('pswdc');
-
-    if (!password || !confirmPassword) {
-      return null;
-    }
-
-    return password.value !== confirmPassword.value
-      ? { passwordMismatch: true }
-      : null;
-  };
 
   userForm = new FormGroup({
     img: new FormControl(''),
@@ -139,16 +84,32 @@ export class RegisterComponent {
     ]),
   });
 
-  @ViewChild('passwordInput', { static: true }) passwordInput!: ElementRef;
-  @ViewChild('confirmPasswordInput', { static: true })
-  confirmPasswordInput!: ElementRef;
+  constructor(
+    private messageService: MessageService,
+    private router: Router,
+    @Inject(UserServiceService) private userService: UserServiceService,
+    private errors: ErrorServiziService
+  ) {}
 
-  addSingle() {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Service Message',
-      detail: 'Via MessageService',
-    });
+  showError(statusCode: number) {
+    switch (statusCode) {
+      case 1:
+        this.messageService.add(this.errors.getErrorMessage(1));
+        break;
+      case 400:
+        this.messageService.add(this.errors.getErrorMessage(400));
+        break;
+      case 429:
+        this.messageService.add(this.errors.getErrorMessage(429));
+        setTimeout(() => {
+          this.userService.logout();
+          this.router.navigate(['/login']);
+        }, 3000);
+        break;
+      case 500:
+        this.messageService.add(this.errors.getErrorMessage(500));
+        break;
+    }
   }
 
   onSubmit() {
@@ -168,25 +129,25 @@ export class RegisterComponent {
         email: this.userForm.value.email,
         codiceFiscale: this.userForm.value.TaxIDcode,
       };
-      this.userService
-        .register(postData)
-        .subscribe({
-          next: (result: any) => {
-            console.log(result)
-            this.visible = true;
-            this.formSubmitted = true;
-          },
-          error: (error) => {
-            this.showError(error.status);
-          },
-        });
+
+      this.userService.register(postData).subscribe({
+        next: (result: any) => {
+          console.log(result);
+          this.formSubmitted = true;
+          if (!this.showSuccessMessage) {
+            this.showSuccessMessage = true;
+            this.visible = true; // Mostra il modale solo la prima volta che il form viene inviato con successo
+          }
+        },
+        error: (error) => {
+          this.showError(error.status);
+        },
+      });
       console.log(postData);
     } else {
       console.log('Form not valid');
     }
   }
-
-  messages: any;
 
   navigateToHome() {
     this.router.navigate(['home']);

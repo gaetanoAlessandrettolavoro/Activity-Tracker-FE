@@ -13,14 +13,10 @@
         <br />
         <br />
         <br />
-        <div class="card" style="display: flex" *ngIf="Validform">
-          <i
-            class="pi pi-check"
-            style="color: slateblue; margin-right: 5px"
-          ></i>
+        <div class="card" id="success-message" style="display: flex" *ngIf="showSuccessMessage && !formSubmitted">
+          <i class="pi pi-check" style="color: slateblue; margin-right: 5px"></i>
           <span>Form inviato correttamente</span>
         </div>
-
         <div class="input-field">
           <input
             class="name"
@@ -174,5 +170,6 @@
         >
       </form>
     </div>
-  </div>
 </div>
+</div>
+
