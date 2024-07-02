@@ -16,18 +16,18 @@ export class AdminserviceService {
     pageNumber?: number;
   }): Observable<any> {
     if (parameter?.limit && !parameter?.pageNumber) {
-      return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isActive=true`, {
+      return this.http.get<any>(`${this.apiUrl}?limit=${parameter?.limit}&isActive=true&isAccepted=true`, {
         withCredentials: true,
       });
     } else if (parameter?.pageNumber && !parameter?.limit) {
       return this.http.get<any>(
-        `${this.apiUrl}?page=${parameter?.pageNumber}&isActive=true`,
+        `${this.apiUrl}?page=${parameter?.pageNumber}&isActive=true&isAccepted=true`,
         { withCredentials: true },
       );
     }
     if (parameter?.limit && parameter.pageNumber) {
       return this.http.get<any>(
-        `${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isActive=true`,
+        `${this.apiUrl}?limit=${parameter?.limit}&page=${parameter?.pageNumber}&isActive=true&isAccepted=true`,
         { withCredentials: true },
       );
     }
