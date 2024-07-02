@@ -1,7 +1,4 @@
 <p-toast />
-<div id="create-activity">
-  <app-user-task-creation (buttonClicked)="gestiscivalori($event)" style="margin-left: 50px;"/>
-</div>
 <div *ngIf="nodailyactivity">
     <no-daily-activity />
 </div>
@@ -53,6 +50,9 @@
     <div style="display: flex; justify-content: flex-end; background-color: white; padding-right: 1em;">
         {{conteggio}}
     </div>
+</div>
+<div style="margin: 10px 0 10px 50px;">
+  <app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
 </div>
   <div class="card flex justify-content-center">
     <p-paginator
