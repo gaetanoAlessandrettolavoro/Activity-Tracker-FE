@@ -1,10 +1,16 @@
 <p-toast />
 <div *ngIf="nodailyactivity">
-    <no-daily-activity />
+  <div style="margin: 10px 0 10px 50px;">
+    <app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
+  </div>
+  <no-daily-activity />
 </div>
 <div *ngIf="dailyactivitycomponent">
-<br><br>
-<h1>Attività giornaliera</h1>
+  <div style="width: 90%; margin: auto auto 10px auto; display: flex; flex-direction: row;">
+    <app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
+    <h1 style="width:fit-content; margin: auto">Attività giornaliera</h1>
+    <app-user-task-creation [hidden]="true"/>
+  </div>
 <div class="card">
   <p-table [value]="oggettistampati" [tableStyle]="{ 'min-width': '30rem' }">
     <ng-template pTemplate="header">
@@ -50,9 +56,6 @@
     <div style="display: flex; justify-content: flex-end; background-color: white; padding-right: 1em;">
         {{conteggio}}
     </div>
-</div>
-<div style="margin: 10px 0 10px 50px;">
-  <app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
 </div>
   <div class="card flex justify-content-center">
     <p-paginator
