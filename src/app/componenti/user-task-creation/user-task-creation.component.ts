@@ -141,6 +141,11 @@ export class UserTaskCreationComponent implements OnInit {
           if(result.status == "success"){
             this.buttonClicked.emit("Valore");
           }
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successo',
+            detail: 'Attività creata con successo',
+          })
         },
         error: (error: any) => {
           console.error(error)
