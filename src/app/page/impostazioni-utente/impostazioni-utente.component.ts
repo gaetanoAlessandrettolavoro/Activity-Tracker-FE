@@ -26,6 +26,10 @@ export class UserRouteComponent implements OnInit {
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
   });
   image!: any;
+  studentFile : any
+  imagePath : any
+  imgUrl : any
+  immagine! : any
 
   constructor(
     private router: Router,
@@ -50,7 +54,7 @@ export class UserRouteComponent implements OnInit {
     this.userService.getMe().subscribe({
       next: (result) => {
         this.user.set(result.data);
-        console.log(result)
+        this.immagine = result.data.propic
         // l'errore è qui
       },
       error: (error) => {
@@ -65,30 +69,33 @@ export class UserRouteComponent implements OnInit {
 
   saveChanges() {
     if (this.userForm.valid) {
-      const updatedUser = {
-        firstName: this.user().firstName,
-        lastName: this.user().lastName,
-        codiceFiscale: this.user().codiceFiscale,
-        propic: this.image
-      };
+      const updatedUser = new FormData();
+      updatedUser.append('firstName', this.user().firstName);
+      updatedUser.append('lastName', this.user().lastName);
+      updatedUser.append('codiceFiscale', this.user().codiceFiscale);
+      if (this.image) {
+        updatedUser.append('propic', this.image);
+      }
+  
       console.log(updatedUser);
-      // Dopo qui la propic non viene caricata dalla get info
       this.userService.updateMe(updatedUser).subscribe({
         next: (res) => {
-          console.log(res);
           this.messageService.add({
             severity: 'success',
             summary: 'Modifiche salvate',
             detail: 'Le modifiche sono state salvate con successo.'
           });
+          setTimeout(() => {
+            window.location.reload()
+          },2000)
         },
         error: (error) => this.showError(error.status)
       });
-      console.log()
     } else {
       this.showError(1);
     }
   }
+  
 
   onUpload(event: any) {
     const file = event.target.files[0];
@@ -107,12 +114,22 @@ export class UserRouteComponent implements OnInit {
     this.router.navigate(['/']);
   }
   onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files) {
-      const file: File = input.files[0];
-      this.image = file
-      console.log(file)
+    //@ts-ignore
+    if (event.target.files.length > 0) {
+      //@ts-ignore
+      const file = event.target.files[0];
+      this.studentFile = file;
+      //@ts-ignore
+      const mimeType = event.target.files[0].type;
+      if (mimeType.match(/image\/*/) === null) {
+        return;
+      }
+      const reader = new FileReader();
+      this.imagePath = file;
+      reader.readAsDataURL(file);
+      reader.onload = (_event) => {
+        this.image = file; 
+      };
     }
   }
 }

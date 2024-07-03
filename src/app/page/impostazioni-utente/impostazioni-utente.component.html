@@ -2,13 +2,12 @@
 <div class="container">
   <div class="card">
     <div class="header">
-      <img src="https://www.tnt-endourology.com/wp-content/uploads/2016/05/icona2.png" width="150" height="150" (click)="fileInput.click()" style="cursor: pointer;" />
+      <img src={{immagine}} width="150" height="150" (click)="fileInput.click()" style="cursor: pointer;" />
       <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
       <div class="center">
         <h1>Dati Anagrafici</h1>
       </div>
     </div>
-    
     <div class="form-container">
       <form [formGroup]="userForm">
         <div class="top">
@@ -31,4 +30,10 @@
       <button pButton type="button" (click)="saveChanges()" class="p-button p-button-secc">Salva </button>
     </div>
   </div>
+</div>
+<nav class="navbar">
+  <img src="path-to-your-image.jpg" alt="User Image">
+</nav>
+<div class="dropdown">
+  <img src="path-to-your-dropdown-image.jpg" alt="Dropdown Image">
 </div>
