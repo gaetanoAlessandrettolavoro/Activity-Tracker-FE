@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { alias } from './defines';
 
 
 export interface BasicData {
@@ -28,7 +29,7 @@ export class ChartsService {
     const thisDay = new Date(year, month, day).toISOString().split('T')[0];
     const nextDay = new Date(year, month, day+1).toISOString().split('T')[0];
     const apiUrl =
-      'http://localhost:3000/api/v1/activities?isActive=true';
+      `http://${alias}:3000/api/v1/activities?isActive=true`;
     return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { withCredentials: true }).pipe(
       map((res: any) => {
         console.log(res)
