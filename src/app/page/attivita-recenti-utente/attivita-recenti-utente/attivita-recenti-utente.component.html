@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<h1>Attività recenti</h1>
+<h1>Storico attività</h1>
 <div class="table-container">
   <div class="filter-container" [formGroup]="filterForm">
     <div class="fix">
@@ -62,7 +62,7 @@
       <td>{{ rowData.startTime | date: "HH:mm" }}</td>
       <td>{{ rowData.endTime | date:"HH:mm" }}</td>
       <td>{{ rowData.notes }}</td>
-      <td><edit-activity [activity]="(rowData)"></edit-activity></td>
+      <td><edit-activity [activity]="(rowData)" (activityEdited)="refresh()"></edit-activity></td>
       <td><delete-activity [activityID]="rowData._id"></delete-activity></td>
     </tr>
   </ng-template>

@@ -129,6 +129,10 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     this.loadActivities(this.pageDefault, this.limit);
   }
 
+  refresh() {
+    this.loadActivities(this.pageDefault, this.limit);
+  }
+
   reload() {
     window.location.reload();
   }

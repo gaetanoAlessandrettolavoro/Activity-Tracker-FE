@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Task } from '../models/taskModel';
 import { Observable } from 'rxjs';
 import { TaskResponse } from '../models/taskResponseModel';
+import { alias } from './defines';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceTasksService { 
-  apiUrl = "http://localhost:3000/api/v1/tasks";
+  apiUrl = `http://${alias}:3000/api/v1/tasks`;
 
   constructor(private http: HttpClient) {}
 

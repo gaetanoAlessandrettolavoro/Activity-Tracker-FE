@@ -67,9 +67,9 @@ export class EditActivityFormComponent implements OnInit {
   activityToEdit = signal<any>({});
   tasks = signal<Task[]>([]);
   prevTask = signal<Task>({} as Task);
-
-  maxDate = new Date();
-  minDate = new Date(this.maxDate.getFullYear(), this.maxDate.getMonth());
+  dateToEdit = signal<string>('');
+  startToEdit = signal<string>('');
+  endToEdit = signal<string>('');
 
   showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {
@@ -88,23 +88,28 @@ export class EditActivityFormComponent implements OnInit {
     this.servicetasks.getAllTasks().subscribe({
       next: (result: TaskResponse) => {
         this.tasks.set(result.data.document);
+        this.tasks().find((el) => {
+          if(el.taskName === this.activity.taskName) {
+            this.prevTask.set(el);
+          }
+        })
       },
       error: (error) => {
         this.showError(error.status);
       },
     });
     this.activityToEdit.set(newActivity);
-    this.prevTask.set({
-      taskName: this.activity.taskName,
-      _id: this.activity.taskID,
-    });
-    this.servicetasks.getAllTasks();
+    this.dateToEdit.set(newActivity.startTime.toISOString().split('T')[0]);
+    this.startToEdit.set(newActivity.startTime.toLocaleString().split(', ')[1]);
+    this.endToEdit.set(newActivity.endTime.toLocaleString().split(', ')[1]);
   }
+
   activityForm = new FormGroup({
-    orarioInizio: new FormControl(this.activityToEdit().startTime, [
+    date: new FormControl(this.dateToEdit(), Validators.required),
+    orarioInizio: new FormControl(this.startToEdit(), [
       Validators.required,
     ]),
-    orarioFine: new FormControl(this.activityToEdit().endTime, [
+    orarioFine: new FormControl(this.endToEdit(), [
       Validators.required,
     ]),
     taskName: new FormControl(this.activityToEdit().taskName, [
@@ -114,30 +119,38 @@ export class EditActivityFormComponent implements OnInit {
   });
 
   onSubmitForm() {
-    const [year, month, day, hours, minutes] = [
-      this.activityForm.value.orarioInizio.getFullYear(),
-      this.activityForm.value.orarioInizio.getMonth(),
-      this.activityForm.value.orarioInizio.getDate(),
-      this.activityForm.value.orarioFine.getHours(),
-      this.activityForm.value.orarioFine.getMinutes(),
-    ];
-    const updatedActivity: Activity = {
-      ...this.activityToEdit(),
-      startTime: this.activityForm.value.orarioInizio,
-      endTime: new Date(year, month, day, hours, minutes),
-      taskName: this.activityForm.value.taskName.taskName,
-      notes: this.activityForm.value.note,
-      taskID: this.activityForm.value.taskName._id,
-    };
-    this.activitiesservice
-      .updateActivities(updatedActivity, updatedActivity._id)
-      .subscribe({
-        next: (result) => {
-          this.activityEdited.emit(true);
-        },
-        error: (err) => {
-          this.showError(err.status);
-        },
-      });
+    if(this.activityForm.value.date && this.activityForm.value.orarioInizio && this.activityForm.value.orarioFine) {
+      const [year, month, day] = [
+        parseInt(this.activityForm.value.date?.split('-')[0]),
+        parseInt(this.activityForm.value.date?.split('-')[1]),
+        parseInt(this.activityForm.value.date?.split('-')[2])
+      ];
+      const [startH, startM] = [
+        parseInt(this.activityForm.value.orarioInizio.split(':')[0]),
+        parseInt(this.activityForm.value.orarioInizio.split(':')[1])
+      ]
+      const [endH, endM] = [
+        parseInt(this.activityForm.value.orarioFine.split(':')[0]),
+        parseInt(this.activityForm.value.orarioFine.split(':')[1])
+      ]
+      const updatedActivity: Activity = {
+        ...this.activityToEdit(),
+        startTime: new Date(year, month, day, startH, startM),
+        endTime: new Date(year, month, day, endH, endM),
+        taskName: this.activityForm.value.taskName.taskName,
+        notes: this.activityForm.value.note,
+        taskID: this.activityForm.value.taskName._id,
+      };
+      this.activitiesservice
+        .updateActivities(updatedActivity, updatedActivity._id)
+        .subscribe({
+          next: (result) => {
+            this.activityEdited.emit(true);
+          },
+          error: (err) => {
+            this.showError(err.status);
+          },
+        });
+    }
   }
 }

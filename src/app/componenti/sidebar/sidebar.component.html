@@ -5,7 +5,7 @@
     <li><i class="pi pi-home"></i> <a routerLink="/userhome" (click)="close()">Dashboard</a></li>
   
     <br>
-    <li><i class="pi pi-calendar-times"></i> <a routerLink="/attivitaprecedentiutente" (click)="close()">Attività precedenti</a></li>
+    <li><i class="pi pi-calendar-times"></i> <a routerLink="/attivitaprecedentiutente" (click)="close()">Storico attività</a></li>
   <br>
   <li><i class="pi pi-user"></i> <a routerLink="/impostazioni" (click)="close()">Impostazioni utente</a></li>
   
@@ -34,7 +34,7 @@
   </div>
   
   
-  <div *ngIf="isAdmin">
+  <ng-container *ngIf="isAdmin">
     <p-sidebar [(visible)]="sidebarVisible">
       
       <br>
@@ -80,7 +80,7 @@
     
     
   
-  </div>
+  </ng-container>
   
   
   
