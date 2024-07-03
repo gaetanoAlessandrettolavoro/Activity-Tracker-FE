@@ -32,12 +32,21 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
   providers: [MessageService],
 })
 export class ImpostaNuovaPasswordComponent {
-  route: any;
+  userForm = new FormGroup({
+    oldPassword: new FormControl('', Validators.required),
+    newPassword: new FormControl('', Validators.required),
+    confirmPassword: new FormControl('', Validators.required),
+  });
 
-  constructor(private router: Router, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) { }
+  constructor(
+    private router: Router,
+    private userService: UserServiceService,
+    private messageService: MessageService,
+    private errors: ErrorServiziService
+  ) {}
 
   showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
@@ -48,23 +57,16 @@ export class ImpostaNuovaPasswordComponent {
     }
   }
 
-  userForm = new FormGroup({
-    oldPassword: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    confirmPassword: new FormControl('', Validators.required),
-  });
-
-  
   chiudi() {
-    this.route.navigate(['/impostazioni']); 
+    this.router.navigate(['/impostazioni']);
   }
-  
+
   onSubmit() {
     if (this.userForm.valid) {
       this.userService.updatePassword({
         passwordCurrent: this.userForm.value.oldPassword,
-        password: this.userForm.value.password,
-        passwordConfirm: this.userForm.value.confirmPassword
+        password: this.userForm.value.newPassword,
+        passwordConfirm: this.userForm.value.confirmPassword,
       }).subscribe({
         next: (result: any) => {
           this.showError(250);
@@ -74,7 +76,7 @@ export class ImpostaNuovaPasswordComponent {
         },
         error: (error: any) => {
           this.showError(error.status);
-        }
+        },
       });
     } else {
       this.showError(1);
