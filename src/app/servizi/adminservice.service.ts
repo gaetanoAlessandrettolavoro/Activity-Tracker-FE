@@ -10,7 +10,7 @@ import { alias } from './defines';
 export class AdminserviceService {
   constructor(private http: HttpClient) {}
 
-  protected apiUrl = `http:${alias}//:3000/api/v1/users`; // URL dell'API
+  protected apiUrl = `http://${alias}:3000/api/v1/users`; // URL dell'API
 
   getUsers(parameter?: {
     limit?: number;

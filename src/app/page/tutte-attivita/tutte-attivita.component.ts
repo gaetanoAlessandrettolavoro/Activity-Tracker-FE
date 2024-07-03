@@ -1,4 +1,3 @@
-
 import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
@@ -126,9 +125,10 @@ export class TutteAttivitaComponent implements OnInit {
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
         console.log(result)
+        console.log("Pagina" + page + "limite" + limit)
         for (let activity of result.data.document) {
-          console.log(result)
-          this.conteggio = result.results + " di " + result.counters.documentsTaskActive
+          this.conteggio = result.results + " di " +  result.counters.totalResultQueriesActive
+          console.log(result.counters.documentsTaskActive - result.counters.documentsInactive)
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({
@@ -144,7 +144,7 @@ export class TutteAttivitaComponent implements OnInit {
         this.originalRowItems = newRows;
         this.rowItems = newRows;
         this.filteredItems = [...this.rowItems];
-        this.totalRecords =  result.counters.documentsTaskActive
+        this.totalRecords =  result.counters.totalResultQueriesActive
       });
   } // stato attivita nome cognome
 
@@ -187,7 +187,7 @@ export class TutteAttivitaComponent implements OnInit {
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
           console.log(activity)
-          this.conteggio = result.results + " di " + result.counters.totalDocuments
+          this.conteggio = result.results + " di " + result.counters.documentsActive;
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({
@@ -203,7 +203,7 @@ export class TutteAttivitaComponent implements OnInit {
         this.originalRowItems = newRows;
         this.rowItems = newRows;
         this.filteredItems = [...this.rowItems];
-        this.totalRecords = result.counters.totalDocuments;
+        this.totalRecords = result.counters.documentsActive;
       });
   }
   
@@ -324,4 +324,3 @@ export class TutteAttivitaComponent implements OnInit {
   
   
 }
-
