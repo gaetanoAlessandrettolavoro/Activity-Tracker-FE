@@ -34,7 +34,7 @@
   </div>
   
   
-  <div *ngIf="isAdmin">
+  <ng-container *ngIf="isAdmin">
     <p-sidebar [(visible)]="sidebarVisible">
       
       <br>
@@ -80,7 +80,7 @@
     
     
   
-  </div>
+  </ng-container>
   
   
   
