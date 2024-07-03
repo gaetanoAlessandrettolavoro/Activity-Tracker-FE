@@ -2,18 +2,18 @@
   <form [formGroup]="activityForm" (ngSubmit)="onSubmitForm()">
     <div class="date">
       <div class="date-container" style="text-align: center;">
-        <input type="date" min="{{minDate}}" max="{{maxDate}}" [value]="today" formControlName="date"/>
+        <input type="date" max="{{today}}" [(ngModel)]="dateToEdit" formControlName="date"/>
         
 
       </div>
       <div style="display: flex; justify-content: center; margin-top: 10px;">
         <div style="margin-right: 25px;">
           <h4>Orario di inizio</h4>
-          <input type="time" formControlName="startTime" />
+          <input type="time" formControlName="orarioInizio" [(ngModel)]="startToEdit" />
         </div>
         <div style="margin-left: 25px;">
           <h4>Orario di fine</h4>
-          <input type="time" formControlName="endTime" />
+          <input type="time" formControlName="orarioFine" [(ngModel)]="endToEdit"/>
         </div>
       </div>
     </div>
@@ -24,7 +24,8 @@
           inputId="taskName"
           formControlName="taskName"
           [options]="tasks()"
-          optionLabel="taskName"/>
+          optionLabel="taskName"
+          [(ngModel)]="prevTask"/>
         <label for="taskName">Attività</label>
       </p-floatLabel>
     </div>
