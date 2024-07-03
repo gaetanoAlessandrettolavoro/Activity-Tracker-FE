@@ -34,30 +34,27 @@ import { UserServiceService } from '../../../servizi/user-service.service';
 })
 export class AttivitaRecentiUtenteComponent implements OnInit {
 
-
-  
-
   rowItems: Activity[] = [];
   filteredItems: Activity[] = [];
   filterForm: FormGroup;
-  start! : any
-  end! : any
+  startTime!: string;
+  endTime!: string;
 
   router = inject(Router);
 
   cols = [
     { field: 'taskName', header: 'Attività' },
-    { field: 'activityDate', header: 'Data' },
+    { field: 'startTime', header: 'Data' },
     { field: 'startTime', header: 'Orario di inizio' },
     { field: 'endTime', header: 'Orario di fine' },
     { field: 'notes', header: 'Note' },
   ];
-  
+
   limitDefault = 5;
-  limit: number = this.limitDefault; // Initialize limit with default value
+  limit: number = this.limitDefault;
   first: number = 0;
   pageDefault = 1;
-  conteggio! : any;
+  conteggio!: string;
   totalRecords: number = 1;
 
   constructor(
@@ -68,24 +65,20 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     private messageService: MessageService,
   ) {
     this.filterForm = new FormGroup({
-      searchText: new FormControl(''),
+      taskName: new FormControl(''),
       fromDate: new FormControl(''),
-      endTime: new FormControl(''),
+      toDate: new FormControl(''),
     });
   }
 
-  startTime() {
-    this.start = this.filterForm.value.fromDate
-    console.log('Start Date:', this.start);
+  ngOnInit(): void {
     this.loadActivities(this.pageDefault, this.limitDefault);
-  }
 
-  endTime() {
-    this.end = this.filterForm.value.endTime
-    console.log('End Date:', this.end);
-    this.loadActivities(this.pageDefault,this.limitDefault,this.start,this.end)
+    this.filterForm.valueChanges.subscribe(() => {
+      this.pageDefault = 1; 
+      this.filterActivities(); 
+    });
   }
-
 
   show(statusCode: number) {
     if (statusCode === 401) {
@@ -98,8 +91,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    }
-    if (statusCode === 500) {
+    } else if (statusCode === 500) {
       this.messageService.add({
         severity: 'error',
         summary: 'Errore 500',
@@ -108,60 +100,23 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     }
   }
 
-  isDateInRange(date: Date, fromDate: string, toDate: string): boolean {
-    const activityDate = new Date(date);
+  loadActivities(pageNumber: number, limit: number): void {
+    const {taskName, fromDate, toDate } = this.filterForm.value;
+    console.log('Loading Activities. Page:', pageNumber, 'Limit:', limit, 'From Date:', fromDate, 'To Date:', toDate);
 
-    const from = fromDate ? new Date(fromDate) : null;
-    const to = toDate ? new Date(toDate) : null;
-
-    if (from) {
-      from.setHours(0, 0, 0, 0);
-    }
-    if (to) {
-      to.setHours(23, 59, 59, 999);
-    }
-
-    if (from && to) {
-      return activityDate >= from && activityDate <= to;
-    } else if (from) {
-      return activityDate >= from;
-    } else if (to) {
-      return activityDate <= to;
-    } else {
-      return true;
-    }
-  }
-
-  formatDate(date: Date): string {
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-
-  filterActivities() {
-    const { searchText, fromDate, toDate } = this.filterForm.value;
-    console.log('Search Text:', searchText);
-    this.filteredItems = this.rowItems.filter((item) => {
-      const matchesText =
-        !searchText ||
-        item.taskName.toLowerCase().includes(searchText.toLowerCase());
-      const itemDate = new Date(item.startTime);
-      const date = this.formatDate(itemDate);
-      const matchesDate =
-        !fromDate && !toDate
-          ? true
-          : this.isDateInRange(item.startTime, fromDate, toDate);
-      return matchesText && matchesDate;
-    });
-  }
-
-  ngOnInit(): void {
-    this.loadActivities(this.pageDefault, this.limitDefault);
-
-    this.filterForm.valueChanges.subscribe({
-      next: () => {
-        this.filterActivities();
+    this.activitiesservices.getActivities({ pageNumber, limit, fromDate, toDate,taskName }).subscribe({
+      next: (data) => {
+        this.conteggio = `${data.results} di ${data.totalDocuments}`;
+        this.totalRecords = data.totalDocuments;
+        this.rowItems = data.data.userActivities.map((item: Activity) => ({
+          taskID: item.taskID,
+          taskName: item.taskName,
+          startTime: new Date(item.startTime),
+          endTime: new Date(item.endTime),
+          notes: item.notes,
+          _id: item._id,
+        }));
+        this.filteredItems = this.rowItems; 
       },
       error: (err) => {
         this.show(err.status);
@@ -169,22 +124,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     });
   }
 
-  loadActivities(pageNumber: number, limit: number, fromDate?: string, toDate?: string): void {
-    console.log('Loading Activities. Page:', pageNumber, 'Limit:', limit, 'From Date:', fromDate, 'To Date:', toDate);
-    this.activitiesservices.getActivities({ pageNumber, limit, fromDate: this.start, toDate: this.end }).subscribe((data) => {
-      this.conteggio = data.results + " di " + data.totalDocuments
-      this.totalRecords = data.totalDocuments;
-      this.rowItems = data.data.userActivities.map((item: Activity) => ({
-        taskID: item.taskID,
-        taskName: item.taskName,
-        startTime: new Date(item.startTime),
-        endTime: new Date(item.endTime),
-        notes: item.notes,
-        _id: item._id,
-      }));
-      this.filteredItems = [...this.rowItems];
-      this.filterActivities(); 
-    });
+  filterActivities(): void {
+    
+    this.loadActivities(this.pageDefault, this.limit);
   }
 
   reload() {
@@ -195,12 +137,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     const pageNumber = event.page + 1;
     console.log('Page Change. New Page Number:', pageNumber);
     this.pageDefault = pageNumber;
-    this.loadActivities(pageNumber, this.limit, this.filterForm.value.fromDate, this.filterForm.value.toDate); // Use the current limit value and date filters
+    this.loadActivities(pageNumber, this.limit);
   }
 
   changeLimit(): void {
     console.log('Limit Change. New Limit:', this.limit);
-    this.loadActivities(this.pageDefault, this.limit, this.filterForm.value.fromDate, this.filterForm.value.toDate);
+    this.loadActivities(this.pageDefault, this.limit);
   }
 }
-
