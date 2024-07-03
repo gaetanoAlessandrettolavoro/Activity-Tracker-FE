@@ -51,6 +51,7 @@ export class UserRouteComponent implements OnInit {
       next: (result) => {
         this.user.set(result.data);
         console.log(result)
+        // l'errore è qui
       },
       error: (error) => {
         this.showError(error.status);
@@ -71,6 +72,7 @@ export class UserRouteComponent implements OnInit {
         propic: this.image
       };
       console.log(updatedUser);
+      // Dopo qui la propic non viene caricata dalla get info
       this.userService.updateMe(updatedUser).subscribe({
         next: (res) => {
           console.log(res);
@@ -93,7 +95,7 @@ export class UserRouteComponent implements OnInit {
     console.log(file)
     if (file) {
       
-      console.log(this.formData.get('propic')); 
+      console.log(this.formData.get('propic')); // Per verificare che il file sia stato aggiunto
     }
   }
 
