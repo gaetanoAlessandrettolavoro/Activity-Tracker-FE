@@ -3,8 +3,7 @@
   <div class="card">
     <div class="header">
       <img src="https://www.tnt-endourology.com/wp-content/uploads/2016/05/icona2.png" width="150" height="150" (click)="fileInput.click()" style="cursor: pointer;" />
-      <input type="file" (change)="onFileSelected($event)">
-      <input #fileInput type="file" (change)="onUpload($event)" accept="image/*" style="display: none;" />
+      <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;" />
       <div class="center">
         <h1>Dati Anagrafici</h1>
       </div>
