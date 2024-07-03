@@ -4,16 +4,16 @@
   <div class="filter-container" [formGroup]="filterForm">
     <div class="fix">
       <i style="margin-right: 5px;" class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Cerca per attività" formControlName="searchText">
+      <input type="text" pInputText placeholder="Cerca per attività" formControlName="taskName">
     </div>
     
     <div class="date-input">
       <label for="fromDate">Da:</label>
-      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate" (change)="startTime()" style="background-color: #0F6DAF;">
+      <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate" style="background-color: #0F6DAF;">
     </div>
     <div class="date-input">
       <label for="toDate">A:</label>
-      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="endTime" (change)="endTime()" style="background-color: #0F6DAF;"> 
+      <input id="toDate" type="date" pInputText placeholder="A data" formControlName="endTime" style="background-color: #0F6DAF;"> 
     </div>
   </div>
 

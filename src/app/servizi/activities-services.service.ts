@@ -13,7 +13,7 @@ export class ActivitiesServicesService {
   private apiUrl = 'http://localhost:3000/api/v1/activities/me'; 
 
 
-  getActivities(parameters?: { pageNumber?: number, limit?: number, fromDate?: string, toDate?: string, searchText?: string, taskName?: string }): Observable<any> {
+  getActivities(parameters?: { pageNumber?: number, limit?: number, fromDate?: string, toDate?: string,  taskName?: string }): Observable<any> {
     let url = `${this.apiUrl}?isActive=true`;
   
     if (parameters?.limit) {
@@ -30,8 +30,8 @@ export class ActivitiesServicesService {
       url += `&endTime[lte]=${parameters.toDate}`;
     }
     
-    if (parameters?.searchText) {
-      url += `&searchText=${parameters.searchText}`;
+    if (parameters?.taskName) {
+      url += `&taskName=${parameters.taskName}`;
     }
   
     return this.httpclient.get<any>(url, { withCredentials: true });
