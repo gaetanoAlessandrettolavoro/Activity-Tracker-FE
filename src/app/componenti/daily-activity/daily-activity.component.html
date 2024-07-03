@@ -15,23 +15,23 @@
   <p-table [value]="oggettistampati" [tableStyle]="{ 'min-width': '30rem' }">
     <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="taskName">
+           <th class="taskName" class="activities">
                 Attività
                 
             </th>
-            <th pSortableColumn="startTime">
+            <th pSortableColumn="startTime" class="time">
                 Data
                 <p-sortIcon field="startTime"></p-sortIcon>
             </th>
-            <th pSortableColumn="startTime">
+            <th pSortableColumn="startTime" class="time">
                 Orario di inizio
                 <p-sortIcon field="startTime"></p-sortIcon>
             </th>
-            <th pSortableColumn="endTime">
+            <th class="endTime" class="time">
                 Orario di fine
                 
             </th>
-            <th pSortableColumn="notes">
+            <th class="notes" class="notes">
                 Note
                
             </th>

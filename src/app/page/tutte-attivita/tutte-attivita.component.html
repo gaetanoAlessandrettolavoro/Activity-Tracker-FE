@@ -46,15 +46,15 @@
   [style]="{ 'max-width': '90%', 'margin': '0 auto' }">
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="firstName" [style.width.px]="150">
+      <th class="firstName" [style.width.px]="150">
         Nome
        
       </th>
-      <th pSortableColumn="lastName" [style.width.px]="150">
+      <th class="lastName" [style.width.px]="150">
         Cognome
         
       </th> 
-      <th pSortableColumn="taskName" class="activities" [style.width.px]="150">
+      <th class="taskName" class="activities" [style.width.px]="150">
         Attività
        
       </th>
@@ -66,11 +66,11 @@
         Orario di inizio
         <p-sortIcon field="startTime"></p-sortIcon>
       </th>
-      <th pSortableColumn="endTime" class="times"[style.width.px]="200">
+      <th class="endTime" class="times"[style.width.px]="200">
         Orario di fine
       
       </th>
-      <th pSortableColumn="notes" class="notes"[style.width.px]="150">
+      <th class="notes" class="notes"[style.width.px]="150">
         Note
      
       </th>
