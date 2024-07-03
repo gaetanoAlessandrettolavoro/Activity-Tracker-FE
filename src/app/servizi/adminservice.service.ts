@@ -94,7 +94,7 @@ export class AdminserviceService {
   }
 
   acceptedUser(id: any) {
-    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}?uri=${alias}FE`,{isAccepted: true,isActive:true},{withCredentials : true});
+    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}?uri=${alias}`,{isAccepted: true,isActive:true},{withCredentials : true});
   }
 
   rejectUser(id: any) {
