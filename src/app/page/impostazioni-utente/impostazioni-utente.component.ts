@@ -50,6 +50,8 @@ export class UserRouteComponent implements OnInit {
     this.userService.getMe().subscribe({
       next: (result) => {
         this.user.set(result.data);
+        console.log(result)
+        // l'errore è qui
       },
       error: (error) => {
         this.showError(error.status);
@@ -70,6 +72,7 @@ export class UserRouteComponent implements OnInit {
         propic: this.image
       };
       console.log(updatedUser);
+      // Dopo qui la propic non viene caricata dalla get info
       this.userService.updateMe(updatedUser).subscribe({
         next: (res) => {
           console.log(res);
@@ -78,10 +81,10 @@ export class UserRouteComponent implements OnInit {
             summary: 'Modifiche salvate',
             detail: 'Le modifiche sono state salvate con successo.'
           });
-          this.getInfo();
         },
         error: (error) => this.showError(error.status)
       });
+      console.log()
     } else {
       this.showError(1);
     }
@@ -89,8 +92,9 @@ export class UserRouteComponent implements OnInit {
 
   onUpload(event: any) {
     const file = event.target.files[0];
+    console.log(file)
     if (file) {
-      this.formData.append('propic', file);
+      
       console.log(this.formData.get('propic')); // Per verificare che il file sia stato aggiunto
     }
   }
