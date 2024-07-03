@@ -23,21 +23,24 @@ import { TaskComponent } from './page/task-crud/task-crud.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'login', component: LoginComponent,canActivate: [homeGuard,userGuard] },
-    { path: 'registrati', component: RegisterComponent,canActivate: [homeGuard,userGuard] },
-    { path: 'attivitaprecedentiutente', component: AttivitaRecentiUtenteComponent,canActivate:[authuserGuard] },
-    { path: 'admin-vis-utente-specifico/:id', component: AdminVisUtenteSpecificoComponent, canActivate: [authGuard] },
     { path: 'passworddimenticata', component: EmaildimenticataComponent },
-    { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
-    { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
-    { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
+    { path: 'registrati', component: RegisterComponent,canActivate: [homeGuard,userGuard] },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
+    { path: 'attivitaprecedentiutente', component: AttivitaRecentiUtenteComponent,canActivate:[authuserGuard] },
+    { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
+    { path: 'admin-vis-utente-specifico/:id', component: AdminVisUtenteSpecificoComponent, canActivate: [authGuard] },
+    { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
     { path: 'utenti/:id', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
-    { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
-    { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
     { path:'resetPassword/:id', component:NewpasswordComponent},
-    {path:'tasks', component:TaskComponent},
+    {path:'tasks', component:TaskComponent}, 
+    { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
+    { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
+    { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] }, 
+   
+   
+ 
 
     // Questa rotta deve restare per ultima 
     { path:'**',component: NotFoundComponent }
