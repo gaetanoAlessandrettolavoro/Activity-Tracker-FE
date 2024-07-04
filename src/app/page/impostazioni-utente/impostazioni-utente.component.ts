@@ -45,6 +45,8 @@ export class UserRouteComponent implements OnInit {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
+    } else if(statusCode === 400) {
+      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'I campi inseriti non sono validi'})
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }

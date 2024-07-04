@@ -36,11 +36,6 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    } else if(statusCode === 400 || statusCode === 404) {
-      this.messageService.add(this.errors.getErrorMessage(statusCode));
-      setTimeout(() => {
-        this.router.navigate(["**"]);
-      }, 1000);
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }

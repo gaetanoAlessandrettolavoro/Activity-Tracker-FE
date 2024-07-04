@@ -36,7 +36,7 @@ export class NewpasswordComponent {
 
   constructor(private route: ActivatedRoute, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router) {}
 
-  showError(statusCode: number) {
+  showError(statusCode: number, mess?: string) {
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -44,7 +44,11 @@ export class NewpasswordComponent {
         this.router.navigate(['/login']);
       }, 3000);
     } else if(statusCode === 400) {
-      this.messageService.add({severity:'error', summary:'Error', detail:'La password non rispetta i criteri previsti'});
+      if(mess) {
+        this.messageService.add({severity:'error', summary:'Error', detail:'Il token è scaduto o non è valido. Contatta l\'amministratore'});
+      } else {
+        this.messageService.add({severity:'error', summary:'Error', detail:'La password non rispetta i criteri previsti'});
+      }
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
@@ -97,7 +101,8 @@ export class NewpasswordComponent {
         }, 2000);
       },
       error: (error: any) => {
-        this.showError(error.status);
+        console.error(error)
+        this.showError(error.status, error.message);
      }
     })
     });

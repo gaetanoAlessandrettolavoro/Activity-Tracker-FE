@@ -38,7 +38,8 @@
         <td>{{task.state}}</td>
         <td>{{task.expectedHours}} ore</td>
         <td><p-progressBar [value]="task.progressState" [showValue]="false"/></td>
-        <td><b>{{task.progressState}}%</b></td>
+        <td *ngIf="task.progressState !== 100"><b>{{task.progressState | number:'1.0-0'}}%</b></td>
+        <td *ngIf="task.progressState === 100"><b>{{task.progressState | number:'1.0-0'}}% ({{this.getSumHours(task._id)}} ore)</b></td>
         <td style="text-align: center;">
           <button *ngIf="task.isActive" class="edit-button" (click)="editTask(task._id)">Modifica</button>
           <button *ngIf="!task.isActive" class="disabled-edit-button">Modifica</button>
@@ -55,12 +56,15 @@
 <p-dialog header="Modifica Task {{taskToEdit().taskName}}" [modal]="true" [(visible)]="visibleEdit" [style]="{ width: '25rem' }">
   <form [formGroup]="editTaskForm" class="modal-form">
     <input type="text" pInputText formControlName="taskName" [(ngModel)]="taskNameToEdit" class="input-task-name"/>
-    <p-dropdown 
-      formControlName="state"
-      [options]="states"
-      placeholder="Stato"
-      class="dropdown"
-      [(ngModel)]="stateToEdit" />
+    <br>
+    <p-inputNumber
+        [(ngModel)]="expectedHoursToEdit"
+        inputId="minmax"
+        mode="decimal"
+        [min]="1"
+        formControlName="expectedHours"
+        class="input-task-name"
+      />
     <br><br>
     <button type="submit" class="edit-button" (click)="onSubmitEditTask()">Conferma</button>
   </form>

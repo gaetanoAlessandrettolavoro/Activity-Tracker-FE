@@ -68,7 +68,8 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
       console.log(this.limitDefault)
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
       this.admin.getOneUser(id).subscribe({
-        next:(res)=>{this.userEmail=res.data.email}
+        next:(res)=>{this.userEmail=res.data.email},
+        error: (err) => this.showError(err.status)
       })
     });
     

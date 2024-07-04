@@ -110,11 +110,9 @@ export class LoginComponent {
 
   showError(statusCode: number) {
     if(statusCode === 401) {
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Errore 401',
-        detail: 'Verifica la tua email e la tua password e riprova.',
-      });
+      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'Verifica la tua email e la tua password e riprova.'});
+    } else if(statusCode === 400) {
+      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'Per favore inserisci un\' email e una password'});
     } else if (statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
         setTimeout(() => {

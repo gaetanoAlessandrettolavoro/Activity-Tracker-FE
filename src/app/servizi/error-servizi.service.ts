@@ -55,7 +55,7 @@ export class ErrorServiziService {
       errorMessage: {
         severity: 'error',
         summary: 'Errore 403',
-        detail: 'Non hai i permessi necessari per accedere a questa risorsa.',
+        detail: 'Non hai i permessi necessari per effettuare questa azione',
       }
     },
     {

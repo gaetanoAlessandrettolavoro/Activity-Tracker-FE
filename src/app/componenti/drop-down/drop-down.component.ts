@@ -52,11 +52,6 @@ export class DropdownMenuComponent implements OnInit {
     this.userService.getMe().subscribe({
       next: (userData: any) => {
         console.log('User data:', userData); 
-
-        
-        
-
-       
         if (userData && userData.data && userData.data.propic) {
           this.propic = userData.data.propic;
         } else {

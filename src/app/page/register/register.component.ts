@@ -92,23 +92,16 @@ export class RegisterComponent {
   ) {}
 
   showError(statusCode: number) {
-    switch (statusCode) {
-      case 1:
-        this.messageService.add(this.errors.getErrorMessage(1));
-        break;
-      case 400:
-        this.messageService.add(this.errors.getErrorMessage(400));
-        break;
-      case 429:
-        this.messageService.add(this.errors.getErrorMessage(429));
-        setTimeout(() => {
-          this.userService.logout();
-          this.router.navigate(['/login']);
-        }, 3000);
-        break;
-      case 500:
-        this.messageService.add(this.errors.getErrorMessage(500));
-        break;
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else if(statusCode === 400) {
+      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'L\'email o il codice fiscale risultano essere già inseriti. Se così non fosse contatta l\'amministratore'})
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
   }
 
@@ -145,7 +138,7 @@ export class RegisterComponent {
       });
       console.log(postData);
     } else {
-      console.log('Form not valid');
+      this.showError(1);
     }
   }
 
