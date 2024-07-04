@@ -72,8 +72,9 @@ export class DailyActivityComponent {
   fetchActivities() {
     this.adminService.getActivitiesByDate({ pageNumber: this.page, limit: this.limit }).subscribe({
       next: (result: any) => {
-        this.conteggio = result.results + " di " + result.totalDocuments;
-        this.totalRecords = result.totalDocuments;
+        console.log(result)
+        this.conteggio = result.results + " di " + result.counters.documentsActive;
+        this.totalRecords = result.counters.documentsActive;
         if (result.data.userActivities.length === 0) {
           this.nodailyactivity = true;
           this.dailyactivitycomponent = false;
@@ -128,6 +129,10 @@ export class DailyActivityComponent {
 
   changeLimit() {
     this.fetchActivities();
+    if(this.limit > this.totalRecords){
+      alert("Non ci sono più attività")
+      window.location.reload()
+    }
   }
 
   onPageChange(event: any) {
