@@ -126,10 +126,6 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     this.loadActivities(this.pageDefault, this.limit);
   }
 
-  reload() {
-    window.location.reload();
-  }
-
   onPageChange(event: any): void {
     const pageNumber = event.page + 1;
     console.log('Page Change. New Page Number:', pageNumber);
