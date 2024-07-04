@@ -1,1 +1,1 @@
-export const alias = "localhost"
+export const alias = "ACTIVITYTRACKER"
