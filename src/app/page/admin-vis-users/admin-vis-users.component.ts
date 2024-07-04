@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -55,7 +55,7 @@ export class AdminvisuserComponent implements OnInit {
     private cdref: ChangeDetectorRef
   ) {}
 
-  usersArray: User[] = [];
+  usersArray = signal<User[]>([]);
   userActivities: any[] = [];
   modaldmin: boolean = false;
 
@@ -130,7 +130,7 @@ export class AdminvisuserComponent implements OnInit {
         error:(error)=> this.showError(error.status)
       })   
 
-      this.filteredUsers = this.usersArray.filter((user) => {
+      this.filteredUsers = this.usersArray().filter((user) => {
         const matchesFirstName =
           !this.searchQuery ||
           //@ts-ignore
@@ -189,7 +189,7 @@ export class AdminvisuserComponent implements OnInit {
 
   onPageChange(event: any) {
     const pageNumber = event.page + 1;
-    this.usersArray = [];
+    this.usersArray.set([]);
     this.users
       .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
@@ -214,26 +214,29 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   changeLimit() {
-    if (this.limit > this.totalRecords) {
-      alert("Non ci sono più attività");
-      window.location.reload();
-    } else {
-      const currentPage = this.first / this.rows + 1;
-      this.limitDefault = this.limit;
-      this.users
-        .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
-        .subscribe({
-          next: (data: any) => {
-            this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-            this.totalRecords = data.counters.documentsActive;
-            this.usersArray = data.data.document.map((item: any) => ({
+    if(this.limit > this.totalRecords){
+      this.limit = this.totalRecords;
+    }
+    else{
+    const currentPage = this.first / this.rows + 1;
+    this.limitDefault = this.limit;
+    this.users
+      .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
+      .subscribe({
+        next: (data: any) => {
+          this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
+          this.totalRecords = data.counters.documentsActive;
+          this.usersArray.set([]);
+          data.data.document.forEach((item: any) => {
+            this.usersArray().push({
               firstName: item.firstName,
               lastName: item.lastName,
               codiceFiscale: item.codiceFiscale,
               email: item.email,
               _id: item._id,
               role: item.role,
-            }));
+            })
+          });
             this.filterUsers();
           },
           error: (err) => {
