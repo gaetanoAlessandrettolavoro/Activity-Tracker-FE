@@ -89,7 +89,7 @@ export class UserRouteComponent implements OnInit {
           });
           setTimeout(() => {
             window.location.reload()
-          },2000)
+          },500)
         },
         error: (error) => this.showError(error.status)
       });
