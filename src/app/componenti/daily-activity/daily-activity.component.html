@@ -47,7 +47,7 @@
             <td>{{ dailyActivity.notes }}</td>
             <td class="buttons">
                 <edit-activity [activity]="dailyActivity"></edit-activity>
-                <delete-activity [activityID]="dailyActivity._id"></delete-activity>
+                <delete-activity [activityID]="dailyActivity._id" (deleted)="fetchActivities()"></delete-activity>
             </td>
         </tr>
     </ng-template>

@@ -3,8 +3,12 @@ h1{
   justify-content: center;
   text-align: center;
   font-size:30px;
-
 }
+
+tr.disabled {
+  opacity: 0.8;
+}
+
 
 .paginator {
   width: 90%;

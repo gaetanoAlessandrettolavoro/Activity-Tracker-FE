@@ -62,6 +62,19 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     }
   }
 
+  onDeleteActivity() {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.idunivoco = id
+      console.log(this.limitDefault)
+      this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      this.admin.getOneUser(id).subscribe({
+        next:(res)=>{this.userEmail=res.data.email},
+        error: (err) => this.showError(err.status)
+      })
+    });
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
@@ -73,8 +86,6 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
         error: (err) => this.showError(err.status)
       })
     });
-    
-
   }
 
   changeLimit(): void {

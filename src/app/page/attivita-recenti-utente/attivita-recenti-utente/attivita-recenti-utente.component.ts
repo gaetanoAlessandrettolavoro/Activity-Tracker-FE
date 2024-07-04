@@ -119,7 +119,6 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
   filterActivities(): void {
-    
     this.loadActivities(this.pageDefault, this.limit);
   }
 

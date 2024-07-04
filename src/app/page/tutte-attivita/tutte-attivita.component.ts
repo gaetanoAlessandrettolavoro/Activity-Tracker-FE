@@ -1,6 +1,6 @@
 import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
 import { ButtonModule } from 'primeng/button';
 import { Activity } from '../../models/activityModel';
@@ -18,8 +18,6 @@ import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
-import { PrimeIcons } from 'primeng/api';
-import { SortEvent } from 'primeng/api';
 
 
 interface rowItem extends Activity {
@@ -71,8 +69,8 @@ export class TutteAttivitaComponent implements OnInit {
   conteggio!: any;
   soloattivivariabile = false;
   page!: any;
-  cities: any[] = [];
-  selectedCity: any;
+  states: any[] = [];
+  selectedState: any;
 
   cols = [
     { fields: 'firstName', header: 'Nome' },
@@ -114,7 +112,7 @@ export class TutteAttivitaComponent implements OnInit {
     this.getActivities(page, limit, taskName, fromDate, toDate, true);
   }
 
-  onCityChange(event: any) {
+  onStateChange(event: any) {
     if (event.value.name == "Solo attivi") {
       this.soloattivi();
     } else {
@@ -223,7 +221,7 @@ export class TutteAttivitaComponent implements OnInit {
       
     });
 
-    this.cities = [
+    this.states = [
       { name: 'Tutti', code: 'NY' },
       { name: 'Solo attivi', code: 'RM' },
     ];
@@ -285,7 +283,7 @@ export class TutteAttivitaComponent implements OnInit {
   }
 
   reload() {
-    window.location.reload();
+    this.filterActivities();
   }
 }
 
