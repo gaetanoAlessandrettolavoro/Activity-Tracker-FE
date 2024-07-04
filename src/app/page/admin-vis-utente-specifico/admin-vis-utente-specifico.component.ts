@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -79,10 +80,9 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   changeLimit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      if(this.limit == undefined)
-        this.fetchActivities(id, this.pageDefault, this.limitDefault);
-      else{
-        this.fetchActivities(id, this.pageDefault, this.limit);
+      if(this.limit > this.totalRecords){
+        alert("Non ci sono più attività")
+        window.location.reload()
       }
     });
   }
@@ -106,8 +106,9 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     this.activities = []; 
   this.admin.getOneUserActivity(id, page, limit).subscribe({
     next: (result: any) => {
-      this.conteggio = result.results + " di " + result.totalDocuments;
-      this.totalRecords = result.totalDocuments;
+      console.log(result)
+      this.conteggio = result.results + " di " + result.counters.totalDocuments;
+      this.totalRecords = result.counters.totalDocuments;
       this.activities = result.data.activities.map((element: any) => ({
         taskName: element.taskName,
         startTime: new Date(element.startTime),

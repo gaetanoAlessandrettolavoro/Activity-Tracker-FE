@@ -42,7 +42,7 @@ export class AdminserviceService {
   }
 
     getOneUserActivity(data: any,pageNumber : any,limit:any): Observable<any> {
-      return this.http.get<any>(`http://${alias}:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true&sort=-startTime`,{ withCredentials: true })
+      return this.http.get<any>(`http://${alias}:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&sort=-startTime`,{ withCredentials: true })
     }
 
   patchUser(id: string, data: User): Observable<any> {
@@ -101,18 +101,4 @@ export class AdminserviceService {
    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{withCredentials : true});
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

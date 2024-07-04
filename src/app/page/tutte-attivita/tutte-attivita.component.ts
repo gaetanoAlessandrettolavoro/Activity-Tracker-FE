@@ -291,6 +291,10 @@ export class TutteAttivitaComponent implements OnInit {
     else{
       this.getActivities(this.page, this.limit);
     }
+    if(this.limit > this.totalRecords){
+      alert("Non ci sono più attività")
+      window.location.reload()
+    }
   }
 
   onPageChange(event: any) {
