@@ -128,7 +128,8 @@ export class UserRouteComponent implements OnInit {
       this.imagePath = file;
       reader.readAsDataURL(file);
       reader.onload = (_event) => {
-        this.image = file; 
+        this.image = file;
+        this.saveChanges() 
       };
     }
   }
