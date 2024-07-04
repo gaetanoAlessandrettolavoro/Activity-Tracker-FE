@@ -3,6 +3,7 @@
         <p-avatar (click)="showMenu = !showMenu"
     [style]="{'margin-right':'90px', 'margin-top':'5px'}"
     [image]="propic"
+    shape="circle"
     severity="danger">
 
 </p-avatar>
@@ -16,10 +17,11 @@
         <p-avatar (click)="showMenu = !showMenu"
     [style]="{'margin-right':'90px', 'margin-top':'5px'}"
     [image]="propic"
+    shape="circle"
     severity="danger">
 
 </p-avatar>
-        <p-menu *ngIf="showMenu" (click)="showMenu = false" #menu [model]="items" [style]="{'position': 'absolute','right': '15px'}"></p-menu>
+        <p-menu *ngIf="showMenu" (click)="showMenu = false" #menu [model]="items" [style]="{'position': 'absolute','right': '15px',}"></p-menu>
     </div>
 </div>
 
