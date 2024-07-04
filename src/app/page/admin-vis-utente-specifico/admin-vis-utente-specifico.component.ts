@@ -91,9 +91,14 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   changeLimit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      if(this.limit > this.totalRecords){
-        alert("Non ci sono più attività")
-        window.location.reload()
+      if(this.limit == undefined) {
+        this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      } else {
+        if(this.limit > this.totalRecords){
+          this.limit = this.totalRecords;
+        } else {
+          this.fetchActivities(id, this.pageDefault, this.limit);
+        }
       }
     });
   }
