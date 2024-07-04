@@ -193,6 +193,11 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   changeLimit() {
+    if(this.limit > this.totalRecords){
+      alert("Non ci sono più attività")
+      window.location.reload()
+    }
+    else{
     const currentPage = this.first / this.rows + 1;
     this.limitDefault = this.limit;
     this.users
@@ -218,6 +223,7 @@ export class AdminvisuserComponent implements OnInit {
           this.showError(err.status);
         },
       });
+    }
   }
 
   userDeleted() {

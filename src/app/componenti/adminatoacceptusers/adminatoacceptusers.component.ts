@@ -128,7 +128,9 @@ interval = setInterval(() => {
   accetta(id:any){
     this.admin.acceptedUser(id).subscribe({
       next: (result) => {
-        console.log(result)
+        if(result.status === "success"){
+          window.location.reload()
+        }
       },
       error: (error) => this.showError(error.status)
     })
@@ -138,7 +140,9 @@ interval = setInterval(() => {
   rifiuta(id:any){
     this.admin.rejectUser(id).subscribe({
       next: (result) => {
-        console.log(result)
+        if(result.status === "success"){
+          window.location.reload()
+        }
       },
       error: (error) => this.showError(error.status)
     })

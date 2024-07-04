@@ -14,7 +14,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MessagesModule } from 'primeng/messages';
@@ -50,7 +50,8 @@ interface UploadEvent {
     FileUploadModule,
     ToastModule,
     DialogModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    RouterLink
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],

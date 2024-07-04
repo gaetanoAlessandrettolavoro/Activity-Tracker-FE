@@ -40,6 +40,7 @@ export class DeleteActivityButtonComponent {
         next: (result) => {
           this.messageService.add({severity: 'success', summary:'Success', detail:'Attività eliminata'});
           this.deleted.emit(true);
+          window.location.reload()
         },
         error:(error) => {
           this.showError(error.status)
