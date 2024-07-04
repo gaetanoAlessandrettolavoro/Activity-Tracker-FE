@@ -42,7 +42,7 @@ export class AdminserviceService {
   }
 
     getOneUserActivity(data: any,pageNumber : any,limit:any): Observable<any> {
-      return this.http.get<any>(`http://${alias}:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&sort=-startTime`,{ withCredentials: true })
+      return this.http.get<any>(`http://${alias}:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true&sort=-startTime`,{ withCredentials: true })
     }
 
   patchUser(id: string, data: User): Observable<any> {
@@ -59,19 +59,28 @@ export class AdminserviceService {
     return this.http.post(apiUrl, task, { withCredentials: true });
   }
 
-  getAllUsersActivities(page: number, limit: number, active?: boolean) {
-    let apiUrl = `http://${alias}:3000/api/v1/activities?isActive=true&`;
+  getAllUsersActivities(page: number, limit: number, active?: boolean, taskName?: string, fromDate?: string, toDate?: string) {
+    let apiUrl = `http://${alias}:3000/api/v1/activities?`;
     let params = `page=${page}&limit=${limit}&sort=_id`;
   
     if (active !== undefined) {
-      params += `&isTaskActive=true`;
+      params += `&isTaskActive=${active}`;
+    }
+    if (taskName) {
+      params += `&taskName=${taskName}`;
+    }
+    if (fromDate) {
+      params += `&startTime[gte]=${fromDate}`;
+    }
+    if (toDate) {
+      params += `&endTime[lte]=${toDate}`;
     }
   
-    return this.http.get(
-      `${apiUrl}${params}`,
-      { withCredentials: true },
-    );
-  }
+    return this.http.get(`${apiUrl}${params}`, { withCredentials: true });
+}
+
+  
+  
   
 
   getActivitiesByDate(parameter? : {date?: Date,pageNumber? : number,limit?:number}) {
@@ -94,11 +103,10 @@ export class AdminserviceService {
   }
 
   acceptedUser(id: any) {
-    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}?uri=${alias}`,{isAccepted: true,isActive:true},{withCredentials : true});
+    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}?uri=${alias}FE`,{isAccepted: true,isActive:true},{withCredentials : true});
   }
 
   rejectUser(id: any) {
    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{withCredentials : true});
   }
 }
-

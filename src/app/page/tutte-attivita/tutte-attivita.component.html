@@ -4,11 +4,11 @@
   <div [formGroup]="filterForm" class="filter-row">
     <div class="filter-container">
       <i class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Cerca per nome, cognome o attività" formControlName="searchText" style="width: 310px;">
+      <input type="text" pInputText placeholder="Cerca per attività" formControlName="taskName" style="width: 310px;">
     </div>
     <div style="display: flex; margin-right: 5px;">
     
-      <div class="card flex justify-content-center">
+      <div class="card flex justify-content-center">Stato:
         <p-dropdown 
             [options]="cities" 
             [(ngModel)]="selectedCity" 
@@ -58,6 +58,8 @@
         Attività
        
       </th>
+
+      <th class="stato">Stato</th>
       <th pSortableColumn="startTime"[style.width.px]="150">
         Data
         <p-sortIcon field="startTime"></p-sortIcon>
@@ -76,7 +78,7 @@
       </th>
       <th class="buttons"></th>
       <th class="buttons"></th>
-      <th class="stato">Stato</th>
+     
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
@@ -84,31 +86,35 @@
       <td>{{ rowData.firstName }}</td> 
       <td>{{ rowData.lastName }}</td> 
       <td>{{ rowData.taskName }}</td>
+      <td *ngIf="rowData.isTaskActive"><span title="Doing" class="pi pi-circle-on" style="color: blue"></span></td>
+      <td *ngIf="!rowData.isTaskActive"><span title="Done" class="pi pi-circle-on" style="color: #558157"></span></td>
       <td>{{ rowData.startTime | date: "dd/MM/yyyy" }}</td>
       <td>{{ rowData.startTime | date: "HH:mm" }}</td>
       <td>{{ rowData.endTime | date:"HH:mm" }}</td>
       <td>{{ rowData.notes }}</td>
       <td><edit-activity [activity]="activityToSend(rowData)"></edit-activity></td>
       <td><delete-activity [activityID]="rowData._id"></delete-activity></td>
-      <td *ngIf="rowData.isTaskActive"><span title="Doing" class="pi pi-circle-on" style="color: blue"></span></td>
-      <td *ngIf="!rowData.isTaskActive"><span title="Done" class="pi pi-circle-on" style="color: #558157"></span></td>
+      
     </tr>
   </ng-template>
 </p-table>
 
 
+
 <div style="display: flex; justify-content: flex-end; width: 90%; margin: auto; background-color: white; padding: 0.5em 1em;">
   {{conteggio}}
+  {{first + rows > totalRecords ? totalRecords : first + rows}} di {{totalRecords}}
 </div>
 
 </div>
 <div class="card flex justify-content-center paginator">
-  <p-paginator
-    (onPageChange)="onPageChange($event)"
-    [first]="first"
-    [rows]="limit"
-    [totalRecords]="totalRecords"
-  ></p-paginator>
+  <div class="page">
+  <p-paginator [rows]="rows" [totalRecords]="totalRecords" [first]="first" (onPageChange)="onPageChange($event)"></p-paginator>
+
+
+</div>
+
+  
   <!-- totalRecords will need to be modified based on the actual database data -->
 </div>
 <div style="display: flex; justify-content: center;flex-direction: column;align-items: center; background-color: white; width: 90%; margin:auto">
@@ -123,4 +129,3 @@
   <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{'background-color': '#0F6DAF'}"></p-button>
 </div>
 <br /><br />
-
