@@ -252,8 +252,8 @@ export class TutteAttivitaComponent implements OnInit {
   changeLimit() {
     this.limit = this.tempLimit;
     if(this.limit>this.totalRecords){
-      alert("non ci sono più attività")
-      window.location.reload()
+      this.limit = this.totalRecords;
+      this.tempLimit = this.limit;
     }
     if (this.soloattivivariabile) {
       this.soloattivi(this.page, this.limit);
