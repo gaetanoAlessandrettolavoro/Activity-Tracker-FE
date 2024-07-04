@@ -22,13 +22,12 @@ import { PrimeIcons } from 'primeng/api';
 import { SortEvent } from 'primeng/api';
 
 
-
 interface rowItem extends Activity {
+  activityDate: string | number | Date;
   cognome: string;
   nome: string;
-  firstName:string;
-  lastName:string;
-  
+  firstName: string;
+  lastName: string;
 }
 
 @Component({
@@ -52,7 +51,7 @@ interface rowItem extends Activity {
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrls: ['./tutte-attivita.component.css'],
-  providers: [MessageService],
+  providers: [MessageService, DatePipe],
 })
 export class TutteAttivitaComponent implements OnInit {
   originalRowItems: rowItem[] = [];
@@ -69,24 +68,24 @@ export class TutteAttivitaComponent implements OnInit {
   usersArray: any[] = [];
   first: number = 0;
   rows: number = 10;
-  conteggio! : any
-  soloattivivariabile = false
-  page!:any
-  cities: any[] = []
-  selectedCity: any
+  conteggio!: any;
+  soloattivivariabile = false;
+  page!: any;
+  cities: any[] = [];
+  selectedCity: any;
 
   cols = [
-    { fields: 'firstName', header:'Nome'},
-    { fields: 'lastName', header:'Cognome'},
+    { fields: 'firstName', header: 'Nome' },
+    { fields: 'lastName', header: 'Cognome' },
     { field: 'taskName', header: 'Attività' },
     { field: 'activityDate', header: 'Data' },
     { field: 'startTime', header: 'Orario di inizio' },
     { field: 'endTime', header: 'Orario di fine' },
     { field: 'notes', header: 'Note' },
-    {field: '',header: ''}
+    { field: '', header: '' }
   ];
 
-  tempLimit: number = this.limitDefault; // Aggiungi una variabile temporanea
+  tempLimit: number = this.limitDefault; 
 
   constructor(
     private filterService: FilterService,
@@ -94,11 +93,12 @@ export class TutteAttivitaComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
     private userService: UserServiceService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private datePipe: DatePipe
   ) {}
 
   showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
@@ -109,54 +109,18 @@ export class TutteAttivitaComponent implements OnInit {
     }
   }
 
-  soloattivi(page?: number, limit: number = this.limitDefault) {
-    this.soloattivivariabile = true
-    if (!page) {
-      page = 1;
-    }
-    this.userServ
-      .getAllUsersActivities(page, limit,true)
-      .pipe(
-        catchError((err) => {
-          this.showError(err.status);
-          return of({ data: { document: [] } });
-        })
-      )
-      .subscribe(async (result: any) => {
-        const newRows: rowItem[] = [];
-        console.log(result)
-        console.log("Pagina" + page + "limite" + limit)
-        for (let activity of result.data.document) {
-          this.conteggio = result.results + " di " +  result.counters.totalResultQueriesActive
-          console.log(result.counters.documentsTaskActive - result.counters.documentsInactive)
-          let foundUser = await this.findUser(activity.userID);
-          if (foundUser) {
-            newRows.push({
-              ...activity,
-              cognome: foundUser.data.lastName,  // Assegna lastName a cognome
-              nome: foundUser.data.firstName,   // Assegna firstName a nome
-              firstName: foundUser.data.firstName,  // Nuovo campo firstName
-              lastName: foundUser.data.lastName,    // Nuovo campo lastName
-            });
-          }
-        }
-  
-        this.originalRowItems = newRows;
-        this.rowItems = newRows;
-        this.filteredItems = [...this.rowItems];
-        this.totalRecords =  result.counters.totalResultQueriesActive
-      });
-  } // stato attivita nome cognome
+  soloattivi(page?: number, limit: number = this.limitDefault, taskName?: string, fromDate?: string, toDate?: string) {
+    this.soloattivivariabile = true;
+    this.getActivities(page, limit, taskName, fromDate, toDate, true);
+  }
 
   onCityChange(event: any) {
-    if(event.value.name == "Solo attivi"){
-      this.soloattivi()
-    }
-    else{
+    if (event.value.name == "Solo attivi") {
+      this.soloattivi();
+    } else {
       this.getActivities(1, this.limit);
     }
-}
-
+  }
 
   findUser(id: string): Promise<any> {
     return this.userServ
@@ -164,18 +128,24 @@ export class TutteAttivitaComponent implements OnInit {
       .pipe(
         catchError((err) => {
           this.showError(err.status);
-          return of(null); // Restituisci null in caso di errore
+          return of(null); 
         })
       )
       .toPromise();
   }
 
-  async getActivities(page?: number, limit: number = this.limitDefault,active ? : boolean) {
+  async getActivities(page?: number, limit: number = this.limitDefault, taskName?: string, fromDate?: string, toDate?: string, active?: boolean) {
     if (!page) {
       page = 1;
     }
+    
+    // format date
+    const formattedFromDate = fromDate ? this.datePipe.transform(fromDate, 'yyyy-MM-dd')||'' : '';
+    const formattedToDate = toDate ? this.datePipe.transform(toDate, 'yyyy-MM-dd')||'' : '';
+
+
     this.userServ
-      .getAllUsersActivities(page, limit)
+      .getAllUsersActivities(page, limit, active, taskName, formattedFromDate, formattedToDate)
       .pipe(
         catchError((err) => {
           this.showError(err.status);
@@ -183,82 +153,49 @@ export class TutteAttivitaComponent implements OnInit {
         })
       )
       .subscribe(async (result: any) => {
-        console.log(result)
         const newRows: rowItem[] = [];
         for (let activity of result.data.document) {
-          console.log(activity)
-          this.conteggio = result.results + " di " + result.counters.documentsActive;
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
             newRows.push({
               ...activity,
-              cognome: foundUser.data.lastName,  // Assegna lastName a cognome
-              nome: foundUser.data.firstName,   // Assegna firstName a nome
-              firstName: foundUser.data.firstName,  // Nuovo campo firstName
-              lastName: foundUser.data.lastName,    // Nuovo campo lastName
+              cognome: foundUser.data.lastName,
+              nome: foundUser.data.firstName,
+              firstName: foundUser.data.firstName,
+              lastName: foundUser.data.lastName,
             });
           }
         }
-  
         this.originalRowItems = newRows;
         this.rowItems = newRows;
         this.filteredItems = [...this.rowItems];
-        this.totalRecords = result.counters.documentsActive;
+
+        // filtro laro client se necessario
+        if (formattedFromDate || formattedToDate) {
+          this.rowItems = this.rowItems.filter(item =>
+            this.isDateInRange(new Date(item.activityDate), formattedFromDate, formattedToDate)
+          );
+        }
+
+        this.totalRecords = result.counters.totalResultQueriesActive; 
+        this.first = (page - 1) * limit;
+        this.rows = limit; 
       });
   }
-  
-  async ngOnInit() {
-    // Inizializza il FormGroup con i campi di filtro
-    this.filterForm = new FormGroup({
-      searchText: new FormControl(''),
-      fromDate: new FormControl(''),
-      toDate: new FormControl('')
-    });
-  
-    // Aggiungi un listener per le modifiche nel FormGroup
-    this.filterForm.valueChanges.subscribe(() => {
-      this.filterActivities();
-    });
 
-    this.cities = [
-      { name: 'Tutti', code: 'NY' },
-      { name: 'Solo attivi', code: 'RM' },
-  ];
-  
-    // Carica le attività
-    await this.getActivities(1, this.limit);
-  }
-  
-  filterActivities() {
-    const { searchText, fromDate, toDate } = this.filterForm.value;
-    this.filteredItems = this.rowItems.filter((item) => {
-      const matchesText =
-        !searchText ||
-        item.taskName.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.lastName.toLowerCase().includes(searchText.toLowerCase());
-  
-      const itemDate = new Date(item.startTime);
-      const matchesDate = this.isDateInRange(itemDate, fromDate, toDate);
-  
-      return matchesText && matchesDate;
-    });
-  }
-  
-
-  isDateInRange(date: Date, fromDate: string, toDate: string): boolean {
+  isDateInRange(date: Date, fromDate?: string, toDate?: string): boolean {
     const activityDate = new Date(date);
-  
-    const from = fromDate ? new Date(fromDate) : null;
-    const to = toDate ? new Date(toDate) : null;
-  
+    
+    let from = fromDate ? new Date(fromDate) : null;
+    let to = toDate ? new Date(toDate) : null;
+    
     if (from) {
-      from.setHours(0, 0, 0, 0);
+      from.setHours(0, 0, 0, 0); 
     }
     if (to) {
-      to.setHours(23, 59, 59, 999);
+      to.setHours(23, 59, 59, 999); 
     }
-  
+    
     if (from && to) {
       return activityDate >= from && activityDate <= to;
     } else if (from) {
@@ -270,7 +207,36 @@ export class TutteAttivitaComponent implements OnInit {
     }
   }
   
-  activityToSend(activity: rowItem): Activity  {
+  
+  
+
+  async ngOnInit() {
+    this.filterForm = new FormGroup({
+      taskName: new FormControl(''),
+      fromDate: new FormControl(''),
+      toDate: new FormControl('')
+    });
+
+    this.filterForm.valueChanges.subscribe(() => {
+      this.filterActivities();
+    });
+
+    this.cities = [
+      { name: 'Tutti', code: 'NY' },
+      { name: 'Solo attivi', code: 'RM' },
+    ];
+
+    this.rows = this.limit; 
+    this.first = 0; 
+    await this.getActivities(1, this.limit);
+  }
+
+  filterActivities() {
+    const { taskName, fromDate, toDate } = this.filterForm.value;
+    this.getActivities(1, this.limit, taskName, fromDate, toDate);
+  }
+
+  activityToSend(activity: rowItem): Activity {
     return {
       _id: activity._id,
       userID: activity.userID,
@@ -279,32 +245,26 @@ export class TutteAttivitaComponent implements OnInit {
       startTime: new Date(activity.startTime),
       endTime: new Date(activity.endTime),
       notes: activity.notes,
-      
     };
   }
 
   changeLimit() {
-    this.limit = this.tempLimit; // Aggiorna il limite con il valore temporaneo
-    if(this.soloattivivariabile){
+    this.limit = this.tempLimit;
+    if (this.soloattivivariabile) {
       this.soloattivi(this.page, this.limit);
-    }
-    else{
+    } else {
       this.getActivities(this.page, this.limit);
-    }
-    if(this.limit > this.totalRecords){
-      alert("Non ci sono più attività")
-      window.location.reload()
     }
   }
 
   onPageChange(event: any) {
     const pageNumber = event.page + 1;
-    this.page = pageNumber
-    if(this.soloattivivariabile){
-      this.soloattivi(pageNumber, this.limit);
-    }
-    else{
-      this.getActivities(pageNumber, this.limit);
+    this.page = pageNumber;
+    const { taskName, fromDate, toDate } = this.filterForm.value;
+    if (this.soloattivivariabile) {
+      this.soloattivi(pageNumber, this.limit, taskName, fromDate, toDate);
+    } else {
+      this.getActivities(pageNumber, this.limit, taskName, fromDate, toDate);
     }
   }
 
@@ -314,17 +274,13 @@ export class TutteAttivitaComponent implements OnInit {
 
   onClickRemoveFilter() {
     this.filterForm.reset();
-    this.rowItems = [...this.originalRowItems];
-    this.filteredItems = [...this.originalRowItems]; 
-    console.log('Filter removed, items restored:', this.filteredItems); 
+    this.getActivities(1, this.limit);
   }
 
   reload() {
     window.location.reload();
   }
-
-
-  
-  
-  
 }
+
+
+
