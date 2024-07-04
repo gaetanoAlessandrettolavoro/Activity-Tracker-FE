@@ -154,6 +154,7 @@ export class TutteAttivitaComponent implements OnInit {
       )
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
+        
         for (let activity of result.data.document) {
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
@@ -219,6 +220,7 @@ export class TutteAttivitaComponent implements OnInit {
 
     this.filterForm.valueChanges.subscribe(() => {
       this.filterActivities();
+      
     });
 
     this.cities = [
@@ -234,6 +236,7 @@ export class TutteAttivitaComponent implements OnInit {
   filterActivities() {
     const { taskName, fromDate, toDate } = this.filterForm.value;
     this.getActivities(1, this.limit, taskName, fromDate, toDate);
+    console.log(this.filterForm.value)
   }
 
   activityToSend(activity: rowItem): Activity {
@@ -250,6 +253,10 @@ export class TutteAttivitaComponent implements OnInit {
 
   changeLimit() {
     this.limit = this.tempLimit;
+    if(this.limit>this.totalRecords){
+      alert("non ci sono più attività")
+      window.location.reload()
+    }
     if (this.soloattivivariabile) {
       this.soloattivi(this.page, this.limit);
     } else {
@@ -281,6 +288,8 @@ export class TutteAttivitaComponent implements OnInit {
     window.location.reload();
   }
 }
+
+
 
 
 
