@@ -52,7 +52,7 @@ export class UserServiceService {
   }
 
   forgotPassword(emailInput: any): Observable<any> {
-    return this.http.post<any>(`http://${alias}:3000/api/v1/users/forgotPassword?uri=${alias}FE`, { email: emailInput });
+    return this.http.post<any>(`http://${alias}:3000/api/v1/users/forgotPassword?uri=${alias}`, { email: emailInput });
   }
 
   updatePassword(userForm: any): Observable<any> {

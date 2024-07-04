@@ -82,6 +82,8 @@ export class UserTaskCreationComponent implements OnInit {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
+    } else if(statusCode === 403) {
+      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: "Puoi creare attività solo nel mese in corso. La nuova attività non può essere contemporanea alle precedenti"});
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
@@ -141,14 +143,9 @@ export class UserTaskCreationComponent implements OnInit {
           if(result.status == "success"){
             this.buttonClicked.emit("Valore");
           }
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successo',
-            detail: 'Attività creata con successo',
-          })
+          this.noVisible();
         },
         error: (error: any) => {
-          console.error(error)
           this.showError(error.status);
         },
       });

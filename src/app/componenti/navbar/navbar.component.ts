@@ -55,18 +55,12 @@ userPropic: any;
   ngOnInit(): void {
     this.userService.getMe().subscribe({
       next: (userData: any) => {
-        
-
-        
         if (userData && userData.data && userData.data.email) {
           this.userEmail = userData.data.email;
         } else {
           console.error('Email non trovata nei dati utente');
         }
       }
-
-       
-    
     });
   }
 

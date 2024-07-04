@@ -49,6 +49,8 @@ export class AddTypeActivityComponent {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
+    } else if(statusCode === 400) {
+      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'Il nome che stai provando ad utilizzare è già in uso'});
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
@@ -72,7 +74,6 @@ export class AddTypeActivityComponent {
         this.added.emit(true);
       },
       error: (error) => {
-        console.error(error);
         this.showError(error.status);
       }
     });

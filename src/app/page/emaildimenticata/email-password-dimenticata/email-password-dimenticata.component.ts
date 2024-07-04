@@ -45,7 +45,7 @@ userForm: any;
   submit() {
     this.userService.forgotPassword(this.email).subscribe({
       next: (result: any) => {
-        console.log(result)
+        this.messageService.add({severity: 'success', summary:'Success', detail: 'Un\'email per il reset della password è stata mandata'});
       },
       error: (error: any) => {
         this.showError(error.status);

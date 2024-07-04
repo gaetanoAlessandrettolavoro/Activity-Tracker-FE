@@ -50,7 +50,7 @@ getActivitiesToChart(parameters: {fromDate: string, taskName: string}){
   }
 
   getActivityByTaskID(taskID: Task["_id"]) {
-    let apiUrl = `http://${alias}:3000/api/v1/activities?taskID=${taskID}`;
+    let apiUrl = `http://${alias}:3000/api/v1/activities?taskID=${taskID}&isActive=true`;
     return this.httpclient.get(apiUrl, {withCredentials: true})
   }
 
@@ -70,9 +70,6 @@ getActivitiesToChart(parameters: {fromDate: string, taskName: string}){
 
   deleteActivity(activityID: string): Observable<any>{
     const apiUrl = `http://${alias}:3000/api/v1/activities/`;
-
-    console.log("Deleting activity with ID: " + activityID);
-
     return this.httpclient.delete(apiUrl+activityID, { withCredentials: true });
   }
     

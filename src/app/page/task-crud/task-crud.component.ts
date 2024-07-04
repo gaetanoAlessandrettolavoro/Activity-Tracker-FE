@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { Task } from '../../models/taskModel';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import { DatePipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { AddTypeActivityComponent } from '../../componenti/add-type-activity/add-type-activity.component';
@@ -16,13 +16,14 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ActivitiesServicesService } from '../../servizi/activities-services.service';
 import { Activity } from '../../models/activityModel';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-task',
   templateUrl: './task-crud.component.html',
   styleUrls: ['./task-crud.component.css'],
   standalone:true,
-  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, FormsModule],
+  imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, FormsModule, DecimalPipe, InputNumberModule],
   providers: [MessageService]
 })
 
@@ -31,16 +32,14 @@ export class TaskComponent implements OnInit {
   visibleEdit: boolean = false;
   taskToEdit = signal<Task>({} as Task);
   taskNameToEdit!: string;
-  stateToEdit!: string;
-  states: string[] = ['To do', 'In progress', 'Done'];
-  progress: number = 0;
+  expectedHoursToEdit!: number;
   filterOptions: string[] = ['Solo attive', 'Solo non attive', 'Tutte'];
   filter: string = this.filterOptions[2];
+  sumHoursArr: Array<{taskID: string, sumHours: number}> = [];
 
   editTaskForm = new FormGroup({
     taskName: new FormControl(this.taskToEdit().taskName, Validators.required),
-    state: new FormControl(this.taskToEdit().state, Validators.required),
-    progressState: new FormControl(this.taskToEdit().progressState, Validators.required)
+    expectedHours: new FormControl(this.taskToEdit().expectedHours, Validators.required)
   })
 
   constructor(private Taskservice: ServiceTasksService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private userService: UserServiceService, private activitiesService: ActivitiesServicesService) { }
@@ -67,9 +66,13 @@ export class TaskComponent implements OnInit {
         let activities: Activity[] = res.data.document;
         let taskToUpdate: Task;
         let sumHours: number = 0;
-        for(let act of activities) {
-          if(!!act.hours) {
-            sumHours += parseFloat(act.hours);
+        for(let i = 0; i < activities.length; i++) {
+          if(!!activities[i].hours) {
+            //@ts-ignore
+            sumHours += parseFloat(activities[i].hours);
+            if(i === (activities.length-1)) {
+              this.sumHoursArr.push({taskID: activities[i].taskID, sumHours: sumHours});
+            }
           }
         }
         this.Taskservice.getSingleTask(taskID).subscribe({
@@ -77,6 +80,7 @@ export class TaskComponent implements OnInit {
             taskToUpdate = result.data.document;
             //@ts-ignore
             let newProgress = (sumHours*100)/taskToUpdate.expectedHours;
+            if(newProgress >= 100) newProgress = 100;
             const updatedTask: Task = {...taskToUpdate, progressState: newProgress};
             this.Taskservice.updateTask(updatedTask).subscribe({
               next: (ress: any) => {},
@@ -172,10 +176,13 @@ export class TaskComponent implements OnInit {
   reopenTask(taskID: string){
     this.Taskservice.getSingleTask(taskID).subscribe({
       next: (res: any) => {
-        const taskToReopen = {...res.data.document, isActive: true}
+        const taskToReopen = {...res.data.document, isActive: true, state: 'In progress'}
         this.Taskservice.updateTask(taskToReopen).subscribe({
           next: (result: any) => {
             this.getTasks();
+            setTimeout(() => {
+              this.getTasks();
+            }, 1000)
           },
           error: (error) => this.showError(error.status)
         })
@@ -189,8 +196,8 @@ export class TaskComponent implements OnInit {
       next: (result: any) => {
         this.taskToEdit.set(result.data.document);
         this.taskNameToEdit = this.taskToEdit().taskName;
-        this.stateToEdit = result.data.document.state;
-        this.progress = result.data.document.progressState;
+        //@ts-ignore
+        this.expectedHoursToEdit = this.taskToEdit().expectedHours;
         this.visibleEdit = true;
       },
       error: (error) => this.showError(error.status)
@@ -200,17 +207,14 @@ export class TaskComponent implements OnInit {
   onSubmitEditTask() {
     if(this.editTaskForm.valid) {
       const updatedTask = {...this.editTaskForm.value, isActive: true, _id: this.taskToEdit()._id};
-      if(updatedTask.state === 'To do'){
-        updatedTask.progressState = 1;
-      }
-      if(updatedTask.state === 'Done') {
-        updatedTask.progressState = 100;
-      }
       //@ts-ignore
       this.Taskservice.updateTask(updatedTask).subscribe({
         next: (res) => {
           this.getTasks();
           this.visibleEdit = false;
+          setTimeout(() => {
+            this.getTasks();
+          }, 1000);
         },
         error: (error) => {
           console.error(error);
@@ -219,5 +223,14 @@ export class TaskComponent implements OnInit {
     } else {
       this.showError(1);
     }
+  }
+
+  getSumHours(taskID: string): number {
+    let sumFound = this.sumHoursArr.find((el) => {
+      if(el.taskID === taskID) return el;
+      else return 0;
+    })
+    //@ts-ignore
+    return sumFound?.sumHours;
   }
 } 

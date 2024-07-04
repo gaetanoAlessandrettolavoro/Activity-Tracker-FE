@@ -138,7 +138,7 @@ export class AdminvisuserComponent implements OnInit {
         this.filterUsers();
       },
       error: (err) => {
-        console.error(err);
+        this.showError(err.status);
       },
     });
   }
