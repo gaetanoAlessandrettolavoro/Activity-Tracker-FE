@@ -27,6 +27,9 @@
 
 .header img {
   margin-right: 10px;
+  border-radius: 50%; /* Arrotonda le immagini nella header */
+  width: 150px; /* Imposta una larghezza fissa */
+  height: 150px; /* Imposta un'altezza fissa */
 }
 
 .header .center {
@@ -49,6 +52,9 @@
 
 .upload-container img {
   margin-right: 10px;
+  border-radius: 50%; /* Arrotonda le immagini nella upload-container */
+  width: 150px; /* Imposta una larghezza fissa */
+  height: 150px; /* Imposta un'altezza fissa */
 }
 
 .upload-container span {
@@ -115,4 +121,18 @@ input[type="text"]:focus {
   border-radius: 5px;
   cursor: pointer;
   margin: 10px;
+}
+
+/* Arrotonda le immagini nella navbar */
+.navbar img {
+  border-radius: 50%;
+  width: 150px; /* Imposta una larghezza fissa */
+  height: 150px; /* Imposta un'altezza fissa */
+}
+
+/* Arrotonda l'immagine nel dropdown */
+.dropdown img {
+  border-radius: 50%;
+  width: 150px; /* Imposta una larghezza fissa */
+  height: 150px; /* Imposta un'altezza fissa */
 }

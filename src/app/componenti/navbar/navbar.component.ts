@@ -22,6 +22,8 @@ import { UserServiceService } from '../../servizi/user-service.service';
 export class NavbarComponent implements OnInit {
 
   userEmail: string='';
+propic: any;
+userPropic: any;
  
   
   constructor(private router: Router,private userService: UserServiceService) {}
