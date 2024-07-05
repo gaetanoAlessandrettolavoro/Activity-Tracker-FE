@@ -1,4 +1,6 @@
-@import "primeicons/primeicons.css";
+.times {
+    max-width: 5em
+}
 
 .table-container {
 

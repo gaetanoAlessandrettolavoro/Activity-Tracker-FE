@@ -48,18 +48,14 @@
     <tr>
       <th class="firstName" [style.width.px]="150">
         Nome
-       
       </th>
       <th class="lastName" [style.width.px]="150">
         Cognome
-        
       </th> 
       <th class="taskName" class="activities" [style.width.px]="150">
         Attività
-       
       </th>
-
-      <th class="stato">Stato</th>
+      <th class="stato" style="width: 5em">Stato</th>
       <th pSortableColumn="startTime"[style.width.px]="150">
         Data
         <p-sortIcon field="startTime"></p-sortIcon>
@@ -70,11 +66,9 @@
       </th>
       <th class="endTime" class="times"[style.width.px]="200">
         Orario di fine
-      
       </th>
       <th class="notes" class="notes"[style.width.px]="150">
         Note
-     
       </th>
       <th class="buttons"></th>
       <th class="buttons"></th>
@@ -86,8 +80,8 @@
       <td>{{ rowData.firstName }}</td> 
       <td>{{ rowData.lastName }}</td> 
       <td>{{ rowData.taskName }}</td>
-      <td *ngIf="rowData.isTaskActive"><span title="Doing" class="pi pi-circle-on" style="color: blue"></span></td>
-      <td *ngIf="!rowData.isTaskActive"><span title="Done" class="pi pi-circle-on" style="color: #558157"></span></td>
+      <td *ngIf="rowData.isTaskActive" style="width: 5em"><span title="Doing" class="pi pi-circle-on" style="color: blue"></span></td>
+      <td *ngIf="!rowData.isTaskActive" style="width: 5em"><span title="Done" class="pi pi-circle-on" style="color: #558157"></span></td>
       <td>{{ rowData.startTime | date: "dd/MM/yyyy" }}</td>
       <td>{{ rowData.startTime | date: "HH:mm" }}</td>
       <td>{{ rowData.endTime | date:"HH:mm" }}</td>
