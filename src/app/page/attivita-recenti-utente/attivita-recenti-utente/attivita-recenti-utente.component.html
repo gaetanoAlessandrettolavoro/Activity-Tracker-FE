@@ -62,8 +62,8 @@
       <td>{{ rowData.startTime | date: "HH:mm" }}</td>
       <td>{{ rowData.endTime | date:"HH:mm" }}</td>
       <td>{{ rowData.notes }}</td>
-      <td><edit-activity [activity]="(rowData)" (activityEdited)="refresh()"></edit-activity></td>
-      <td><delete-activity [activityID]="rowData._id"></delete-activity></td>
+      <td><edit-activity [activity]="(rowData)" (activityEdited)="refresh()" [style]="{'margin-right':'-90px','margin-left':'-30px'}"></edit-activity></td>
+      <td><delete-activity [activityID]="rowData._id" [style]="{'margin-right':'20px'}"></delete-activity></td>
     </tr>
   </ng-template>
 </p-table>

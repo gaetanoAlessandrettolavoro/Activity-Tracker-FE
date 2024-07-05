@@ -63,9 +63,10 @@ input[type="text"] {
     color: #6c757d;
     margin-left: 2px;
 }
-
+/* 
 .info-button,
 .delete-button {
+    display:flex;
     border: none;
     padding: 10px 15px;
     text-align: center;
@@ -80,14 +81,15 @@ input[type="text"] {
 .info-button {
     background-color: #0F6DAF;
     color: white;
-    margin-right: 20px;
+    
+
 }
 
 .delete-button {
     background-color: orangered;
     color: black;
-    margin-right: -50px;
-}
+    
+} */
 
 @media (max-width: 767px) {
     .filter-container {
