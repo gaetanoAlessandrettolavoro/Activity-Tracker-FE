@@ -6,6 +6,10 @@
     text-align: center;
 }
 
+td.codiceFiscale{
+    max-width: 7em
+}
+
 .pi-input input {
     height: 30px;
     width: 250px;
@@ -51,6 +55,7 @@
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
     border-radius: 12px;
+    margin: 0 1em;
 }
 
 .info-button {
