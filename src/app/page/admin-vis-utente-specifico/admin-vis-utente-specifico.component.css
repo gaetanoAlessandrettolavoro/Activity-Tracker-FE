@@ -1,4 +1,11 @@
-@import "primeicons/primeicons.css";
+.times {
+    max-width: 5em
+}
+
+.buttons {
+    display:flex;
+    justify-content: flex-start;
+}
 
 .table-title {
     text-align: center;
