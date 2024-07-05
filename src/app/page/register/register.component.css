@@ -2,7 +2,7 @@
 @import "primeicons/primeicons.css";
 
 .sfondo {
-  background-image: url("/src/assets/1874132-astratto-geometrico-bianco-sfondo-vettoriale.jpg");
+  background-image: url("../../../assets/1874132-astratto-geometrico-bianco-sfondo-vettoriale.jpg");
   height: 100dvh;
   background-size: cover;
 }
