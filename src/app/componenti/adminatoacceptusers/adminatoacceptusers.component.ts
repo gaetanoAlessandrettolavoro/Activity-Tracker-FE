@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -53,14 +53,6 @@ import { UserServiceService } from '../../servizi/user-service.service';
 
 export class AdminatoacceptusersComponent implements OnInit {
 
-  citiesc = [
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' },
-  ];
-
   visible: boolean = false;
 
   showDialog() {
@@ -68,7 +60,7 @@ export class AdminatoacceptusersComponent implements OnInit {
   }
 
   products: any[] = [];
-  conteggio! : any
+  conteggio = signal<string>('');
   usersfalse! : any
   buttonlampeggiante : any
 
@@ -101,7 +93,8 @@ export class AdminatoacceptusersComponent implements OnInit {
       } else {
         this.usersfalse = false;
         this.buttonlampeggiante = true;
-        this.conteggio = `(${value.results})`;
+        this.conteggio.set(`(${value.results})`);
+        console.log('fetchData {else}')
       }
       this.products = value.data.document.map((element: any) => {
         return { name: element.firstName, cognome: element.lastName, codicefiscale: element.codiceFiscale, email: element.email, id: element._id };
@@ -118,34 +111,32 @@ interval = setInterval(() => {
   this.fetchData(); 
 }, 36000); 
 
-
-
-
-  
-    
-
-   
   accetta(id:any){
     this.admin.acceptedUser(id).subscribe({
       next: (result) => {
-        if(result.status === "success"){
-          window.location.reload()
-        }
+        this.conteggio.set('');
+        this.fetchData();
       },
-      error: (error) => this.showError(error.status)
+      error: (error) => {
+        this.showError(error.status)
+        this.conteggio.set('');
+        this.fetchData();
+      }
     })
-    this.fetchData();
   }
 
   rifiuta(id:any){
     this.admin.rejectUser(id).subscribe({
       next: (result) => {
-        if(result.status === "success"){
-          window.location.reload()
-        }
+        this.conteggio.set('');
+        this.fetchData();
       },
-      error: (error) => this.showError(error.status)
+      error: (error) => {
+        console.error(error)
+        this.showError(error.status)
+        this.conteggio.set('');
+        this.fetchData();
+      }
     })
-    this.fetchData();
   }
 }

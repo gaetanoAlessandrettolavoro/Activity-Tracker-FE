@@ -19,6 +19,14 @@ export class ErrorServiziService {
 
   private messages: Message[] = [
     {
+      statusCode: 0,
+      errorMessage: {
+        severity: 'error',
+        summary: 'Errore',
+        detail: 'Non è stato possibile raggiungere il server, controlla la connessione e riprova.'
+      }
+    },
+    {
       statusCode: 1,
       errorMessage: {
         severity: 'error',

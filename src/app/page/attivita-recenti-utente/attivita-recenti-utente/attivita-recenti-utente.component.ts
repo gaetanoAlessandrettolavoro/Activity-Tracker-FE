@@ -96,12 +96,12 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
 
   loadActivities(pageNumber: number, limit: number): void {
     const {taskName, fromDate, toDate } = this.filterForm.value;
-    console.log('Loading Activities. Page:', pageNumber, 'Limit:', limit, 'From Date:', fromDate, 'To Date:', toDate);
+    // console.log('Loading Activities. Page:', pageNumber, 'Limit:', limit, 'From Date:', fromDate, 'To Date:', toDate);
 
     this.activitiesservices.getActivities({ pageNumber, limit, fromDate, toDate,taskName }).subscribe({
       next: (data) => {
-        this.conteggio = `${data.results} di ${data.totalDocuments}`;
-        this.totalRecords = data.totalDocuments;
+        this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
+        this.totalRecords = data.counters.documentsActive;
         this.rowItems = data.data.userActivities.map((item: Activity) => ({
           taskID: item.taskID,
           taskName: item.taskName,
@@ -119,16 +119,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
   filterActivities(): void {
-    
     this.loadActivities(this.pageDefault, this.limit);
   }
 
   refresh() {
     this.loadActivities(this.pageDefault, this.limit);
-  }
-
-  reload() {
-    window.location.reload();
   }
 
   onPageChange(event: any): void {

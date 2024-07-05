@@ -1,10 +1,10 @@
 <p-toast />
-<h1>Tutti gli Utenti</h1>
+<h1 style="text-align: center;">Tutti gli Utenti</h1>
 <div class="filter-container">
-  <div style="display: flex; justify-content: flex-end;">  
+  <div style="display: flex; justify-content: flex-end; align-items: center;">  
      <div class="fix"[formGroup]='searchQuery'>
-    <button type="button" pButton icon="pi pi-search"></button>
-     <input type="text" formControlName="searchQuery" pInputText placeholder="Cerca per Nome o Cognome">
+      <span class="pi pi-search" style="margin-right: 5px"></span>
+      <input type="text" formControlName="searchQuery" pInputText placeholder="Cerca per Nome o Cognome">
      </div>
     <app-adminatoacceptusers></app-adminatoacceptusers>
   <br><br>
@@ -26,7 +26,7 @@
   
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
-        <td *ngFor="let col of columns">
+        <td *ngFor="let col of columns" [class.codiceFiscale]="col.field === 'codiceFiscale'">
           {{
             col.field === "activityDate"
               ? (rowData[col.field] | date : "dd/MM/yyyy")
@@ -35,7 +35,7 @@
               : rowData[col.field]
           }}
         </td>
-        <td style="width: 250px; display: flex; justify-content: space-around">
+        <td style="max-width: fit-content; display: flex; justify-content: space-around">
           <button class="activity-button" (click)="getActivity(rowData._id)">
             Attività
           </button>
