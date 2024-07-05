@@ -5,11 +5,12 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'delete-activity',
   standalone: true,
-  imports: [ToastModule],
+  imports: [ToastModule, NgIf],
   templateUrl: './delete-activity-button.component.html',
   styleUrl: './delete-activity-button.component.css',
   providers: [MessageService],
@@ -17,6 +18,8 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 export class DeleteActivityButtonComponent {
 
   @Input({required: true}) activityID!: string;
+
+  @Input() disabled: boolean = false;
 
   @Output() deleted = new EventEmitter<boolean>();
   
@@ -40,12 +43,10 @@ export class DeleteActivityButtonComponent {
         next: (result) => {
           this.messageService.add({severity: 'success', summary:'Success', detail:'Attività eliminata'});
           this.deleted.emit(true);
-          window.location.reload()
         },
         error:(error) => {
           this.showError(error.status)
         }});
-      window.location.reload();
     }
   }
 }

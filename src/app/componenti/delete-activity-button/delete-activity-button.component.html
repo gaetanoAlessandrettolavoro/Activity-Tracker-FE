@@ -1,1 +1,5 @@
-<button class="delete-button" (click)="deleteActivity()"><i class="pi pi-trash"></i></button>
+@if(disabled) {
+    <button class="disabled"><i class="pi pi-trash"></i></button>
+} @else {
+    <button class="delete-button" (click)="deleteActivity()"><i class="pi pi-trash"></i></button>
+}

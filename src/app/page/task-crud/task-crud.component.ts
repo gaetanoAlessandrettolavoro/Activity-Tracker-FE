@@ -36,6 +36,8 @@ export class TaskComponent implements OnInit {
   filterOptions: string[] = ['Solo attive', 'Solo non attive', 'Tutte'];
   filter: string = this.filterOptions[2];
   sumHoursArr: Array<{taskID: string, sumHours: number}> = [];
+  first = 0;
+  rows = 5;
 
   editTaskForm = new FormGroup({
     taskName: new FormControl(this.taskToEdit().taskName, Validators.required),
@@ -43,6 +45,11 @@ export class TaskComponent implements OnInit {
   })
 
   constructor(private Taskservice: ServiceTasksService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private userService: UserServiceService, private activitiesService: ActivitiesServicesService) { }
+
+  pageChange(event: any) {
+    this.first = event.first;
+    this.rows = event.rows;
+  }
 
   showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {

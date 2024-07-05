@@ -130,8 +130,7 @@ export class DailyActivityComponent {
   changeLimit() {
     this.fetchActivities();
     if(this.limit > this.totalRecords){
-      alert("Non ci sono più attività")
-      window.location.reload()
+      this.limit = this.totalRecords
     }
   }
 

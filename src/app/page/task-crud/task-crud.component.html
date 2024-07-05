@@ -17,7 +17,15 @@
   </div>
 </div>
 <div class="table">
-    <p-table [value]="tasks">
+    <p-table
+    [value]="tasks"
+    [paginator]="true"
+    [rows]="5"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Vedi da {first} a {last} di {totalRecords} totali"
+    (onPage)="pageChange($event)"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    >
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th><add-type-activity (added)="getTasks()" style="margin: auto"/></th>

@@ -1,11 +1,11 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
 import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
@@ -15,20 +15,36 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { AdminatoacceptusersComponent } from '../../componenti/adminatoacceptusers/adminatoacceptusers.component';
 import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
 
+
 @Component({
-    selector: 'app-admin-vis-user',
-    standalone: true,
-    templateUrl: './admin-vis-users.component.html',
-    styleUrls: ['./admin-vis-users.component.css'],
-    imports: [AdminatoacceptusersComponent, TableModule, ButtonModule, CommonModule, FooterComponent, PaginatorModule, InputTextModule, FormsModule, DeleteUserButtonComponent, DialogModule, ButtonModule, InputTextModule, UserTaskCreationComponent, ToastModule],
-    providers: [MessageService],
+  selector: 'app-admin-vis-user',
+  standalone: true,
+  templateUrl: './admin-vis-users.component.html',
+  styleUrls: ['./admin-vis-users.component.css'],
+  imports: [
+    TableModule,
+    ButtonModule,
+    CommonModule,
+    PaginatorModule,
+    InputTextModule,
+    FormsModule,
+    DialogModule,
+    ToastModule,
+    AdminatoacceptusersComponent,
+    DeleteUserButtonComponent,
+    UserTaskCreationComponent,
+    ReactiveFormsModule
+  ],
+  providers: [MessageService],
 })
 export class AdminvisuserComponent implements OnInit {
   totalRecords: number = 1;
+  searchQuery=new FormGroup({
+    searchQuery:new FormControl('')
+  })
 
   constructor(
     private users: AdminserviceService,
@@ -40,7 +56,6 @@ export class AdminvisuserComponent implements OnInit {
   ) {}
 
   usersArray = signal<User[]>([]);
-  value!: string;
   userActivities: any[] = [];
   modaldmin: boolean = false;
 
@@ -90,50 +105,62 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   filterUsers() {
-    this.filteredUsers = this.usersArray().filter((user) => {
-      const matchesFirstName =
-        !this.searchFirstName ||
-        user.firstName.toLowerCase().includes(this.searchFirstName.toLowerCase());
+    if (this.searchQuery.value.searchQuery!==''){
+      this.users.getUsers().subscribe({
+        next:(result)=>{
+         const  newUsers = result.data.document.filter((user:any)=>{
+          //@ts-ignore
+          if(user.firstName.toLowerCase() === this.searchQuery.value.searchQuery.toLowerCase()|| user.lastName.toLowerCase() === this.searchQuery.value.searchQuery.toLowerCase()){
+            return user;
+          }
+         })
+        this.filteredUsers = newUsers;
+        this.totalRecords = newUsers.length;
+      
+        },
+        error:(error)=>this.showError(error.status)
+        
+      })
+    } else {
+      this.limit=this.limitDefault;
+      this.users.getUsers().subscribe({
+        next:(res)=>{
+        this.totalRecords=res.counters.documentsActive
+        },
+        error:(error)=> this.showError(error.status)
+      })   
 
-      const matchesLastName =
-        !this.searchLastName ||
-        user.lastName.toLowerCase().includes(this.searchLastName.toLowerCase());
-
-      const matchesCodiceFiscale =
-        !this.searchText ||
-        user.codiceFiscale.toLowerCase().includes(this.searchText.toLowerCase());
-
-      const matchesEmail =
-        !this.searchText ||
-        user.email.toLowerCase().includes(this.searchText.toLowerCase());
-
-      const matchesDate = true;
-
-      return (
-        matchesFirstName &&
-        matchesLastName &&
-        matchesCodiceFiscale &&
-        matchesEmail &&
-        matchesDate
-      );
-    });
+      this.filteredUsers = this.usersArray().filter((user) => {
+        const matchesFirstName =
+          !this.searchQuery ||
+          //@ts-ignore
+          user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
+  
+        const matchesLastName =
+          !this.searchQuery ||
+          //@ts-ignore
+          user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
+  
+        return matchesFirstName || matchesLastName;
+      });
+    }
   }
 
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
-        this.conteggio = data.results + " di " + data.counters.documentsActive;
-        console.log(data)
+        this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
         this.totalRecords = data.counters.documentsActive;
         data.data.document.forEach((item: any) => {
-          this.usersArray().push({
+          const newUser = {
             firstName: item.firstName,
             lastName: item.lastName,
             codiceFiscale: item.codiceFiscale,
             email: item.email,
             _id: item._id,
             role: item.role,
-          });
+          }
+          this.usersArray().push(newUser);
         });
         this.filterUsers();
       },
@@ -141,6 +168,7 @@ export class AdminvisuserComponent implements OnInit {
         this.showError(err.status);
       },
     });
+    this.searchQuery.valueChanges.subscribe(()=>this.filterUsers())
   }
 
   getActivity(id: string) {
@@ -165,26 +193,25 @@ export class AdminvisuserComponent implements OnInit {
   onPageChange(event: any) {
     const pageNumber = event.page + 1;
     this.usersArray.set([]);
-    console.log(this.limit);
     this.users
       .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          this.conteggio = data.results + " di " + data.counters.documentsActive;
+          this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
           this.totalRecords = data.counters.documentsActive;
           data.data.document.forEach((item: any) => {
-            console.log(item);
-            this.usersArray().push({
+            const newUser = {
               firstName: item.firstName,
               lastName: item.lastName,
               codiceFiscale: item.codiceFiscale,
               email: item.email,
               _id: item._id,
               role: item.role,
-            });
+            }
+            this.usersArray().push(newUser);
           });
           this.filterUsers();
-          this.cdref.detectChanges(); 
+          this.cdref.detectChanges();
         },
         error: (err) => {
           this.showError(err.status);
@@ -194,8 +221,7 @@ export class AdminvisuserComponent implements OnInit {
 
   changeLimit() {
     if(this.limit > this.totalRecords){
-      alert("Non ci sono più attività")
-      window.location.reload()
+      this.limit = this.totalRecords;
     }
     else{
     const currentPage = this.first / this.rows + 1;
@@ -204,7 +230,7 @@ export class AdminvisuserComponent implements OnInit {
       .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
       .subscribe({
         next: (data: any) => {
-          this.conteggio = data.results + " di " + data.counters.documentsActive;
+          this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
           this.totalRecords = data.counters.documentsActive;
           this.usersArray.set([]);
           data.data.document.forEach((item: any) => {
@@ -215,40 +241,37 @@ export class AdminvisuserComponent implements OnInit {
               email: item.email,
               _id: item._id,
               role: item.role,
-            });
+            })
           });
-          this.filterUsers();
-        },
-        error: (err) => {
-          this.showError(err.status);
-        },
-      });
+            this.filterUsers();
+          },
+          error: (err) => {
+            this.showError(err.status);
+          },
+        });
     }
   }
 
   userDeleted() {
     console.log('User deleted');
-    this.refreshUsers(); 
+    this.refreshUsers();
   }
 
   refreshUsers() {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
-        this.conteggio = data.results + " di " + data.counters.documentsActive;
+        this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
         this.totalRecords = data.counters.documentsActive;
-        this.usersArray.set([]);
-        data.data.document.forEach((item: any) => {
-          this.usersArray().push({
-            firstName: item.firstName,
-            lastName: item.lastName,
-            codiceFiscale: item.codiceFiscale,
-            email: item.email,
-            _id: item._id,
-            role: item.role,
-          });
-        });
+        this.usersArray = data.data.document.map((item: any) => ({
+          firstName: item.firstName,
+          lastName: item.lastName,
+          codiceFiscale: item.codiceFiscale,
+          email: item.email,
+          _id: item._id,
+          role: item.role,
+        }));
         this.filterUsers();
-        this.cdref.detectChanges(); 
+        this.cdref.detectChanges();
       },
       error: (err) => {
         this.showError(err.status);
@@ -259,4 +282,4 @@ export class AdminvisuserComponent implements OnInit {
   editUser(id: string) {
     this.router.navigate([`/utenti/${id}`]);
   }
-} 
+}

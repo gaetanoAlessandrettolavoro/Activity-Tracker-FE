@@ -62,6 +62,19 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     }
   }
 
+  onDeleteActivity() {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.idunivoco = id
+      console.log(this.limitDefault)
+      this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      this.admin.getOneUser(id).subscribe({
+        next:(res)=>{this.userEmail=res.data.email},
+        error: (err) => this.showError(err.status)
+      })
+    });
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
@@ -73,16 +86,19 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
         error: (err) => this.showError(err.status)
       })
     });
-    
-
   }
 
   changeLimit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      if(this.limit > this.totalRecords){
-        alert("Non ci sono più attività")
-        window.location.reload()
+      if(this.limit == undefined) {
+        this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      } else {
+        if(this.limit > this.totalRecords){
+          this.limit = this.totalRecords;
+        } else {
+          this.fetchActivities(id, this.pageDefault, this.limit);
+        }
       }
     });
   }

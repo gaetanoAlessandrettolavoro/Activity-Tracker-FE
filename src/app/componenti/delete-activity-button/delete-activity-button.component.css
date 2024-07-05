@@ -12,3 +12,20 @@
     color: black;
     margin-right: -50px;
 }
+
+button.disabled {
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
+    border-radius: 12px;
+    color: black;
+    background-color: orangered;
+    margin: auto;
+    opacity: 0.5;
+    cursor: not-allowed;
+}

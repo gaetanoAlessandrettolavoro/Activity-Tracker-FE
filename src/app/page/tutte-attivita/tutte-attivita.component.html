@@ -10,11 +10,11 @@
     
       <div class="card flex justify-content-center">Stato:
         <p-dropdown 
-            [options]="cities" 
-            [(ngModel)]="selectedCity" 
+            [options]="states" 
+            [(ngModel)]="selectedState" 
             optionLabel="name"
             placeholder="Seleziona" 
-            (onChange)="onCityChange($event)" />
+            (onChange)="onStateChange($event)" />
     </div>
       </div>
     <div style="display: flex; margin-right: 80px;">
@@ -92,8 +92,8 @@
       <td>{{ rowData.startTime | date: "HH:mm" }}</td>
       <td>{{ rowData.endTime | date:"HH:mm" }}</td>
       <td>{{ rowData.notes }}</td>
-      <td><edit-activity [activity]="activityToSend(rowData)"></edit-activity></td>
-      <td><delete-activity [activityID]="rowData._id"></delete-activity></td>
+      <td><edit-activity [activity]="activityToSend(rowData)" (activityEdited)="reload()" ></edit-activity></td>
+      <td><delete-activity [activityID]="rowData._id" (deleted)="reload()" [disabled]="!rowData.isActive"></delete-activity></td>
       
     </tr>
   </ng-template>

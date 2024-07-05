@@ -2,7 +2,7 @@
 <div class="card flex justify-content-center">
     <button [ngClass]="{'button': buttonlampeggiante, 'button2' : !buttonlampeggiante}"(click)="showDialog()" type="submit" class="button">Utenti da accettare</button>
     <p-dialog
-        header="Richieste utenti {{conteggio}}"
+        header="Richieste utenti {{conteggio()}}"
         [(visible)]="visible"
         [modal]="true"
         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
