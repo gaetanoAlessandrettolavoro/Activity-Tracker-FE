@@ -246,6 +246,7 @@ export class TutteAttivitaComponent implements OnInit {
       startTime: new Date(activity.startTime),
       endTime: new Date(activity.endTime),
       notes: activity.notes,
+      isTaskActive: activity.isTaskActive
     };
   }
 

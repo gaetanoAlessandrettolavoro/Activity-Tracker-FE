@@ -47,7 +47,7 @@
         <td>{{task.expectedHours}} ore</td>
         <td><p-progressBar [value]="task.progressState" [showValue]="false"/></td>
         <td *ngIf="task.progressState !== 100"><b>{{task.progressState | number:'1.0-0'}}%</b></td>
-        <td *ngIf="task.progressState === 100"><b>{{task.progressState | number:'1.0-0'}}% ({{this.getSumHours(task._id)}} ore)</b></td>
+        <td *ngIf="task.progressState === 100"><b>{{task.progressState | number:'1.0-0'}}% ({{this.getSumHours(task._id) | number: '1.0-2'}} ore)</b></td>
         <td style="text-align: center;">
           <button *ngIf="task.isActive" class="edit-button" (click)="editTask(task._id)">Modifica</button>
           <button *ngIf="!task.isActive" class="disabled-edit-button">Modifica</button>

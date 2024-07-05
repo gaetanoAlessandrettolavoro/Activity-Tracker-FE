@@ -109,6 +109,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
           endTime: new Date(item.endTime),
           notes: item.notes,
           _id: item._id,
+          isTaskActive: item.isTaskActive
         }));
         this.filteredItems = this.rowItems; 
       },

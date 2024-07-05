@@ -2,9 +2,8 @@
   <form [formGroup]="activityForm" (ngSubmit)="onSubmitForm()">
     <div class="date">
       <div class="date-container" style="text-align: center;">
-        <input type="date" max="{{today}}" [(ngModel)]="dateToEdit" formControlName="date"/>
-        
-
+        <input *ngIf="!activityToEdit().isTaskActive" type="date" max="{{today}}" min="{{firstOfMonth}}" [(ngModel)]="dateToEdit" formControlName="date"/>
+        <input *ngIf="activityToEdit().isTaskActive" type="date" max="{{today}}" [(ngModel)]="dateToEdit" formControlName="date"/>
       </div>
       <div style="display: flex; justify-content: center; margin-top: 10px;">
         <div style="margin-right: 25px;">
