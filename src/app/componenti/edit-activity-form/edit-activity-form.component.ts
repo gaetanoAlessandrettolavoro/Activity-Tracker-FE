@@ -122,7 +122,7 @@ export class EditActivityFormComponent implements OnInit {
     if(this.activityForm.value.date && this.activityForm.value.orarioInizio && this.activityForm.value.orarioFine) {
       const [year, month, day] = [
         parseInt(this.activityForm.value.date?.split('-')[0]),
-        parseInt(this.activityForm.value.date?.split('-')[1]),
+        parseInt(this.activityForm.value.date?.split('-')[1])-1,
         parseInt(this.activityForm.value.date?.split('-')[2])
       ];
       const [startH, startM] = [
