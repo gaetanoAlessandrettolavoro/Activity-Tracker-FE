@@ -19,7 +19,7 @@ import { Router, NavigationEnd } from '@angular/router';
     imports: [CommonModule,NavbarComponent,UserTaskCreationComponent, RouterOutlet, AdminvisuserComponent, AttivitaRecentiUtenteComponent, UserManualComponent, UserHomeComponent, AdminvisuserComponent]
 })
 export class AppComponent {
-  title = 'ActivityTracker-FE';
+  title = 'ActivityTracker';
   showNavbar = signal<boolean>(true);
 
   constructor(private router: Router) {
