@@ -82,7 +82,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-    <tr [class.disabled]="!rowData.isActive">
+    <tr>
       <td>{{ rowData.firstName }}</td> 
       <td>{{ rowData.lastName }}</td> 
       <td>{{ rowData.taskName }}</td>
