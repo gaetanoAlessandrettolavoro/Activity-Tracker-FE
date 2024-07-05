@@ -151,14 +151,17 @@ export class AdminvisuserComponent implements OnInit {
       next: (data: any) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
         this.totalRecords = data.counters.documentsActive;
-        this.usersArray = data.data.document.map((item: any) => ({
-          firstName: item.firstName,
-          lastName: item.lastName,
-          codiceFiscale: item.codiceFiscale,
-          email: item.email,
-          _id: item._id,
-          role: item.role,
-        }));
+        data.data.document.forEach((item: any) => {
+          const newUser = {
+            firstName: item.firstName,
+            lastName: item.lastName,
+            codiceFiscale: item.codiceFiscale,
+            email: item.email,
+            _id: item._id,
+            role: item.role,
+          }
+          this.usersArray().push(newUser);
+        });
         this.filterUsers();
       },
       error: (err) => {
@@ -196,14 +199,17 @@ export class AdminvisuserComponent implements OnInit {
         next: (data: any) => {
           this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
           this.totalRecords = data.counters.documentsActive;
-          this.usersArray = data.data.document.map((item: any) => ({
-            firstName: item.firstName,
-            lastName: item.lastName,
-            codiceFiscale: item.codiceFiscale,
-            email: item.email,
-            _id: item._id,
-            role: item.role,
-          }));
+          data.data.document.forEach((item: any) => {
+            const newUser = {
+              firstName: item.firstName,
+              lastName: item.lastName,
+              codiceFiscale: item.codiceFiscale,
+              email: item.email,
+              _id: item._id,
+              role: item.role,
+            }
+            this.usersArray().push(newUser);
+          });
           this.filterUsers();
           this.cdref.detectChanges();
         },

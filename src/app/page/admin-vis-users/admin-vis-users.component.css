@@ -1,5 +1,3 @@
-@import "primeicons/primeicons.css";
-
 .filter-container {
     margin-top: 25px;
     margin-bottom: 30vh;
@@ -79,6 +77,11 @@
     margin-right: 10px;
 }
 
+.fix {
+    display: flex;
+    padding: 0 1em;
+}
+
 .fix input {
     height: 30px;
     width: 250px;
@@ -86,10 +89,7 @@
     font-size: 14px;
     border: 1px solid #ccc;
     margin-right: 10px;
-    align-items: flex-start;
-    margin-top: 30px;
-    
-   
+    margin: auto;
 }
 
 .fix button {
@@ -124,11 +124,6 @@
         align-items: flex-start;
     }
 
-    .fix {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
     .pi-search input {
         width: 100%;
         margin-right: 0;
@@ -137,7 +132,7 @@
 
     .fix input {
         height: 30px;
-        width: 250px;
+        width: 150px;
         padding: 8px;
         font-size: 14px;
         border: 1px solid #ccc;
