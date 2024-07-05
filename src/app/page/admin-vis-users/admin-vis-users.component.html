@@ -1,7 +1,11 @@
 <p-toast />
 <h1>Tutti gli Utenti</h1>
 <div class="filter-container">
-  <div style="display: flex; justify-content: flex-end;">
+  <div style="display: flex; justify-content: flex-end;">  
+     <div class="fix"[formGroup]='searchQuery'>
+    <button type="button" pButton icon="pi pi-search"></button>
+     <input type="text" formControlName="searchQuery" pInputText placeholder="Cerca per Nome o Cognome">
+     </div>
     <app-adminatoacceptusers></app-adminatoacceptusers>
   <br><br>
 </div>
