@@ -94,7 +94,6 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.minDate, this.maxDate)
     this.servicetasks.getAllTasks().subscribe({next:(result: TaskResponse) => {this.tasks = result.data.document}, error: (error) => {this.showError(error.status)}});
 
     this.userForm = new FormGroup({
@@ -113,7 +112,6 @@ export class UserTaskCreationComponent implements OnInit {
   onSubmit() {
     this.buttonClicked.emit("valore da spedire");
     if (this.userForm.valid) {
-      console.log(this.userForm.value.date)
       let [year, month, day] = [this.userForm.value.date.split('-')[0],this.userForm.value.date.split('-')[1],this.userForm.value.date.split('-')[2]];
       let start = this.userForm.get('startTime')?.value.split(':');
       let startH = parseInt(start[0]);
@@ -136,7 +134,6 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   getToken(data: any) {
-    console.log(data);
     this.route.params.subscribe((params) => {
       this.activitiesservices.createActivity(data, this.userID).subscribe({
         next: (result: any) => {
