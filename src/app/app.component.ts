@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ImpostaNuovaPasswordComponent } from './page/imposta-nuova-password/imposta-nuova-password.component';
 import { UserHomeComponent } from './page/user-home/user-home.component';
@@ -20,13 +20,15 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
   title = 'ActivityTracker-FE';
-  showNavbar: boolean = false;
+  showNavbar = signal<boolean>(true);
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        
-        this.showNavbar = !event.url.includes('/login');
+        this.showNavbar.set(true)
+        if(event.url.includes('/login') || event.url.includes('/registrati')) {
+          this.showNavbar.set(false);
+        }
       }
     });
   }
