@@ -118,6 +118,19 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     });
   }
 
+  onEditActivity() {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.idunivoco = id
+      console.log(this.limitDefault)
+      this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      this.admin.getOneUser(id).subscribe({
+        next:(res)=>{this.userEmail=res.data.email},
+        error: (err) => this.showError(err.status)
+      })
+    });
+  }
+
   private fetchActivities(id: string, page: number, limit: number): void {
     this.activities = []; 
   this.admin.getOneUserActivity(id, page, limit).subscribe({

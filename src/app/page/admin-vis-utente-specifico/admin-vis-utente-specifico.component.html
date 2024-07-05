@@ -47,7 +47,7 @@
       <td class="times">{{ rowData.endTime | date:"HH:mm" }}</td>
       <td>{{ rowData.notes }}</td>
       <td class="buttons">
-        <edit-activity [activity]="(rowData)"></edit-activity>
+        <edit-activity [activity]="(rowData)" (activityEdited)="onEditActivity()"></edit-activity>
         <delete-activity [activityID]="rowData._id" (deleted)="onDeleteActivity()" style="margin-left: 2em;"></delete-activity>
       </td>
     </tr>
