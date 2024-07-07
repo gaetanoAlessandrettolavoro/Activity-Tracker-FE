@@ -10,6 +10,10 @@ import { alias } from './defines';
   providedIn: 'root',
 })
 export class UserServiceService {
+  token = localStorage.getItem('token');
+
+  header= {authorization: `Bearer ${this.token}`}
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -27,7 +31,7 @@ export class UserServiceService {
 
   login(user: { email: string; password: string }): Observable<any> {
     let apiUrl = `http://${alias}:3000/api/v1/users/login`;
-    return this.http.post<any>(apiUrl, user, { withCredentials: true });
+    return this.http.post<any>(apiUrl, user, { headers: this.header });
   }
 
   getRole(user: any): void {
@@ -39,9 +43,7 @@ export class UserServiceService {
   }
 
   getMe(): Observable<any> {
-    return this.http.get<any>(`http://${alias}:3000/api/v1/users/getMe`, {
-      withCredentials: true
-    });
+    return this.http.get<any>(`http://${alias}:3000/api/v1/users/getMe`, { headers: this.header });
   }
 
   resetPassword(token: any, userForm: any): Observable<any> {
@@ -59,7 +61,7 @@ export class UserServiceService {
     return this.http.patch<any>(
       `http://${alias}:3000/api/v1/users/updateMyPassword`,
       userForm,
-      { withCredentials: true }
+      { headers: this.header }
     );
   }
 
@@ -75,6 +77,6 @@ export class UserServiceService {
 
   updateMe(data: any): Observable<any> {
     let apiUrl = `http://${alias}:3000/api/v1/users/updateMe`;
-    return this.http.patch<any>(apiUrl, data, { withCredentials: true });
+    return this.http.patch<any>(apiUrl, data, { headers: this.header });
   }
 }
