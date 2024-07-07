@@ -44,6 +44,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
     ButtonModule,
     RippleModule,
     ToastModule,
+    NgIf
   ],
   templateUrl: './edit-activity-form.component.html',
   styleUrl: './edit-activity-form.component.css',
@@ -51,6 +52,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 })
 export class EditActivityFormComponent implements OnInit {
   today = new Date().toISOString().split('T')[0];
+  firstOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 2).toISOString().split('T')[0];
   @Input({ required: true }) activity!: Activity;
 
   @Output() activityEdited = new EventEmitter<boolean>(false);
