@@ -9,38 +9,35 @@ import { alias } from './defines';
   providedIn: 'root'
 })
 export class ServiceTasksService { 
-  token = localStorage.getItem('token');
-
-  header= {authorization: `Bearer ${this.token}`}
 
   apiUrl = `http://${alias}:3000/api/v1/tasks`;
 
   constructor(private http: HttpClient) {}
 
   getSingleTask(id: string): Observable<TaskResponse> {
-    return this.http.get<TaskResponse>(`${this.apiUrl}/${id}`, { headers: this.header });
+    return this.http.get<TaskResponse>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
   getSingleTaskByName(taskName: string) {
-    return this.http.get(`${this.apiUrl}?taskName=${taskName}`, { headers: this.header });
+    return this.http.get(`${this.apiUrl}?taskName=${taskName}`, { withCredentials: true });
   }
 
   getAllTasks(parameter?: {isActive?: boolean, isNoActive?: boolean}): Observable<TaskResponse> {
     if(parameter?.isActive) {
-      return this.http.get<TaskResponse>(`${this.apiUrl}?isActive=true`, { headers: this.header });
+      return this.http.get<TaskResponse>(`${this.apiUrl}?isActive=true`, { withCredentials: true });
     }
     if(parameter?.isNoActive) {
-      return this.http.get<TaskResponse>(`${this.apiUrl}?isActive=false`, { headers: this.header });
+      return this.http.get<TaskResponse>(`${this.apiUrl}?isActive=false`, { withCredentials: true });
     }
-    return this.http.get<TaskResponse>(`${this.apiUrl}`, { headers: this.header });
+    return this.http.get<TaskResponse>(`${this.apiUrl}`, { withCredentials: true });
   }
 
   updateTask(taskUpdate: Task){
-    return this.http.patch<any>(`${this.apiUrl}/${taskUpdate._id}`,taskUpdate,{ headers: this.header });
+    return this.http.patch<any>(`${this.apiUrl}/${taskUpdate._id}`,taskUpdate,{ withCredentials: true });
   }
 
   deleteTask(taskid:string){
-    return this.http.delete<any>(`${this.apiUrl}/${taskid}`,{ headers: this.header });
+    return this.http.delete<any>(`${this.apiUrl}/${taskid}`,{ withCredentials: true });
   }
 }
 

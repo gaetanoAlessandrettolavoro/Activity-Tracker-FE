@@ -22,9 +22,6 @@ export interface BasicData {
   providedIn: 'root',
 })
 export class ChartsService {
-  token = localStorage.getItem('token');
-
-  header= {authorization: `Bearer ${this.token}`}
 
   constructor(private http: HttpClient) {}
 
@@ -34,7 +31,7 @@ export class ChartsService {
     const nextDay = new Date(year, month, day+1).toISOString().split('T')[0];
     const apiUrl =
       `http://${alias}:3000/api/v1/activities?isActive=true`;
-    return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { headers: this.header }).pipe(
+    return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { withCredentials: true }).pipe(
       map((res: any) => {
         console.log(res)
         if (res && res.data && res.data.document) {

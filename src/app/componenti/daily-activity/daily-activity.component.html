@@ -46,7 +46,7 @@
             <td>{{ dailyActivity.endTime | date: 'HH:mm' }}</td>
             <td>{{ dailyActivity.notes }}</td>
             <td class="buttons">
-                <edit-activity [activity]="dailyActivity"></edit-activity>
+                <edit-activity [activity]="dailyActivity" (activityEdited)="fetchActivities()"></edit-activity>
                 <delete-activity [activityID]="dailyActivity._id" (deleted)="fetchActivities()"></delete-activity>
             </td>
         </tr>
