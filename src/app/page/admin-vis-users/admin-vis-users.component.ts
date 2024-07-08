@@ -110,7 +110,7 @@ export class AdminvisuserComponent implements OnInit {
         next:(result)=>{
          const  newUsers = result.data.document.filter((user:any)=>{
           //@ts-ignore
-          if(user.firstName.toLowerCase() === this.searchQuery.value.searchQuery.toLowerCase()|| user.lastName.toLowerCase() === this.searchQuery.value.searchQuery.toLowerCase()){
+          if(user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase())|| user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase())){
             return user;
           }
          })
@@ -122,13 +122,7 @@ export class AdminvisuserComponent implements OnInit {
         
       })
     } else {
-      this.limit=this.limitDefault;
-      this.users.getUsers().subscribe({
-        next:(res)=>{
-        this.totalRecords=res.counters.documentsActive
-        },
-        error:(error)=> this.showError(error.status)
-      })   
+      
 
       this.filteredUsers = this.usersArray().filter((user) => {
         const matchesFirstName =
@@ -262,7 +256,8 @@ export class AdminvisuserComponent implements OnInit {
       next: (data: any) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
         this.totalRecords = data.counters.documentsActive;
-        this.usersArray = data.data.document.map((item: any) => ({
+        this.usersArray.set([]);
+        const newUsersArray = data.data.document.map((item: any) => ({
           firstName: item.firstName,
           lastName: item.lastName,
           codiceFiscale: item.codiceFiscale,
@@ -270,6 +265,7 @@ export class AdminvisuserComponent implements OnInit {
           _id: item._id,
           role: item.role,
         }));
+        this.usersArray.set(newUsersArray);
         this.filterUsers();
         this.cdref.detectChanges();
       },
