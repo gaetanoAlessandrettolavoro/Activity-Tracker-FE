@@ -66,7 +66,6 @@ export class LoginComponent {
       this.userService.login(postData).subscribe({
         next: (result: any) => {
           this.userService.getRole(result.data);
-          localStorage.setItem('token', result.token);
           if(result.data.role == "user"){
             this.router.navigate(["/userhome"])
           }

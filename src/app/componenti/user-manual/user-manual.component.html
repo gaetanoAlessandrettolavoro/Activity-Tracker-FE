@@ -1,5 +1,6 @@
 <div class="card flex justify-content-center">
-    <p-button (click)="showDialog()" icon="pi pi-question-circle" [rounded]="true" [text]="true" [style]="{'color': '#0F6DAF'}"/>
+    <p-button (click)="showDialog()" icon="pi pi-question-circle" [rounded]="true" [text]="true"
+        [style]="{'color': '#0F6DAF'}" />
     <p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
         [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
 
@@ -51,6 +52,8 @@
         <p>
             L'admin può visualizzare gli utenti nella dashboard facendo il login.
         </p>
+        <h3>Come accettare gli utenti?</h3>
+        <p>Nella dashboard e nella sidebar è presente il bottone per l'utente d'accettare, con la possibilità di accettare o rifiutare l'utente</p>
         <h3>Cosa può fare l'admin con l'utente specifico?</h3>
 
         <p>-Visualizzare le attività</p>
@@ -78,6 +81,16 @@
         <h3>Cambio password</h3>
         <p>Obbligo di compilamento password precedente, nuova password e conferma nuova password </p>
         <p>cliccando chiudi l'admin viene reindirizzato alle impostazioni</p>
+
+        <h3>Tipi di attività</h3>
+        <p>Possibilità:</p>
+        <p>-Modificare e chiudere task</p>
+        <p>-Aggiungere attività</p>
+        <p>Filtrarle per:</p>
+        <p>-Solo attive, solo non attive e tutte</p>
+
+        <h3>Statistiche</h3>
+        <P>Visualizzazione graficoe filtro per data</P>
 
     </p-dialog>
 </div>
