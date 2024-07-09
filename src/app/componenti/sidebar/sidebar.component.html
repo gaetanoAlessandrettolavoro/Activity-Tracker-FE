@@ -1,19 +1,19 @@
 <div *ngIf="isUser">
   <p-sidebar [(visible)]="sidebarVisible">
-    
+
     <br>
-    <li><i class="pi pi-home"></i> <a routerLink="/userhome" (click)="close()">Dashboard</a></li>
-  
+    <li><i class="pi pi-home"></i> <a routerLink="/dash-user" (click)="close()">Dashboard</a></li>
+
     <br>
     <li><i class="pi pi-calendar-times"></i> <a routerLink="/attivitaprecedentiutente" (click)="close()">Storico attività</a></li>
   <br>
   <li><i class="pi pi-user"></i> <a routerLink="/impostazioni" (click)="close()">Impostazioni utente</a></li>
-  
+
     <br>
     <li><i class="pi pi-sign-out"></i> <button style="background:none; border:none; padding:0;font-family: Verdana, Geneva, Tahoma, sans-serif;font-weight: bold; color:red; text-decoration:none; cursor:pointer;margin-bottom: 10px;" (click)="logout()">Logout</button></li>
-  
-  
-  
+
+
+
     <hr>
     <h1 style="font-size:25px; margin-top: 20px;">Contatti</h1>
     <br>
@@ -30,19 +30,19 @@
     </li>
   </p-sidebar>
   <p-button  (click)="sidebarVisible = true" icon="pi pi-bars"  [style]="{'background-color': 'white','color' : 'black','border':'none'}" />
-  
+
   </div>
-  
-  
+
+
   <ng-container *ngIf="isAdmin">
     <p-sidebar [(visible)]="sidebarVisible">
-      
+
       <br>
-      <li><i class="pi pi-home"></i> <a routerLink="/homeadmin" (click)="close()">Dashboard</a></li>
-  
+      <li><i class="pi pi-home"></i> <a routerLink="/dash-admin" (click)="close()">Dashboard</a></li>
+
       <br>
       <li><i class="pi pi-calendar-times"></i><a routerLink="/tutteattivita" (click)="close()">Tutte le attività</a></li>
-  
+
       <br>
       <li><i class="pi pi-table"></i><a routerLink="/tasks"  (click)="close()">Tipi di attività</a></li>
       <br>
@@ -54,14 +54,14 @@
       <br>
       <app-adminatoacceptusers></app-adminatoacceptusers>
       <br>
-  
+
       <br>
       <li><i class="pi pi-sign-out"></i> <button style="background:none; border:none; padding:0;font-family: Verdana, Geneva, Tahoma, sans-serif;font-weight: bold; color:red; text-decoration:none; cursor:pointer;margin-bottom: 10px;" (click)="logout()">Logout</button></li>
-    
-    
-    
+
+
+
       <hr>
-    
+
       <h1 style="font-size:25px; margin-top: 20px;">Contatti</h1>
       <br>
       <li>
@@ -77,10 +77,9 @@
       </li>
     </p-sidebar>
     <p-button  (click)="sidebarVisible = true" icon="pi pi-bars"  [style]="{'background-color': 'white','color' : 'black','border':'none'}" />
-    
-    
-  
+
+
+
   </ng-container>
-  
-  
-  
+
+
