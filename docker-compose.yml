@@ -1,0 +1,15 @@
+version: '3'
+services:
+  Activity-Tracker-FE:
+    container_name: Activity-Tracker-FE
+    image: activity-tracker-fe:jenkins
+    ports:
+      - "4200:4200"
+        #volumes:
+        #- "/home/admubuntu/jenkins-data/activitytrackerbe/config.env:/app/config.env"
+    networks:
+      - net
+
+networks:
+  net:
+
