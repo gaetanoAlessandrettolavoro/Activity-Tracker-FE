@@ -28,20 +28,20 @@ export const routes: Routes = [
     { path:'resetPassword/:id', component:NewpasswordComponent},
     { path: 'registrati', component: RegisterComponent,canActivate: [homeGuard,userGuard] },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'userhome', component: UserHomeComponent,canActivate:[authuserGuard] },
+    { path: 'dash-user', component: UserHomeComponent,canActivate:[authuserGuard] },
     { path: 'attivitaprecedentiutente', component: AttivitaRecentiUtenteComponent,canActivate:[authuserGuard] },
-    { path: 'homeadmin', component: AdminvisuserComponent, canActivate: [authGuard] },
+    { path: 'dash-admin', component: AdminvisuserComponent, canActivate: [authGuard] },
     { path: 'admin-vis-utente-specifico/:id', component: AdminVisUtenteSpecificoComponent, canActivate: [authGuard] },
     { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
     { path: 'utenti/:id', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
-    {path:'tasks', component:TaskComponent}, 
+    {path:'tasks', component:TaskComponent},
     { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
-    { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] }, 
-   
-   
- 
+    { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
 
-    // Questa rotta deve restare per ultima 
+
+
+
+    // Questa rotta deve restare per ultima
     { path:'**',component: NotFoundComponent }
 ];

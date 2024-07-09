@@ -9,7 +9,7 @@ export const userGuard: CanActivateFn = (route, state) => {
   if (!localStorage.getItem("utente") && !localStorage.getItem("admin")) {
     return true;
   } else {
-    router.navigate(['/userhome']);
+    router.navigate(['/dash-user']);
     return false;
   }
 };

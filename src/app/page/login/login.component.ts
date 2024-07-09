@@ -67,10 +67,10 @@ export class LoginComponent {
         next: (result: any) => {
           this.userService.getRole(result.data);
           if(result.data.role == "user"){
-            this.router.navigate(["/userhome"])
+            this.router.navigate(["/dash-user"])
           }
           if(result.data.role == "admin"){
-            this.router.navigate(["/homeadmin"])
+            this.router.navigate(["/dash-admin"])
           }
         },
         error: (err) => {
