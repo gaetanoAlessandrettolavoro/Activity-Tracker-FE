@@ -1,0 +1,14 @@
+<div class="flex-auto calendario">
+    <label for="icondisplay" class="font-bold block mb-2"> Data: </label>
+    <p-calendar 
+        [(ngModel)]="date" 
+        [iconDisplay]="'input'" 
+        [showIcon]="true" 
+        inputId="icondisplay"
+        dateFormat="dd-mm-yy"
+        (onSelect)="selectedDate()"
+        [maxDate]="today"/>
+</div>
+<div class="card" style="height: fit-content;">
+    <p-chart type="pie" [data]="data" [options]="options" (onDataSelect)="handleClick($event)" height="500" />
+</div>
