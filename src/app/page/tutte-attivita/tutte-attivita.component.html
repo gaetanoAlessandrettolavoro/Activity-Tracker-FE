@@ -30,6 +30,15 @@
   </div>
 </div>
   
+<style>
+  .truncate {
+    max-width: 10px; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+   
+  }
+</style>
 
 
 <div class="box">
@@ -85,7 +94,17 @@
       <td>{{ rowData.startTime | date: "dd/MM/yyyy" }}</td>
       <td>{{ rowData.startTime | date: "HH:mm" }}</td>
       <td>{{ rowData.endTime | date:"HH:mm" }}</td>
-      <td>{{ rowData.notes }}</td>
+      <td class="notes truncate">
+        <div style="display: flex; flex-direction: column-reverse;">
+          <span *ngIf="rowData.notes.length > 10">
+            {{ rowData.notes | slice:0:10 }}<span>...</span>
+            <app-modal [message]="rowData.notes"></app-modal>
+          </span>
+          <span *ngIf="rowData.notes.length <= 10">
+            {{ rowData.notes }}
+          </span>
+        </div>
+      </td>
       <td><edit-activity [activity]="activityToSend(rowData)" (activityEdited)="reload()" ></edit-activity></td>
       <td><delete-activity [activityID]="rowData._id" (deleted)="reload()" [disabled]="!rowData.isActive"></delete-activity></td>
       

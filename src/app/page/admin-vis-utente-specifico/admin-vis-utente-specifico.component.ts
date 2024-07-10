@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -15,13 +14,14 @@ import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
+import { ModalComponent } from "../../componenti/modal/modal.component";
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
     standalone: true,
     templateUrl: './admin-vis-utente-specifico.component.html',
     styleUrls: ['./admin-vis-utente-specifico.component.css'],
-    imports: [PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, DeleteActivityButtonComponent, ToastModule, UserTaskCreationComponent],
+    imports: [PaginatorModule, TableModule, ButtonModule, CommonModule, FormsModule, EditActivityButtonComponent, NgIf, DatePipe, DeleteActivityButtonComponent, ToastModule, UserTaskCreationComponent, ModalComponent],
     providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {

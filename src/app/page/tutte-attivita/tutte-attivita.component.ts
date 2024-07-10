@@ -18,6 +18,7 @@ import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { ModalComponent } from '../../componenti/modal/modal.component';
 
 
 interface rowItem extends Activity {
@@ -45,7 +46,8 @@ interface rowItem extends Activity {
     PaginatorModule,
     ReactiveFormsModule,
     ToastModule,
-    NgIf
+    NgIf,
+    ModalComponent
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrls: ['./tutte-attivita.component.css'],
@@ -287,8 +289,3 @@ export class TutteAttivitaComponent implements OnInit {
     this.filterActivities();
   }
 }
-
-
-
-
-
