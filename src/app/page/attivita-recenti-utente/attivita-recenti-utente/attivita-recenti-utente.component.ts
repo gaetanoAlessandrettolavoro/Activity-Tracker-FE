@@ -14,6 +14,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../../servizi/user-service.service';
 import { ErrorServiziService } from '../../../servizi/error-servizi.service';
+import { ModalComponent } from '../../../componenti/modal/modal.component';
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -29,7 +30,7 @@ import { ErrorServiziService } from '../../../servizi/error-servizi.service';
     FooterComponent,
     DeleteActivityButtonComponent,
     PaginatorModule,
-    ToastModule,
+    ToastModule,ModalComponent
   ],
   providers: [MessageService],
 })
@@ -139,3 +140,4 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     this.loadActivities(this.pageDefault, this.limit);
   }
 }
+
