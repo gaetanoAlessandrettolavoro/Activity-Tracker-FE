@@ -52,7 +52,8 @@ export class ImpostaNuovaPasswordComponent {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    } else if(statusCode === 400) {
+    } 
+    else if(statusCode === 400) {
       this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'Le password non corrispondono'});
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
@@ -77,6 +78,7 @@ export class ImpostaNuovaPasswordComponent {
           }, 1000);
         },
         error: (error: any) => {
+          console.log(error.status)
           this.showError(error.status);
         },
       });

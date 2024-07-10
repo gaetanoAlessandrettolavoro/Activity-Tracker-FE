@@ -44,11 +44,14 @@ export class NewpasswordComponent {
         this.router.navigate(['/login']);
       }, 3000);
     } else if(statusCode === 400) {
-      if(mess) {
-        this.messageService.add({severity:'error', summary:'Error', detail:'Il token è scaduto o non è valido. Contatta l\'amministratore'});
-      } else {
+      if(statusCode === 400 &&  mess !=  "Token is invalid or expired" ) {
         this.messageService.add({severity:'error', summary:'Error', detail:'La password non rispetta i criteri previsti'});
       }
+      else{
+      if(mess == "Token is invalid or expired"){
+        this.messageService.add({severity:'error', summary:'Error', detail:'Link non valido'});
+      }
+    }
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
@@ -81,7 +84,6 @@ export class NewpasswordComponent {
       console.log(postData);
       this.getToken()
       this.passwordnonuguali = false;
-      this.submit = true;
       this.campovuoto = false;
     } else {
       this.showError(1);
@@ -95,18 +97,20 @@ export class NewpasswordComponent {
       console.log(token)
     this.userService.resetPassword(token, { password: this.userForm.value.password,passwordConfirm: this.userForm.value.passwordc }).subscribe({
       next: (result: any) => {
-        this.messageService.add({severity:'success', summary:'Success', detail: 'Password modificata con successo. Ti reindirizzeremo al login'});
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
+        if(result.status == 'success'){
+          this.messageService.add({severity:'success', summary:'Success', detail: 'Password modificata con successo. Ti reindirizzeremo al login'});
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
+        }
+        console.log(result)
       },
       error: (error: any) => {
-        console.error(error)
-        this.showError(error.status, error.message);
+        console.log(error)
+        this.showError(error.status, error.error.message);
      }
     })
     });
   }
 
-}  
-
+} 
