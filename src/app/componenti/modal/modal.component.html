@@ -1,0 +1,12 @@
+<div>
+    <span  style="margin-top: 6px; font-size: 11px; cursor: pointer;" (click)="showDialog()">Mostra altro</span>    
+     <p-dialog 
+         header="Note" 
+         [modal]="true" 
+         [(visible)]="visible" 
+         [style]="{ width: '50rem' }" 
+         [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+         [maximizable]="true">
+         {{message}}
+     </p-dialog>
+ </div>
