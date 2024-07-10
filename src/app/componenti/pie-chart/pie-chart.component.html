@@ -1,14 +1,37 @@
-<div class="flex-auto calendario">
-    <label for="icondisplay" class="font-bold block mb-2"> Data: </label>
-    <p-calendar 
-        [(ngModel)]="date" 
-        [iconDisplay]="'input'" 
-        [showIcon]="true" 
-        inputId="icondisplay"
-        dateFormat="dd-mm-yy"
-        (onSelect)="selectedDate()"
-        [maxDate]="today"/>
+<div class="card-form">
+    <div class="flex-auto calendario">
+        <label for="icondisplay" class="font-bold block mb-2"> Data: </label>
+        <p-calendar 
+            [(ngModel)]="date" 
+            [iconDisplay]="'input'" 
+            [showIcon]="true" 
+            inputId="icondisplay"
+            dateFormat="dd-mm-yy"
+            [maxDate]="today"/>
+    </div>
+    <div class="flex-auto utente">
+        <label for="icondisplay" class="font-bold block mb-2"> Utente: </label>
+        <p-dropdown 
+            [options]="users()" 
+            [(ngModel)]="selectedUser" 
+            optionLabel="name"
+            placeholder="Scegli un utente"
+            styleClass="p-dropdown"
+            [style]="{'width': '100%'}" />
+    </div>
+    <button 
+        pButton
+        label="Cerca" 
+        style="background-color: #0f6daf; margin: auto;"
+        (click)="onClickSearch()">
+    </button>
 </div>
-<div class="card" style="height: fit-content;">
-    <p-chart type="pie" [data]="data" [options]="options" (onDataSelect)="handleClick($event)" height="500" />
-</div>
+
+<p-dialog
+    header="Attività di {{selectedUser.name}} ({{date | date:'dd-MM-yyyy'}})"
+    [modal]="true"
+    [(visible)]="pieVisible"
+    [style]="{'min-width': '40%', 'min-height': '30%', 'max-width': '95%'}">
+    <p-chart *ngIf="data" type="pie" [data]="data" [options]="options" (onDataSelect)="handleClick($event)" height="500" />
+    <h2 *ngIf="!data">Non ci sono attività per questo utente in questa data</h2>
+</p-dialog>

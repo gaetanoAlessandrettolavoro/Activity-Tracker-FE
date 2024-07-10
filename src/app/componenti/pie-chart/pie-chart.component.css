@@ -5,6 +5,13 @@
     flex-flow: column wrap;
 }
 
+.utente {
+    width: 100%;
+    margin: 0 auto 2em auto;
+    display: flex;
+    flex-flow: column wrap;
+}
+
 .card {
     width: 90%;
     margin: auto;
@@ -12,4 +19,14 @@
     padding:2em;
     border-radius: 1em;
     border: 1px solid black;
+}
+
+.card-form {
+    width: fit-content;
+    margin: 3em auto;
+    background-color: white;
+    padding:2em;
+    border-radius: 1em;
+    border: 1px solid black;
+    text-align: center;
 }
