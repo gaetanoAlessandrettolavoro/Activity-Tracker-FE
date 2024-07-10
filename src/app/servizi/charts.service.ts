@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { alias } from './defines';
+import { Activity } from '../models/activityModel';
 
 
 export interface BasicData {
@@ -16,6 +17,17 @@ export interface BasicData {
       borderWidth: number;
     },
   ];
+}
+
+export interface PieData {
+  labels: string[];
+  datasets: [
+    {
+      data: number[];
+      backgroundColor: string[];
+      hoverBackgroundColor: string[];
+    }
+  ]
 }
 
 @Injectable({
@@ -33,7 +45,6 @@ export class ChartsService {
       `http://${alias}:3000/api/v1/activities?isActive=true`;
     return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { withCredentials: true }).pipe(
       map((res: any) => {
-        console.log(res)
         if (res && res.data && res.data.document) {
           let taskLabels: string[] = [];
           for(let act of res.data.document) {
@@ -74,5 +85,54 @@ export class ChartsService {
         throw new Error(error.status)
       }),
     );
+  }
+
+  activitiesPerUsers(userID: string, fromDate: Date, toDate: Date): Observable<PieData>{
+    const documentStyle = getComputedStyle(document.documentElement);
+    const availableBgColors = [documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--red-500'), documentStyle.getPropertyValue('--pink-500'), documentStyle.getPropertyValue('--teal-500'), documentStyle.getPropertyValue('--purple-500'), documentStyle.getPropertyValue('--orange-500')];
+    const availableHBgColors =  [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--pink-400'), documentStyle.getPropertyValue('--teal-400'), documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--orange-400')];
+    const newFromDate = new Date(parseInt(fromDate.toLocaleDateString().split('/')[2]), parseInt(fromDate.toLocaleDateString().split('/')[1])-1, parseInt(fromDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
+    const newToDate = new Date(parseInt(toDate.toLocaleDateString().split('/')[2]), parseInt(toDate.toLocaleDateString().split('/')[1])-1, parseInt(toDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
+    const apiUrl = `http://${alias}:3000/api/v1/users/${userID}/activities?startTime[gte]=${newFromDate}&startTime[lt]=${newToDate}`;
+
+    return this.http.get(apiUrl, { withCredentials: true }).pipe(
+      map((res: any) => {
+        const activities: Activity[] = res.data.activities;
+        let data: any;
+        for (let i = 0; i< activities.length; i++) {
+          let indexToUse;
+          if(i > availableBgColors.length){
+            let newIndex = i/availableBgColors.length;
+            indexToUse = Math.floor(newIndex)
+          } else {
+            indexToUse = i;
+          }
+          if(i === 0){
+            data = {
+              //@ts-ignore
+              labels: [`${activities[i].taskName} (${activities[i].startTime.split('T')[1].slice(0,5).slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)})`],
+              datasets: [
+                {
+                  data: [activities[i].hours],
+                  backgroundColor: [availableBgColors[indexToUse]],
+                  hoverBackgroundColor: [availableHBgColors[indexToUse]]
+                }
+              ]
+            }
+          } else {
+            //@ts-ignore
+            data.labels.push(`${activities[i].taskName} (${activities[i].startTime.split('T')[1].slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)})`);
+            data.datasets[0].data.push(activities[i].hours);
+            data.datasets[0].backgroundColor.push(availableBgColors[indexToUse]);
+            data.datasets[0].hoverBackgroundColor.push(availableHBgColors[indexToUse]);
+          }
+          // console.log(data);
+        };
+        return data;
+      }),
+      catchError((error) => {
+        throw new Error(error);
+      })
+    )
   }
 }
