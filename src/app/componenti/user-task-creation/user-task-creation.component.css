@@ -69,6 +69,28 @@ input[type="time"] {
   cursor: pointer;
   border-radius: 3px;
 }
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-clear-button {
+  display: none;
+}
+
+input[type="date"]::-webkit-datetime-edit,
+input[type="time"]::-webkit-datetime-edit,
+input[type="date"]::-webkit-datetime-edit-text,
+input[type="date"]::-webkit-datetime-edit-year-field,
+input[type="date"]::-webkit-datetime-edit-month-field,
+input[type="date"]::-webkit-datetime-edit-day-field,
+input[type="time"]::-webkit-datetime-edit-hour-field,
+input[type="time"]::-webkit-datetime-edit-minute-field {
+  color: #ffffff;
+}
+input[type="date"]::-moz-placeholder,
+input[type="time"]::-moz-placeholder {
+  color: #ffffff;
+}
+
 
 @media only screen and (min-width: 375px) and (min-height: 667px) {
   form {
