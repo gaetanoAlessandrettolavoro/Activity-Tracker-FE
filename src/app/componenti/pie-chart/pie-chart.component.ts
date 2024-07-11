@@ -9,6 +9,8 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DatePipe, NgIf } from '@angular/common';
+import { Activity } from '../../models/activityModel';
+import { DividerModule } from 'primeng/divider';
 
 interface simpleUser {
   name: string;
@@ -18,7 +20,7 @@ interface simpleUser {
 @Component({
   selector: 'pie-chart',
   standalone: true,
-  imports: [CalendarModule, FormsModule, ChartModule, DropdownModule, ButtonModule, DialogModule, DatePipe, NgIf],
+  imports: [CalendarModule, FormsModule, ChartModule, DropdownModule, ButtonModule, DialogModule, DatePipe, NgIf, DividerModule],
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.css'
 })
@@ -31,7 +33,11 @@ export class PieChartComponent implements OnInit {
   protected data: PieData | undefined;
   protected users = signal<simpleUser[]>([]);
   protected selectedUser: simpleUser = {name: '', _id: ''};
+  protected indexDetail = signal<number>(0);
+  protected activityDetail = signal<Activity>({} as Activity);
+
   protected pieVisible: boolean = false;
+  protected detailVisible: boolean = false;
 
   constructor(private chartsService: ChartsService, private adminService: AdminserviceService){}
 
@@ -86,7 +92,28 @@ export class PieChartComponent implements OnInit {
   }
 
   handleClick(event: any){
-    console.log(event);
+    this.indexDetail.set(event.element.index);
+    const time: string | undefined = this.data?.labels[this.indexDetail()].split('|')[1].trim();
+    const startTime: string | undefined = time?.split('-')[0].trim();
+    const endTime: string | undefined = time?.split('-')[1].trim();
+    // console.log(startTime, endTime);
+    if(this.date && startTime && endTime){
+      const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), parseInt(startTime.split(':')[0])+2, parseInt(startTime.split(':')[1]));
+      const endDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), parseInt(endTime.split(':')[0])+2, parseInt(endTime.split(':')[1]));
+      this.adminService.getOneActivity(this.selectedUser._id, startDate, endDate).subscribe({
+        next: (res: any) => {
+          this.activityDetail.set(res.data.activities[0])
+          this.detailVisible = true;
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      })
+    }
+  }
+
+  closeDetail() {
+    this.detailVisible = false;
   }
 
   ngOnInit() {

@@ -34,6 +34,13 @@
     [(visible)]="pieVisible"
     [style]="{'min-width': '40%', 'min-height': '50%', 'max-width': '95%'}">
     <p-chart *ngIf="data" type="pie" [data]="data" [options]="options" (onDataSelect)="handleClick($event)" height="500" width="500" [style]="{'height': '20em'}" />
+    <ng-container *ngIf="detailVisible">
+        <p-divider />
+        <h3>{{activityDetail().taskName}}</h3>
+        <p style="width: 100%; overflow-wrap: break-word"><b>Orario: </b>{{activityDetail().startTime | date:'HH:mm'}} - {{activityDetail().endTime | date:'HH:mm'}}</p>
+        <p style="width: 100%; overflow-wrap: break-word"><b>Note: </b>{{activityDetail().notes}}</p>
+        <a class="close-detail" (click)="closeDetail()">Chiudi</a>
+    </ng-container>
 </p-dialog>
 <p-dialog
     *ngIf="!data"

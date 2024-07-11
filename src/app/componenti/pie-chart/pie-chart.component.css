@@ -30,3 +30,9 @@
     border: 1px solid black;
     text-align: center;
 }
+
+.close-detail {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+}
