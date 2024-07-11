@@ -1,42 +1,256 @@
-/* Stile per la navbar */
-div {
-  background-color: white;
+/* Navbar autenticata e non autenticata */
+.barra {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
 
-.navbar {
-  padding-top: 2px;
-}
-
-.left {
+ .destra {
   display: flex;
   align-items: center;
-  margin-left: 5px;
-  margin-top: 10px;
+}
+
+.barra .sinistra {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.barra .sinistra img {
+  height: 40px;
+  margin-left: 10px;
+}
+
+.barra .destra {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.barra .destra .email {
+  margin-left: 20px;
+}
+
+.barra .destra app-dropdown-menu {
+  margin-left: 20px;
+}
+
+.barra .destra app-user-manual {
+  margin-left: 40px;
+  font-size: 1.1em; /* Slightly larger font size for the help modal */
+}
+
+/* Media Queries */
+
+/* iPhone SE, iPhone 12 Pro, iPad Mini, iPad Air, iPad Pro, Surface Pro 7, Asus Zenbook Fold, Next Hub, Next Hub Max */
+@media (min-width: 375px) and (max-width: 1280px) {
+  .barra {
+    flex-direction: row;
+    padding: 10px 20px;
+  }
+
+  .barra .sinistra img {
+    width: auto;
+  }
+
+  .barra .destra .email {
+    margin-left: 10px;
+  }
+
+  .barra .destra app-dropdown-menu {
+    margin-left: 10px;
+  }
+
+  .barra .destra app-user-manual {
+    margin-left: 10px;
+  }
+}
+
+/* iPhone XR, iPhone 14 Pro Max, Pixel 7, Samsung Galaxy S8, Samsung Galaxy S20, Surface Duo, Galaxy Z Fold5, Samsung Galaxy A51/71 */
+@media (max-width: 896px) {
+  .barra {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .barra .sinistra, .barra .destra {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .barra .sinistra img {
+    width: 100px;
+  }
+
+  .barra .destra .email {
+    margin-left: 0;
+  }
+
+  .barra .destra app-dropdown-menu {
+    margin-left: 0;
+  }
+
+  .barra .destra app-user-manual {
+    margin-left: 0;
+  }
+}
+
+/* Larger devices and higher resolutions */
+@media (min-width: 1025px) {
+  .barra {
+    flex-direction: row;
+    padding: 10px 40px;
+  }
+
+  .barra .sinistra img {
+    width: 180px;
+  }
+
+  .barra .destra .email {
+    margin-left: 20px;
+  }
+
+  .barra .destra app-dropdown-menu {
+    margin-left: 20px;
+  }
+
+  .barra .destra app-user-manual {
+    margin-left: 20px;
+  }
+}
+
+
+
+
+
+
+
+/*navbar non autenticata*/
+.navbar {
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.left, .right, .bottoni {
+  display: flex;
+  align-items: center;
 }
 
 .left img {
+  width: auto;
   height: 40px;
-  /* Mantiene l'immagine del logo non arrotondata */
 }
 
-.right {
-  justify-content: end;
+.right .userEmail {
+  margin-left: 20px;
+}
+
+.bottoni {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -25px;
+}
+
+button {
+  background-color: #0f6caf;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 20px;
+  padding: 7px 14px;
+}
+
+.titolo {
   display: flex;
   align-items: center;
-  flex-direction: row-reverse;
-  margin-top: -40px;
-  margin-bottom: 30px;
 }
 
-.userEmail {
-  display: flex;
-  margin-right: 10px;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+.bottoni .register-btn {
+  margin-top: 0;
 }
 
-/* Stile specifico per l'immagine utente nel dropdown */
-p-avatar img {
-  border-radius: 50%;
-  width: 40px; /* Imposta una larghezza fissa */
-  height: 40px; /* Imposta un'altezza fissa */
+.bottoni .login-btn {
+  margin-top: 0;
+}
+
+/* Media Queries */
+
+/* iPhone SE, iPhone 12 Pro, iPad Mini, iPad Air, iPad Pro, Surface Pro 7, Asus Zenbook Fold, Next Hub, Next Hub Max */
+@media (min-width: 375px) and (max-width: 1280px) {
+  .navbar {
+    flex-direction: row;
+    padding: 10px 20px;
+  }
+
+  img {
+    width: auto;
+  }
+
+  button {
+    width: auto;
+  }
+
+  .bottoni {
+    flex-direction: row;
+    margin-top: 0;
+  }
+}
+
+/* iPhone XR, iPhone 14 Pro Max, Pixel 7, Samsung Galaxy S8, Samsung Galaxy S20, Surface Duo, Galaxy Z Fold5, Samsung Galaxy A51/71 */
+@media (max-width: 896px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .left, .right, .bottoni {
+    width: 100%;
+    justify-content: center;
+  }
+
+  img {
+    width: 100px;
+  }
+
+  button {
+    width: 80px;
+    margin: 5px 0;
+  }
+
+  .titolo {
+    text-align: center;
+  }
+
+  .bottoni .register-btn {
+    margin-top: 0;
+  }
+
+  .bottoni .login-btn {
+    margin-top: 0;
+  }
+}
+
+/* Larger devices and higher resolutions */
+@media (min-width: 1025px) {
+  .navbar {
+    flex-direction: row;
+    padding: 10px 40px;
+  }
+
+  .left img {
+    width: 180px;
+  }
+
+  button {
+    width: auto;
+  }
 }
