@@ -1,72 +1,60 @@
-<div *ngIf="isAdmin" class="navbar">
-  <div class="left">
-    <app-sidebar></app-sidebar>
-    <img src="../assets/Logo.png" />
-  </div>
-
-  <div class="right">
-    <app-user-manual></app-user-manual>
-    <app-dropdown-menu></app-dropdown-menu>
-
-    <div class="userEmail">{{ userEmail }}</div>
-  </div>
-</div>
-<div *ngIf="isUser" class="navbar">
-  <div class="left">
-    <app-sidebar></app-sidebar>
-    <img src="../assets/Logo.png" />
-  </div>
-
-  <div class="right">
-    <app-user-manual></app-user-manual>
-    <app-dropdown-menu></app-dropdown-menu>
-
-    <div class="userEmail">{{ userEmail }}</div>
-  </div>
-</div>
-
-<div *ngIf="isNotAuthenticated" class="navbar">
-  <div
-    style="display: flex; justify-content: space-between; align-items: center"
-  >
-    <h1 style="margin-left: 5px">Activity Tracker</h1>
-    <img src="../assets/Logo.png" />
-    <div
-      class="right"
-      style="display: flex; align-items: center; margin-right: 5px"
-    >
-      <button
-        (click)="navigateToRegister()"
-        style="
-          background-color: #0f6caf;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          height: 40px;
-          margin-right: 20px;
-          margin-top: 55px;
-          cursor: pointer;
-          padding: 7px 14px;
-        "
-      >
-        Registrati
-      </button>
-      <button
-        (click)="navigateToLogin()"
-        style="
-          background-color: #0f6caf;
-          color: white;
-          border: none;
-          border-radius: 8px;
-          height: 40px;
-          margin-right: 20px;
-          margin-top: 55px;
-          cursor: pointer;
-          padding: 7px 14px;
-        "
-      >
-        Accedi
-      </button>
+<div class="VF">
+  <div *ngIf="isAdmin" class="barra">
+    <div class="sinistra">
+      <app-sidebar></app-sidebar>
+      <img src="../assets/Logo.png" />
     </div>
+
+    <div class="destra">
+      <div class="email">{{ userEmail }}</div>
+      <app-dropdown-menu></app-dropdown-menu>
+      <app-user-manual></app-user-manual>
+    </div>
+  </div>
+
+  <div *ngIf="isUser" class="barra">
+    <div class="sinistra">
+      <app-sidebar></app-sidebar>
+      <img src="../assets/Logo.png" />
+    </div>
+
+    <div class="destra">
+      <div class="email">{{ userEmail }}</div>
+      <app-dropdown-menu></app-dropdown-menu>
+      <app-user-manual></app-user-manual>
+    </div>
+  </div>
+</div>
+<div *ngIf="isNotAuthenticated" class="navbar">
+  <div class="titolo">
+    <h1 style="margin-left: 5px">Activity Tracker</h1>
+  </div>
+  <div class="logo">
+    <img src="../assets/Logo.png" />
+  </div>
+  <div class="bottoni">
+    <button class="register-btn" (click)="navigateToRegister()" style="
+            background-color: #0f6caf;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            height: 40px;
+            margin-right: 20px;
+            cursor: pointer;
+          ">
+      Registrati
+    </button>
+    <button class="login-btn" (click)="navigateToLogin()" style="
+            background-color: #0f6caf;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            height: 40px;
+            margin-right: 20px;
+            cursor: pointer;
+            padding: 7px 14px;
+          ">
+      Accedi
+    </button>
   </div>
 </div>
