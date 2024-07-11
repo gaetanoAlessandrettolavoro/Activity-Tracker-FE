@@ -110,7 +110,7 @@ export class ChartsService {
           if(i === 0){
             data = {
               //@ts-ignore
-              labels: [`${activities[i].taskName} (${activities[i].startTime.split('T')[1].slice(0,5).slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)})`],
+              labels: [`${activities[i].taskName} | ${activities[i].startTime.split('T')[1].slice(0,5).slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)}`],
               datasets: [
                 {
                   data: [activities[i].hours],
@@ -121,7 +121,7 @@ export class ChartsService {
             }
           } else {
             //@ts-ignore
-            data.labels.push(`${activities[i].taskName} (${activities[i].startTime.split('T')[1].slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)})`);
+            data.labels.push(`${activities[i].taskName} | ${activities[i].startTime.split('T')[1].slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)}`);
             data.datasets[0].data.push(activities[i].hours);
             data.datasets[0].backgroundColor.push(availableBgColors[indexToUse]);
             data.datasets[0].hoverBackgroundColor.push(availableHBgColors[indexToUse]);
