@@ -30,7 +30,7 @@ export class PieChartComponent implements OnInit {
   protected options: any;
   protected data: PieData | undefined;
   protected users = signal<simpleUser[]>([]);
-  protected selectedUser: simpleUser = {name: '', _id: '667c3301922cb5b570b8bd13'};
+  protected selectedUser: simpleUser = {name: '', _id: ''};
   protected pieVisible: boolean = false;
 
   constructor(private chartsService: ChartsService, private adminService: AdminserviceService){}
@@ -47,6 +47,10 @@ export class PieChartComponent implements OnInit {
         console.error(error);
       }
     })
+  }
+
+  onHideDialog() {
+    this.selectedUser = {name: '', _id: ''};
   }
 
   getChart(): void {
@@ -76,7 +80,9 @@ export class PieChartComponent implements OnInit {
   }
 
   onClickSearch() {
-    this.getChart();
+    if(this.selectedUser.name !== '' && this.selectedUser._id !== ''){
+      this.getChart();
+    }
   }
 
   handleClick(event: any){
