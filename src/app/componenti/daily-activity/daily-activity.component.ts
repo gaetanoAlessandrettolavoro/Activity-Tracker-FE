@@ -19,6 +19,7 @@ import { Router } from '@angular/router';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'daily-activity',
@@ -34,7 +35,8 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
     UserTaskCreationComponent,
     ToastModule,
     PaginatorModule,
-    ButtonModule
+    ButtonModule,
+    ModalComponent
   ],
   templateUrl: './daily-activity.component.html',
   styleUrl: './daily-activity.component.css',
@@ -141,3 +143,4 @@ export class DailyActivityComponent {
   }
 
 }
+

@@ -1,62 +1,63 @@
-<p-toast />
+<p-toast></p-toast>
 <div *ngIf="nodailyactivity">
   <div style="margin: 10px 0 10px 50px;">
     <app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
   </div>
-  <no-daily-activity />
+  <no-daily-activity></no-daily-activity>
 </div>
 <div *ngIf="dailyactivitycomponent">
   <div style="width: 90%; margin: auto auto 10px auto; display: flex; flex-direction: row;">
     <app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
     <h1 style="width:fit-content; margin: auto">Attività giornaliera</h1>
-    <app-user-task-creation [hidden]="true"/>
+    <app-user-task-creation [hidden]="true"></app-user-task-creation>
   </div>
-<div class="card">
-  <p-table [value]="oggettistampati" [tableStyle]="{ 'min-width': '30rem' }">
-    <ng-template pTemplate="header">
+  <div class="card">
+    <p-table [value]="oggettistampati" [tableStyle]="{ 'min-width': '30rem' }">
+      <ng-template pTemplate="header">
         <tr>
-           <th class="taskName" class="activities">
-                Attività
-                
-            </th>
-            <th pSortableColumn="startTime" class="time">
-                Data
-                <p-sortIcon field="startTime"></p-sortIcon>
-            </th>
-            <th pSortableColumn="startTime" class="time">
-                Orario di inizio
-                <p-sortIcon field="startTime"></p-sortIcon>
-            </th>
-            <th class="endTime" class="time">
-                Orario di fine
-                
-            </th>
-            <th class="notes" class="notes">
-                Note
-               
-            </th>
-            <th class="buttons"></th>
+          <th class="taskName activities">Attività</th>
+          <th pSortableColumn="startTime" class="time">
+            Data
+            <p-sortIcon field="startTime"></p-sortIcon>
+          </th>
+          <th pSortableColumn="startTime" class="time">
+            Orario di inizio
+            <p-sortIcon field="startTime"></p-sortIcon>
+          </th>
+          <th class="endTime time">Orario di fine</th>
+          <th class="notes notes">Note</th>
+          <th class="buttons"></th>
         </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-dailyActivity>
+      </ng-template>
+      <ng-template pTemplate="body" let-dailyActivity>
         <tr>
-            <td>{{ dailyActivity.taskName }}</td>
-            <td>{{ dailyActivity.startTime | date:"dd/MM/yyyy" }}</td>
-            <td>{{ dailyActivity.startTime | date: 'HH:mm' }}</td>
-            <td>{{ dailyActivity.endTime | date: 'HH:mm' }}</td>
-            <td>{{ dailyActivity.notes }}</td>
-            <td class="buttons">
-                <edit-activity [activity]="dailyActivity" (activityEdited)="fetchActivities()"></edit-activity>
-                <delete-activity [activityID]="dailyActivity._id" (deleted)="fetchActivities()"></delete-activity>
-            </td>
+          <td>{{ dailyActivity.taskName }}</td>
+          <td>{{ dailyActivity.startTime | date: "dd/MM/yyyy" }}</td>
+          <td>{{ dailyActivity.startTime | date: "HH:mm" }}</td>
+          <td>{{ dailyActivity.endTime | date: "HH:mm" }}</td>
+          <td>
+            <div style="display: flex; flex-direction: column-reverse; margin-top:20px;">
+              <span *ngIf="dailyActivity.notes.length > 10">
+                {{ dailyActivity.notes | slice: 0: 10 }}<span>...</span>
+                <app-modal [message]="dailyActivity.notes"></app-modal>
+              </span>
+              <span *ngIf="dailyActivity.notes.length <= 10">
+                {{ dailyActivity.notes }}
+              </span>
+            </div>
+          </td>
+          <td class="buttons">
+            <edit-activity [activity]="dailyActivity" (activityEdited)="fetchActivities()"></edit-activity>
+            <delete-activity [activityID]="dailyActivity._id" (deleted)="fetchActivities()"></delete-activity>
+          </td>
         </tr>
-    </ng-template>
-</p-table>
+      </ng-template>
+    </p-table>
 
     <div style="display: flex; justify-content: flex-end; background-color: white; padding-right: 1em;">
-        {{conteggio}}
+      {{conteggio}}
     </div>
-</div>
+  </div>
   <div class="card flex justify-content-center">
     <p-paginator
       (onPageChange)="onPageChange($event)"
@@ -64,7 +65,6 @@
       [rows]="limit"
       [totalRecords]="totalRecords"
     ></p-paginator>
-    <!-- totalRecords will need to be modified based on the actual database data -->
   </div>
   <div style="display: flex; justify-content: center; flex-direction: column; align-items: center; background-color: white; width: 90%; margin: auto">
     <input
