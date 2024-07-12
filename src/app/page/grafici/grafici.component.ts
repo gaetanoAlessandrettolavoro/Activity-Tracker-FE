@@ -4,11 +4,12 @@ import { PieChartComponent } from '../../componenti/pie-chart/pie-chart.componen
 import { MenuItem } from 'primeng/api';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { NgIf } from '@angular/common';
+import { StackedBarComponent } from '../../componenti/stacked-bar/stacked-bar.component';
 
 @Component({
   selector: 'app-grafici',
   standalone: true,
-  imports: [BasicChartComponent, PieChartComponent, TabMenuModule, NgIf],
+  imports: [BasicChartComponent, PieChartComponent, TabMenuModule, NgIf, StackedBarComponent],
   templateUrl: './grafici.component.html',
   styleUrl: './grafici.component.css'
 })
