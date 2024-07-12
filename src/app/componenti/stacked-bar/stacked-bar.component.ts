@@ -6,6 +6,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { AdminserviceService } from '../../servizi/adminservice.service';
 import { User } from '../../models/userModel';
 import { ChartsService } from '../../servizi/charts.service';
+import { ButtonModule } from 'primeng/button';
 
 interface SimpleUser {
   name: string;
@@ -15,18 +16,15 @@ interface SimpleUser {
 @Component({
   selector: 'stacked-bar',
   standalone: true,
-  imports: [ChartModule, CalendarModule, FormsModule, DropdownModule],
+  imports: [ChartModule, CalendarModule, FormsModule, DropdownModule, ButtonModule],
   templateUrl: './stacked-bar.component.html',
   styleUrl: './stacked-bar.component.css',
 })
 export class StackedBarComponent {
   protected documentStyle = getComputedStyle(document.documentElement);
   protected textColor = this.documentStyle.getPropertyValue('--text-color');
-  protected textColorSecondary = this.documentStyle.getPropertyValue(
-    '--text-color-secondary'
-  );
-  protected surfaceBorder =
-    this.documentStyle.getPropertyValue('--surface-border');
+  protected textColorSecondary = this.documentStyle.getPropertyValue('--text-color-secondary');
+  protected surfaceBorder = this.documentStyle.getPropertyValue('--surface-border');
 
   protected today: Date = new Date();
   protected dates: Date[] | undefined;
@@ -74,7 +72,23 @@ export class StackedBarComponent {
 
   constructor(private adminService: AdminserviceService, private chartsService: ChartsService) {}
 
-  selectedDates() {}
+  getChart(userID: string, fromDate: Date, toDate: Date){
+    this.chartsService.hoursPerUser(userID, fromDate, toDate).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.data = res;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
+  }
+
+  onClickSearch() {
+    if(this.dates && this.selectedUser().name){
+      this.getChart(this.selectedUser()._id, this.dates[0], this.dates[1]);
+    }
+  }
 
   ngOnInit() {
     this.adminService.getUsers().subscribe({
@@ -90,15 +104,5 @@ export class StackedBarComponent {
         console.error(err);
       },
     });
-
-    this.chartsService.hoursPerUser('667c3301922cb5b570b8bd13', new Date(2024, 6, 1), new Date(2024, 6, 11)).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.data = res;
-      },
-      error: (err) => {
-        console.error(err);
-      }
-    })
   }
 }
