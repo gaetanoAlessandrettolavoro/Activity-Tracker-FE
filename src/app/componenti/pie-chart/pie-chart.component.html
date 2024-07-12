@@ -1,0 +1,50 @@
+<div class="ricerca">
+    <div>
+        <label for="icondisplay" class="font-bold block mb-2"> Data: </label>
+        <p-calendar 
+            [(ngModel)]="date" 
+            [iconDisplay]="'input'" 
+            [showIcon]="true" 
+            inputId="icondisplay"
+            dateFormat="dd-mm-yy"
+            [maxDate]="today"
+            [readonlyInput]="true" />
+    </div>
+    <div>
+        <label for="icondisplay" class="font-bold block mb-2"> Utente: </label>
+        <p-dropdown 
+            [options]="users()" 
+            [(ngModel)]="selectedUser" 
+            optionLabel="name"
+            placeholder="Scegli un utente"
+            styleClass="p-dropdown" />
+    </div>
+    <div class="button">
+        <button 
+            pButton
+            label="Cerca" 
+            style="background-color: #0f6daf; margin: auto;"
+            (click)="onClickSearch()">
+        </button>
+    </div>
+</div>
+
+<div class="chart">
+    <ng-container *ngIf="!data">
+        @if(!date || !selectedUser._id){
+            <h2>Seleziona una data e un utente</h2>
+        } @else if (date && selectedUser._id){
+            @if(!searched && !data){
+                <h2>Seleziona una data e un utente</h2>
+            }
+            @if(!data && searched){
+                <h2>Nessuna attività per questo utente in questa data</h2>
+            }
+        }
+    </ng-container>
+    <p-chart *ngIf="data" type="pie" [data]="data" [options]="options" (onDataSelect)="handleClick($event)" height="500" width="500" [style]="{'max-width': '100%', 'padding': '1em 0.5em'}" />
+    <p-dialog [(visible)]="detailVisible" [modal]="true" [style]="{ width: '25rem' }" header="{{activityDetail().taskName}}">
+        <p style="width: 100%; overflow-wrap: break-word"><b>Orario: </b>{{activityDetail().startTime | date:'HH:mm'}} - {{activityDetail().endTime | date:'HH:mm'}}</p>
+        <p style="width: 100%; overflow-wrap: break-word"><b>Note: </b>{{activityDetail().notes}}</p>
+    </p-dialog>
+</div>

@@ -42,6 +42,11 @@ export class AdminserviceService {
       return this.http.get<any>(`http://${alias}:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true&sort=-startTime`,{ withCredentials: true })
     }
 
+  getOneActivity(userID: string, startTime: Date, endTime: Date){
+    let apiUrl = `http://${alias}:3000/api/v1/users/${userID}/activities?startTime[gte]=${startTime.toISOString()}&startTime[lte]=${startTime.toISOString()}&endTime[gte]=${endTime.toISOString()}&endTime[lte]=${endTime.toISOString()}`
+    return this.http.get(apiUrl, { withCredentials: true })
+  }
+
   patchUser(id: string, data: User): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.patch<any>(url, data, { withCredentials: true });

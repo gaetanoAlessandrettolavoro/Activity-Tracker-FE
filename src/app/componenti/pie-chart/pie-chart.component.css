@@ -1,0 +1,92 @@
+.card {
+    width: 90%;
+    margin: auto;
+    background-color: white;
+    padding:2em;
+    border-radius: 1em;
+    border: 1px solid black;
+}
+
+.chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40%;
+    width:fit-content;
+    max-width: 95%;
+    margin: auto;
+    background-color: white;
+    text-align: center;
+    min-height: 10em;
+}
+
+.ricerca {
+    width:fit-content;
+    margin: 0.5em auto 2em auto;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.ricerca > div {
+    width: fit-content;
+    display: flex;
+    flex-flow: column nowrap;
+    margin: 0 10px;
+}
+
+:host ::ng-deep .p-calendar {
+    width: 250px
+}
+
+:host ::ng-deep .p-dropdown {
+    width: 250px
+}
+
+.button {
+    align-self: end
+}
+
+.close-detail {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+}
+
+@media screen and (540px <= width < 640px){
+    :host ::ng-deep .p-calendar {
+        width: 200px;
+    }
+    :host ::ng-deep .p-dropdown {
+        width: 200px;
+    }
+}
+
+@media screen and (450px <= width < 540px) {
+    :host ::ng-deep .p-calendar {
+        width: 200px;
+    }
+    :host ::ng-deep .p-dropdown {
+        width: 200px;
+    }
+    .button{
+        padding-top: 1em;
+    }
+    .button > button {
+        width: 100px;
+    }
+}
+
+@media screen and (width < 450px){
+    .ricerca {
+        flex-flow: column nowrap;
+        justify-content: space-around;
+    }
+    .button{
+        padding-top: 1em;
+    }
+    .button > button {
+        width: 250px;
+        margin:auto;
+    }
+}

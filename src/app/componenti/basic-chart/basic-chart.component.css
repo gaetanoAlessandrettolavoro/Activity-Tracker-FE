@@ -9,7 +9,7 @@
 
 .calendario {
     width:fit-content;
-    margin: 0 auto 2em auto;
+    margin: 0.5em auto 2em auto;;
     display: flex;
     flex-flow: column wrap;
 }

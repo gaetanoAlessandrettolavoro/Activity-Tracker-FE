@@ -1,1 +1,16 @@
-<basic-chart></basic-chart>
+<p-tabMenu 
+    [model]="items" 
+    [activeItem]="activeItem" 
+    (activeItemChange)="onActiveItemChange($event)" />
+
+<ng-container *ngIf="this.activeItem.label === 'Task/Giorno'">
+    <basic-chart></basic-chart>
+</ng-container>
+
+<ng-container *ngIf="this.activeItem.label === 'Utente/Giorno'">
+    <pie-chart></pie-chart>
+</ng-container>
+
+<ng-container *ngIf="this.activeItem.label === 'Ore di attività'">
+    <stacked-bar></stacked-bar>
+</ng-container>

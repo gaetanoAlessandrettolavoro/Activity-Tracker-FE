@@ -1,0 +1,3 @@
+:host ::ng-deep .p-tabmenu-nav-container {
+    position: inherit;
+}

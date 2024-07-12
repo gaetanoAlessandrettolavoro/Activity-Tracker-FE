@@ -1,0 +1,35 @@
+<div class="flex-auto ricerca">
+    <div>
+        <label for="icondisplay" class="font-bold block mb-2"> Data: </label>
+        <p-calendar 
+            [(ngModel)]="dates" 
+            [iconDisplay]="'input'" 
+            [showIcon]="true" 
+            inputId="icondisplay"
+            dateFormat="dd-mm-yy"
+            selectionMode="range"
+            [readonlyInput]="true"
+            [maxDate]="today" />
+    </div>
+    <div>
+        <label for="user" class="font-bold block mb-2"> Utente: </label>
+        <p-dropdown 
+            [options]="users()" 
+            [(ngModel)]="selectedUser" 
+            optionLabel="name"
+            inputId="user"
+            placeholder="Scegli un utente"
+            styleClass="p-dropdown" />
+    </div>
+    <div class="button">
+        <button 
+            pButton
+            label="Cerca" 
+            style="background-color: #0f6daf; margin-bottom: auto;"
+            (click)="onClickSearch()">
+        </button>
+    </div>
+</div>
+<div class="card">
+    <p-chart type="bar" [data]="data" [options]="options" />
+</div>

@@ -8,7 +8,8 @@
         inputId="icondisplay"
         dateFormat="dd-mm-yy"
         (onSelect)="selectedDate()"
-        [maxDate]="today" />
+        [maxDate]="today"
+        [readonlyInput]="true" />
 </div>
 
 <div class="card">
@@ -27,7 +28,7 @@
         <ng-container *ngFor="let act of detailsToPrint()">
             <h4>{{act.user.firstName}} {{act.user.lastName}}</h4>
             <p><b>Tempo:</b> {{act.activity.hours}}h ({{act.activity.startTime | date:'HH:mm'}}-{{act.activity.endTime | date:'HH:mm'}})</p>
-            <p><b>Note:</b> {{act.activity.notes}}</p>
+            <p style="width: 100%; overflow-wrap: break-word"><b>Note:</b> {{act.activity.notes}}</p>
             <p-divider />
         </ng-container>
     </div>
