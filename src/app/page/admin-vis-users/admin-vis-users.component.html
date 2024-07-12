@@ -39,9 +39,9 @@
           <button class="activity-button" (click)="getActivity(rowData._id)">
             Attività
           </button>
-          <app-user-task-creation [userID]="rowData._id" />
+          <app-user-task-creation  class="taskcreation-button"[userID]="rowData._id" />
           <button class="info-button" (click)="editUser(rowData._id)"><i class="pi pi-user-edit"></i></button>
-          <delete-user [user]="rowData" (userDeleted)="userDeleted()" />
+          <delete-user class="delete-button" [user]="rowData" (userDeleted)="userDeleted()" />
         </td>
       </tr>
     </ng-template>
