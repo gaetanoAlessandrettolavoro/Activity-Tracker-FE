@@ -1,5 +1,5 @@
-<div class="card-form">
-    <div class="flex-auto calendario">
+<div class="ricerca">
+    <div>
         <label for="icondisplay" class="font-bold block mb-2"> Data: </label>
         <p-calendar 
             [(ngModel)]="date" 
@@ -10,22 +10,23 @@
             [maxDate]="today"
             [readonlyInput]="true" />
     </div>
-    <div class="flex-auto utente">
+    <div>
         <label for="icondisplay" class="font-bold block mb-2"> Utente: </label>
         <p-dropdown 
             [options]="users()" 
             [(ngModel)]="selectedUser" 
             optionLabel="name"
             placeholder="Scegli un utente"
-            styleClass="p-dropdown"
-            [style]="{'width': '100%'}" />
+            styleClass="p-dropdown" />
     </div>
-    <button 
-        pButton
-        label="Cerca" 
-        style="background-color: #0f6daf; margin: auto;"
-        (click)="onClickSearch()">
-    </button>
+    <div class="button">
+        <button 
+            pButton
+            label="Cerca" 
+            style="background-color: #0f6daf; margin: auto;"
+            (click)="onClickSearch()">
+        </button>
+    </div>
 </div>
 
 <p-dialog
