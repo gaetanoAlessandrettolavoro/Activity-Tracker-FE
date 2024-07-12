@@ -11,6 +11,7 @@ import { DialogModule } from 'primeng/dialog';
 import { DatePipe, NgIf } from '@angular/common';
 import { Activity } from '../../models/activityModel';
 import { DividerModule } from 'primeng/divider';
+import { SidebarModule } from 'primeng/sidebar';
 
 interface simpleUser {
   name: string;
@@ -20,7 +21,7 @@ interface simpleUser {
 @Component({
   selector: 'pie-chart',
   standalone: true,
-  imports: [CalendarModule, FormsModule, ChartModule, DropdownModule, ButtonModule, DialogModule, DatePipe, NgIf, DividerModule],
+  imports: [CalendarModule, FormsModule, ChartModule, DropdownModule, ButtonModule, DialogModule, DatePipe, NgIf],
   templateUrl: './pie-chart.component.html',
   styleUrl: './pie-chart.component.css'
 })
@@ -31,12 +32,12 @@ export class PieChartComponent implements OnInit {
   protected today: Date = new Date();
   protected options: any;
   protected data: PieData | undefined;
+  protected searched: boolean = false;
   protected users = signal<simpleUser[]>([]);
-  protected selectedUser: simpleUser = {name: '', _id: ''};
+  protected selectedUser: simpleUser = {} as simpleUser;
   protected indexDetail = signal<number>(0);
   protected activityDetail = signal<Activity>({} as Activity);
 
-  protected pieVisible: boolean = false;
   protected detailVisible: boolean = false;
 
   constructor(private chartsService: ChartsService, private adminService: AdminserviceService){}
@@ -67,7 +68,7 @@ export class PieChartComponent implements OnInit {
       this.chartsService.activitiesPerUsers(this.selectedUser._id, selectedDate, nextDay).subscribe({
         next: (res) => {
           this.data = res;
-          this.pieVisible = true;
+          this.searched = true;
 
           this.options = {
             plugins: {

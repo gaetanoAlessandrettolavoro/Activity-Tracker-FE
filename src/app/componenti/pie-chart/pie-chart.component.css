@@ -7,6 +7,19 @@
     border: 1px solid black;
 }
 
+.chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40%;
+    width:fit-content;
+    max-width: 95%;
+    margin: auto;
+    background-color: white;
+    text-align: center;
+    min-height: 10em;
+}
+
 .ricerca {
     width:fit-content;
     margin: 0.5em auto 2em auto;
