@@ -154,7 +154,7 @@ export class TutteAttivitaComponent implements OnInit {
       )
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
-        
+        console.log(result)
         for (let activity of result.data.document) {
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
