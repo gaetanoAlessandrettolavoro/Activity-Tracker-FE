@@ -99,8 +99,8 @@ export class PieChartComponent implements OnInit {
     const endTime: string | undefined = time?.split('-')[1].trim();
     // console.log(startTime, endTime);
     if(this.date && startTime && endTime){
-      const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), parseInt(startTime.split(':')[0])+2, parseInt(startTime.split(':')[1]));
-      const endDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), parseInt(endTime.split(':')[0])+2, parseInt(endTime.split(':')[1]));
+      const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), parseInt(startTime.split(':')[0]), parseInt(startTime.split(':')[1]));
+      const endDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), parseInt(endTime.split(':')[0]), parseInt(endTime.split(':')[1]));
       this.adminService.getOneActivity(this.selectedUser._id, startDate, endDate).subscribe({
         next: (res: any) => {
           this.activityDetail.set(res.data.activities[0])
