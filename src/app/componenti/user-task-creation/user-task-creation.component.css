@@ -68,6 +68,7 @@ input[type="time"] {
   padding: 5px;
   cursor: pointer;
   border-radius: 3px;
+  margin-left: 5px;
 }
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-clear-button,
