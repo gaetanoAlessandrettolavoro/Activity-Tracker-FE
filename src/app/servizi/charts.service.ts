@@ -105,6 +105,7 @@ export class ChartsService {
     const availableHBgColors =  [documentStyle.getPropertyValue('--blue-400'), documentStyle.getPropertyValue('--yellow-400'), documentStyle.getPropertyValue('--green-400'), documentStyle.getPropertyValue('--red-400'), documentStyle.getPropertyValue('--pink-400'), documentStyle.getPropertyValue('--teal-400'), documentStyle.getPropertyValue('--purple-400'), documentStyle.getPropertyValue('--orange-400')];
     const newFromDate = new Date(parseInt(fromDate.toLocaleDateString().split('/')[2]), parseInt(fromDate.toLocaleDateString().split('/')[1])-1, parseInt(fromDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
     const newToDate = new Date(parseInt(toDate.toLocaleDateString().split('/')[2]), parseInt(toDate.toLocaleDateString().split('/')[1])-1, parseInt(toDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
+    console.log(newFromDate, newToDate)
     const apiUrl = `http://${alias}:3000/api/v1/users/${userID}/activities?startTime[gte]=${newFromDate}&startTime[lt]=${newToDate}`;
 
     return this.http.get(apiUrl, { withCredentials: true }).pipe(
@@ -122,7 +123,7 @@ export class ChartsService {
           if(i === 0){
             data = {
               //@ts-ignore
-              labels: [`${activities[i].taskName} | ${activities[i].startTime.split('T')[1].slice(0,5).slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)}`],
+              labels: [`${activities[i].taskName} | ${activities[i].startTime.split('T')[1].slice(0,5).replace(activities[i].startTime.split('T')[1].slice(0,5).split(':')[0], (parseInt(activities[i].startTime.split('T')[1].slice(0,5).split(':')[0])+2).toString())} - ${activities[i].endTime.split('T')[1].slice(0,5).replace(activities[i].endTime.split('T')[1].slice(0,5).split(':')[0], (parseInt(activities[i].endTime.split('T')[1].slice(0,5).split(':')[0])+2).toString())}`],
               datasets: [
                 {
                   data: [activities[i].hours],
@@ -133,7 +134,7 @@ export class ChartsService {
             }
           } else {
             //@ts-ignore
-            data.labels.push(`${activities[i].taskName} | ${activities[i].startTime.split('T')[1].slice(0,5)} - ${activities[i].endTime.split('T')[1].slice(0,5)}`);
+            data.labels.push(`${activities[i].taskName} | ${activities[i].startTime.split('T')[1].slice(0,5).replace(activities[i].startTime.split('T')[1].slice(0,5).split(':')[0], (parseInt(activities[i].startTime.split('T')[1].slice(0,5).split(':')[0])+2).toString())} - ${activities[i].endTime.split('T')[1].slice(0,5).replace(activities[i].endTime.split('T')[1].slice(0,5).split(':')[0], (parseInt(activities[i].endTime.split('T')[1].slice(0,5).split(':')[0])+2).toString())}`);
             data.datasets[0].data.push(activities[i].hours);
             data.datasets[0].backgroundColor.push(availableBgColors[indexToUse]);
             data.datasets[0].hoverBackgroundColor.push(availableHBgColors[indexToUse]);
