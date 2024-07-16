@@ -2,8 +2,11 @@
     <p-button (click)="showDialog()" icon="pi pi-question-circle" [rounded]="true" [text]="true"
         [style]="{'color': '#0F6DAF'}" />
     <p-dialog [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-        [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
-
+        [style]="{ width: '50vw'  }" [draggable]="false" [resizable]="false">
+        
+        <div class="title" style="font-size: 20px; color:rgb(255, 0, 0); width:fit-content;margin: 0 auto">
+            <h1>Manuale</h1>
+        </div>
         <h3><span class="custom-span">Utente</span></h3>
 
         <h3>Come registrarsi?</h3>
