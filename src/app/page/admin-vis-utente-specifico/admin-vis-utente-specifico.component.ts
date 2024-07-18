@@ -25,16 +25,20 @@ import { ModalComponent } from "../../componenti/modal/modal.component";
     providers: [MessageService]
 })
 export class AdminVisUtenteSpecificoComponent implements OnInit {
-  apiUrl: any;
+  fromDate: any;
+  toDate: any;
+
+
   constructor(private route: ActivatedRoute, private router: Router, private admin: AdminserviceService, private messageService: MessageService, private userService: UserServiceService, private errors: ErrorServiziService) { }
+  
   first: number = 0;
   limitDefault = 5;
   limit: number = this.limitDefault;
   pageDefault = 1;
   activities: Activity[] = [];
-  idunivoco! : string;
+  idunivoco!: string;
   userEmail: string = ''; 
-  conteggio! : any;
+  conteggio!: any;
   totalRecords: number = 1;
 
   cols = [
@@ -46,13 +50,13 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   ];
 
   showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    } else if(statusCode === 400 || statusCode === 404) {      
+    } else if (statusCode === 400 || statusCode === 404) {      
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.router.navigate(["**"]);
@@ -62,39 +66,64 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     }
   }
 
-  onDeleteActivity() {
-    this.route.params.subscribe(params => {
-      const id = params['id'];
-      this.idunivoco = id
-      console.log(this.limitDefault)
-      this.fetchActivities(id, this.pageDefault, this.limitDefault);
-      this.admin.getOneUser(id).subscribe({
-        next:(res)=>{this.userEmail=res.data.email},
-        error: (err) => this.showError(err.status)
-      })
-    });
-  }
-
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      this.idunivoco = id
-      console.log(this.limitDefault)
+      console.log(id);
+      this.idunivoco = id;
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
       this.admin.getOneUser(id).subscribe({
-        next:(res)=>{this.userEmail=res.data.email},
-        error: (err) => this.showError(err.status)
-      })
+        next: (res) => { this.userEmail = res.data.email; },
+        error: (err) => { this.showError(err.status); }
+      });
+    });
+  }
+
+  fetchActivities(id: string, page: number, limit: number): void {
+    this.activities = []; 
+    this.admin.getOneUserActivity(id, page, limit).subscribe({
+      next: (result: any) => {
+        console.log(result);
+        this.conteggio = result.results + " di " + result.counters.totalDocuments;
+        this.totalRecords = result.counters.totalDocuments;
+        this.activities = result.data.activities.map((element: any) => ({
+          taskName: element.taskName,
+          startTime: new Date(element.startTime),
+          endTime: new Date(element.endTime),
+          notes: element.notes,
+          taskID: element.taskID,
+          _id: element._id,
+          isActive: element.isActive
+        }));
+      },
+      error: (err) => {
+        this.showError(err.status);
+      }
+    });
+  }
+
+  onPageChange(event: any): void {
+    const pageNumber = (event.page + 1);
+    this.pageDefault = pageNumber;
+    console.log(this.pageDefault);
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      console.log(this.limit);
+      if (this.limit == undefined) {
+        this.fetchActivities(id, pageNumber, this.limitDefault);
+      } else {
+        this.fetchActivities(id, pageNumber, this.limit);
+      }
     });
   }
 
   changeLimit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      if(this.limit == undefined) {
+      if (this.limit == undefined) {
         this.fetchActivities(id, this.pageDefault, this.limitDefault);
       } else {
-        if(this.limit > this.totalRecords){
+        if (this.limit > this.totalRecords) {
           this.limit = this.totalRecords;
         } else {
           this.fetchActivities(id, this.pageDefault, this.limit);
@@ -103,55 +132,57 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     });
   }
 
-  onPageChange(event: any): void {
-    const pageNumber = (event.page + 1);
-    this.pageDefault = pageNumber;
-    console.log(this.pageDefault)
-    this.route.params.subscribe(params => {
-      const id = params['id'];
-      console.log(this.limit)
-      if(this.limit == undefined)
-      this.fetchActivities(id, pageNumber, this.limitDefault);
-    else{
-      this.fetchActivities(id, pageNumber, this.limit);
-    }
-    });
-  }
-
   onEditActivity() {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      this.idunivoco = id
-      console.log(this.limitDefault)
+      this.idunivoco = id;
+      console.log(this.limitDefault);
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
       this.admin.getOneUser(id).subscribe({
-        next:(res)=>{this.userEmail=res.data.email},
+        next: (res) => { this.userEmail = res.data.email; },
         error: (err) => this.showError(err.status)
-      })
+      });
     });
   }
 
-  private fetchActivities(id: string, page: number, limit: number): void {
-    this.activities = []; 
-  this.admin.getOneUserActivity(id, page, limit).subscribe({
-    next: (result: any) => {
-      console.log(result)
-      this.conteggio = result.results + " di " + result.counters.totalDocuments;
-      this.totalRecords = result.counters.totalDocuments;
-      this.activities = result.data.activities.map((element: any) => ({
-        taskName: element.taskName,
-        startTime: new Date(element.startTime),
-        endTime: new Date(element.endTime),
-        notes: element.notes,
-        taskID: element.taskID,
-        _id: element._id,
-        isActive: element.isActive
-      }));
-    },
-    error: (err) => {
-      this.showError(err.status);
-    }
-  });
+  onDeleteActivity() {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      this.idunivoco = id;
+      console.log(this.limitDefault);
+      this.fetchActivities(id, this.pageDefault, this.limitDefault);
+      this.admin.getOneUser(id).subscribe({
+        next: (res) => { this.userEmail = res.data.email; },
+        error: (err) => this.showError(err.status)
+      });
+    });
+  }
+
+  applyFilter(): void {
+    
+  console.log(this.fromDate);
+  console.log(this.toDate);
+      this.admin.filterActivitiesByDate(this.idunivoco, this.fromDate, this.toDate, this.pageDefault, this.limitDefault,).subscribe({
+        next: (result: any) => {
+          console.log(result);
+          this.conteggio = result.results + " di " + result.counters.totalDocuments;
+          this.totalRecords = result.counters.totalDocuments;
+          this.activities = result.data.activities.map((element: any) => ({
+            taskName: element.taskName,
+            startTime: new Date(element.startTime),
+            endTime: new Date(element.endTime),
+            notes: element.notes,
+            taskID: element.taskID,
+            _id: element._id,
+            isActive: element.isActive
+          }));
+        },
+        error: (err: any) => {
+          this.showError(err.status);
+        }
+      });
   
-}
+   
+  }
+  
 }

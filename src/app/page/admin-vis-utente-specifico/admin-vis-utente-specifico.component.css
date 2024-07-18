@@ -1,10 +1,10 @@
 .times {
-    max-width: 5em
+    max-width: 5em;
 }
 
 .buttons {
-    display:flex;
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
 }
 
 .table-title {
@@ -14,11 +14,10 @@
     margin-bottom: 20px;
 }
 
-
-.table-container{
-    margin-top:35px;
-    margin-left:5%;
-    margin-right:5%;
+.filter-container {
+    margin-top: 35px;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .info-button,
@@ -43,12 +42,47 @@
 .delete-button {
     background-color: orangered;
     color: black;
-    margin-right: -50px;
+    margin-right: -50px; /* Rivedi questo valore se necessario */
+}
+input[type="text"] {
+    padding: 5px;
+    font-family: "Roboto Mono", monospace;
+    color: #000000;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
 }
 
-@media (max-width: 150px) {
-    .p-table {
-        font-size: 18px;
-        padding: 8px 12px;
+::-webkit-calendar-picker-indicator {
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+input[type="date"] {
+    background-color: #0080ff;
+    padding: 5px;
+    font-family: "Roboto Mono", monospace;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+@media (max-width: 768px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter-container .date-input {
+        margin-bottom: 10px;
+    }
+
+    .buttons {
+        flex-wrap: wrap;
+    }
+
+    .buttons app-user-task-creation {
+        margin-left: 0;
+        margin-top: 10px; /* Spazio tra i pulsanti Modifica/Elimina e il componente Aggiungi Attività su dispositivi mobili */
     }
 }
