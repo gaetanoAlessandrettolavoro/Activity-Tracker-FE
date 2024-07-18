@@ -85,6 +85,9 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
       next: (result: any) => {
         console.log(result);
         this.conteggio = result.results + " di " + result.counters.totalDocuments;
+       if(result.counters.documentsActive == 0){
+        this.router.navigate(['./dash-admin'])
+       }
         this.totalRecords = result.counters.totalDocuments;
         this.activities = result.data.activities.map((element: any) => ({
           taskName: element.taskName,
@@ -150,12 +153,13 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
       const id = params['id'];
       this.idunivoco = id;
       console.log(this.limitDefault);
-      this.fetchActivities(id, this.pageDefault, this.limitDefault);
-      this.admin.getOneUser(id).subscribe({
+      this.fetchActivities(id, this.pageDefault, this.limitDefault); 
+     })
+      this.admin.getOneUser(this.idunivoco).subscribe({
         next: (res) => { this.userEmail = res.data.email; },
         error: (err) => this.showError(err.status)
       });
-    });
+    
   }
 
   applyFilter(): void {
