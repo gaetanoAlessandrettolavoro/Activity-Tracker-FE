@@ -1,20 +1,18 @@
-<p-toast></p-toast>
-
 <h1 class="table-title">Attività di {{ userEmail }}</h1>
 <div class="table-container">
-  <div style="margin-bottom: 10px; display: flex; justify-content: flex-end;">
-    <app-user-task-creation [userID]="idunivoco"></app-user-task-creation>
+    <div class="filter-container">
+        <div class="date-input"style="left:1000px; position:absolute;">
+            <label for="fromDate">Da:</label>
+            <input id="fromDate" type="date" placeholder="Da data"  [(ngModel)]="fromDate" (change)="applyFilter()" class="custom-date-input" style="margin-right: 20px;">
+        
+            <label for="toDate">A:</label>
+            <input id="toDate" type="date" placeholder="A data"  [(ngModel)]="toDate" (change)="applyFilter()" class="custom-date-input">
+        </div>
+    <div style="margin-bottom: 10px; display: flex; justify-content: flex-end;">
+        <app-user-task-creation [userID]="idunivoco"></app-user-task-creation>
+    </div>
   </div>
-  <style>
-    .truncate {
-      max-width: 10px; 
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-     
-    }
-  </style>
-  
+</div>
   <p-table
     [value]="activities"
     sortField="firstName"
@@ -40,7 +38,7 @@
         <th class="endTime times">
           Orario di fine
         </th>
-        <th class="notes "[style]="{'size':'20px'}">
+        <th class="notes" [style]="{'size':'20px'}">
           Note
         </th>
         <th></th>
@@ -92,4 +90,3 @@
     <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{ 'background-color': '#0F6DAF' }"></p-button>
   </div>
   <br>
-</div>

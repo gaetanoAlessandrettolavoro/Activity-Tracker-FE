@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/userModel';
 import { alias } from './defines';
+
 
 @Injectable({
   providedIn: 'root',
@@ -111,4 +112,21 @@ export class AdminserviceService {
   rejectUser(id: any) {
    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{ withCredentials: true });
   }
+  filterActivitiesByDate(userId: string, fromDate: Date, toDate: Date, page: number, limit: number): Observable<any> {
+    let url = `${this.apiUrl}/${userId}/activities?`;
+if (fromDate && toDate){
+  url += `startTime[gte]=${fromDate}&endTime[lte]=${toDate}`
+}
+
+    if (fromDate &&!toDate) {
+        url += `startTime[gte]=${fromDate}`;
+
+    }
+    if(toDate &&!fromDate) {
+      url += `startTime[gte]=${new Date(1970,1)}&endTime[lte]=${toDate}`;
+    }
+    url += `&page=${page}&limit=${limit}`;
+
+    return this.http.get(url, { withCredentials: true });
+}
 }
