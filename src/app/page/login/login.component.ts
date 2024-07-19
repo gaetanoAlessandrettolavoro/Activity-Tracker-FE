@@ -17,6 +17,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +50,8 @@ export class LoginComponent {
     private router: Router,
     private messageService: MessageService,
     private userService: UserServiceService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private loggings:LoggingService
   ) {}
 
   visible: boolean = false;
@@ -62,43 +64,46 @@ export class LoginComponent {
         email: this.userForm.value.username ?? '',
         password: this.userForm.value.password ?? '',
       };
-
+  
+      this.loggings.log('Attempting login with email: ' + postData.email); // Logga il tentativo di login
+  
       this.userService.login(postData).subscribe({
         next: (result: any) => {
+          this.loggings.log('Login successful for email: ' + postData.email); // Logga il successo del login
           this.userService.getRole(result.data);
-          if(result.data.role == "user"){
-            this.router.navigate(["/dash-user"])
+          if (result.data.role == "user") {
+            this.router.navigate(["/dash-user"]);
           }
-          if(result.data.role == "admin"){
-            this.router.navigate(["/dash-admin"])
+          if (result.data.role == "admin") {
+            this.router.navigate(["/dash-admin"]);
           }
         },
         error: (err) => {
-            let numberValue = parseInt(
-              localStorage.getItem('submit') ?? '0',
-              10
-            );
-
-            if (numberValue < 4) {
-              numberValue++; // Incrementa il contatore di tentativi
-              localStorage.setItem('submit', numberValue.toString());
-            }
-
-            if(numberValue == 4){
-              setTimeout(() => {
-                localStorage.removeItem('submit');
-              }, 5000);
-            }
-
-            if (numberValue < 4) {
-              this.showError(err.status);
-            }
+          this.loggings.error('Login failed for email: ' + postData.email + ' with error: ' + err.message); // Logga l'errore del login
+  
+          let numberValue = parseInt(localStorage.getItem('submit') ?? '0', 10);
+  
+          if (numberValue < 4) {
+            numberValue++; // Incrementa il contatore di tentativi
+            localStorage.setItem('submit', numberValue.toString());
           }
+  
+          if (numberValue == 4) {
+            setTimeout(() => {
+              localStorage.removeItem('submit');
+            }, 5000);
+          }
+  
+          if (numberValue < 4) {
+            this.showError(err.status);
+          }
+        }
       });
     } else {
       this.showError(400);
     }
   }
+  
 
   navigateToRegister() {
     this.router.navigate(['registrati']);
