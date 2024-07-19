@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -19,6 +19,7 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 import { MessageService } from 'primeng/api';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { UserServiceService } from '../../servizi/user-service.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 
 
@@ -65,9 +66,14 @@ export class AdminatoacceptusersComponent implements OnInit {
   buttonlampeggiante : any
 
 
-  constructor(private admin : AdminserviceService, private messageService: MessageService, private errors: ErrorServiziService, private userService: UserServiceService, private router: Router) {}
+  constructor(private admin : AdminserviceService, private messageService: MessageService, private errors: ErrorServiziService, private userService: UserServiceService, private router: Router, private logging: LoggingService) {}
 
-  showError(statusCode: number) {
+  showError(statusCode: number, errorMessage: string, user?: string) {
+    if(user) {
+      this.logging.error(`Error occurred creating ${user} task.\nError ${statusCode} with message: ${errorMessage}`);
+    } else {
+      this.logging.error(`Error occurred fetching users to accept.\nError ${statusCode} with message: ${errorMessage}`)
+    }
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -94,14 +100,13 @@ export class AdminatoacceptusersComponent implements OnInit {
         this.usersfalse = false;
         this.buttonlampeggiante = true;
         this.conteggio.set(`(${value.results})`);
-        console.log('fetchData {else}')
       }
       this.products = value.data.document.map((element: any) => {
         return { name: element.firstName, cognome: element.lastName, codicefiscale: element.codiceFiscale, email: element.email, id: element._id };
       });
     },
     error: (err) => {
-      this.showError(err.status);
+      this.showError(err.status, err.error.message);
     }
   });
 };
@@ -109,31 +114,32 @@ export class AdminatoacceptusersComponent implements OnInit {
 
 interval = setInterval(() => {
   this.fetchData(); 
-}, 36000); 
+}, 60 * 1000); 
 
-  accetta(id:any){
-    this.admin.acceptedUser(id).subscribe({
+  accetta(user: any){
+    this.admin.acceptedUser(user.id).subscribe({
       next: (result) => {
         this.conteggio.set('');
+        this.logging.info(`User ${user.name} ${user.cognome} accepted`);
         this.fetchData();
       },
       error: (error) => {
-        this.showError(error.status)
+        this.showError(error.status, error.error.message, `${user.name} ${user.cognome}`);
         this.conteggio.set('');
         this.fetchData();
       }
     })
   }
 
-  rifiuta(id:any){
-    this.admin.rejectUser(id).subscribe({
+  rifiuta(user:any){
+    this.admin.rejectUser(user.id).subscribe({
       next: (result) => {
         this.conteggio.set('');
+        this.logging.info(`User ${user.name} ${user.cognome} rejected`);
         this.fetchData();
       },
       error: (error) => {
-        console.error(error)
-        this.showError(error.status)
+        this.showError(error.status, error.error.message)
         this.conteggio.set('');
         this.fetchData();
       }
