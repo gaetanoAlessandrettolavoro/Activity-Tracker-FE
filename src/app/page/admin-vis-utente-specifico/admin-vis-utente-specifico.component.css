@@ -5,6 +5,7 @@
 .buttons {
     display: flex;
     align-items: center;
+    justify-content: flex-end; 
 }
 
 .table-title {
@@ -15,9 +16,18 @@
 }
 
 .filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
     margin-top: 35px;
     margin-left: 5%;
     margin-right: 5%;
+}
+
+.date-input {
+    margin-right: 10px;
+    left:60%;
+    position: sticky; 
 }
 
 .info-button,
@@ -42,8 +52,9 @@
 .delete-button {
     background-color: orangered;
     color: black;
-    margin-right: -50px; /* Rivedi questo valore se necessario */
+    margin-right: -50px; 
 }
+
 input[type="text"] {
     padding: 5px;
     font-family: "Roboto Mono", monospace;
@@ -58,6 +69,7 @@ input[type="text"] {
     cursor: pointer;
     border-radius: 3px;
 }
+
 input[type="date"] {
     background-color: #0080ff;
     padding: 5px;
@@ -67,6 +79,7 @@ input[type="date"] {
     outline: none;
     border-radius: 5px;
 }
+
 @media (max-width: 768px) {
     .filter-container {
         flex-direction: column;
@@ -79,10 +92,32 @@ input[type="date"] {
 
     .buttons {
         flex-wrap: wrap;
+        justify-content: flex-start; 
     }
 
     .buttons app-user-task-creation {
         margin-left: 0;
-        margin-top: 10px; /* Spazio tra i pulsanti Modifica/Elimina e il componente Aggiungi Attività su dispositivi mobili */
+        margin-top: 10px; 
     }
+}
+@media (max-width: 890px) {
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+
+
+    input[type="date"] {
+        background-color: #0080ff;
+        padding: 5px;
+        font-family: "Roboto Mono", monospace;
+        color: #ffffff;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+       display:flex;
+    }
+    
+
 }
