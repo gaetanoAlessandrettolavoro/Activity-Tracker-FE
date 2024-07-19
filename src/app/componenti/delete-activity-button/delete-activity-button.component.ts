@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { NgIf } from '@angular/common';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'delete-activity',
@@ -16,17 +17,24 @@ import { NgIf } from '@angular/common';
   providers: [MessageService],
 })
 export class DeleteActivityButtonComponent {
-
-  @Input({required: true}) activityID!: string;
+  @Input({ required: true }) activityID!: string;
 
   @Input() disabled: boolean = false;
 
   @Output() deleted = new EventEmitter<boolean>();
-  
-  constructor(private activitiesservice:ActivitiesServicesService, private router: Router, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService) {}
 
-  showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+  constructor(
+    private activitiesservice: ActivitiesServicesService,
+    private router: Router,
+    private userService: UserServiceService,
+    private messageService: MessageService,
+    private errors: ErrorServiziService,
+    private logging: LoggingService
+  ) {}
+
+  showError(statusCode: number, errorMessage: string, activityID: string) {
+    this.logging.error(`Error occurred deleting activity with id: ${activityID}.\nError ${statusCode} with message: ${errorMessage}`);
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
@@ -37,16 +45,22 @@ export class DeleteActivityButtonComponent {
     }
   }
 
-  deleteActivity(){
-    if(confirm("Sei sicuro di voler eliminare l'attività?")){
+  deleteActivity() {
+    if (confirm("Sei sicuro di voler eliminare l'attività?")) {
       this.activitiesservice.deleteActivity(this.activityID).subscribe({
         next: (result) => {
-          this.messageService.add({severity: 'success', summary:'Success', detail:'Attività eliminata'});
+          this.logging.info(`Activity with id '${this.activityID}' successfully deleted`)
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Attività eliminata',
+          });
           this.deleted.emit(true);
         },
-        error:(error) => {
-          this.showError(error.status)
-        }});
+        error: (error) => {
+          this.showError(error.status, error.error.message, this.activityID);
+        },
+      });
     }
   }
 }
