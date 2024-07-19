@@ -8,6 +8,7 @@ import { User } from '../../models/userModel';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'app-admin-mode-dati-user-spe',
@@ -27,7 +28,7 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
   })
   
-  constructor(private adminService: AdminserviceService, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private route: ActivatedRoute) {}
+  constructor(private logging:LoggingService,private adminService: AdminserviceService, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private route: ActivatedRoute) {}
 
   showError(statusCode: number) {
     if(statusCode === 401 || statusCode === 429) {
@@ -38,6 +39,7 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
       }, 3000);
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
+      this.logging.error(`error occurred with status code: ${statusCode}`);
     }
   }
 
@@ -48,14 +50,19 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
         this.adminService.getOneUser(id).subscribe({
           next: (result) => {
             this.user.set(result.data);
+            this.logging.log(`fetched user info for ID: ${id}`);
           },
           error: (error) => {
             this.showError(error.status);
+            this.logging.error(`failed to fetch user info for ID: ${id} with error: ${error.message}`);
           }
-        })
+        });
       },
-      error: (error) => this.showError(error.status)
-    })
+      error: (error) => {
+        this.showError(error.status);
+        this.logging.error(`failed to process route params with error: ${error.message}`);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -75,7 +82,9 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
           }
           this.adminService.patchUser(id, updatedUser).subscribe({
             next: (res) => {
+              this.logging.log(`user updated successfully with ID: ${id}`);
               console.log(res);
+             
               this.messageService.add({
                 severity: 'success',
                 summary: 'Modifiche salvate',
@@ -83,28 +92,38 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
               });
               this.getInfo();
             },
-            error: (error) => this.showError(error.status)
+            error: (error) => { this.showError(error.status);
+              this.logging.error(`failed to update user with ID: ${id} with error: ${error.message}`);
+            }
           });
         },
-        error: (error) => this.showError(error.status)
-      })
-    } else {
-      this.showError(1);
+            
+    
+        error: (error) => { this.showError(error.status);
+          this.logging.error(`failed to process route params for update with error: ${error.message}`);
+        }
+      });
+    } else { this.showError(1);
+      this.logging.error('User form is invalid on save attempt'); 
     }
   }
 
   changePwd(){
     this.userService.forgotPassword(this.user().email).subscribe({
       next: (res) => {
+        this.logging.log(`pèassword reset email sent for user: ${this.user().email}`);
         console.log(res);
         this.messageService.add({severity: 'success', summary:'Success', detail:'L\'email per il reset della password è stata inviata.'})
       },
-      error: (error) => console.error(error)
-    })
+      error: (error) => { this.logging.error(`ftailed to send password reset email for user: ${this.user().email} with error: ${error.message}`); // Logga l'errore
+        console.error(error);
+      }
+    });
   }
 
   close(){
-    this.router.navigate(['/'])
+    this.router.navigate(['/']);
+    this.logging.log('navigated to home');
   }
 
 }

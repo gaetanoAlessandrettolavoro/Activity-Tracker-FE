@@ -6,12 +6,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'app-imposta-nuova-password',
@@ -28,7 +27,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
     ToastModule
   ],
   templateUrl: './imposta-nuova-password.component.html',
-  styleUrls: ['./imposta-nuova-password.component.css'], // Corrected the property name from styleUrl to styleUrls
+  styleUrls: ['./imposta-nuova-password.component.css'],
   providers: [MessageService],
 })
 export class ImpostaNuovaPasswordComponent {
@@ -42,7 +41,8 @@ export class ImpostaNuovaPasswordComponent {
     private router: Router,
     private userService: UserServiceService,
     private messageService: MessageService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private logging: LoggingService
   ) {}
 
   showError(statusCode: number) {
@@ -52,12 +52,12 @@ export class ImpostaNuovaPasswordComponent {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    } 
-    else if(statusCode === 400) {
+    } else if (statusCode === 400) {
       this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'Le password non corrispondono'});
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
+    this.logging.log(`Errore: ${statusCode}`);
   }
 
   chiudi() {
@@ -72,17 +72,19 @@ export class ImpostaNuovaPasswordComponent {
         passwordConfirm: this.userForm.value.confirmPassword,
       }).subscribe({
         next: (result: any) => {
-          this.showError(250);
+          this.messageService.add({ severity: 'success', summary: 'Successo', detail: 'Password aggiornata con successo' });
+          this.logging.log('Password aggiornata con successo');
           setTimeout(() => {
             this.router.navigate(['/impostazioni']);
           }, 1000);
         },
         error: (error: any) => {
-          console.log(error.status)
+          this.logging.error(`Errore durante l'aggiornamento della password: ${error.status}`);
           this.showError(error.status);
         },
       });
     } else {
+      this.logging.warn('Form non valido');
       this.showError(1);
     }
   }

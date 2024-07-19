@@ -15,6 +15,7 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
 import { ModalComponent } from "../../componenti/modal/modal.component";
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
     selector: 'app-admin-vis-utente-specifico',
@@ -28,9 +29,16 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   fromDate: any;
   toDate: any;
 
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private admin: AdminserviceService,
+    private messageService: MessageService,
+    private userService: UserServiceService,
+    private errors: ErrorServiziService,
+    private logging: LoggingService 
+  ) {}
 
-  constructor(private route: ActivatedRoute, private router: Router, private admin: AdminserviceService, private messageService: MessageService, private userService: UserServiceService, private errors: ErrorServiziService) { }
-  
   first: number = 0;
   limitDefault = 5;
   limit: number = this.limitDefault;
@@ -64,17 +72,20 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
+    this.logging.error(`Error occurred with status code: ${statusCode}`);
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const id = params['id'];
-      console.log(id);
       this.idunivoco = id;
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
       this.admin.getOneUser(id).subscribe({
         next: (res) => { this.userEmail = res.data.email; },
-        error: (err) => { this.showError(err.status); }
+        error: (err) => { 
+          this.showError(err.status);
+          this.logging.error(`Failed to fetch user data with error: ${err.message}`);
+        }
       });
     });
   }
@@ -83,11 +94,10 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
     this.activities = []; 
     this.admin.getOneUserActivity(id, page, limit).subscribe({
       next: (result: any) => {
-        console.log(result);
         this.conteggio = result.results + " di " + result.counters.totalDocuments;
-       if(result.counters.documentsActive == 0){
-        this.router.navigate(['./dash-admin'])
-       }
+        if (result.counters.documentsActive == 0) {
+          this.router.navigate(['./dash-admin']);
+        }
         this.totalRecords = result.counters.totalDocuments;
         this.activities = result.data.activities.map((element: any) => ({
           taskName: element.taskName,
@@ -98,9 +108,11 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
           _id: element._id,
           isActive: element.isActive
         }));
+        this.logging.log('Activities fetched successfully');
       },
       error: (err) => {
         this.showError(err.status);
+        this.logging.error(`Failed to fetch activities with error: ${err.message}`);
       }
     });
   }
@@ -108,16 +120,15 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
   onPageChange(event: any): void {
     const pageNumber = (event.page + 1);
     this.pageDefault = pageNumber;
-    console.log(this.pageDefault);
     this.route.params.subscribe(params => {
       const id = params['id'];
-      console.log(this.limit);
       if (this.limit == undefined) {
         this.fetchActivities(id, pageNumber, this.limitDefault);
       } else {
         this.fetchActivities(id, pageNumber, this.limit);
       }
     });
+    this.logging.log(`Page changed to: ${this.pageDefault}`);
   }
 
   changeLimit(): void {
@@ -133,60 +144,61 @@ export class AdminVisUtenteSpecificoComponent implements OnInit {
         }
       }
     });
+    this.logging.log(`Limit changed to: ${this.limit}`);
   }
 
   onEditActivity() {
     this.route.params.subscribe(params => {
       const id = params['id'];
       this.idunivoco = id;
-      console.log(this.limitDefault);
       this.fetchActivities(id, this.pageDefault, this.limitDefault);
       this.admin.getOneUser(id).subscribe({
         next: (res) => { this.userEmail = res.data.email; },
-        error: (err) => this.showError(err.status)
+        error: (err) => {
+          this.showError(err.status);
+          this.logging.error(`Failed to edit activity with error: ${err.message}`);
+        }
       });
     });
+    this.logging.log('Edit activity triggered');
   }
 
   onDeleteActivity() {
     this.route.params.subscribe(params => {
       const id = params['id'];
       this.idunivoco = id;
-      console.log(this.limitDefault);
-      this.fetchActivities(id, this.pageDefault, this.limitDefault); 
-     })
-      this.admin.getOneUser(this.idunivoco).subscribe({
-        next: (res) => { this.userEmail = res.data.email; },
-        error: (err) => this.showError(err.status)
-      });
-    
+      this.fetchActivities(id, this.pageDefault, this.limitDefault);
+    });
+    this.admin.getOneUser(this.idunivoco).subscribe({
+      next: (res) => { this.userEmail = res.data.email; },
+      error: (err) => {
+        this.showError(err.status);
+        this.logging.error(`Failed to delete activity with error: ${err.message}`);
+      }
+    });
+    this.logging.log('Delete activity triggered');
   }
 
   applyFilter(): void {
-    
-  console.log(this.fromDate);
-  console.log(this.toDate);
-      this.admin.filterActivitiesByDate(this.idunivoco, this.fromDate, this.toDate, this.pageDefault, this.limitDefault,).subscribe({
-        next: (result: any) => {
-          console.log(result);
-          this.conteggio = result.results + " di " + result.counters.totalDocuments;
-          this.totalRecords = result.counters.totalDocuments;
-          this.activities = result.data.activities.map((element: any) => ({
-            taskName: element.taskName,
-            startTime: new Date(element.startTime),
-            endTime: new Date(element.endTime),
-            notes: element.notes,
-            taskID: element.taskID,
-            _id: element._id,
-            isActive: element.isActive
-          }));
-        },
-        error: (err: any) => {
-          this.showError(err.status);
-        }
-      });
-  
-   
+    this.admin.filterActivitiesByDate(this.idunivoco, this.fromDate, this.toDate, this.pageDefault, this.limitDefault).subscribe({
+      next: (result: any) => {
+        this.conteggio = result.results + " di " + result.counters.totalDocuments;
+        this.totalRecords = result.counters.totalDocuments;
+        this.activities = result.data.activities.map((element: any) => ({
+          taskName: element.taskName,
+          startTime: new Date(element.startTime),
+          endTime: new Date(element.endTime),
+          notes: element.notes,
+          taskID: element.taskID,
+          _id: element._id,
+          isActive: element.isActive
+        }));
+        this.logging.log('Activities filtered by date successfully');
+      },
+      error: (err: any) => {
+        this.showError(err.status);
+        this.logging.error(`Failed to filter activities with error: ${err.message}`);
+      }
+    });
   }
-  
 }
