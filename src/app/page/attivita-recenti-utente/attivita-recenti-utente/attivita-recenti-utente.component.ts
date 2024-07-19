@@ -15,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { UserServiceService } from '../../../servizi/user-service.service';
 import { ErrorServiziService } from '../../../servizi/error-servizi.service';
 import { ModalComponent } from '../../../componenti/modal/modal.component';
+import { LoggingService } from '../../../servizi/logging.service';
 
 @Component({
   selector: 'app-attivita-recenti-utente',
@@ -30,7 +31,8 @@ import { ModalComponent } from '../../../componenti/modal/modal.component';
     FooterComponent,
     DeleteActivityButtonComponent,
     PaginatorModule,
-    ToastModule,ModalComponent
+    ToastModule,
+    ModalComponent
   ],
   providers: [MessageService],
 })
@@ -65,7 +67,8 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserServiceService,
     private messageService: MessageService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private logging: LoggingService 
   ) {
     this.filterForm = new FormGroup({
       taskName: new FormControl(''),
@@ -81,10 +84,11 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
       this.pageDefault = 1; 
       this.filterActivities(); 
     });
+    this.logging.log('Component initialized and activities loaded');
   }
 
   showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
@@ -93,13 +97,13 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
+    this.logging.error(`Error occurred with status code: ${statusCode}`);
   }
 
   loadActivities(pageNumber: number, limit: number): void {
-    const {taskName, fromDate, toDate } = this.filterForm.value;
-    // console.log('Loading Activities. Page:', pageNumber, 'Limit:', limit, 'From Date:', fromDate, 'To Date:', toDate);
+    const { taskName, fromDate, toDate } = this.filterForm.value;
 
-    this.activitiesservices.getActivities({ pageNumber, limit, fromDate, toDate,taskName }).subscribe({
+    this.activitiesservices.getActivities({ pageNumber, limit, fromDate, toDate, taskName }).subscribe({
       next: (data) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
         this.totalRecords = data.counters.documentsActive;
@@ -113,31 +117,34 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
           isTaskActive: item.isTaskActive
         }));
         this.filteredItems = this.rowItems; 
+        this.logging.log('Activities loaded successfully');
       },
       error: (err) => {
         this.showError(err.status);
+        this.logging.error(`Failed to load activities with error: ${err.message}`);
       }
     });
   }
 
   filterActivities(): void {
     this.loadActivities(this.pageDefault, this.limit);
+    this.logging.log('Activities filtered');
   }
 
   refresh() {
     this.loadActivities(this.pageDefault, this.limit);
+    this.logging.log('Activities refreshed');
   }
 
   onPageChange(event: any): void {
     const pageNumber = event.page + 1;
-    console.log('Page Change. New Page Number:', pageNumber);
     this.pageDefault = pageNumber;
     this.loadActivities(pageNumber, this.limit);
+    this.logging.log(`Page changed to: ${pageNumber}`);
   }
 
   changeLimit(): void {
-    console.log('Limit Change. New Limit:', this.limit);
     this.loadActivities(this.pageDefault, this.limit);
+    this.logging.log(`Limit changed to: ${this.limit}`);
   }
 }
-

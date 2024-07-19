@@ -1,12 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../models/userModel';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { FileUploadModule, UploadEvent } from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'app-impostazioniutente',
@@ -14,7 +15,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
   styleUrls: ['./impostazioni-utente.component.css'],
   standalone: true,
   imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class UserRouteComponent implements OnInit {
   formData = new FormData();
@@ -25,18 +26,19 @@ export class UserRouteComponent implements OnInit {
     lastName: new FormControl(this.user().lastName, [Validators.required]),
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
   });
+  
   image!: any;
-  studentFile : any
-  imagePath : any
-  imgUrl : any
-  immagine! : any
+  studentFile: any;
+  imagePath: any;
+  immagine!: any;
 
   constructor(
     private router: Router,
     private userService: UserServiceService,
     private messageService: MessageService,
-    private errors: ErrorServiziService
-  ) { }
+    private errors: ErrorServiziService,
+    private logging: LoggingService
+  ) {}
 
   showError(statusCode: number) {
     if (statusCode === 401 || statusCode === 429) {
@@ -45,22 +47,23 @@ export class UserRouteComponent implements OnInit {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    } else if(statusCode === 400) {
-      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'I campi inseriti non sono validi'})
+    } else if (statusCode === 400) {
+      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'I campi inseriti non sono validi'});
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
+    this.logging.log(`Errore: ${statusCode}`);
   }
 
   getInfo() {
     this.userService.getMe().subscribe({
       next: (result) => {
         this.user.set(result.data);
-        this.immagine = result.data.propic
-        // l'errore è qui
+        this.immagine = result.data.propic;
       },
       error: (error) => {
         this.showError(error.status);
+        this.logging.error(`Errore nel recupero delle informazioni utente: ${error.status}`);
       }
     });
   }
@@ -78,8 +81,7 @@ export class UserRouteComponent implements OnInit {
       if (this.image) {
         updatedUser.append('propic', this.image);
       }
-  
-      console.log(updatedUser);
+
       this.userService.updateMe(updatedUser).subscribe({
         next: (res) => {
           this.messageService.add({
@@ -87,24 +89,26 @@ export class UserRouteComponent implements OnInit {
             summary: 'Modifiche salvate',
             detail: 'Le modifiche sono state salvate con successo.'
           });
+          this.logging.log('Modifiche salvate con successo');
           setTimeout(() => {
-            window.location.reload()
-          },500)
+            window.location.reload();
+          }, 500);
         },
-        error: (error) => this.showError(error.status)
+        error: (error) => {
+          this.logging.error(`Errore durante il salvataggio delle modifiche: ${error.status}`);
+          this.showError(error.status);
+        }
       });
     } else {
+      this.logging.warn('Form non valido');
       this.showError(1);
     }
   }
-  
 
   onUpload(event: any) {
     const file = event.target.files[0];
-    console.log(file)
     if (file) {
-      
-      console.log(this.formData.get('propic')); // Per verificare che il file sia stato aggiunto
+      console.log(this.formData.get('propic'));
     }
   }
 
@@ -115,6 +119,7 @@ export class UserRouteComponent implements OnInit {
   close() {
     this.router.navigate(['/']);
   }
+
   onFileSelected(event: Event): void {
     //@ts-ignore
     if (event.target.files.length > 0) {
@@ -131,7 +136,7 @@ export class UserRouteComponent implements OnInit {
       reader.readAsDataURL(file);
       reader.onload = (_event) => {
         this.image = file;
-        this.saveChanges() 
+        this.saveChanges();
       };
     }
   }

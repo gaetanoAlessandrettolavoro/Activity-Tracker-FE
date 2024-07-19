@@ -1,17 +1,11 @@
 import {
   Component,
-  ElementRef,
   Inject,
-  OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -30,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 interface UploadEvent {
   originalEvent: Event;
@@ -89,21 +84,23 @@ export class RegisterComponent {
     private messageService: MessageService,
     private router: Router,
     @Inject(UserServiceService) private userService: UserServiceService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private loggingService: LoggingService
   ) {}
 
   showError(statusCode: number) {
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
         this.router.navigate(['/login']);
       }, 3000);
-    } else if(statusCode === 400) {
-      this.messageService.add({...this.errors.getErrorMessage(statusCode), detail: 'L\'email o il codice fiscale risultano essere già inseriti. Se così non fosse contatta l\'amministratore'})
+    } else if (statusCode === 400) {
+      this.messageService.add({ ...this.errors.getErrorMessage(statusCode), detail: 'L\'email o il codice fiscale risultano essere già inseriti. Se così non fosse contatta l\'amministratore' });
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
+    this.loggingService.error(`Error ${statusCode}`);
   }
 
   onSubmit() {
@@ -115,8 +112,7 @@ export class RegisterComponent {
     ) {
       this.showError(1);
     } else if (this.userForm.valid) {
-      console.log('Form Submitted!', this.userForm.value);
-      this.Validform = true;
+      this.loggingService.log('Form Submitted!');
       const postData: User = {
         firstName: this.userForm.value.name,
         lastName: this.userForm.value.surname,
@@ -126,18 +122,19 @@ export class RegisterComponent {
 
       this.userService.register(postData).subscribe({
         next: (result: any) => {
-          console.log(result);
+          this.loggingService.log(`Result: ${JSON.stringify(result)}`);
           this.formSubmitted = true;
           if (!this.showSuccessMessage) {
             this.showSuccessMessage = true;
-            this.visible = true; // Mostra il modale solo la prima volta che il form viene inviato con successo
+            this.visible = true;
           }
         },
         error: (error) => {
+          this.loggingService.error(`Error: ${JSON.stringify(error)}`);
           this.showError(error.status);
         },
       });
-      console.log(postData);
+      this.loggingService.log(`Post Data: ${JSON.stringify(postData)}`);
     } else {
       this.showError(1);
     }

@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ModalComponent } from '../../componenti/modal/modal.component';
-
+import { LoggingService } from '../../servizi/logging.service';
 
 interface rowItem extends Activity {
   activityDate: string | number | Date;
@@ -94,7 +94,8 @@ export class TutteAttivitaComponent implements OnInit {
     private router: Router,
     private userService: UserServiceService,
     private errors: ErrorServiziService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private loggingService: LoggingService
   ) {}
 
   showError(statusCode: number) {
@@ -107,6 +108,7 @@ export class TutteAttivitaComponent implements OnInit {
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
+    this.loggingService.error(`Error ${statusCode}`);
   }
 
   soloattivi(page?: number, limit: number = this.limitDefault, taskName?: string, fromDate?: string, toDate?: string) {
@@ -139,10 +141,8 @@ export class TutteAttivitaComponent implements OnInit {
       page = 1;
     }
     
-    // format date
     const formattedFromDate = fromDate ? this.datePipe.transform(fromDate, 'yyyy-MM-dd')||'' : '';
     const formattedToDate = toDate ? this.datePipe.transform(toDate, 'yyyy-MM-dd')||'' : '';
-
 
     this.userServ
       .getAllUsersActivities(page, limit, active, taskName, formattedFromDate, formattedToDate)
@@ -171,7 +171,6 @@ export class TutteAttivitaComponent implements OnInit {
         this.rowItems = newRows;
         this.filteredItems = [...this.rowItems];
 
-        // filtro laro client se necessario
         if (formattedFromDate || formattedToDate) {
           this.rowItems = this.rowItems.filter(item =>
             this.isDateInRange(new Date(item.activityDate), formattedFromDate, formattedToDate)
@@ -207,9 +206,6 @@ export class TutteAttivitaComponent implements OnInit {
       return true;
     }
   }
-  
-  
-  
 
   async ngOnInit() {
     this.filterForm = new FormGroup({
@@ -220,7 +216,6 @@ export class TutteAttivitaComponent implements OnInit {
 
     this.filterForm.valueChanges.subscribe(() => {
       this.filterActivities();
-      
     });
 
     this.states = [

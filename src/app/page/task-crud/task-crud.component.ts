@@ -17,6 +17,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ActivitiesServicesService } from '../../servizi/activities-services.service';
 import { Activity } from '../../models/activityModel';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { LoggingService } from '../../servizi/logging.service'; 
 
 @Component({
   selector: 'app-task',
@@ -26,7 +27,6 @@ import { InputNumberModule } from 'primeng/inputnumber';
   imports:[DatePipe,TableModule,NgForOf, ProgressBarModule, AddTypeActivityComponent, ToastModule, NgIf, DialogModule, ReactiveFormsModule, InputTextModule, DropdownModule, FormsModule, DecimalPipe, InputNumberModule],
   providers: [MessageService]
 })
-
 export class TaskComponent implements OnInit {
   tasks: Task[] = [];
   visibleEdit: boolean = false;
@@ -44,7 +44,15 @@ export class TaskComponent implements OnInit {
     expectedHours: new FormControl(this.taskToEdit().expectedHours, Validators.required)
   })
 
-  constructor(private Taskservice: ServiceTasksService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private userService: UserServiceService, private activitiesService: ActivitiesServicesService) { }
+  constructor(
+    private Taskservice: ServiceTasksService, 
+    private messageService: MessageService, 
+    private errors: ErrorServiziService, 
+    private router: Router, 
+    private userService: UserServiceService, 
+    private activitiesService: ActivitiesServicesService,
+    private loggingService: LoggingService  
+  ) { }
 
   pageChange(event: any) {
     this.first = event.first;
@@ -61,6 +69,7 @@ export class TaskComponent implements OnInit {
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
+    this.loggingService.error(`Error ${statusCode}`);  
   }
 
   interval = setInterval(() => {
@@ -91,13 +100,22 @@ export class TaskComponent implements OnInit {
             const updatedTask: Task = {...taskToUpdate, progressState: newProgress};
             this.Taskservice.updateTask(updatedTask).subscribe({
               next: (ress: any) => {},
-              error: (err) => this.showError(err.status)
+              error: (err) => {
+                this.showError(err.status);
+                this.loggingService.error(`Failed to update task progress: ${err.message}`);  
+              }
             })
           },
-          error: (error) => this.showError(error.status)
+          error: (error) => {
+            this.showError(error.status);
+            this.loggingService.error(`Failed to get single task for progress update: ${error.message}`);  
+          }
         })
       },
-      error: (err) => this.showError(err.status)
+      error: (err) => {
+        this.showError(err.status);
+        this.loggingService.error(`Failed to get activities by task ID: ${err.message}`);  
+      }
     })
   }
 
@@ -121,12 +139,18 @@ export class TaskComponent implements OnInit {
                 next: (result: any) => {
                   this.tasks = result.data.document;
                 },
-                error: (err) => this.showError(err.status)
+                error: (err) => {
+                  this.showError(err.status);
+                  this.loggingService.error(`Failed to get all tasks: ${err.message}`); 
+                }
               })
             }
           }
         },
-        error: (error) => this.showError(error.status)
+        error: (error) => {
+          this.showError(error.status);
+          this.loggingService.error(`Failed to get all tasks: ${error.message}`);  
+        }
       });
     } else {
       if(this.filter === 'Solo attive') {
@@ -140,12 +164,18 @@ export class TaskComponent implements OnInit {
                   next: (result: any) => {
                     this.tasks = result.data.document;
                   },
-                  error: (err) => this.showError(err.status)
-                })
+                  error: (err) => {
+                    this.showError(err.status);
+                    this.loggingService.error(`Failed to get active tasks: ${err.message}`);
+                  }
+                });
               }
             }
           },
-          error: (error) => this.showError(error.status)
+          error: (error) => {
+            this.showError(error.status);
+            this.loggingService.error(`Failed to get active tasks: ${error.message}`);  
+          }
         });
       } else if(this.filter === 'Solo non attive') {
         this.Taskservice.getAllTasks().subscribe({
@@ -158,12 +188,18 @@ export class TaskComponent implements OnInit {
                   next: (result: any) => {
                     this.tasks = result.data.document;
                   },
-                  error: (err) => this.showError(err.status)
+                  error: (err) => {
+                    this.showError(err.status);
+                    this.loggingService.error(`Failed to get inactive tasks: ${err.message}`); 
+                  }
                 })
               }
             }
           },
-          error: (error) => this.showError(error.status)
+          error: (error) => {
+            this.showError(error.status);
+            this.loggingService.error(`Failed to get inactive tasks: ${error.message}`);  
+          }
         });
       } else {
         this.getTasks();
@@ -176,7 +212,10 @@ export class TaskComponent implements OnInit {
       next: (res) => {
         this.getTasks();
       },
-      error: (error) => this.showError(error.status)
+      error: (error) => {
+        this.showError(error.status);
+        this.loggingService.error(`Failed to delete task with ID ${id}: ${error.message}`);  
+      }
     });
   }
 
@@ -191,10 +230,16 @@ export class TaskComponent implements OnInit {
               this.getTasks();
             }, 1000)
           },
-          error: (error) => this.showError(error.status)
+          error: (error) => {
+            this.showError(error.status);
+            this.loggingService.error(`Failed to reopen task with ID ${taskID}: ${error.message}`);  
+          }
         })
       },
-      error: (err) => this.showError(err.status)
+      error: (err) => {
+        this.showError(err.status);
+        this.loggingService.error(`Failed to get single task for reopening: ${err.message}`); 
+      }
     })
   }
 
@@ -207,7 +252,10 @@ export class TaskComponent implements OnInit {
         this.expectedHoursToEdit = this.taskToEdit().expectedHours;
         this.visibleEdit = true;
       },
-      error: (error) => this.showError(error.status)
+      error: (error) => {
+        this.showError(error.status);
+        this.loggingService.error(`Failed to get single task for editing: ${error.message}`);  
+      }
     })
   }
 
@@ -224,8 +272,9 @@ export class TaskComponent implements OnInit {
           }, 1000);
         },
         error: (error) => {
-          console.error(error);
-          this.showError(error.status)}
+          this.showError(error.status);
+          this.loggingService.error(`Failed to submit edited task: ${error.message}`);  
+        }
       })
     } else {
       this.showError(1);
@@ -237,7 +286,6 @@ export class TaskComponent implements OnInit {
       if(el.taskID === taskID) return el;
       else return 0;
     })
-    //@ts-ignore
-    return sumFound?.sumHours;
+    return sumFound?.sumHours || 0;  // Restituisce 0 se non trovato
   }
-} 
+}
