@@ -9,9 +9,8 @@ import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
-import { Task } from '../../models/taskModel';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'add-type-activity',
@@ -37,12 +36,14 @@ export class AddTypeActivityComponent {
     private router: Router,
     private userService: UserServiceService,
     private messageService: MessageService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private logging: LoggingService
   ) {}
 
   @Output() added = new EventEmitter<boolean>();
 
-  showError(statusCode: number) {
+  showError(statusCode: number, newTask: string, errorMessage: string) {
+    this.logging.error(`Error occurred creating ${newTask} task.\nError ${statusCode} with message: ${errorMessage}`);
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -64,17 +65,16 @@ export class AddTypeActivityComponent {
       state: 'To do',
       progressState: 0
     }
-    console.log(newTask);
     this.addActivity.addTask(newTask).subscribe({
       next: (result: any) => {
         this.visible = false;
         this.taskname = '';
         this.expectedHours = 0;
-        console.log(result);
+        this.logging.info(`Created "${newTask.taskName}" task.\nExpected hours: ${newTask.expectedHours}`)
         this.added.emit(true);
       },
       error: (error) => {
-        this.showError(error.status);
+        this.showError(error.status, newTask.taskName, error.error.message);
       }
     });
   }
