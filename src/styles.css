@@ -3,4 +3,8 @@
 body {
     margin: 0;
     background-color: rgba(233, 228, 228, 0.763);
+    --primary-color: #0f6daf;
+    --secondary-color: #05BA68;
+    --tertiary-color: #1F23BB;
+    --quaternary-color: #FF9306;
 }
