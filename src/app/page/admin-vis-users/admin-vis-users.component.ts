@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, signal } from '@angular/core';
+import { Component, OnInit, DoCheck, ChangeDetectorRef, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -17,7 +17,6 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { AdminatoacceptusersComponent } from '../../componenti/adminatoacceptusers/adminatoacceptusers.component';
 import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
-
 
 @Component({
   selector: 'app-admin-vis-user',
@@ -40,11 +39,12 @@ import { UserTaskCreationComponent } from '../../componenti/user-task-creation/u
   ],
   providers: [MessageService],
 })
-export class AdminvisuserComponent implements OnInit {
-  totalRecords: number = 1;
-  searchQuery=new FormGroup({
-    searchQuery:new FormControl('')
-  })
+export class AdminvisuserComponent implements OnInit, DoCheck {
+  totalRecords = signal<number>(1); // Transform totalRecords to a signal
+  searchQuery = new FormGroup({
+    searchQuery: new FormControl('')
+  });
+  Ciao: number = 0;
 
   constructor(
     private users: AdminserviceService,
@@ -105,46 +105,42 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   filterUsers() {
-    if (this.searchQuery.value.searchQuery!==''){
+    if (this.searchQuery.value.searchQuery !== '') {
       this.users.getUsers().subscribe({
-        next:(result)=>{
-         const  newUsers = result.data.document.filter((user:any)=>{
-          //@ts-ignore
-          if(user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase())|| user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase())){
-            return user;
-          }
-         })
-        this.filteredUsers = newUsers;
-        this.totalRecords = newUsers.length;
-      
+        next: (result) => {
+          const newUsers = result.data.document.filter((user: any) => {
+            //@ts-ignore
+            return user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase()) ||
+              //@ts-ignore
+            user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
+          });
+          this.filteredUsers = newUsers;
+          this.totalRecords.set(newUsers.length); // Use the signal setter
+          console.log('Filtered Total Records:', this.totalRecords()); // Debugging
+        this.conteggio= `${this.totalRecords()} di ${this.totalRecords()}`
         },
-        error:(error)=>this.showError(error.status)
-        
-      })
+        error: (error) => this.showError(error.status)
+      });
     } else {
-      
-
       this.filteredUsers = this.usersArray().filter((user) => {
-        const matchesFirstName =
-          !this.searchQuery ||
-          //@ts-ignore
+        const matchesFirstName = !this.searchQuery || //@ts-ignore
           user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
   
-        const matchesLastName =
-          !this.searchQuery ||
-          //@ts-ignore
+        const matchesLastName = !this.searchQuery || //@ts-ignore
           user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
   
         return matchesFirstName || matchesLastName;
       });
+      this.totalRecords.set(this.filteredUsers.length); // Use the signal setter
     }
+    this.cdref.detectChanges(); // Force change detection
   }
 
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-        this.totalRecords = data.counters.documentsActive;
+        this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
         data.data.document.forEach((item: any) => {
           const newUser = {
             firstName: item.firstName,
@@ -154,7 +150,8 @@ export class AdminvisuserComponent implements OnInit {
             _id: item._id,
             role: item.role,
           }
-          this.usersArray().push(newUser);
+          const currentUsers = this.usersArray();
+          this.usersArray.set([...currentUsers, newUser]);
         });
         this.filterUsers();
       },
@@ -163,6 +160,10 @@ export class AdminvisuserComponent implements OnInit {
       },
     });
     this.searchQuery.valueChanges.subscribe(()=>this.filterUsers())
+  }
+
+  ngDoCheck(): void {
+    this.Ciao = this.totalRecords(); // Update Ciao with the current value of totalRecords
   }
 
   getActivity(id: string) {
@@ -187,35 +188,32 @@ export class AdminvisuserComponent implements OnInit {
   onPageChange(event: any) {
     const pageNumber = event.page + 1;
     this.usersArray.set([]);
-    this.users
-      .getUsers({ pageNumber: pageNumber, limit: this.limitDefault })
-      .subscribe({
-        next: (data: any) => {
-          this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-          this.totalRecords = data.counters.documentsActive;
-          data.data.document.forEach((item: any) => {
-            const newUser = {
-              firstName: item.firstName,
-              lastName: item.lastName,
-              codiceFiscale: item.codiceFiscale,
-              email: item.email,
-              _id: item._id,
-              role: item.role,
-            }
-            this.usersArray().push(newUser);
-          });
-          this.filterUsers();
-          this.cdref.detectChanges();
-        },
-        error: (err) => {
-          this.showError(err.status);
-        },
-      });
+    this.users.getUsers({ pageNumber: pageNumber, limit: this.limitDefault }).subscribe({
+      next: (data: any) => {
+        this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
+        this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
+        console.log('On Page Change Total Records:', this.totalRecords()); // Debugging
+        data.data.document.forEach((item: any) => {
+          const currentUsers = this.usersArray();
+          this.usersArray.set([...currentUsers, {
+            firstName: item.firstName,
+            lastName: item.lastName,
+            codiceFiscale: item.codiceFiscale,
+            email: item.email,
+            _id: item._id,
+            role: item.role,
+          }]);
+        });
+        this.filterUsers();
+        this.cdref.detectChanges(); // Force change detection
+      },
+      error: (err) => this.showError(err.status),
+    });
   }
 
   changeLimit() {
-    if(this.limit > this.totalRecords){
-      this.limit = this.totalRecords;
+    if(this.limit > this.totalRecords()){
+      this.limit = this.totalRecords();
     }
     else{
     const currentPage = this.first / this.rows + 1;
@@ -225,24 +223,25 @@ export class AdminvisuserComponent implements OnInit {
       .subscribe({
         next: (data: any) => {
           this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-          this.totalRecords = data.counters.documentsActive;
+          this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
           this.usersArray.set([]);
           data.data.document.forEach((item: any) => {
-            this.usersArray().push({
+            const currentUsers = this.usersArray();
+            this.usersArray.set([...currentUsers, {
               firstName: item.firstName,
               lastName: item.lastName,
               codiceFiscale: item.codiceFiscale,
               email: item.email,
               _id: item._id,
               role: item.role,
-            })
+            }]);
           });
-            this.filterUsers();
-          },
-          error: (err) => {
-            this.showError(err.status);
-          },
-        });
+          this.filterUsers();
+        },
+        error: (err) => {
+          this.showError(err.status);
+        },
+      });
     }
   }
 
@@ -255,7 +254,7 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-        this.totalRecords = data.counters.documentsActive;
+        this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
         this.usersArray.set([]);
         const newUsersArray = data.data.document.map((item: any) => ({
           firstName: item.firstName,
@@ -279,3 +278,4 @@ export class AdminvisuserComponent implements OnInit {
     this.router.navigate([`/utenti/${id}`]);
   }
 }
+
