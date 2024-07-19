@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, signal } from '@angular/core';
+import { Component, OnInit, DoCheck, ChangeDetectorRef, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -41,11 +41,12 @@ import { LoggingService } from '../../servizi/logging.service';
   ],
   providers: [MessageService],
 })
-export class AdminvisuserComponent implements OnInit {
-  totalRecords: number = 1;
-  searchQuery=new FormGroup({
-    searchQuery:new FormControl('')
-  })
+export class AdminvisuserComponent implements OnInit, DoCheck {
+  totalRecords = signal<number>(1); // Transform totalRecords to a signal
+  searchQuery = new FormGroup({
+    searchQuery: new FormControl('')
+  });
+  Ciao: number = 0;
 
   constructor(
     private users: AdminserviceService,
@@ -115,40 +116,38 @@ export class AdminvisuserComponent implements OnInit {
         next: (result) => {
           const newUsers = result.data.document.filter((user: any) => {
             //@ts-ignore
-            if(user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase())|| user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase())){
-              return user;
-            }
-           })
+            return user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase()) ||
+              //@ts-ignore
+            user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
+          });
           this.filteredUsers = newUsers;
-          this.totalRecords = newUsers.length;
-        
-          },
-        error: (error) => {
-          this.showError(error.status);
-          this.logging.error(`Failed to filter users with error: ${error.message}`); 
-        }
+          this.totalRecords.set(newUsers.length); // Use the signal setter
+          console.log('Filtered Total Records:', this.totalRecords()); // Debugging
+        this.conteggio= `${this.totalRecords()} di ${this.totalRecords()}`
+        },
+        error: (error) => this.showError(error.status)
       });
     } else {
       this.filteredUsers = this.usersArray().filter((user) => {
-        const matchesFirstName = !this.searchQuery ||
-          //@ts-ignore
+        const matchesFirstName = !this.searchQuery || //@ts-ignore
           user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
-
-        const matchesLastName = !this.searchQuery ||
-          //@ts-ignore
+  
+        const matchesLastName = !this.searchQuery || //@ts-ignore
           user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
 
         return matchesFirstName || matchesLastName;
       });
+      this.totalRecords.set(this.filteredUsers.length); // Use the signal setter
       this.logging.log('Filtered users using local array'); 
     }
+    this.cdref.detectChanges(); // Force change detection
   }
 
   ngOnInit(): void {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-        this.totalRecords = data.counters.documentsActive;
+        this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
         data.data.document.forEach((item: any) => {
           const newUser = {
             firstName: item.firstName,
@@ -158,7 +157,8 @@ export class AdminvisuserComponent implements OnInit {
             _id: item._id,
             role: item.role,
           };
-          this.usersArray().push(newUser);
+          const currentUsers = this.usersArray();
+          this.usersArray.set([...currentUsers, newUser]);
         });
         this.filterUsers();
         this.logging.log('User data initialized successfully'); 
@@ -172,6 +172,12 @@ export class AdminvisuserComponent implements OnInit {
       this.filterUsers();
       this.logging.log('search query changed'); 
     });
+  }
+
+  
+
+  ngDoCheck(): void {
+    this.Ciao = this.totalRecords(); // Update Ciao with the current value of totalRecords
   }
 
   getActivity(id: string) {
@@ -199,49 +205,50 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getUsers({ pageNumber: pageNumber, limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-        this.totalRecords = data.counters.documentsActive;
+        this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
+        console.log('On Page Change Total Records:', this.totalRecords()); // Debugging
         data.data.document.forEach((item: any) => {
-          const newUser = {
+          const currentUsers = this.usersArray();
+          this.usersArray.set([...currentUsers, {
             firstName: item.firstName,
             lastName: item.lastName,
             codiceFiscale: item.codiceFiscale,
             email: item.email,
             _id: item._id,
             role: item.role,
-          };
-          this.usersArray().push(newUser);
+          }]);
         });
         this.filterUsers();
-        this.cdref.detectChanges();
-        this.logging.log('Page changed successfully');
+        this.cdref.detectChanges(); // Force change detection
       },
-      error: (err) => {
-        this.showError(err.status);
-        this.logging.error(`Failed to change page with error: ${err.message}`); 
-      },
+      error: (err) => this.showError(err.status),
     });
   }
 
   changeLimit() {
-    if (this.limit > this.totalRecords) {
-      this.limit = this.totalRecords;
-    } else {
-      const currentPage = this.first / this.rows + 1;
-      this.limitDefault = this.limit;
-      this.users.getUsers({ pageNumber: currentPage, limit: this.limitDefault }).subscribe({
+    if(this.limit > this.totalRecords()){
+      this.limit = this.totalRecords();
+    }
+    else{
+    const currentPage = this.first / this.rows + 1;
+    this.limitDefault = this.limit;
+    this.users
+      .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
+      .subscribe({
         next: (data: any) => {
           this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-          this.totalRecords = data.counters.documentsActive;
+          this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
           this.usersArray.set([]);
           data.data.document.forEach((item: any) => {
-            this.usersArray().push({
+            const currentUsers = this.usersArray();
+            this.usersArray.set([...currentUsers, {
               firstName: item.firstName,
               lastName: item.lastName,
               codiceFiscale: item.codiceFiscale,
               email: item.email,
               _id: item._id,
               role: item.role,
-            });
+            }]);
           });
           this.filterUsers();
           this.logging.log('Limit changed successfully'); 
@@ -264,7 +271,7 @@ export class AdminvisuserComponent implements OnInit {
     this.users.getUsers({ limit: this.limitDefault }).subscribe({
       next: (data: any) => {
         this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
-        this.totalRecords = data.counters.documentsActive;
+        this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
         this.usersArray.set([]);
         const newUsersArray = data.data.document.map((item: any) => ({
           firstName: item.firstName,
@@ -291,3 +298,4 @@ export class AdminvisuserComponent implements OnInit {
     this.logging.log(`navigated to edit user ID: ${id}`);
   }
 }
+
