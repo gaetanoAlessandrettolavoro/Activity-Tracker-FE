@@ -12,6 +12,12 @@ import { DatePipe, NgIf } from '@angular/common';
 import { Activity } from '../../models/activityModel';
 import { DividerModule } from 'primeng/divider';
 import { SidebarModule } from 'primeng/sidebar';
+import { LoggingService } from '../../servizi/logging.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { UserServiceService } from '../../servizi/user-service.service';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { Router } from '@angular/router';
 
 interface simpleUser {
   name: string;
@@ -21,9 +27,10 @@ interface simpleUser {
 @Component({
   selector: 'pie-chart',
   standalone: true,
-  imports: [CalendarModule, FormsModule, ChartModule, DropdownModule, ButtonModule, DialogModule, DatePipe, NgIf],
+  imports: [CalendarModule, FormsModule, ChartModule, DropdownModule, ButtonModule, DialogModule, DatePipe, NgIf, ToastModule],
   templateUrl: './pie-chart.component.html',
-  styleUrl: './pie-chart.component.css'
+  styleUrl: './pie-chart.component.css',
+  providers: [MessageService]
 })
 export class PieChartComponent implements OnInit {
   protected documentStyle = getComputedStyle(document.documentElement);
@@ -40,7 +47,22 @@ export class PieChartComponent implements OnInit {
 
   protected detailVisible: boolean = false;
 
-  constructor(private chartsService: ChartsService, private adminService: AdminserviceService){}
+  constructor(private chartsService: ChartsService, private adminService: AdminserviceService, private logging: LoggingService, private messageService: MessageService, private userService: UserServiceService, private errors: ErrorServiziService, private router: Router){}
+
+  showError(statusCode: number, errorMessage?: string) {
+    if(!!errorMessage) {
+      this.logging.error(`Error occurred fetching data in pie chart.\nError ${statusCode} with message: ${errorMessage}`);
+    }
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+    }
+  }
 
   getUsers() {
     this.adminService.getUsers().subscribe({
@@ -51,7 +73,7 @@ export class PieChartComponent implements OnInit {
         })))
       },
       error: (error) => {
-        console.error(error);
+        this.showError(error.status, error.error.message);
       }
     })
   }
@@ -79,9 +101,12 @@ export class PieChartComponent implements OnInit {
                     }
                 }
             }
-        };
+          };
+          this.logging.info(`Pie chart successfully loaded`);
         },
-        error: (err) => console.error(err)
+        error: (err) => {
+          this.showError(err.status, err.error.message);
+        }
       })
     }
   }
@@ -105,9 +130,10 @@ export class PieChartComponent implements OnInit {
         next: (res: any) => {
           this.activityDetail.set(res.data.activities[0])
           this.detailVisible = true;
+          this.logging.info(`Detail loaded successfully loaded in pie chart`);
         },
         error: (err) => {
-          console.error(err);
+          this.showError(err.status, err.error.message);
         }
       })
     }
