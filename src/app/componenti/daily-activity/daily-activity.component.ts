@@ -116,7 +116,7 @@ export class DailyActivityComponent {
   }
 
   showError(statusCode: number, errorMessage: string) {
-    this.logging.error(`Error occurred fetching activities on Date ${new Date()}.\nError ${statusCode} with message ${errorMessage}`)
+    this.logging.error(`Error occurred fetching activities on Date ${new Date()}.\nError ${statusCode} with message: ${errorMessage}`)
     if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
