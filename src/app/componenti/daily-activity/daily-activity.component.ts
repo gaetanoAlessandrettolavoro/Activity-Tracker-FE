@@ -20,6 +20,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ModalComponent } from '../modal/modal.component';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'daily-activity',
@@ -59,7 +60,8 @@ export class DailyActivityComponent {
     private messageService: MessageService, 
     private userService: UserServiceService, 
     private router: Router, 
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private logging: LoggingService
   ) {
     this.oggettistampati = [];
     this.fetchActivities();
@@ -107,13 +109,14 @@ export class DailyActivityComponent {
           }, 5000);
         }
         if (numberValue < 4) {
-          this.showError(err.status);
+          this.showError(err.status, err.error.message);
         }
       }
     });
   }
 
-  showError(statusCode: number) {
+  showError(statusCode: number, errorMessage: string) {
+    this.logging.error(`Error occurred fetching activities on Date ${new Date()}.\nError ${statusCode} with message ${errorMessage}`)
     if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
