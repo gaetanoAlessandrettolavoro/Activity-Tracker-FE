@@ -58,7 +58,7 @@ tr.disabled > td {
 
 .edit-button {
     color: white;
-    background-color: #0F6DAF;
+    background-color: var(--primary-color);
     border-radius: 12px;
     padding: 10px;
     border: none;
@@ -68,7 +68,7 @@ tr.disabled > td {
 
 .disabled-edit-button {
     color: white;
-    background-color: #0F6DAF;
+    background-color: var(--primary-color);
     border-radius: 12px;
     padding: 10px;
     border: none;

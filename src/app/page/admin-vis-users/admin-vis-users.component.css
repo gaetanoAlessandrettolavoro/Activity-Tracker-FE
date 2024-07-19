@@ -66,7 +66,7 @@
     cursor: pointer;
     border-radius: 12px;
     margin-right: 20px;
-    background-color: #0F6DAF;
+    background-color: var(--primary-color);
     color: white;
 }
 

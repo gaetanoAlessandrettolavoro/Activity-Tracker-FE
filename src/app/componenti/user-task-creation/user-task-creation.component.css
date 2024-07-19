@@ -10,7 +10,7 @@
   font-family: Arial, Helvetica, sans-serif;
   cursor: pointer;
   border-radius: 12px;
-  background-color: #0F6DAF;
+  background-color: var(--primary-color);
   color: white;
   margin-right: 20px;
 }
@@ -40,11 +40,11 @@ textarea {
 }
 
 textarea:focus {
-  border-color: #0F6DAF;
+  border-color: var(--primary-color);
   outline: none;
 }
 input[type="date"] {
-  background-color: #0F6DAF;
+  background-color: var(--primary-color);
   padding: 5px;
   font-family: "Roboto Mono", monospace;
   color: #ffffff;
@@ -54,7 +54,7 @@ input[type="date"] {
 }
 
 input[type="time"] {
-  background-color: #0F6DAF;
+  background-color: var(--primary-color);
   padding: 5px;
   font-family: "Roboto Mono", monospace;
   color: #ffffff;

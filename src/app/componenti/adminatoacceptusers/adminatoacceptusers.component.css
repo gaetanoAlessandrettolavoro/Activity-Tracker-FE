@@ -1,5 +1,5 @@
 .button {
-  background-color: #0F6DAF;
+  background-color: var(--primary-color);
   border-radius: 3px;
   border: none;
  color: #eeeeee;
@@ -12,21 +12,21 @@
   }
   @keyframes glowing {
     0% {
-      background-color: blue;
-      box-shadow: 0 0 3px blue;
+      background-color: var(--tertiary-color);
+      box-shadow: 0 0 3px var(--quaternary-color);
     }
     50% {
-      background-color: blue;
-      box-shadow: 0 0 10px blue;
+      background-color: var(--tertiary-color);
+      box-shadow: 0 0 10px var(--quaternary-color);
     }
     100% {
-      background-color: blue;
-      box-shadow: 0 0 3px blue;
+      background-color: var(--tertiary-color);
+      box-shadow: 0 0 3px var(--quaternary-color);
     }
   }
 
   .button2{
-     background-color: #0F6DAF;
+     background-color: var(--primary-color);
      border-radius: 3px;
      border: none;
     color: #eeeeee;

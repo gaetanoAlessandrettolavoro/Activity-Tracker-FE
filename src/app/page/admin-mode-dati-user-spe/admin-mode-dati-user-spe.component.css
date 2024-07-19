@@ -109,7 +109,7 @@ input[type="text"]:focus {
   
 .p-button {
   color: white;
-  background-color: #0F6DAF;
+  background-color: var(--primary-color);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;

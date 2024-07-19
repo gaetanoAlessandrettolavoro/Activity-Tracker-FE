@@ -3,7 +3,7 @@
   <button
     (click)="showDialog()"
     style="
-      background-color: #0f6daf;
+      background-color: var(--primary-color);
       color: white;
       border: none;
       border-radius: 8px;
@@ -50,7 +50,7 @@
         label="Save"
         (click)="submit()"
         class="button"
-        [style]="{ 'background-color': '#0F6DAF' }"
+        [style]="{ 'background-color': 'var(--primary-color)' }"
       />
     </div>
   </p-dialog>

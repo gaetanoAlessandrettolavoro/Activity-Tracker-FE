@@ -78,7 +78,7 @@
 
 .actions button {
   color: white;
-  background-color: #0F6DAF;
+  background-color: var(--primary-color);
   border: none;
   padding: 5px 10px; 
   border-radius: 5px;
