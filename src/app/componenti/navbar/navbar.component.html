@@ -1,23 +1,24 @@
+<p-toast />
 <div class="VF">
   <div *ngIf="isAdmin" class="barra">
     <div class="sinistra">
       <app-sidebar></app-sidebar>
       <img src="../assets/Logo.png" />
     </div>
-
+    
     <div class="destra">
       <div class="email">{{ userEmail }}</div>
       <app-dropdown-menu></app-dropdown-menu>
       <app-user-manual></app-user-manual>
     </div>
   </div>
-
+  
   <div *ngIf="isUser" class="barra">
     <div class="sinistra">
       <app-sidebar></app-sidebar>
       <img src="../assets/Logo.png" />
     </div>
-
+    
     <div class="destra">
       <div class="email">{{ userEmail }}</div>
       <app-dropdown-menu></app-dropdown-menu>
@@ -34,18 +35,18 @@
   </div>
   <div class="bottoni">
     <button class="register-btn" (click)="navigateToRegister()" style="
-            background-color: #0f6caf;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 8px;
             height: 40px;
             margin-right: 20px;
             cursor: pointer;
-          ">
+            ">
       Registrati
     </button>
     <button class="login-btn" (click)="navigateToLogin()" style="
-            background-color: #0f6caf;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             border-radius: 8px;
@@ -53,7 +54,7 @@
             margin-right: 20px;
             cursor: pointer;
             padding: 7px 14px;
-          ">
+            ">
       Accedi
     </button>
   </div>

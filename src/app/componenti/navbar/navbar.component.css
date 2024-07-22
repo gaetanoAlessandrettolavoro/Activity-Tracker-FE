@@ -158,17 +158,6 @@
   margin-top: -25px;
 }
 
-button {
-  background-color: #0f6caf;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  height: 40px;
-  cursor: pointer;
-  margin-right: 20px;
-  padding: 7px 14px;
-}
-
 .titolo {
   display: flex;
   align-items: center;

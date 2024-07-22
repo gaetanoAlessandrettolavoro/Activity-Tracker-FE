@@ -18,6 +18,7 @@ import { ServiceTasksService } from '../../servizi/service-tasks.service';
 import { Task } from '../../models/taskModel';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { DividerModule } from 'primeng/divider';
+import { LoggingService } from '../../servizi/logging.service';
 
 interface customInterface {
   activity: Activity,
@@ -52,10 +53,16 @@ export class BasicChartComponent implements OnInit {
     private errors: ErrorServiziService,
     private adminService: AdminserviceService,
     private activitiesService: ActivitiesServicesService,
-    private tasksService: ServiceTasksService
+    private tasksService: ServiceTasksService,
+    private logging: LoggingService
   ) {}
 
-  showError(statusCode: number) {
+  showError(statusCode: number, errorMessage?: string) {
+    if(!errorMessage) {
+      this.logging.error(`Error occurred fetching datas in basic chart on Date ${this.date}`);
+    } else {
+      this.logging.error(`Error occurred showing details in basic chart.\nError ${statusCode} with message: ${errorMessage}`);
+    }
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -143,14 +150,14 @@ export class BasicChartComponent implements OnInit {
                   this.detailsToPrint.set(newCustomItem);
                   this.visibleDetail = true;
                 },
-                error: (error) => this.showError(error.status)
+                error: (error) => this.showError(error.status, error.error.message)
               })
             }
           },
-          error: (error) => this.showError(error.status)
+          error: (error) => this.showError(error.status, error.error.message)
         })
       },
-      error: (error) => this.showError(error.status)
+      error: (error) => this.showError(error.status, error.error.message)
     })
   }
 }

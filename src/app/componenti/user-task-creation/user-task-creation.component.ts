@@ -22,6 +22,7 @@ import { TaskResponse } from '../../models/taskResponseModel';
 import { MessageService } from 'primeng/api';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 
 @Component({
@@ -72,10 +73,14 @@ export class UserTaskCreationComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private userService: UserServiceService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private logging: LoggingService
   ) {}
 
-  showError(statusCode: number) {
+  showError(statusCode: number, errorMessage?: string) {
+    if(!!errorMessage){
+      this.logging.error(`Error occurred creating a new activity.\nError ${statusCode} with message: ${errorMessage}`);
+    }
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -94,7 +99,15 @@ export class UserTaskCreationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.servicetasks.getAllTasks().subscribe({next:(result: TaskResponse) => {this.tasks = result.data.document}, error: (error) => {this.showError(error.status)}});
+    this.servicetasks.getAllTasks().subscribe({
+      next:(result: TaskResponse) => {
+        this.tasks = result.data.document
+      },
+      error: (error) => {
+        this.logging.error(`Error occurred fetching tasks.\nError ${error.status} with message: ${error.error.message}`);
+        this.showError(error.status);
+      }
+    });
 
     this.userForm = new FormGroup({
       notes: new FormControl('', [Validators.required, Validators.maxLength(100)]),
@@ -140,10 +153,11 @@ export class UserTaskCreationComponent implements OnInit {
           if(result.status == "success"){
             this.buttonClicked.emit("Valore");
           }
+          this.logging.info(`Activity for user with id ${this.userID} successfully created`);
           this.noVisible();
         },
         error: (error: any) => {
-          this.showError(error.status);
+          this.showError(error.status, error.error.message);
         },
       });
     });

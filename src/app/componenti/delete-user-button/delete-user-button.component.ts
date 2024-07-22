@@ -3,6 +3,7 @@ import { User } from '../../models/userModel';
 import { AdminserviceService } from '../../servizi/adminservice.service';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { Router } from '@angular/router';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'delete-user',
@@ -19,9 +20,11 @@ export class DeleteUserButtonComponent {
     private deleteUser: AdminserviceService,
     private userService: UserServiceService,
     private router: Router,
+    private logging: LoggingService
   ) {}
 
-  showError(statusCode: number) {
+  showError(statusCode: number, errorMessage: string) {
+    this.logging.error(`Error occurred deleting user with id ${this.user._id}.\nError ${statusCode} with message: ${errorMessage}`)
     if(statusCode === 401 || statusCode === 429) {
       if(statusCode === 401) alert('Sembra che tu non sia autenticato. Accedi per continuare.');
       if(statusCode === 429) alert('Troppi tentativi di accesso, riprova tra un\'ora')
@@ -51,9 +54,10 @@ export class DeleteUserButtonComponent {
           this.deleteUser.deleteUser(this.user._id).subscribe({
             next: () => {
               this.userDeleted.emit(true);
+              this.logging.info(`User with id ${this.user._id} successfully deleted`);
             },
             error: (error) => {
-              this.showError(error.status);
+              this.showError(error.status, error.error.message);
             },
           });
         }

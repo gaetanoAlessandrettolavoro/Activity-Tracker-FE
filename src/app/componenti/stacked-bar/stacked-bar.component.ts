@@ -7,6 +7,12 @@ import { AdminserviceService } from '../../servizi/adminservice.service';
 import { User } from '../../models/userModel';
 import { ChartsService } from '../../servizi/charts.service';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { UserServiceService } from '../../servizi/user-service.service';
+import { Router } from '@angular/router';
+import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 interface SimpleUser {
   name: string;
@@ -16,9 +22,10 @@ interface SimpleUser {
 @Component({
   selector: 'stacked-bar',
   standalone: true,
-  imports: [ChartModule, CalendarModule, FormsModule, DropdownModule, ButtonModule],
+  imports: [ChartModule, CalendarModule, FormsModule, DropdownModule, ButtonModule, ToastModule],
   templateUrl: './stacked-bar.component.html',
   styleUrl: './stacked-bar.component.css',
+  providers: [MessageService]
 })
 export class StackedBarComponent {
   protected documentStyle = getComputedStyle(document.documentElement);
@@ -70,16 +77,32 @@ export class StackedBarComponent {
     },
   };
 
-  constructor(private adminService: AdminserviceService, private chartsService: ChartsService) {}
+  constructor(private adminService: AdminserviceService, private chartsService: ChartsService, private messageService: MessageService, private userService: UserServiceService, private router: Router, private errors: ErrorServiziService, private logging: LoggingService) {}
+
+  showError(statusCode: number, errorMessage?: string) {
+    if(!!errorMessage) {
+      this.logging.error(`Error occurred fetching data in stacked-bar chart.\nError ${statusCode} with message: ${errorMessage}`);
+    }
+    if(statusCode === 401 || statusCode === 429) {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+      setTimeout(() => {
+        this.userService.logout();
+        this.router.navigate(['/login']);
+      }, 3000);
+    } else {
+      this.messageService.add(this.errors.getErrorMessage(statusCode));
+    }
+  }
 
   getChart(userID: string, fromDate: Date, toDate: Date){
     this.chartsService.hoursPerUser(userID, fromDate, toDate).subscribe({
       next: (res) => {
         console.log(res);
         this.data = res;
+        this.logging.info(`Stacked-bar chart successfully loaded`);
       },
       error: (err) => {
-        console.error(err);
+        this.showError(err.status, err.error.message);
       }
     })
   }
@@ -99,9 +122,10 @@ export class StackedBarComponent {
             _id: el._id,
           }))
         );
+        this.logging.info(`Users successfully loaded`);
       },
       error: (err) => {
-        console.error(err);
+        this.showError(err.status, err.error.message);
       },
     });
   }

@@ -30,6 +30,7 @@ import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ToastModule } from 'primeng/toast';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
+import { LoggingService } from '../../servizi/logging.service';
 
 @Component({
   selector: 'edit-activity-form',
@@ -63,7 +64,8 @@ export class EditActivityFormComponent implements OnInit {
     private messageService: MessageService,
     private router: Router,
     private userService: UserServiceService,
-    private errors: ErrorServiziService
+    private errors: ErrorServiziService,
+    private logging: LoggingService
   ) {}
 
   activityToEdit = signal<any>({});
@@ -73,7 +75,10 @@ export class EditActivityFormComponent implements OnInit {
   startToEdit = signal<string>('');
   endToEdit = signal<string>('');
 
-  showError(statusCode: number) {
+  showError(statusCode: number, errorMessage?: string) {
+    if(errorMessage){
+      this.logging.error(`Error occurred updating activity with id ${this.activityToEdit()._id}.\nError ${statusCode} with message: ${errorMessage}`)
+    }
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -97,6 +102,7 @@ export class EditActivityFormComponent implements OnInit {
         })
       },
       error: (error) => {
+        this.logging.error(`Error occurred fetching tasks.\nError ${error.status} with message: ${error.error.message}`);
         this.showError(error.status);
       },
     });
@@ -147,10 +153,11 @@ export class EditActivityFormComponent implements OnInit {
         .updateActivities(updatedActivity, updatedActivity._id)
         .subscribe({
           next: (result) => {
+            this.logging.info(`Activity with id ${this.activityToEdit()._id} successfully updated`);
             this.activityEdited.emit(true);
           },
           error: (err) => {
-            this.showError(err.status);
+            this.showError(err.status, err.message);
           },
         });
     }
