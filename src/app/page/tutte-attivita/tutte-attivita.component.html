@@ -1,136 +1,128 @@
-<p-toast />
+<p-toast></p-toast>
 
-  <h1>Tutte le attività</h1>
-  <div [formGroup]="filterForm" class="filter-row">
-    <div class="filter-container">
-      <i class="pi pi-search"></i>
-      <input type="text" pInputText placeholder="Cerca per attività" formControlName="taskName" style="width: 310px;">
+<h1>Tutte le attività</h1>
+
+
+
+
+<div [formGroup]="filterForm" class="filter-row">
+  <div class="filter-container">
+    <i class="pi pi-search"></i>
+    <input type="text" pInputText placeholder="Cerca per attività" formControlName="taskName" style="width: 310px;">
+  </div>
+  <div style="display: flex; margin-right: 5px;">
+    <div class="card flex justify-content-center">Stato:
+      <p-dropdown 
+          [options]="states" 
+          [(ngModel)]="selectedState" 
+          optionLabel="name"
+          placeholder="Seleziona" 
+          (onChange)="onStateChange($event)" />
     </div>
-    <div style="display: flex; margin-right: 5px;">
-    
-      <div class="card flex justify-content-center">Stato:
-        <p-dropdown 
-            [options]="states" 
-            [(ngModel)]="selectedState" 
-            optionLabel="name"
-            placeholder="Seleziona" 
-            (onChange)="onStateChange($event)" />
-    </div>
-      </div>
-    <div style="display: flex; margin-right: 80px;">
+  </div>
+  <div style="display: flex; margin-right: 80px;">
     <div class="date-input">
       <label for="fromDate">Da:</label>
       <input id="fromDate" type="date" pInputText placeholder="Da data" formControlName="fromDate" style="background-color: var(--primary-color);">
     </div>
-    
     <div class="date-input">
       <label for="toDate" style="margin-left: 8px;">A:</label>
       <input id="toDate" type="date" pInputText placeholder="A data" formControlName="toDate" style="background-color: var(--primary-color);">
     </div>
   </div>
-</div>
+
   
+</div>
+
+
+
+
 <style>
   .truncate {
     max-width: 10px; 
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-   
+  }
+  
+  .export-button {
+    margin: 1em 0;
   }
 </style>
 
-
 <div class="box">
-
-
+  
   <p-table
-  [value]="filteredItems.length ? filteredItems : rowItems"
-  sortField="firstName"
-  [tableStyle]="{ 'min-width': '60rem' }"
-  [paginator]="false"
-  [rows]="limit"
-  [totalRecords]="totalRecords"
-  [loading]="loading"
-  [style]="{ 'max-width': '90%', 'margin': '0 auto' }">
-  <ng-template pTemplate="header">
-    <tr>
-      <th class="firstName" [style.width.px]="150">
-        Nome
-      </th>
-      <th class="lastName" [style.width.px]="150">
-        Cognome
-      </th> 
-      <th class="taskName" class="activities" [style.width.px]="150">
-        Attività
-      </th>
-      <th class="stato" style="width: 5em">Stato</th>
-      <th pSortableColumn="startTime"[style.width.px]="150">
-        Data
-        <p-sortIcon field="startTime"></p-sortIcon>
-      </th>
-      <th pSortableColumn="startTime" class="times"[style.width.px]="200">
-        Orario di inizio
-        <p-sortIcon field="startTime"></p-sortIcon>
-      </th>
-      <th class="endTime" class="times"[style.width.px]="200">
-        Orario di fine
-      </th>
-      <th class="notes" class="notes"[style.width.px]="150">
-        Note
-      </th>
-      <th class="buttons"></th>
-      <th class="buttons"></th>
-     
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-    <tr>
-      <td>{{ rowData.firstName }}</td> 
-      <td>{{ rowData.lastName }}</td> 
-      <td>{{ rowData.taskName }}</td>
-      <td *ngIf="rowData.isTaskActive" style="width: 5em"><span title="Doing" class="pi pi-circle-on" style="color: blue"></span></td>
-      <td *ngIf="!rowData.isTaskActive" style="width: 5em"><span title="Done" class="pi pi-circle-on" style="color: #558157"></span></td>
-      <td>{{ rowData.startTime | date: "dd/MM/yyyy" }}</td>
-      <td>{{ rowData.startTime | date: "HH:mm" }}</td>
-      <td>{{ rowData.endTime | date:"HH:mm" }}</td>
-      <td class="notes truncate">
-        <div style="display: flex; flex-direction: column-reverse;">
-          <span *ngIf="rowData.notes.length > 10">
-            {{ rowData.notes | slice:0:10 }}<span>...</span>
-            <app-modal [message]="rowData.notes"></app-modal>
-          </span>
-          <span *ngIf="rowData.notes.length <= 10">
-            {{ rowData.notes }}
-          </span>
-        </div>
-      </td>
-      <td><edit-activity [activity]="activityToSend(rowData)" (activityEdited)="reload()" ></edit-activity></td>
-      <td><delete-activity [activityID]="rowData._id" (deleted)="reload()" [disabled]="!rowData.isActive"></delete-activity></td>
-      
-    </tr>
-  </ng-template>
-</p-table>
+    [value]="filteredItems.length ? filteredItems : rowItems"
+    sortField="firstName"
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [paginator]="false"
+    [rows]="limit"
+    [totalRecords]="totalRecords"
+    [loading]="loading"
+    [style]="{ 'max-width': '90%', 'margin': '0 auto' }">
+    <ng-template pTemplate="header">
+      <div class="export-button">
+        <button (click)="exportToCSV()" style="background-color: #007bff; color: white; border: none; padding: 0.5em 1em; border-radius: 4px; cursor: pointer;">
+          Export to CSV
+        </button>
+      </div> 
+      <tr>
+        <th class="firstName" [style.width.px]="150">Nome</th>
+        <th class="lastName" [style.width.px]="150">Cognome</th> 
+        <th class="taskName" class="activities" [style.width.px]="150">Attività</th>
+        <th class="stato" style="width: 5em">Stato</th>
+        <th pSortableColumn="startTime" [style.width.px]="150">Data<p-sortIcon field="startTime"></p-sortIcon></th>
+        <th pSortableColumn="startTime" class="times" [style.width.px]="200">Orario di inizio<p-sortIcon field="startTime"></p-sortIcon></th>
+        <th class="endTime" class="times" [style.width.px]="200">Orario di fine</th>
+        <th class="notes" class="notes" [style.width.px]="150">Note</th>
+        <th class="buttons"></th>
+        <th class="buttons"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ rowData.firstName }}</td> 
+        <td>{{ rowData.lastName }}</td> 
+        <td>{{ rowData.taskName }}</td>
+        <td *ngIf="rowData.isTaskActive" style="width: 5em">
+          <span title="Doing" class="pi pi-circle-on" style="color: blue"></span>
+        </td>
+        <td *ngIf="!rowData.isTaskActive" style="width: 5em">
+          <span title="Done" class="pi pi-circle-on" style="color: #558157"></span>
+        </td>
+        <td>{{ rowData.startTime | date: "dd/MM/yyyy" }}</td>
+        <td>{{ rowData.startTime | date: "HH:mm" }}</td>
+        <td>{{ rowData.endTime | date:"HH:mm" }}</td>
+        <td class="notes truncate">
+          <div style="display: flex; flex-direction: column-reverse;">
+            <span *ngIf="rowData.notes.length > 10">
+              {{ rowData.notes | slice:0:10 }}<span>...</span>
+              <app-modal [message]="rowData.notes"></app-modal>
+            </span>
+            <span *ngIf="rowData.notes.length <= 10">
+              {{ rowData.notes }}
+            </span>
+          </div>
+        </td>
+        <td><edit-activity [activity]="activityToSend(rowData)" (activityEdited)="reload()"></edit-activity></td>
+        <td><delete-activity [activityID]="rowData._id" (deleted)="reload()" [disabled]="!rowData.isActive"></delete-activity></td>
+      </tr>
+    </ng-template>
+  </p-table>
 
-
-
-<div style="display: flex; justify-content: flex-end; width: 90%; margin: auto; background-color: white; padding: 0.5em 1em;">
-  {{conteggio}}
-  {{first + rows > totalRecords ? totalRecords : first + rows}} di {{totalRecords}}
-</div>
+  <div style="display: flex; justify-content: flex-end; width: 90%; margin: auto; background-color: white; padding: 0.5em 1em;">
+    {{conteggio}}
+    {{first + rows > totalRecords ? totalRecords : first + rows}} di {{totalRecords}}
+  </div>
 
 </div>
 <div class="card flex justify-content-center paginator">
   <div class="page">
-  <p-paginator [rows]="rows" [totalRecords]="totalRecords" [first]="first" (onPageChange)="onPageChange($event)"></p-paginator>
-
-
+    <p-paginator [rows]="rows" [totalRecords]="totalRecords" [first]="first" (onPageChange)="onPageChange($event)"></p-paginator>
+  </div>
 </div>
-
-  
-  <!-- totalRecords will need to be modified based on the actual database data -->
-</div>
-<div style="display: flex; justify-content: center;flex-direction: column;align-items: center; background-color: white; width: 90%; margin:auto">
+<div style="display: flex; justify-content: center; flex-direction: column; align-items: center; background-color: white; width: 90%; margin: auto">
   <input
     type="number"
     pInputText
