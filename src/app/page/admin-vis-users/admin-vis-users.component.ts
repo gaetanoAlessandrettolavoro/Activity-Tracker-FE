@@ -18,6 +18,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { AdminatoacceptusersComponent } from '../../componenti/adminatoacceptusers/adminatoacceptusers.component';
 import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
 import { LoggingService } from '../../servizi/logging.service';
+import * as Papa from 'papaparse';
 
 
 @Component({
@@ -296,6 +297,25 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
   editUser(id: string) {
     this.router.navigate([`/utenti/${id}`]);
     this.logging.log(`navigated to edit user ID: ${id}`);
+  }
+
+
+  exportToCsv(): void{
+    console.log('Exporting ',this.filteredUsers);
+    const csv =Papa.unparse(this.filteredUsers.map(item =>({
+      Nome: item.firstName,
+      Cognome:item.lastName,
+      CodiceFiscale: item.codiceFiscale,
+      email: item.email
+    })));
+    const blob = new Blob ([csv], {type: 'text/csv;charset=utf-8;'});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href =url;
+    a.download= 'report.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+
   }
 }
 
