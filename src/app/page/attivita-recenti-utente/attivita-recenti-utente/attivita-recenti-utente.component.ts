@@ -16,7 +16,7 @@ import { UserServiceService } from '../../../servizi/user-service.service';
 import { ErrorServiziService } from '../../../servizi/error-servizi.service';
 import { ModalComponent } from '../../../componenti/modal/modal.component';
 import { LoggingService } from '../../../servizi/logging.service';
-
+import *as Papa from 'papaparse';
 @Component({
   selector: 'app-attivita-recenti-utente',
   standalone: true,
@@ -68,7 +68,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     private userService: UserServiceService,
     private messageService: MessageService,
     private errors: ErrorServiziService,
-    private logging: LoggingService 
+    private logging: LoggingService
   ) {
     this.filterForm = new FormGroup({
       taskName: new FormControl(''),
@@ -81,8 +81,8 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     this.loadActivities(this.pageDefault, this.limitDefault);
 
     this.filterForm.valueChanges.subscribe(() => {
-      this.pageDefault = 1; 
-      this.filterActivities(); 
+      this.pageDefault = 1;
+      this.filterActivities();
     });
     this.logging.log('Component initialized and activities loaded');
   }
@@ -116,7 +116,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
           _id: item._id,
           isTaskActive: item.isTaskActive
         }));
-        this.filteredItems = this.rowItems; 
+        this.filteredItems = this.rowItems;
         this.logging.log('Activities loaded successfully');
       },
       error: (err) => {
@@ -146,5 +146,25 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   changeLimit(): void {
     this.loadActivities(this.pageDefault, this.limit);
     this.logging.log(`Limit changed to: ${this.limit}`);
+  }
+
+  exportToCsv(): void {
+    console.log('Exporting', this.rowItems);
+    const csv = Papa.unparse(this.rowItems.map(item => ({
+      Attività: item.taskName,
+      Data:item.startTime,
+      OrarioInizio: item.startTime,
+      OrarioFine: item.endTime, 
+      Note:item.notes,
+    })));
+
+    
+    const blob = new Blob ([csv], {type: 'text/csv;charset=utf-8;'});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href =url;
+    a.download= 'report.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 }
