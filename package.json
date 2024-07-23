@@ -20,12 +20,14 @@
     "@angular/router": "^17.3.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "chart.js": "^4.4.3",
+    "file-saver": "^2.0.5",
     "ngx-cookie-service": "^17.0.0",
     "papaparse": "^5.4.1",
     "primeicons": "^7.0.0",
     "primeng": "^17.18.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {

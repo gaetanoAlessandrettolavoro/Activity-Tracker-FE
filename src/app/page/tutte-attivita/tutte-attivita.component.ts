@@ -1,25 +1,27 @@
-import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule, DatePipe, NgIf } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { EditActivityButtonComponent } from '../../componenti/edit-activity-button/edit-activity-button.component';
 import { ButtonModule } from 'primeng/button';
 import { Activity } from '../../models/activityModel';
 import { RippleModule } from 'primeng/ripple';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterService, MessageService } from 'primeng/api';
 import { FooterComponent } from '../../componenti/footer/footer.component';
 import { DeleteActivityButtonComponent } from '../../componenti/delete-activity-button/delete-activity-button.component';
 import { catchError, of } from 'rxjs';
 import { PaginatorModule } from 'primeng/paginator';
 import { AdminserviceService } from '../../servizi/adminservice.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { Router } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ModalComponent } from '../../componenti/modal/modal.component';
 import { LoggingService } from '../../servizi/logging.service';
+import * as Papa from 'papaparse';
+
 
 interface rowItem extends Activity {
   activityDate: string | number | Date;
@@ -75,8 +77,8 @@ export class TutteAttivitaComponent implements OnInit {
   selectedState: any;
 
   cols = [
-    { fields: 'firstName', header: 'Nome' },
-    { fields: 'lastName', header: 'Cognome' },
+    { field: 'firstName', header: 'Nome' },
+    { field: 'lastName', header: 'Cognome' },
     { field: 'taskName', header: 'Attività' },
     { field: 'activityDate', header: 'Data' },
     { field: 'startTime', header: 'Orario di inizio' },
@@ -117,7 +119,7 @@ export class TutteAttivitaComponent implements OnInit {
   }
 
   onStateChange(event: any) {
-    if (event.value.name == "Solo attivi") {
+    if (event.value.name === 'Solo attivi') {
       this.soloattivi();
     } else {
       this.getActivities(1, this.limit);
@@ -141,8 +143,8 @@ export class TutteAttivitaComponent implements OnInit {
       page = 1;
     }
     
-    const formattedFromDate = fromDate ? this.datePipe.transform(fromDate, 'yyyy-MM-dd')||'' : '';
-    const formattedToDate = toDate ? this.datePipe.transform(toDate, 'yyyy-MM-dd')||'' : '';
+    const formattedFromDate = fromDate ? this.datePipe.transform(fromDate, 'yyyy-MM-dd') || '' : '';
+    const formattedToDate = toDate ? this.datePipe.transform(toDate, 'yyyy-MM-dd') || '' : '';
 
     this.userServ
       .getAllUsersActivities(page, limit, active, taskName, formattedFromDate, formattedToDate)
@@ -154,7 +156,7 @@ export class TutteAttivitaComponent implements OnInit {
       )
       .subscribe(async (result: any) => {
         const newRows: rowItem[] = [];
-        console.log(result)
+        console.log(result);
         for (let activity of result.data.document) {
           let foundUser = await this.findUser(activity.userID);
           if (foundUser) {
@@ -214,6 +216,8 @@ export class TutteAttivitaComponent implements OnInit {
       toDate: new FormControl('')
     });
 
+    
+
     this.filterForm.valueChanges.subscribe(() => {
       this.filterActivities();
     });
@@ -231,7 +235,7 @@ export class TutteAttivitaComponent implements OnInit {
   filterActivities() {
     const { taskName, fromDate, toDate } = this.filterForm.value;
     this.getActivities(1, this.limit, taskName, fromDate, toDate);
-    console.log(this.filterForm.value)
+    console.log(this.filterForm.value);
   }
 
   activityToSend(activity: rowItem): Activity {
@@ -249,7 +253,7 @@ export class TutteAttivitaComponent implements OnInit {
 
   changeLimit() {
     this.limit = this.tempLimit;
-    if(this.limit>this.totalRecords){
+    if (this.limit > this.totalRecords) {
       this.limit = this.totalRecords;
       this.tempLimit = this.limit;
     }
@@ -283,4 +287,27 @@ export class TutteAttivitaComponent implements OnInit {
   reload() {
     this.filterActivities();
   }
+
+  exportToCSV(): void {
+ 
+    console.log('Exporting data:', this.originalRowItems);
+    const csv = Papa.unparse(this.originalRowItems.map(item => ({
+      Nome: item.firstName,
+      Cognome: item.lastName,
+      Attività: item.taskName,
+      Data: this.datePipe.transform(item.activityDate, 'dd/MM/yyyy'),
+      'Orario di inizio': this.datePipe.transform(item.startTime, 'HH:mm'),
+      'Orario di fine': this.datePipe.transform(item.endTime, 'HH:mm'),
+      Note: item.notes
+    })));
+  
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'report.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+  
 }
