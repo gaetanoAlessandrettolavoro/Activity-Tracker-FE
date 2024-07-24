@@ -90,6 +90,22 @@ input[type="text"] {
     color: black;
     margin-right: -50px;
 }
+.button-report-container {
+    display: flex;
+    justify-content: flex-start; 
+    gap: 10px; 
+  }
+  
+  .report-button {
+    color: white;
+    background-color: #007bff;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  
 
 @media (max-width: 767px) {
     .filter-container {

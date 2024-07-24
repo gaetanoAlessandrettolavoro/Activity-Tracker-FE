@@ -25,9 +25,10 @@
       <input id="toDate" type="date" pInputText placeholder="A data" formControlName="toDate" style="background-color: var(--primary-color);"> 
     </div>
   </div>
-<div class="report-button">
-  <button (click)="exportToCsv()"style="color:white; background-color: #007bff; border:none; padding:0.5em 1em;border-radius:4px;cursor:pointer;margin-right:93%">Export csv</button>
-</div>
+  <div class="button-report-container">
+    <button (click)="exportToCsv()" class="report-button">Export CSV</button>
+    <button (click)="exportToExcel()" class="report-button">Export Excel</button>
+  </div>
 <br>
   <p-table
   [value]="filteredItems.length ? filteredItems : rowItems"
