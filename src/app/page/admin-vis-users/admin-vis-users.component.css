@@ -122,6 +122,21 @@
     border-radius: 3px;
     margin-left: 10px;
 }
+.button-report-container {
+    display: flex;
+    gap: 10px; /* Adjust the gap as needed */
+  }
+  
+  .report-button {
+    color: white;
+    background-color: #007bff;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 0;
+  }
+  
 
 @media (max-width: 768px) {
     .header-container {
