@@ -21,6 +21,7 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ModalComponent } from '../../componenti/modal/modal.component';
 import { LoggingService } from '../../servizi/logging.service';
 import * as Papa from 'papaparse';
+import { ExcelService } from '../../excel.service';
 
 
 interface rowItem extends Activity {
@@ -53,7 +54,7 @@ interface rowItem extends Activity {
   ],
   templateUrl: './tutte-attivita.component.html',
   styleUrls: ['./tutte-attivita.component.css'],
-  providers: [MessageService, DatePipe],
+  providers: [MessageService, DatePipe,ExcelService],
 })
 export class TutteAttivitaComponent implements OnInit {
   originalRowItems: rowItem[] = [];
@@ -97,7 +98,8 @@ export class TutteAttivitaComponent implements OnInit {
     private userService: UserServiceService,
     private errors: ErrorServiziService,
     private datePipe: DatePipe,
-    private loggingService: LoggingService
+    private loggingService: LoggingService,
+    private excel:ExcelService
   ) {}
 
   showError(statusCode: number) {
@@ -309,5 +311,21 @@ export class TutteAttivitaComponent implements OnInit {
     a.click();
     window.URL.revokeObjectURL(url);
   }
+
+  exportToExcel(): void {
+    console.log('Exporting to Excel');
+    const data = this.rowItems.map(item => ({
+      Nome: item.firstName,
+      Cognome: item.lastName,
+      Attività: item.taskName,
+      Data: this.datePipe.transform(item.activityDate, 'dd/MM/yyyy'),
+      'Orario di inizio': this.datePipe.transform(item.startTime, 'HH:mm'),
+      'Orario di fine': this.datePipe.transform(item.endTime, 'HH:mm'),
+      Note: item.notes
+    }));
+    this.excel.generateExcel(data, 'user_data'); 
+  }
+  
+
   
 }
