@@ -17,6 +17,7 @@ import { ErrorServiziService } from '../../../servizi/error-servizi.service';
 import { ModalComponent } from '../../../componenti/modal/modal.component';
 import { LoggingService } from '../../../servizi/logging.service';
 import *as Papa from 'papaparse';
+import { ExcelService } from '../../../excel.service';
 @Component({
   selector: 'app-attivita-recenti-utente',
   standalone: true,
@@ -34,7 +35,7 @@ import *as Papa from 'papaparse';
     ToastModule,
     ModalComponent
   ],
-  providers: [MessageService],
+  providers: [MessageService,ExcelService],
 })
 export class AttivitaRecentiUtenteComponent implements OnInit {
 
@@ -61,6 +62,7 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   conteggio!: string;
   totalRecords: number = 1;
 
+
   constructor(
     private filterService: FilterService,
     private activitiesservices: ActivitiesServicesService,
@@ -68,7 +70,9 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     private userService: UserServiceService,
     private messageService: MessageService,
     private errors: ErrorServiziService,
-    private logging: LoggingService
+    private logging: LoggingService,
+    private excelService: ExcelService // Aggiungi questo
+    
   ) {
     this.filterForm = new FormGroup({
       taskName: new FormControl(''),
@@ -167,4 +171,18 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
     a.click();
     window.URL.revokeObjectURL(url);
   }
+  exportToExcel(): void {
+    console.log('Exporting to Excel');
+    const data = this.rowItems.map(item => ({
+      Attività: item.taskName,
+      Data: item.startTime,
+      OrarioInizio: item.startTime,
+      OrarioFine: item.endTime,
+      Note: item.notes
+    }));
+    this.excelService.generateExcel(data, 'user_data');
+  }
+  
+  
 }
+
