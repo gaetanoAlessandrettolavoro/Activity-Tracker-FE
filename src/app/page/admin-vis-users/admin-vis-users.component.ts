@@ -2,24 +2,23 @@ import { Component, OnInit, DoCheck, ChangeDetectorRef, signal } from '@angular/
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from '../../componenti/footer/footer.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
-import { User } from '../../models/userModel';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
-import { AdminserviceService } from '../../servizi/adminservice.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import * as Papa from 'papaparse';
+import { AdminserviceService } from '../../servizi/adminservice.service';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
-import { AdminatoacceptusersComponent } from '../../componenti/adminatoacceptusers/adminatoacceptusers.component';
-import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
 import { LoggingService } from '../../servizi/logging.service';
-import * as Papa from 'papaparse';
-
+import { User } from '../../models/userModel';
+import { AdminatoacceptusersComponent } from '../../componenti/adminatoacceptusers/adminatoacceptusers.component';
+import { DeleteUserButtonComponent } from '../../componenti/delete-user-button/delete-user-button.component';
+import { UserTaskCreationComponent } from '../../componenti/user-task-creation/user-task-creation.component';
+import { ExcelService } from '../../excel.service';
 
 @Component({
   selector: 'app-admin-vis-user',
@@ -40,7 +39,7 @@ import * as Papa from 'papaparse';
     UserTaskCreationComponent,
     ReactiveFormsModule
   ],
-  providers: [MessageService],
+  providers: [MessageService,ExcelService],
 })
 export class AdminvisuserComponent implements OnInit, DoCheck {
   totalRecords = signal<number>(1); // Transform totalRecords to a signal
@@ -56,7 +55,8 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
     private userService: UserServiceService,
     private errors: ErrorServiziService,
     private cdref: ChangeDetectorRef,
-    private logging:LoggingService
+    private logging: LoggingService,
+    private excelService: ExcelService  // Injecting the ExcelService
   ) {}
 
   usersArray = signal<User[]>([]);
@@ -90,7 +90,7 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
     } else {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
     }
-    this.logging.error(`Error occurred with status code: ${statusCode}`); 
+    this.logging.error(`Error occurred with status code: ${statusCode}`);
   }
 
   showDialog() {
@@ -108,7 +108,7 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
   changemodaladmin() {
     this.modaldmin = !this.modaldmin;
     console.log(this.modaldmin);
-    this.logging.log(`admin modal changed to: ${this.modaldmin}`); 
+    this.logging.log(`admin modal changed to: ${this.modaldmin}`);
   }
 
   filterUsers() {
@@ -124,7 +124,7 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
           this.filteredUsers = newUsers;
           this.totalRecords.set(newUsers.length); // Use the signal setter
           console.log('Filtered Total Records:', this.totalRecords()); // Debugging
-        this.conteggio= `${this.totalRecords()} di ${this.totalRecords()}`
+          this.conteggio = `${this.totalRecords()} di ${this.totalRecords()}`;
         },
         error: (error) => this.showError(error.status)
       });
@@ -132,14 +132,14 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
       this.filteredUsers = this.usersArray().filter((user) => {
         const matchesFirstName = !this.searchQuery || //@ts-ignore
           user.firstName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
-  
+
         const matchesLastName = !this.searchQuery || //@ts-ignore
           user.lastName.toLowerCase().includes(this.searchQuery.value.searchQuery.toLowerCase());
 
         return matchesFirstName || matchesLastName;
       });
       this.totalRecords.set(this.filteredUsers.length); // Use the signal setter
-      this.logging.log('Filtered users using local array'); 
+      this.logging.log('Filtered users using local array');
     }
     this.cdref.detectChanges(); // Force change detection
   }
@@ -162,20 +162,18 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
           this.usersArray.set([...currentUsers, newUser]);
         });
         this.filterUsers();
-        this.logging.log('User data initialized successfully'); 
+        this.logging.log('User data initialized successfully');
       },
       error: (err) => {
         this.showError(err.status);
-        this.logging.error(`Failed to initialize user data with error: ${err.message}`); 
+        this.logging.error(`Failed to initialize user data with error: ${err.message}`);
       },
     });
     this.searchQuery.valueChanges.subscribe(() => {
       this.filterUsers();
-      this.logging.log('search query changed'); 
+      this.logging.log('search query changed');
     });
   }
-
-  
 
   ngDoCheck(): void {
     this.Ciao = this.totalRecords(); // Update Ciao with the current value of totalRecords
@@ -191,7 +189,7 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
         } else {
           this.router.navigate(['/admin-vis-utente-specifico', userId]);
         }
-        this.logging.log(`Activity fetched for user ID: ${userId}`); 
+        this.logging.log(`Activity fetched for user ID: ${userId}`);
       },
       error: (err) => {
         this.showError(err.status);
@@ -227,15 +225,12 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
   }
 
   changeLimit() {
-    if(this.limit > this.totalRecords()){
+    if (this.limit > this.totalRecords()) {
       this.limit = this.totalRecords();
-    }
-    else{
-    const currentPage = this.first / this.rows + 1;
-    this.limitDefault = this.limit;
-    this.users
-      .getUsers({ pageNumber: currentPage, limit: this.limitDefault })
-      .subscribe({
+    } else {
+      const currentPage = this.first / this.rows + 1;
+      this.limitDefault = this.limit;
+      this.users.getUsers({ pageNumber: currentPage, limit: this.limitDefault }).subscribe({
         next: (data: any) => {
           this.conteggio = `${data.results} di ${data.counters.documentsActive}`;
           this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
@@ -252,7 +247,7 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
             }]);
           });
           this.filterUsers();
-          this.logging.log('Limit changed successfully'); 
+          this.logging.log('Limit changed successfully');
         },
         error: (err) => {
           this.showError(err.status);
@@ -264,7 +259,7 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
 
   userDeleted() {
     console.log('User deleted');
-    this.logging.log('user deleted action triggered'); 
+    this.logging.log('user deleted action triggered');
     this.refreshUsers();
   }
 
@@ -285,7 +280,7 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
         this.usersArray.set(newUsersArray);
         this.filterUsers();
         this.cdref.detectChanges();
-        this.logging.log('Users refreshed successfully'); 
+        this.logging.log('Users refreshed successfully');
       },
       error: (err) => {
         this.showError(err.status);
@@ -299,23 +294,30 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
     this.logging.log(`navigated to edit user ID: ${id}`);
   }
 
-
-  exportToCsv(): void{
-    console.log('Exporting ',this.filteredUsers);
-    const csv =Papa.unparse(this.filteredUsers.map(item =>({
+  exportToCsv(): void {
+    console.log('Exporting ', this.filteredUsers);
+    const csv = Papa.unparse(this.filteredUsers.map(item => ({
       Nome: item.firstName,
-      Cognome:item.lastName,
+      Cognome: item.lastName,
       CodiceFiscale: item.codiceFiscale,
       email: item.email
     })));
-    const blob = new Blob ([csv], {type: 'text/csv;charset=utf-8;'});
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); // Converts data to CSV
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href =url;
-    a.download= 'report.csv';
+    a.href = url;
+    a.download = 'report.csv';
     a.click();
     window.URL.revokeObjectURL(url);
+  }
 
+  exportToExcel(): void {
+    const data = this.filteredUsers.map(item => ({
+      Nome: item.firstName,
+      Cognome: item.lastName,
+      CodiceFiscale: item.codiceFiscale,
+      email: item.email
+    }));
+    this.excelService.generateExcel(data, 'user_data');
   }
 }
-

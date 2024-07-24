@@ -9,8 +9,9 @@
     <app-adminatoacceptusers></app-adminatoacceptusers>
   <br><br>
 </div>
-<div class="button-report">
-  <button (click)="exportToCsv()" style="color:white; background-color: #007bff; border:none; padding:0.5em  1em; border-radius:4px; cursor:pointer;margin-right:93%"> Export Csv</button>
+<div class="button-report-container">
+  <button (click)="exportToCsv()" class="report-button">Export CSV</button>
+  <button (click)="exportToExcel()" class="report-button">Export Excel</button>
 </div>
 <br>
   <p-table
