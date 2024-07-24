@@ -1,4 +1,4 @@
-import { Component, OnInit, DoCheck, ChangeDetectorRef, signal } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -41,12 +41,11 @@ import { ExcelService } from '../../excel.service';
   ],
   providers: [MessageService,ExcelService],
 })
-export class AdminvisuserComponent implements OnInit, DoCheck {
+export class AdminvisuserComponent implements OnInit {
   totalRecords = signal<number>(1); // Transform totalRecords to a signal
   searchQuery = new FormGroup({
     searchQuery: new FormControl('')
   });
-  Ciao: number = 0;
 
   constructor(
     private users: AdminserviceService,
@@ -138,7 +137,6 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
 
         return matchesFirstName || matchesLastName;
       });
-      this.totalRecords.set(this.filteredUsers.length); // Use the signal setter
       this.logging.log('Filtered users using local array');
     }
     this.cdref.detectChanges(); // Force change detection
@@ -173,10 +171,6 @@ export class AdminvisuserComponent implements OnInit, DoCheck {
       this.filterUsers();
       this.logging.log('search query changed');
     });
-  }
-
-  ngDoCheck(): void {
-    this.Ciao = this.totalRecords(); // Update Ciao with the current value of totalRecords
   }
 
   getActivity(id: string) {
