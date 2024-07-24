@@ -9,11 +9,12 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { LoggingService } from '../../servizi/logging.service';
+import { ImageModule } from 'primeng/image'
 
 @Component({
   selector: 'app-admin-mode-dati-user-spe',
   standalone: true,
-  imports: [ToastModule, FormsModule, ReactiveFormsModule],
+  imports: [ToastModule, FormsModule, ReactiveFormsModule, ImageModule],
   templateUrl: './admin-mode-dati-user-spe.component.html',
   styleUrl: './admin-mode-dati-user-spe.component.css',
   providers: [MessageService]
