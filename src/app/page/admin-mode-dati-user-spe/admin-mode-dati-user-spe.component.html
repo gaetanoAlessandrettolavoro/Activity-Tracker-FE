@@ -2,7 +2,12 @@
 <div class="container">
   <div class="card">
     <div class="header">
-      <img src="{{user().propic}}" width="150" height="150" style="cursor: pointer;" />
+      <p-image 
+        src="{{user().propic}}" 
+        previewImageSrc="{{user().propic}}" 
+        alt="Image"
+        [preview]="true" />
+      <!-- <img src="{{user().propic}}" width="150" height="150" style="cursor: pointer;" /> -->
       <div class="center">
         <h1>Dati Anagrafici</h1>
       </div>
