@@ -62,12 +62,11 @@
     [loading]="loading"
     [style]="{ 'max-width': '90%', 'margin': '0 auto' }">
     <ng-template pTemplate="header">
-      <div class="export-button">
-        <button (click)="exportToCSV()" style="background-color: #007bff; color: white; border: none; padding: 0.5em 1em; border-radius: 4px; cursor: pointer;">
-          Export to CSV
-        </button>
-        <button (click)="exportToExcel()"style="background-color: #007bff; color: white; border: none; padding: 0.5em 1em; border-radius: 4px; cursor: pointer;">Download Excel</button>
-      </div> 
+      <div class="button-report-container">
+        <button (click)="exportToCSV()" class="report-button">Export CSV</button>
+        <button (click)="exportToExcel()" class="report-button">Export Excel</button>
+      </div>
+      <br>
       <tr>
         <th class="firstName" [style.width.px]="150">Nome</th>
         <th class="lastName" [style.width.px]="150">Cognome</th> 
