@@ -293,42 +293,60 @@ export class TutteAttivitaComponent implements OnInit {
   }
 
   exportToCSV(): void {
-    console.log('Exporting data:', this.originalRowItems);
-    const csv = Papa.unparse(this.originalRowItems.map(item => ({
-      Nome: item.firstName,
-      Cognome: item.lastName,
-      Attività: item.taskName,
-      'Stato Attività': item.isTaskActive ? 'Attivo' : 'Non Attivo' ,
-      Data: this.datePipe.transform(item.startTime, 'dd/MM/yyyy'),
-      'Orario di inizio': this.datePipe.transform(item.startTime, 'HH:mm'),
-      'Orario di fine': this.datePipe.transform(item.endTime, 'HH:mm'),
-      Note: item.notes,
-    })));
-    
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'report.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    const page = 1; 
+    const limit = this.totalRecords; 
+
+    this.userServ.getAllUsersActivities(page, limit)
+      .subscribe(async (result: any) => {
+        const activities = result.data.document;
+        const csvData = activities.map((activity: any) => ({
+          Nome: activity.firstName,
+          Cognome: activity.lastName,
+          Attività: activity.taskName,
+          'Stato Attività': activity.isTaskActive ? 'Attivo' : 'Non Attivo',
+          Data: this.datePipe.transform(activity.startTime, 'dd/MM/yyyy'),
+          'Orario di inizio': this.datePipe.transform(activity.startTime, 'HH:mm'),
+          'Orario di fine': this.datePipe.transform(activity.endTime, 'HH:mm'),
+          Note: activity.notes,
+        }));
+
+        const csv = Papa.unparse(csvData);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'tutte-attività.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      }, error => {
+        console.error('Error exporting activities:', error);
+      });
   }
 
   exportToExcel(): void {
-    console.log('Exporting to Excel');
-    const data = this.rowItems.map(item => ({
-      Nome: item.firstName,
-      Cognome: item.lastName,
-      Attività: item.taskName,
-      'Stato Attività': item.isTaskActive ? 'Attivo' : 'Non Attivo' ,
-      Data: this.datePipe.transform(item.startTime, 'dd/MM/yyyy'),
-      'Orario di inizio': this.datePipe.transform(item.startTime, 'HH:mm'),
-      'Orario di fine': this.datePipe.transform(item.endTime, 'HH:mm'),
-      Note: item.notes,
-      
-    }));
-    this.excel.generateExcel(data, 'user_data');
+    const page = 1;
+    const limit = this.totalRecords;
+  
+    this.userServ.getAllUsersActivities(page, limit)
+      .subscribe(async (result: any) => {
+        const activities = result.data.document;
+        const excelData = activities.map((activity: any) => ({
+          Nome: activity.firstName,
+          Cognome: activity.lastName,
+          Attività: activity.taskName,
+          'Stato Attività': activity.isTaskActive ? 'Attivo' : 'Non Attivo',
+          Data: this.datePipe.transform(activity.startTime, 'dd/MM/yyyy'),
+          'Orario di inizio': this.datePipe.transform(activity.startTime, 'HH:mm'),
+          'Orario di fine': this.datePipe.transform(activity.endTime, 'HH:mm'),
+          Note: activity.notes,
+        }));
+  
+        this.excel.generateExcel(excelData, 'Tutte-Attività.excel');
+      }, error => {
+        console.error('Error exporting activities:', error);
+      });
   }
+  
   
 
   

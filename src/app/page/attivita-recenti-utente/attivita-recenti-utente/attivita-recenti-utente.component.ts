@@ -153,36 +153,61 @@ export class AttivitaRecentiUtenteComponent implements OnInit {
   }
 
   exportToCsv(): void {
-    console.log('Exporting', this.rowItems);
-    const csv = Papa.unparse(this.rowItems.map(item => ({
-      Attività: item.taskName,
-      Data:item.startTime,
-      OrarioInizio: item.startTime,
-      OrarioFine: item.endTime, 
-      Note:item.notes,
-    })));
+    this.activitiesservices.getActivities({
+  
+      fromDate: this.filterForm.value.fromDate,
+      toDate: this.filterForm.value.toDate,
+      taskName: this.filterForm.value.taskName
+    }).subscribe({
+      next: (data) => {
+        const activities = data.data.userActivities.map((item: Activity) => ({
+          Attività: item.taskName,
+          Data: new Date(item.startTime).toLocaleDateString(),
+          OrarioInizio: new Date(item.startTime).toLocaleTimeString(),
+          OrarioFine: new Date(item.endTime).toLocaleTimeString(),
+          Note: item.notes,
+        }));
 
-    
-    const blob = new Blob ([csv], {type: 'text/csv;charset=utf-8;'});
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href =url;
-    a.download= 'report.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
+        const csv = Papa.unparse(activities);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'storico-attività.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.logging.log('Exported to CSV successfully');
+      },
+      error: (err) => {
+        this.showError(err.status);
+        this.logging.error(`Failed to export to CSV with error: ${err.message}`);
+      }
+    });
   }
   exportToExcel(): void {
-    console.log('Exporting to Excel');
-    const data = this.rowItems.map(item => ({
-      Attività: item.taskName,
-      Data: item.startTime,
-      OrarioInizio: item.startTime,
-      OrarioFine: item.endTime,
-      Note: item.notes
-    }));
-    this.excelService.generateExcel(data, 'user_data');
+    this.activitiesservices.getActivities({
+      fromDate: this.filterForm.value.fromDate,
+      toDate: this.filterForm.value.toDate,
+      taskName: this.filterForm.value.taskName
+    }).subscribe({
+      next: (data) => {
+        const activities = data.data.userActivities.map((item: Activity) => ({
+          Attività: item.taskName,
+          Data: new Date(item.startTime).toLocaleDateString(),
+          OrarioInizio: new Date(item.startTime).toLocaleTimeString(),
+          OrarioFine: new Date(item.endTime).toLocaleTimeString(),
+          Note: item.notes
+        }));
+
+        this.excelService.generateExcel(activities, 'storico-attività.excel');
+        this.logging.log('Exported to Excel successfully');
+      },
+      error: (err) => {
+        this.showError(err.status);
+        this.logging.error(`Failed to export to Excel with error: ${err.message}`);
+      }
+    });
   }
-  
   
 }
 
