@@ -81,6 +81,7 @@ export class TutteAttivitaComponent implements OnInit {
     { field: 'firstName', header: 'Nome' },
     { field: 'lastName', header: 'Cognome' },
     { field: 'taskName', header: 'Attività' },
+    { field: 'isTaskActive', header: 'Stato Attività' },
     { field: 'activityDate', header: 'Data' },
     { field: 'startTime', header: 'Orario di inizio' },
     { field: 'endTime', header: 'Orario di fine' },
@@ -168,6 +169,7 @@ export class TutteAttivitaComponent implements OnInit {
               nome: foundUser.data.firstName,
               firstName: foundUser.data.firstName,
               lastName: foundUser.data.lastName,
+              isTaskActive: activity.isTaskActive
             });
           }
         }
@@ -291,18 +293,18 @@ export class TutteAttivitaComponent implements OnInit {
   }
 
   exportToCSV(): void {
- 
     console.log('Exporting data:', this.originalRowItems);
     const csv = Papa.unparse(this.originalRowItems.map(item => ({
       Nome: item.firstName,
       Cognome: item.lastName,
       Attività: item.taskName,
-      Data: this.datePipe.transform(item.activityDate, 'dd/MM/yyyy'),
+      'Stato Attività': item.isTaskActive ? 'Attivo' : 'Non Attivo' ,
+      Data: this.datePipe.transform(item.startTime, 'dd/MM/yyyy'),
       'Orario di inizio': this.datePipe.transform(item.startTime, 'HH:mm'),
       'Orario di fine': this.datePipe.transform(item.endTime, 'HH:mm'),
-      Note: item.notes
+      Note: item.notes,
     })));
-  
+    
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -318,12 +320,14 @@ export class TutteAttivitaComponent implements OnInit {
       Nome: item.firstName,
       Cognome: item.lastName,
       Attività: item.taskName,
-      Data: this.datePipe.transform(item.activityDate, 'dd/MM/yyyy'),
+      'Stato Attività': item.isTaskActive ? 'Attivo' : 'Non Attivo' ,
+      Data: this.datePipe.transform(item.startTime, 'dd/MM/yyyy'),
       'Orario di inizio': this.datePipe.transform(item.startTime, 'HH:mm'),
       'Orario di fine': this.datePipe.transform(item.endTime, 'HH:mm'),
-      Note: item.notes
+      Note: item.notes,
+      
     }));
-    this.excel.generateExcel(data, 'user_data'); 
+    this.excel.generateExcel(data, 'user_data');
   }
   
 
