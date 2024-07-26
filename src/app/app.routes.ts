@@ -20,6 +20,7 @@ import { ImpostaNuovaPasswordComponent } from './page/imposta-nuova-password/imp
 import { NewpasswordComponent } from './page/newpassword/newpassword.component';
 import { bothRolesGuard } from './guardie/bothRoles.guard';
 import { TaskComponent } from './page/task-crud/task-crud.component';
+import { UploadExcel } from './componenti/upload-excel/upload-excel.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomePageComponent,canActivate: [homeGuard,userGuard] },
@@ -38,6 +39,7 @@ export const routes: Routes = [
     { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
+    { path:'uploadExcel',component:UploadExcel,},
 
 
 
