@@ -55,7 +55,7 @@ export class AdminvisuserComponent implements OnInit {
     private errors: ErrorServiziService,
     private cdref: ChangeDetectorRef,
     private logging: LoggingService,
-    private excelService: ExcelService  // Injecting the ExcelService
+    private excelService: ExcelService  
   ) {}
 
   usersArray = signal<User[]>([]);
@@ -289,29 +289,60 @@ export class AdminvisuserComponent implements OnInit {
   }
 
   exportToCsv(): void {
-    console.log('Exporting ', this.filteredUsers);
-    const csv = Papa.unparse(this.filteredUsers.map(item => ({
-      Nome: item.firstName,
-      Cognome: item.lastName,
-      CodiceFiscale: item.codiceFiscale,
-      email: item.email
-    })));
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' }); // Converts data to CSV
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'report.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    this.users.getUsers({
+     
+      
+    }).subscribe({
+      next: (data) => {
+     
+        const users = data.data.document.map((item: User) => ({
+          Nome: item.firstName,
+          Cognome: item.lastName,
+          CodiceFiscale: item.codiceFiscale,
+          Email: item.email,
+        }));
+
+        const csv = Papa.unparse(users);
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'utenti.csv';
+        a.click();
+        window.URL.revokeObjectURL(url);
+  
+        this.logging.log('Exported to CSV successfully');
+      },
+      error: (err) => {
+        this.showError(err.status);
+        this.logging.error(`Failed to export to CSV with error: ${err.message}`);
+      }
+    });
   }
+  
 
   exportToExcel(): void {
-    const data = this.filteredUsers.map(item => ({
-      Nome: item.firstName,
-      Cognome: item.lastName,
-      CodiceFiscale: item.codiceFiscale,
-      email: item.email
-    }));
-    this.excelService.generateExcel(data, 'user_data');
+    this.users.getUsers({
+     
+     
+    }).subscribe({
+      next: (data) => {
+        
+        const users = data.data.document.map((item: User) => ({
+          Nome: item.firstName,
+          Cognome: item.lastName,
+          CodiceFiscale: item.codiceFiscale,
+          Email: item.email,
+        }));
+  
+        this.excelService.generateExcel(users, 'user_data');
+        
+        this.logging.log('Exported to Excel successfully');
+      },
+      error: (err) => {
+        this.showError(err.status);
+        this.logging.error(`Failed to export to Excel with error: ${err.message}`);
+      }
+    });
   }
 }
