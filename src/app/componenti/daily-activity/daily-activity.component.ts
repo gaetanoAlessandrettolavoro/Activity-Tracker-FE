@@ -21,6 +21,7 @@ import { ButtonModule } from 'primeng/button';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ModalComponent } from '../modal/modal.component';
 import { LoggingService } from '../../servizi/logging.service';
+import { UploadExcel } from '../upload-excel/upload-excel.component';
 
 @Component({
   selector: 'daily-activity',
@@ -37,7 +38,8 @@ import { LoggingService } from '../../servizi/logging.service';
     ToastModule,
     PaginatorModule,
     ButtonModule,
-    ModalComponent
+    ModalComponent,
+    UploadExcel
   ],
   templateUrl: './daily-activity.component.html',
   styleUrl: './daily-activity.component.css',
@@ -145,5 +147,9 @@ export class DailyActivityComponent {
     this.fetchActivities();
   }
 
-}
+  receiveMessage($event : string){
+    alert("Dati aggiunti!")
+    this.fetchActivities();
+  }
 
+}
