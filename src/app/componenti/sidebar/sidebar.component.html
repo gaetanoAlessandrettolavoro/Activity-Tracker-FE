@@ -12,7 +12,7 @@
 
 
     <li>
-      <button pButton style="background-color:var(--primary-color);height: 30px;" icon="pi pi-cog" (click)="userMenu.toggle($event)" label="Report"></button>
+      <button pButton style="background-color:var(--primary-color);height: 30px;" icon="pi pi-cloud-download" (click)="userMenu.toggle($event)" label="Report"></button>
       <p-menu  [model]="userMenuItems" popup="true" #userMenu class="custom-usermenu-position"></p-menu>
   </li>
   <br>
@@ -72,7 +72,7 @@
       
     
       <li>
-        <button pButton style="background-color:var(--primary-color);height: 30px;" icon="pi pi-cog" (click)="adminMenu.toggle($event)" label="Report"></button>
+        <button pButton style="background-color:var(--primary-color);height: 30px;" icon="pi pi-cloud-download" (click)="adminMenu.toggle($event)" label="Report"></button>
         <p-menu  [model]="adminMenuItems" popup="true" #adminMenu class="custom-menu-position"></p-menu>
     </li>
     
