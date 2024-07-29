@@ -1,5 +1,7 @@
 <p-toast></p-toast>
+<div style="display: flex; justify-content: flex-end; margin-right: 40px; margin-top: 40px;">
 <app-upload-excel (evento)="receiveMessage($event)"></app-upload-excel>
+</div>
 <div *ngIf="nodailyactivity">
   <div style="margin: 10px 0 10px 50px;">
     <app-user-task-creation (buttonClicked)="gestiscivalori($event)"></app-user-task-creation>
