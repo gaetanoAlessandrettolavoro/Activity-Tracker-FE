@@ -65,8 +65,16 @@
     text-decoration: underline;
   }
   
-  input[pInputText],
-  p-password {
+  input[pInputText] {
     width: 100%;
+  }
+
+  :host ::ng-deep .p-float-label {
+    width: 200px;
+    margin: auto;
+  }
+
+  :host ::ng-deep .p-inputtext {
+    padding: 8px
   }
   
