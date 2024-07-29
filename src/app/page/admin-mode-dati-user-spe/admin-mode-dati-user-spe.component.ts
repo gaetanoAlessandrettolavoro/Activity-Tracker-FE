@@ -116,8 +116,9 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
         console.log(res);
         this.messageService.add({severity: 'success', summary:'Success', detail:'L\'email per il reset della password è stata inviata.'})
       },
-      error: (error) => { this.logging.error(`ftailed to send password reset email for user: ${this.user().email} with error: ${error.message}`); // Logga l'errore
-        console.error(error);
+      error: (error) => { 
+        this.logging.error(`ftailed to send password reset email for user: ${this.user().email} with error: ${error.message}`); // Logga l'errore
+        this.showError(error.status);
       }
     });
   }
