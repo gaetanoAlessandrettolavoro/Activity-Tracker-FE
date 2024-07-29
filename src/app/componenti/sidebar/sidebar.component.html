@@ -8,9 +8,21 @@
     <li><i class="pi pi-calendar-times"></i> <a routerLink="/attivitaprecedentiutente" (click)="close()">Storico attività</a></li>
   <br>
   <li><i class="pi pi-user"></i> <a routerLink="/impostazioni" (click)="close()">Impostazioni utente</a></li>
+  <br>
 
-    <br>
+
+    <li>
+      <button pButton style="background-color:var(--primary-color);height: 30px;" icon="pi pi-cog" (click)="userMenu.toggle($event)" label="Report"></button>
+      <p-menu  [model]="userMenuItems" popup="true" #userMenu class="custom-usermenu-position"></p-menu>
+  </li>
+  <br>
+
+
+
     <li><i class="pi pi-sign-out"></i> <button style="background:none; border:none; padding:0;font-family: Verdana, Geneva, Tahoma, sans-serif;font-weight: bold; color:red; text-decoration:none; cursor:pointer;margin-bottom: 10px;" (click)="logout()">Logout</button></li>
+    
+    
+    
 
 
 
@@ -53,6 +65,19 @@
       <br>
       <br>
       <app-adminatoacceptusers></app-adminatoacceptusers>
+
+      <br>
+
+      
+      
+    
+      <li>
+        <button pButton style="background-color:var(--primary-color);height: 30px;" icon="pi pi-cog" (click)="adminMenu.toggle($event)" label="Report"></button>
+        <p-menu  [model]="adminMenuItems" popup="true" #adminMenu class="custom-menu-position"></p-menu>
+    </li>
+    
+
+
       <br>
 
       <br>
