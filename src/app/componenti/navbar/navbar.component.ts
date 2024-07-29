@@ -6,7 +6,7 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
 import { UserManualComponent } from "../user-manual/user-manual.component";
 import { DropdownMenuComponent } from "../drop-down/drop-down.component";
 import { SidebarComponent } from "../sidebar/sidebar.component";
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { LoggingService } from '../../servizi/logging.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
@@ -20,7 +20,7 @@ import { ToastModule } from 'primeng/toast';
   standalone: true,
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
-  imports: [CommonModule, UserManualComponent, DropdownMenuComponent, SidebarComponent,AvatarGroupModule,AvatarModule, ToastModule],
+  imports: [CommonModule, UserManualComponent, DropdownMenuComponent, SidebarComponent,AvatarGroupModule,AvatarModule, ToastModule,RouterLink],
   providers: [MessageService]
 })
 export class NavbarComponent implements OnInit {

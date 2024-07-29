@@ -3,7 +3,7 @@
   <div *ngIf="isAdmin" class="barra">
     <div class="sinistra">
       <app-sidebar></app-sidebar>
-      <img src="../assets/Logo.png" />
+      <img src="../assets/Logo.png" routerLink="/dash-admin" />
     </div>
     
     <div class="destra">
@@ -16,7 +16,7 @@
   <div *ngIf="isUser" class="barra">
     <div class="sinistra">
       <app-sidebar></app-sidebar>
-      <img src="../assets/Logo.png" />
+      <img src="../assets/Logo.png" routerLink="/dash-user" />
     </div>
     
     <div class="destra">
