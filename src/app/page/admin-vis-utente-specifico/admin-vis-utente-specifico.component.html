@@ -1,75 +1,59 @@
+
+<p-toast></p-toast>
+
 <h1 class="table-title">Attività di {{ userEmail }}</h1>
 <div class="table-container">
-    <div class="filter-container">
-        <div class="date-input">
-            <label for="fromDate">Da:</label>
-            <input id="fromDate" type="date" placeholder="Da data"  [(ngModel)]="fromDate" (change)="applyFilter()" class="custom-date-input" style="margin-right: 20px;">
-        
-            <label for="toDate">A:</label>
-            <input id="toDate" type="date" placeholder="A data"  [(ngModel)]="toDate" (change)="applyFilter()" class="custom-date-input">
-        </div>
-    <div style="margin-bottom: 10px; display: flex; justify-content: flex-end;">
-        <app-user-task-creation [userID]="idunivoco"></app-user-task-creation>
-    </div>
+  <div style="margin-bottom: 10px; display: flex; justify-content: flex-end;">
+    <app-user-task-creation [userID]="idunivoco"></app-user-task-creation>
   </div>
-</div>
   <p-table
-    [value]="activities"
-    sortField="firstName"
-    [tableStyle]="{ 'min-width': '90rem' }"
-    [paginator]="false"
-    [rows]="limit"
-    [totalRecords]="totalRecords"
-    [style]="{ 'max-width': '100%', 'margin': '0 auto' }">
+  [value]="activities"
+  sortField="firstName"
+  [tableStyle]="{ 'min-width': '90rem' }"
+  [paginator]="false"
+  [rows]="limit"
+  [totalRecords]="totalRecords"
+  
+  [style]="{ 'max-width': '100%', 'margin': '0 auto' }">
+  <ng-template pTemplate="header">
+    <tr>
     
-    <ng-template pTemplate="header">
-      <tr>
-        <th class="taskName activities">
-          Attività
-        </th>
-        <th pSortableColumn="startTime" class="times">
-          Data
-          <p-sortIcon field="startTime"></p-sortIcon>
-        </th>
-        <th pSortableColumn="startTime" class="times">
-          Orario di inizio
-          <p-sortIcon field="startTime"></p-sortIcon>
-        </th>
-        <th class="endTime times">
-          Orario di fine
-        </th>
-        <th class="notes" [style]="{'size':'20px'}">
-          Note
-        </th>
-        <th></th>
-      </tr>
-    </ng-template>
-    
-    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-      <tr>
-        <td>{{ rowData.taskName }}</td>
-        <td class="times">{{ rowData.startTime | date: "dd/MM/yyyy" }}</td>
-        <td class="times">{{ rowData.startTime | date: "HH:mm" }}</td>
-        <td class="times">{{ rowData.endTime | date: "HH:mm" }}</td>
-        <td class="notes truncate">
-          <div style="display: flex; flex-direction: column-reverse;">
-            <span *ngIf="rowData.notes.length > 10">
-              {{ rowData.notes | slice:0:10 }}<span>...</span>
-              <app-modal [message]="rowData.notes"></app-modal>
-            </span>
-            <span *ngIf="rowData.notes.length <= 10">
-              {{ rowData.notes }}
-            </span>
-          </div>
-        </td>
-        <td class="buttons">
-          <edit-activity [activity]="rowData" (activityEdited)="onEditActivity()"></edit-activity>
-          <delete-activity [activityID]="rowData._id" (deleted)="onDeleteActivity()" style="margin-left: 2em;"></delete-activity>
-        </td>
-      </tr>
-    </ng-template>
-    
-  </p-table>
+   
+      <th class="taskName" class="activities" >
+        Attività
+      </th>
+      <th pSortableColumn="startTime" class="times">
+        Data
+        <p-sortIcon field="startTime"></p-sortIcon>
+      </th>
+      <th pSortableColumn="startTime" class="times">
+        Orario di inizio
+        <p-sortIcon field="startTime"></p-sortIcon>
+      </th>
+      <th class="endTime" class="times">
+        Orario di fine
+      </th>
+      <th class="notes" class="notes">
+        Note
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+    <tr>
+     
+      <td>{{ rowData.taskName }}</td>
+      <td class="times">{{ rowData.startTime | date: "dd/MM/yyyy" }}</td>
+      <td class="times">{{ rowData.startTime | date: "HH:mm" }}</td>
+      <td class="times">{{ rowData.endTime | date:"HH:mm" }}</td>
+      <td>{{ rowData.notes }}</td>
+      <td class="buttons">
+        <edit-activity [activity]="(rowData)" (activityEdited)="onEditActivity()"></edit-activity>
+        <delete-activity [activityID]="rowData._id" (deleted)="onDeleteActivity()" style="margin-left: 2em;"></delete-activity>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
   <div style="display: flex; justify-content: flex-end; background-color: white; padding: 0.5em 1em;">
     {{ conteggio }}
   </div>
@@ -87,6 +71,7 @@
       placeholder="Inserisci il limite"
       style="width: 160px;">
     <br>
-    <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{ 'background-color': 'var(--primary-color)' }"></p-button>
+    <p-button label="Invia" (click)="changeLimit()" size="small" [style]="{ 'background-color': '#0F6DAF' }"></p-button>
   </div>
   <br>
+</div>
