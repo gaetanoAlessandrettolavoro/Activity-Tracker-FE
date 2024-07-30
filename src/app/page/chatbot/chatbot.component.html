@@ -1,0 +1,17 @@
+
+<br><br><br><br><br><br><br><br>
+<div class="container">
+    <h1 style="position: absolute; top: 200px;">Benvenut* al bot di Activity Tracker!</h1>
+    <br><br><br><br>
+    <div class="card flex justify-content-center">
+        <p-dropdown 
+            [options]="cities" 
+            [(ngModel)]="selectedCity" 
+            optionLabel="domanda"
+            placeholder="Chiedi al bot"
+            (onChange)="onchange($event)"
+        />
+    </div>
+    <br>
+    {{risposta}}
+</div>
