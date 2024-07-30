@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
@@ -8,20 +8,37 @@ import { Router, RouterLink } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { CommonModule } from '@angular/common';
 import { AdminatoacceptusersComponent } from "../adminatoacceptusers/adminatoacceptusers.component";
+import { MenuItem } from 'primeng/api';
+import { Menu, MenuModule } from 'primeng/menu';
+
+
+
 
 @Component({
     selector: 'app-sidebar',
     standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css'],
-    imports: [SidebarModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule, RouterLink, CommonModule, AdminatoacceptusersComponent]
+    imports: [SidebarModule,MenuModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule, RouterLink, CommonModule, AdminatoacceptusersComponent]
 })
 export class SidebarComponent {
+
+
   
   constructor(private userService: UserServiceService, private router: Router) { }
   sidebarVisible: boolean = false;
   isAdmin :boolean= false
   isUser:boolean = false
+
+  userMenuItems: MenuItem[] = [
+    { label: 'Storico Attività',  routerLink: '/attivitaprecedentiutente' },
+ 
+];
+
+adminMenuItems: MenuItem[] = [
+  { label: 'Tutte le Attività', routerLink: '/tutteattivita' },
+  { label: 'Tutti gli utenti',  routerLink: '/dash-admin' }
+];
 
   ngDoCheck(){
     if(localStorage.getItem("utente")){
@@ -46,4 +63,6 @@ export class SidebarComponent {
   close() {
     this.sidebarVisible = false;
   }
+
+
 }

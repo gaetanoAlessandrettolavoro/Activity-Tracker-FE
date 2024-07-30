@@ -1,5 +1,6 @@
 @import "primeicons/primeicons.css";
 
+
 p-sidebar :first-of-type {
     margin-top: -10px;
 }
@@ -25,4 +26,24 @@ li {
     list-style: none;
 }
 
+::ng-deep .custom-menu-position {
 
+    top: -410px !important; 
+    position:relative;
+
+    left: -70px !important; 
+  
+   
+   
+}
+
+::ng-deep .custom-usermenu-position {
+
+    top: -230px !important; 
+    position:relative;
+
+    left: -70px !important; 
+  
+   
+   
+}
