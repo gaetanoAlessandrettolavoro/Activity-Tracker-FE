@@ -10,11 +10,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { LoggingService } from '../../servizi/logging.service';
 import { ImageModule } from 'primeng/image'
+import { DialogModule } from 'primeng/dialog';
+import { RecaptchaComponent } from '../../componenti/recaptcha/recaptcha.component';
 
 @Component({
   selector: 'app-admin-mode-dati-user-spe',
   standalone: true,
-  imports: [ToastModule, FormsModule, ReactiveFormsModule, ImageModule],
+  imports: [ToastModule, FormsModule, ReactiveFormsModule, ImageModule, DialogModule, RecaptchaComponent],
   templateUrl: './admin-mode-dati-user-spe.component.html',
   styleUrl: './admin-mode-dati-user-spe.component.css',
   providers: [MessageService]
@@ -22,6 +24,8 @@ import { ImageModule } from 'primeng/image'
 export class AdminModeDatiUserSpeComponent implements OnInit {
   user = signal<User>({} as User);
   id: any = this.route.params.pipe(map((p) => p['id']));;
+
+  visibleCaptcha: boolean = false;
 
   userForm = new FormGroup({
     firstName: new FormControl(this.user().firstName, [Validators.required]),
@@ -116,10 +120,15 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
         console.log(res);
         this.messageService.add({severity: 'success', summary:'Success', detail:'L\'email per il reset della password è stata inviata.'})
       },
-      error: (error) => { this.logging.error(`ftailed to send password reset email for user: ${this.user().email} with error: ${error.message}`); // Logga l'errore
-        console.error(error);
+      error: (error) => { 
+        this.logging.error(`ftailed to send password reset email for user: ${this.user().email} with error: ${error.message}`); // Logga l'errore
+        this.showError(error.status);
       }
     });
+  }
+
+  openCaptcha(){
+    this.visibleCaptcha = true;
   }
 
   close(){
