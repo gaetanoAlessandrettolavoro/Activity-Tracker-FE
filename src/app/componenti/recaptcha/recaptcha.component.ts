@@ -25,6 +25,13 @@ export class RecaptchaComponent {
 
   onCaptchaResolved(captchaResponse: any) {
     // console.log(`Resolved captcha with response: ${captchaResponse}`);
-    this.captcha.verifyCaptcha(captchaResponse).catch(err => console.error(err)).then(res => console.log(res));
+    this.captcha.verifyCaptcha(captchaResponse).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    })
     }
 }
