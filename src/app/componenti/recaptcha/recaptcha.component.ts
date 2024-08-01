@@ -17,9 +17,7 @@ import { CaptchaService } from '../../servizi/captcha.service';
   ],
 })
 export class RecaptchaComponent {
-  private isValid: boolean = false;
-
-  @Output() valid = new EventEmitter<boolean>();
+  @Output() isValid = new EventEmitter<boolean>();
 
   constructor(private captcha: CaptchaService) {}
 
@@ -27,10 +25,14 @@ export class RecaptchaComponent {
     // console.log(`Resolved captcha with response: ${captchaResponse}`);
     this.captcha.verifyCaptcha(captchaResponse).subscribe({
       next: (res) => {
-        console.log(res);
+        if(res.success) {
+          this.isValid.emit(true);
+        } else {
+          this.isValid.emit(false);
+        }
       },
       error: (err) => {
-        console.error(err);
+        this.isValid.emit(false);
       }
     })
     }
