@@ -7,7 +7,6 @@
         previewImageSrc="{{user().propic}}" 
         alt="Image"
         [preview]="true" />
-      <!-- <img src="{{user().propic}}" width="150" height="150" style="cursor: pointer;" /> -->
       <div class="center">
         <h1>Dati Anagrafici</h1>
       </div>
@@ -31,7 +30,7 @@
     <div class="actions">
       <button pButton type="button" (click)="close()" class="p-button p-button-secc">Chiudi </button>
       <br>
-      <button pButton type="button" (click)="changePwd()" class="p-button p-button-secc" >Cambia Password</button>
+      <button pButton type="button" (click)="openCaptcha()" class="p-button p-button-secc" >Cambia Password</button>
       <br>
       <button pButton type="button" (click)="saveChanges()" class="p-button p-button-secc">Salva </button>
      
@@ -39,3 +38,7 @@
     </div>
   </div>
 </div>
+
+<p-dialog header="Cambia password" [modal]="true" [(visible)]="visibleCaptcha" [style]="{ width: '25rem' }">
+  <app-recaptcha (isValid)="changePwd()" (error)="captchaError()"></app-recaptcha>
+</p-dialog>
