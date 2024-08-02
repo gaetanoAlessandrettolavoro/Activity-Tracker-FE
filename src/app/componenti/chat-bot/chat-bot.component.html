@@ -1,0 +1,67 @@
+
+<img #botImage src="../assets/bot.png" alt="Chat Bot" (click)="visible = true" style="justify-content: center;display: flex;text-align: center;cursor: pointer; margin-bottom:-50px;margin-left:75px;margin-top:-10px;height: 80px;width: 120px;" />
+<div style="justify-content: center;display: flex;margin-top:50px;text-align: center;margin-left: -20px;">
+
+<h2>Ciao! <br> Sono l'assistente digitale Calogero. <br>
+  Posso aiutarti?</h2>
+</div>
+
+
+
+<p-dialog 
+    [modal]="true"
+    [(visible)]="visible" 
+    [style]="{ width: '25rem', height: '100rem' }" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    (onHide)="onDialogHide()">
+
+    <ng-template pTemplate="header">
+        <div style="display: flex; align-items: center;">
+            <img src="../assets/bot.png" alt="Calogero" style="width: 68px; height: 45px; margin-right: 10px; margin-top: -5px">
+            <span>Scegli un argomento o fammi una domanda.</span>
+        </div>
+    </ng-template>
+    
+    <div id="chat-container">
+        <div class="messages-container">
+            <div *ngFor="let messaggio of messaggi" [ngClass]="messaggio.sender" class="message">
+                <h5 *ngIf="messaggio.isLoading" class="loading">
+                    <p class="pi pi-spin pi-spinner" style="margin-right: 10px;"></p>
+                    
+                    <span>Loading...</span>
+                </h5>
+              
+                    {{ messaggio.text }}
+                 
+                    <a *ngIf="messaggio.link" (click)="navigateToLink(messaggio.link)" href="javascript:void(0)">vai al link</a>
+                
+                    <div *ngIf="messaggio.showButton" (click)="openAggiungiAttivitaModal()">
+                        {{ messaggio.buttonText }}
+                        <app-user-task-creation *ngIf="showModal" (close)="closeModal()"></app-user-task-creation>
+                    </div>
+          
+            </div>
+        </div>
+        
+        <input type="text" [(ngModel)]="domande" (keydown.enter)="inviaMessaggio()" placeholder="Scrivi un messaggio...">
+    </div>
+
+    <p-carousel [value]="domandePredefinite" [numVisible]="2" [autoplayInterval]="3000" [circular]="true">
+        <ng-template pTemplate="item" let-item>
+            <div class="carousel-item">
+                <button (click)="setDomanda(item)">{{ item }}</button>
+            </div>
+        </ng-template>
+    </p-carousel>
+
+</p-dialog>
+
+
+
+<!-- <p-carousel [value]="domandePredefinite" [numVisible]="2" [autoplayInterval]="3000" [circular]="true">
+  <ng-template pTemplate="item" let-item>
+      <div class="carousel-item">
+          <button (click)="setDomanda(item)">{{ item }}</button>
+      </div>
+  </ng-template>
+</p-carousel> -->
