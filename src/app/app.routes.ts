@@ -39,7 +39,7 @@ export const routes: Routes = [
     { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
-    { path:'chatbot',component:ChatbotComponent,},
+    { path:'chatbot',component:ChatbotComponent, canActivate:[authGuard]},
      
 
 
