@@ -40,5 +40,5 @@
 </div>
 
 <p-dialog header="Cambia password" [modal]="true" [(visible)]="visibleCaptcha" [style]="{ width: '25rem' }">
-  <app-recaptcha (isValid)="changePwd()"></app-recaptcha>
+  <app-recaptcha (isValid)="changePwd()" (error)="captchaError()"></app-recaptcha>
 </p-dialog>

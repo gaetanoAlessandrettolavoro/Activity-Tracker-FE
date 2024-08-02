@@ -35,7 +35,10 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
   
   constructor(private logging:LoggingService,private adminService: AdminserviceService, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private route: ActivatedRoute) {}
 
-  showError(statusCode: number) {
+  showError(statusCode: number, errorMessage?: string) {
+    if(statusCode === 2 && !!errorMessage) {
+      this.messageService.add({severity: 'error', summary: 'Errore', detail: errorMessage});
+    }
     if(statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
@@ -134,6 +137,11 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
   close(){
     this.router.navigate(['/']);
     this.logging.log('navigated to home');
+  }
+
+  captchaError() {
+    this.showError(2, 'Errore nella risoluzione del captcha');
+    this.visibleCaptcha = false;
   }
 
 }

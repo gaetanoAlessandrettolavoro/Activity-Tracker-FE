@@ -19,6 +19,8 @@ import { CaptchaService } from '../../servizi/captcha.service';
 export class RecaptchaComponent {
   @Output() isValid = new EventEmitter<boolean>();
 
+  @Output() error = new EventEmitter<any>();
+
   constructor(private captcha: CaptchaService) {}
 
   onCaptchaResolved(captchaResponse: any) {
@@ -33,6 +35,7 @@ export class RecaptchaComponent {
       },
       error: (err) => {
         this.isValid.emit(false);
+        this.error.emit(err);
       }
     })
     }
