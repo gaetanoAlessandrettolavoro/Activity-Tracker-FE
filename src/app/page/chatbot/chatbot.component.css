@@ -1,16 +1,14 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
+.question {
+    background-color: #e0f7fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+  
+  .answer {
+    background-color: #ffe0b2;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+  }
+  

@@ -42,7 +42,7 @@ export const routes: Routes = [
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
     { path:'uploadExcel',component:UploadExcel,},
     { path:'chatbot',component:ChatbotComponent,},
-
+     
 
 
 
