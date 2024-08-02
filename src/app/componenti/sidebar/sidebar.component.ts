@@ -8,6 +8,7 @@ import { Router, RouterLink } from '@angular/router';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { CommonModule } from '@angular/common';
 import { AdminatoacceptusersComponent } from "../adminatoacceptusers/adminatoacceptusers.component";
+import { ChatBotComponent } from "../chat-bot/chat-bot.component";
 import { MenuItem } from 'primeng/api';
 import { Menu, MenuModule } from 'primeng/menu';
 
@@ -19,7 +20,7 @@ import { Menu, MenuModule } from 'primeng/menu';
     standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css'],
-    imports: [SidebarModule,MenuModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule, RouterLink, CommonModule, AdminatoacceptusersComponent]
+    imports: [SidebarModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule, RouterLink, CommonModule, AdminatoacceptusersComponent, ChatBotComponent]
 })
 export class SidebarComponent {
 

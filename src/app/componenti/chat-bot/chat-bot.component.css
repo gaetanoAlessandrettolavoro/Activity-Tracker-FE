@@ -1,0 +1,137 @@
+@import "primeicons/primeicons.css";
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  display:flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+#chat-container {
+  max-width: 400px;
+  height: 450px;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* margin-top: -30px; */
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.messages-container {
+  flex-grow: 1; 
+  overflow-y: auto; 
+}
+
+.message {
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 13px;
+}
+
+.message a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.message a:hover {
+  text-decoration: underline;
+}
+
+.message div {
+  margin-top: 5px;
+  cursor: pointer;
+  color: #007bff;
+  font-weight: normal;
+  width: 20px;
+}
+
+.message div:hover {
+  text-decoration: underline;
+}
+
+input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  display: block;
+}
+
+.p-carousel {
+  margin: 20px 0;
+  z-index: 1001;
+}
+
+.carousel-item {
+  display: flex;
+  padding: 5px;
+  height: 80px;
+  flex-direction: column;
+}
+
+.carousel-item button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+  margin:auto;
+}
+
+.carousel-item button:hover {
+  background-color: #0056b3;
+}
+
+img {
+  margin-top:25px;
+  height:55px;
+  width: 83px;
+  cursor: pointer;
+  position: relative;
+  /* left: 20px; */
+  /* transition: left 5s cubic-bezier(.5, -1, .5, 2); */
+  animation: spin 2s linear infinite;
+
+  
+}
+
+@keyframes spin {
+  from {
+      transform: rotate(0deg);
+  }
+  to {
+      transform: rotate(360deg);
+  }
+}
+
+
+.message.user {
+  background-color: #e1f5fe;
+  color: #01579b; 
+  border-left: 3px solid #01579b; 
+  padding: 5px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: right; 
+}
+
+.message.bot {
+    background-color: #f5f5f5; 
+    color: #424242; 
+    border-left: 3px solid #424242; 
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: left; 
+}
+
