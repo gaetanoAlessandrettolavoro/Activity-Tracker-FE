@@ -20,7 +20,6 @@ import { ImpostaNuovaPasswordComponent } from './page/imposta-nuova-password/imp
 import { NewpasswordComponent } from './page/newpassword/newpassword.component';
 import { bothRolesGuard } from './guardie/bothRoles.guard';
 import { TaskComponent } from './page/task-crud/task-crud.component';
-import { UploadExcel } from './componenti/upload-excel/upload-excel.component';
 import { ChatbotComponent } from './page/chatbot/chatbot.component';
 
 export const routes: Routes = [
@@ -36,12 +35,11 @@ export const routes: Routes = [
     { path: 'admin-vis-utente-specifico/:id', component: AdminVisUtenteSpecificoComponent, canActivate: [authGuard] },
     { path: 'tutteattivita', component: TutteAttivitaComponent, canActivate: [authGuard] },
     { path: 'utenti/:id', component: AdminModeDatiUserSpeComponent, canActivate:[authGuard] },
-    {path:'tasks', component:TaskComponent},
+    { path:'tasks', component:TaskComponent },
     { path: 'impostazioni', component: UserRouteComponent,canActivate:[bothRolesGuard] },
     { path: 'cambio-password', component: ImpostaNuovaPasswordComponent, canActivate:[bothRolesGuard] },
     { path: 'grafici', component: GraficiComponent, canActivate:[authGuard] },
-    { path:'uploadExcel',component:UploadExcel,},
-    { path:'chatbot',component:ChatbotComponent,},
+    { path:'chatbot',component:ChatbotComponent, canActivate:[authGuard]},
      
 
 
