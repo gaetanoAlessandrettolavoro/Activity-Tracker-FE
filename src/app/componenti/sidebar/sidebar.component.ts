@@ -20,7 +20,7 @@ import { Menu, MenuModule } from 'primeng/menu';
     standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css'],
-    imports: [SidebarModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule, RouterLink, CommonModule, AdminatoacceptusersComponent, ChatBotComponent]
+    imports: [SidebarModule,MenuModule, ButtonModule, RippleModule, AvatarModule, StyleClassModule, RouterLink, CommonModule, AdminatoacceptusersComponent, ChatBotComponent]
 })
 export class SidebarComponent {
 
