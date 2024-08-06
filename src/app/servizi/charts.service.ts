@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { alias } from './defines';
 import { Activity } from '../models/activityModel';
+import { environment } from '../../environments/environment';
 
 
 export interface BasicData {
@@ -54,7 +54,7 @@ export class ChartsService {
     const thisDay = new Date(year, month, day).toISOString().split('T')[0];
     const nextDay = new Date(year, month, day+1).toISOString().split('T')[0];
     const apiUrl =
-      `http://${alias}:3000/api/v1/activities?isActive=true`;
+      `http://${environment.recaptcha.baseUrl}:3000/api/v1/activities?isActive=true`;
     return this.http.get(`${apiUrl}&startTime[gte]=${thisDay}&startTime[lt]=${nextDay}`, { withCredentials: true }).pipe(
       map((res: any) => {
         if (res && res.data && res.data.document) {
@@ -106,7 +106,7 @@ export class ChartsService {
     const newFromDate = new Date(parseInt(fromDate.toLocaleDateString().split('/')[2]), parseInt(fromDate.toLocaleDateString().split('/')[1])-1, parseInt(fromDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
     const newToDate = new Date(parseInt(toDate.toLocaleDateString().split('/')[2]), parseInt(toDate.toLocaleDateString().split('/')[1])-1, parseInt(toDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
     console.log(newFromDate, newToDate)
-    const apiUrl = `http://${alias}:3000/api/v1/users/${userID}/activities?startTime[gte]=${newFromDate}&startTime[lt]=${newToDate}`;
+    const apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/${userID}/activities?startTime[gte]=${newFromDate}&startTime[lt]=${newToDate}`;
 
     return this.http.get(apiUrl, { withCredentials: true }).pipe(
       map((res: any) => {
@@ -154,7 +154,7 @@ export class ChartsService {
     const availableBgColors =[documentStyle.getPropertyValue('--blue-500'), documentStyle.getPropertyValue('--green-500'), documentStyle.getPropertyValue('--yellow-500'), documentStyle.getPropertyValue('--red-500'), documentStyle.getPropertyValue('--pink-500'), documentStyle.getPropertyValue('--teal-500')]
     const newFromDate = new Date(parseInt(fromDate.toLocaleDateString().split('/')[2]), parseInt(fromDate.toLocaleDateString().split('/')[1])-1, parseInt(fromDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
     const newToDate = new Date(parseInt(toDate.toLocaleDateString().split('/')[2]), parseInt(toDate.toLocaleDateString().split('/')[1])-1, parseInt(toDate.toLocaleDateString().split('/')[0])+1).toISOString().split('T')[0];
-    const apiUrl = `http://${alias}:3000/api/v1/users/${userID}/activities?startTime[gte]=${newFromDate}&startTime[lt]=${newToDate}&isActive=true`;
+    const apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/${userID}/activities?startTime[gte]=${newFromDate}&startTime[lt]=${newToDate}&isActive=true`;
 
     return this.http.get(apiUrl, { withCredentials: true }).pipe(
       map((res: any) => {
