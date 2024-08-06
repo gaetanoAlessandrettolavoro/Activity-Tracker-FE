@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Task } from '../models/taskModel';
 import { Observable } from 'rxjs';
 import { TaskResponse } from '../models/taskResponseModel';
-import { alias } from './defines';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServiceTasksService { 
 
-  apiUrl = `http://${alias}:3000/api/v1/tasks`;
+  apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/tasks`;
 
   constructor(private http: HttpClient) {}
 
