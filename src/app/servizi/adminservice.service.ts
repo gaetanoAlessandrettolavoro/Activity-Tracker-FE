@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/userModel';
-import { alias } from './defines';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -12,7 +12,7 @@ export class AdminserviceService {
 
   constructor(private http: HttpClient) {}
 
-  protected apiUrl = `http://${alias}:3000/api/v1/users`; // URL dell'API
+  protected apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users`; // URL dell'API
 
   getUsers(parameter?: {
     limit?: number;
@@ -40,11 +40,11 @@ export class AdminserviceService {
   }
 
     getOneUserActivity(data: any,pageNumber : any,limit:any): Observable<any> {
-      return this.http.get<any>(`http://${alias}:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true&sort=-startTime`,{ withCredentials: true })
+      return this.http.get<any>(`http://${environment.recaptcha.baseUrl}:3000/api/v1/users/${data}/activities?page=${pageNumber}&limit=${limit}&isActive=true&sort=-startTime`,{ withCredentials: true })
     }
 
   getOneActivity(userID: string, startTime: Date, endTime: Date){
-    let apiUrl = `http://${alias}:3000/api/v1/users/${userID}/activities?startTime[gte]=${startTime.toISOString()}&startTime[lte]=${startTime.toISOString()}&endTime[gte]=${endTime.toISOString()}&endTime[lte]=${endTime.toISOString()}`
+    let apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/${userID}/activities?startTime[gte]=${startTime.toISOString()}&startTime[lte]=${startTime.toISOString()}&endTime[gte]=${endTime.toISOString()}&endTime[lte]=${endTime.toISOString()}`
     return this.http.get(apiUrl, { withCredentials: true })
   }
 
@@ -58,12 +58,12 @@ export class AdminserviceService {
   }
 
   addTask(task: {taskName: string, expectedHours: number}) {
-    let apiUrl = `http://${alias}:3000/api/v1/tasks`; // URL dell'API
+    let apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/tasks`; // URL dell'API
     return this.http.post(apiUrl, task, { withCredentials: true });
   }
 
   getAllUsersActivities(page: number, limit: number, active?: boolean, taskName?: string, fromDate?: string, toDate?: string) {
-    let apiUrl = `http://${alias}:3000/api/v1/activities?`;
+    let apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/activities?`;
     let params = `page=${page}&limit=${limit}&sort=_id`;
   
     if (active !== undefined) {
@@ -87,7 +87,7 @@ export class AdminserviceService {
   
 
   getActivitiesByDate(parameter? : {date?: Date,pageNumber? : number,limit?:number}) {
-    const apiUrl = `http://${alias}:3000/api/v1/activities/me?startTime[gte]=`;
+    const apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/activities/me?startTime[gte]=`;
     let currentDate!: Date;
     if(!!parameter?.date) {
       currentDate = parameter.date;
@@ -101,16 +101,16 @@ export class AdminserviceService {
   }
 
   isAccetpedFalse(){
-    const apiUrll = `http://${alias}:3000/api/v1/users?isAccepted=false&isActive=true`
+    const apiUrll = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users?isAccepted=false&isActive=true`
     return this.http.get<any>(apiUrll,{ withCredentials: true });
   }
 
   acceptedUser(id: any) {
-    return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}?uri=${alias}`,{isAccepted: true,isActive:true},{ withCredentials: true });
+    return this.http.patch<any>(`http://${environment.recaptcha.baseUrl}:3000/api/v1/users/changeStatus/${id}?uri=${environment.recaptcha.baseUrl}`,{isAccepted: true,isActive:true},{ withCredentials: true });
   }
 
   rejectUser(id: any) {
-   return this.http.patch<any>(`http://${alias}:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{ withCredentials: true });
+   return this.http.patch<any>(`http://${environment.recaptcha.baseUrl}:3000/api/v1/users/changeStatus/${id}`,{isAccepted: false,isActive:false},{ withCredentials: true });
   }
   filterActivitiesByDate(userId: string, fromDate: Date, toDate: Date, page: number, limit: number): Observable<any> {
     let url = `${this.apiUrl}/${userId}/activities?`;
