@@ -18,6 +18,9 @@ import { LoggingService } from '../../servizi/logging.service';
   providers: [MessageService],
 })
 export class UserRouteComponent implements OnInit {
+onInput($event: Event) {
+throw new Error('Method not implemented.');
+}
   formData = new FormData();
   user = signal<User>({} as User);
 
@@ -25,12 +28,20 @@ export class UserRouteComponent implements OnInit {
     firstName: new FormControl(this.user().firstName, [Validators.required]),
     lastName: new FormControl(this.user().lastName, [Validators.required]),
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
+    birthDate: new FormControl(this.user().birthDate),
+    birthPlace: new FormControl(this.user().birthPlace),
+    residence: new FormControl(this.user().residence),
+    position: new FormControl(this.user().position),
+    qualification: new FormControl(this.user().qualification),
+    iban: new FormControl(this.user().iban),
+    hireDate: new FormControl(this.user().hireDate)
   });
   
   image!: any;
   studentFile: any;
   imagePath: any;
   immagine!: any;
+hireDate: any;
 
   constructor(
     private router: Router,
@@ -78,6 +89,13 @@ export class UserRouteComponent implements OnInit {
       updatedUser.append('firstName', this.user().firstName);
       updatedUser.append('lastName', this.user().lastName);
       updatedUser.append('codiceFiscale', this.user().codiceFiscale);
+      updatedUser.append('birthDate', this.user().birthDate || '');
+      updatedUser.append('birthPlace', this.user().birthPlace || '');
+      updatedUser.append('residence', this.user().residence || '');
+      updatedUser.append('position', this.user().position || '');
+      updatedUser.append('qualification', this.user().qualification || '');
+      updatedUser.append('iban', this.user().iban || '');
+      updatedUser.append('hireDate', this.user().hireDate || '');
       if (this.image) {
         updatedUser.append('propic', this.image);
       }
@@ -139,5 +157,11 @@ export class UserRouteComponent implements OnInit {
         this.saveChanges();
       };
     }
+  }
+  OnclickQualification(){
+    console.log("Qualification")
+  }
+  OnclickPosition(){
+    console.log("Inquadramento")
   }
 }
