@@ -1,6 +1,7 @@
 import {
   Component,
   Inject,
+  signal,
 } from '@angular/core';
 import {
   FormControl,
@@ -25,6 +26,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { LoggingService } from '../../servizi/logging.service';
+import { ModaleImpostazioniInquadramentoComponent } from "../../componenti/modale-impostazioni-inquadramento/modale-impostazioni-inquadramento.component";
+import { ModaleImpostazioniQualificaComponent } from "../../componenti/modale-impostazioni-qualifica/modale-impostazioni-qualifica.component";
 
 
 interface UploadEvent {
@@ -48,13 +51,15 @@ interface UploadEvent {
     DialogModule,
     ProgressSpinnerModule,
     RouterLink,
-  
+    ModaleImpostazioniInquadramentoComponent,
+    ModaleImpostazioniQualificaComponent
 ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   providers: [MessageService, HttpClientModule],
 })
 export class RegisterComponent {
+user = signal<User>({} as User);
   showSuccessMessage: boolean = false;
   formSubmitted: boolean = false;
   visible: boolean = false;
@@ -80,6 +85,9 @@ export class RegisterComponent {
       Validators.required,
       Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$'),
     ]),
+    position: new  FormControl(this.user().position),
+    qualification: new FormControl(this.user().qualification),
+
   });
 
   constructor(
