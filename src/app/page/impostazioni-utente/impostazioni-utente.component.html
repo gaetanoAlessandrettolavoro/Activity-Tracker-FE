@@ -44,12 +44,14 @@
           </div>
           <br>
           <div class="framing-group">
-            <input class="input-position" type="text" placeholder="Inquadramento" [(ngModel)]="user().position" formControlName="position" (click)="OnclickPosition()" />
+            <input class="input-position" type="text" placeholder="Inquadramento" [(ngModel)]="user().position" formControlName="position"/>
+            <app-modale-impostazioni-inquadramento></app-modale-impostazioni-inquadramento>
           </div>
         </div>
         <div class="input-group">
           <div class="qualification-group">
-            <input class="input-qualification" type="text" placeholder="Qualifica" [(ngModel)]="user().qualification" formControlName="qualification" (click)="OnclickQualification()" />
+            <input class="input-qualification" type="text" placeholder="Qualifica" [(ngModel)]="user().qualification" formControlName="qualification"/>
+            <app-modale-impostazioni-qualifica></app-modale-impostazioni-qualifica>
           </div>
           <br>
           <div class="iban-group">
@@ -68,6 +70,6 @@
       <button pButton type="button" (click)="close()" class="p-button p-button-secc">Chiudi</button>
       <button pButton type="button" (click)="changePwd()" class="p-button p-button-secc">Cambia Password</button>
       <button pButton type="button" (click)="saveChanges()" class="p-button p-button-secc">Salva</button>
-    </div>
+    </div>    
   </div>
 </div>

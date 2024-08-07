@@ -8,19 +8,19 @@ import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { LoggingService } from '../../servizi/logging.service';
+import { ModaleImpostazioniQualificaComponent } from "../../componenti/modale-impostazioni-qualifica/modale-impostazioni-qualifica.component";
+import { ModaleImpostazioniInquadramentoComponent } from "../../componenti/modale-impostazioni-inquadramento/modale-impostazioni-inquadramento.component";
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-impostazioniutente',
   templateUrl: './impostazioni-utente.component.html',
   styleUrls: ['./impostazioni-utente.component.css'],
   standalone: true,
-  imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule, ModaleImpostazioniQualificaComponent, ModaleImpostazioniInquadramentoComponent],
   providers: [MessageService],
 })
 export class UserRouteComponent implements OnInit {
-onInput($event: Event) {
-throw new Error('Method not implemented.');
-}
   formData = new FormData();
   user = signal<User>({} as User);
 
@@ -36,12 +36,11 @@ throw new Error('Method not implemented.');
     iban: new FormControl(this.user().iban),
     hireDate: new FormControl(this.user().hireDate)
   });
-  
+
   image!: any;
   studentFile: any;
   imagePath: any;
   immagine!: any;
-hireDate: any;
 
   constructor(
     private router: Router,
@@ -89,13 +88,13 @@ hireDate: any;
       updatedUser.append('firstName', this.user().firstName);
       updatedUser.append('lastName', this.user().lastName);
       updatedUser.append('codiceFiscale', this.user().codiceFiscale);
-      updatedUser.append('birthDate', this.user().birthDate || '');
+      updatedUser.append('birthDate', this.user().birthDate.toISOString() || new Date().toISOString());
       updatedUser.append('birthPlace', this.user().birthPlace || '');
       updatedUser.append('residence', this.user().residence || '');
       updatedUser.append('position', this.user().position || '');
       updatedUser.append('qualification', this.user().qualification || '');
       updatedUser.append('iban', this.user().iban || '');
-      updatedUser.append('hireDate', this.user().hireDate || '');
+      updatedUser.append('hireDate', this.user().hireDate.toISOString() || new Date().toISOString());
       if (this.image) {
         updatedUser.append('propic', this.image);
       }
@@ -157,11 +156,5 @@ hireDate: any;
         this.saveChanges();
       };
     }
-  }
-  OnclickQualification(){
-    console.log("Qualification")
-  }
-  OnclickPosition(){
-    console.log("Inquadramento")
   }
 }

@@ -113,6 +113,8 @@ export class RegisterComponent {
       this.showError(1);
     } else if (this.userForm.valid) {
       this.loggingService.log('Form Submitted!');
+      //CALOGERO, ERIKA toglietelo poi sto ignore
+      //@ts-ignore
       const postData: User = {
         firstName: this.userForm.value.name,
         lastName: this.userForm.value.surname,

@@ -6,7 +6,7 @@ import { MenuModule } from 'primeng/menu';
 @Component({
   selector: 'app-modale-impostazioni-qualifica',
   standalone: true,
-  imports: [MenuModule, ButtonModule],
+  imports: [MenuModule,  ButtonModule],
   templateUrl: './modale-impostazioni-qualifica.component.html',
   styleUrl: './modale-impostazioni-qualifica.component.css'
 })
