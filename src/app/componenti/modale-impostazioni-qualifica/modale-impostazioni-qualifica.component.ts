@@ -16,28 +16,27 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
     ngOnInit() {
         this.items = [
             {
-                label: 'Lavoratori generici e Operai comuni',
                 items: [
                     { label: 'Lavoratori generici' },
                     { label: 'Operai comuni' }
                 ]
             },
             {
-                label: 'Operai qualificati e Addetti alle macchine utensili semplici',
+    
                 items: [
                     { label: 'Operai qualificati' },
                     { label: 'Addetti alle macchine utensili semplici' }
                 ]
             },
             {
-                label: 'Operai specializzati e Addetti a macchine utensili complesse',
+        
                 items: [
                     { label: 'Operai specializzati' },
                     { label: 'Addetti a macchine utensili complesse' }
                 ]
             },
             {
-                label: 'Operai specializzati di alta qualificazione, Manutentori e Addetti a linee di produzione automatizzate',
+        
                 items: [
                     { label: 'Operai specializzati di alta qualificazione' },
                     { label: 'Manutentori' },
@@ -45,7 +44,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: 'Tecnici operativi, Capi squadra e Addetti alla programmazione di macchine CNC',
+        
                 items: [
                     { label: 'Tecnici operativi' },
                     { label: 'Capi squadra' },
@@ -53,7 +52,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: 'Tecnici esperti, Capi reparto e Programmatori CNC avanzati',
+            
                 items: [
                     { label: 'Tecnici esperti' },
                     { label: 'Capi reparto' },
@@ -61,7 +60,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: 'Quadri tecnici, Responsabili di area e Supervisori di produzione',
+               
                 items: [
                     { label: 'Quadri tecnici' },
                     { label: 'Responsabili di area' },
@@ -69,7 +68,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: 'Dirigenti tecnici, Responsabili di settore e Ingegneri di processo',
+              
                 items: [
                     { label: 'Dirigenti tecnici' },
                     { label: 'Responsabili di settore' },
@@ -77,7 +76,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: 'Dirigenti di alto livello, Direttori tecnici e Project manager senior',
+              
                 items: [
                     { label: 'Dirigenti di alto livello' },
                     { label: 'Direttori tecnici' },
