@@ -26,6 +26,7 @@ import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { LoggingService } from '../../servizi/logging.service';
 
+
 interface UploadEvent {
   originalEvent: Event;
   files: File[];
@@ -46,8 +47,9 @@ interface UploadEvent {
     ToastModule,
     DialogModule,
     ProgressSpinnerModule,
-    RouterLink
-  ],
+    RouterLink,
+  
+],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   providers: [MessageService, HttpClientModule],
