@@ -6,7 +6,7 @@ import { MenuModule } from 'primeng/menu';
 @Component({
   selector: 'app-modale-impostazioni-qualifica',
   standalone: true,
-  imports: [MenuModule,ButtonModule],
+  imports: [MenuModule, ButtonModule],
   templateUrl: './modale-impostazioni-qualifica.component.html',
   styleUrl: './modale-impostazioni-qualifica.component.css'
 })
@@ -16,28 +16,28 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
     ngOnInit() {
         this.items = [
             {
-                label: '1° Livello',
+                label: 'Lavoratori generici e Operai comuni',
                 items: [
                     { label: 'Lavoratori generici' },
                     { label: 'Operai comuni' }
                 ]
             },
             {
-                label: '2° Livello',
+                label: 'Operai qualificati e Addetti alle macchine utensili semplici',
                 items: [
                     { label: 'Operai qualificati' },
                     { label: 'Addetti alle macchine utensili semplici' }
                 ]
             },
             {
-                label: '3° Livello',
+                label: 'Operai specializzati e Addetti a macchine utensili complesse',
                 items: [
                     { label: 'Operai specializzati' },
                     { label: 'Addetti a macchine utensili complesse' }
                 ]
             },
             {
-                label: '4° Livello',
+                label: 'Operai specializzati di alta qualificazione, Manutentori e Addetti a linee di produzione automatizzate',
                 items: [
                     { label: 'Operai specializzati di alta qualificazione' },
                     { label: 'Manutentori' },
@@ -45,7 +45,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: '5° Livello',
+                label: 'Tecnici operativi, Capi squadra e Addetti alla programmazione di macchine CNC',
                 items: [
                     { label: 'Tecnici operativi' },
                     { label: 'Capi squadra' },
@@ -53,7 +53,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: '6° Livello',
+                label: 'Tecnici esperti, Capi reparto e Programmatori CNC avanzati',
                 items: [
                     { label: 'Tecnici esperti' },
                     { label: 'Capi reparto' },
@@ -61,7 +61,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: '7° Livello',
+                label: 'Quadri tecnici, Responsabili di area e Supervisori di produzione',
                 items: [
                     { label: 'Quadri tecnici' },
                     { label: 'Responsabili di area' },
@@ -69,7 +69,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: '8° Livello',
+                label: 'Dirigenti tecnici, Responsabili di settore e Ingegneri di processo',
                 items: [
                     { label: 'Dirigenti tecnici' },
                     { label: 'Responsabili di settore' },
@@ -77,7 +77,7 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
                 ]
             },
             {
-                label: '9° Livello',
+                label: 'Dirigenti di alto livello, Direttori tecnici e Project manager senior',
                 items: [
                     { label: 'Dirigenti di alto livello' },
                     { label: 'Direttori tecnici' },
@@ -87,4 +87,3 @@ export class ModaleImpostazioniQualificaComponent implements OnInit {
         ];
     }
 }
-
