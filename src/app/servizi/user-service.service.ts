@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { User } from '../models/userModel';
 import { CookieService } from 'ngx-cookie-service';
-import { alias } from './defines';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class UserServiceService {
   ) {}
 
   register(data: any): Observable<any> {
-    let apiUrl = `http://${alias}:3000/api/v1/users/signup`;
+    let apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/signup`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -27,7 +27,7 @@ export class UserServiceService {
   }
 
   login(user: { email: string; password: string }): Observable<any> {
-    let apiUrl = `http://${alias}:3000/api/v1/users/login`;
+    let apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/login`;
     return this.http.post<any>(apiUrl, user, { withCredentials: true });
   }
 
@@ -40,23 +40,23 @@ export class UserServiceService {
   }
 
   getMe(): Observable<any> {
-    return this.http.get<any>(`http://${alias}:3000/api/v1/users/getMe`, { withCredentials: true });
+    return this.http.get<any>(`http://${environment.recaptcha.baseUrl}:3000/api/v1/users/getMe`, { withCredentials: true });
   }
 
   resetPassword(token: any, userForm: any): Observable<any> {
     return this.http.patch<any>(
-      `http://${alias}:3000/api/v1/users/resetPassword/${token}`,
+      `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/resetPassword/${token}`,
       userForm
     );
   }
 
   forgotPassword(emailInput: any): Observable<any> {
-    return this.http.post<any>(`http://${alias}:3000/api/v1/users/forgotPassword?uri=${alias}`, { email: emailInput });
+    return this.http.post<any>(`http://${environment.recaptcha.baseUrl}:3000/api/v1/users/forgotPassword?uri=${environment.recaptcha.baseUrl}`, { email: emailInput });
   }
 
   updatePassword(userForm: any): Observable<any> {
     return this.http.patch<any>(
-      `http://${alias}:3000/api/v1/users/updateMyPassword`,
+      `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/updateMyPassword`,
       userForm,
       { withCredentials: true }
     );
@@ -65,7 +65,7 @@ export class UserServiceService {
   logout(): Observable<any> {
     localStorage.removeItem('admin');
     localStorage.removeItem('utente');
-    return this.http.get<any>(`http://${alias}:3000/api/v1/users/logout`).pipe(
+    return this.http.get<any>(`http://${environment.recaptcha.baseUrl}:3000/api/v1/users/logout`).pipe(
       tap(() => {
         this.router.navigate(['/login']);
       }),
@@ -73,7 +73,7 @@ export class UserServiceService {
   }
 
   updateMe(data: any): Observable<any> {
-    let apiUrl = `http://${alias}:3000/api/v1/users/updateMe`;
+    let apiUrl = `http://${environment.recaptcha.baseUrl}:3000/api/v1/users/updateMe`;
     return this.http.patch<any>(apiUrl, data, { withCredentials: true });
   }
 }
