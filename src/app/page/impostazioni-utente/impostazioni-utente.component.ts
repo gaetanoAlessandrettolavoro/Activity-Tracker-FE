@@ -8,8 +8,6 @@ import { ToastModule } from 'primeng/toast';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { LoggingService } from '../../servizi/logging.service';
-import { ModaleImpostazioniQualificaComponent } from "../../componenti/modale-impostazioni-qualifica/modale-impostazioni-qualifica.component";
-import { ModaleImpostazioniInquadramentoComponent } from "../../componenti/modale-impostazioni-inquadramento/modale-impostazioni-inquadramento.component";
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -17,7 +15,7 @@ import { NgIf } from '@angular/common';
   templateUrl: './impostazioni-utente.component.html',
   styleUrls: ['./impostazioni-utente.component.css'],
   standalone: true,
-  imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule, ModaleImpostazioniQualificaComponent, ModaleImpostazioniInquadramentoComponent],
+  imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
   providers: [MessageService],
 })
 export class UserRouteComponent implements OnInit {

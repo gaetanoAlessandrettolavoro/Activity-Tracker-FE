@@ -26,8 +26,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { UserServiceService } from '../../servizi/user-service.service';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { LoggingService } from '../../servizi/logging.service';
-import { ModaleImpostazioniInquadramentoComponent } from "../../componenti/modale-impostazioni-inquadramento/modale-impostazioni-inquadramento.component";
-import { ModaleImpostazioniQualificaComponent } from "../../componenti/modale-impostazioni-qualifica/modale-impostazioni-qualifica.component";
+import { DropdownInquadramentoComponent } from "../../componenti/dropdown-inquadramento/dropdown-inquadramento.component";
+import { DropdownQualificaComponent } from "../../componenti/dropdown-qualifica/dropdown-qualifica.component";
 
 
 interface UploadEvent {
@@ -51,8 +51,8 @@ interface UploadEvent {
     DialogModule,
     ProgressSpinnerModule,
     RouterLink,
-    ModaleImpostazioniInquadramentoComponent,
-    ModaleImpostazioniQualificaComponent
+  DropdownInquadramentoComponent,
+    DropdownQualificaComponent
 ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
