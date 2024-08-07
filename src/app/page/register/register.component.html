@@ -1,4 +1,4 @@
-<p-toast />
+<p-toast></p-toast>
 <div class="sfondo">
   <div class="overlay"></div>
   <div class="container-form">
@@ -6,7 +6,6 @@
       <header>
         <span>Registrati</span>
         <br />
-        
       </header>
 
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
@@ -17,159 +16,87 @@
           <i class="pi pi-check" style="color: slateblue; margin-right: 5px"></i>
           <span>Form inviato correttamente</span>
         </div>
+        
         <div class="input-field">
-          <input
-            class="name"
-            type="text"
-            formControlName="name"
-            placeholder="Nome (Obbligatorio)"
-          />
+          <input class="name" type="text" formControlName="name" placeholder="Nome (Obbligatorio)" />
         </div>
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('name')?.value === ''"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >Il campo è obbligatorio</span
-          >
+        <div class="error-message" *ngIf="formSubmitted && userForm.get('name')?.value === ''">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>Il campo è obbligatorio</span>
         </div>
+
         <div class="input-field">
-          <input
-            class="surname"
-            type="text"
-            formControlName="surname"
-            placeholder="Cognome (Obbligatorio)"
-          />
+          <input class="surname" type="text" formControlName="surname" placeholder="Cognome (Obbligatorio)" />
         </div>
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('surname')?.value === ''"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >Il campo è obbligatorio</span
-          >
+        <div class="error-message" *ngIf="formSubmitted && userForm.get('surname')?.value === ''">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>Il campo è obbligatorio</span>
         </div>
+
         <div class="input-field">
-          <input
-            class="codfisc"
-            type="text"
-            formControlName="TaxIDcode"
-            pattern="^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$"
-            placeholder="Codice fiscale (Obbligatorio)"
-          />
+          <input class="codfisc" type="text" formControlName="TaxIDcode" pattern="^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:A-EHLMPR-T|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M]0L)[A-Z]$" placeholder="Codice fiscale (Obbligatorio)" />
         </div>
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('TaxIDcode')?.errors?.['pattern']"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >Il codice fiscale non è valido</span
-          >
+        <div class="error-message" *ngIf="formSubmitted && userForm.get('TaxIDcode')?.errors?.['pattern']">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>Il codice fiscale non è valido</span>
         </div>
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('TaxIDcode')?.value === ''"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >Il campo è obbligatorio</span
-          >
+        <div class="error-message" *ngIf="formSubmitted && userForm.get('TaxIDcode')?.value === ''">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>Il campo è obbligatorio</span>
         </div>
+
         <div class="input-field">
-          <input
-            class="email"
-            type="text"
-            formControlName="email"
-            placeholder="Email (Obbligatorio)"
-            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-          />
+          <input class="email" type="text" formControlName="email" placeholder="Email (Obbligatorio)" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" />
         </div>
-        <div
-          class="card"
-          style="
-            display: flex;
-            padding: 4px;
-            background-color: #ffc4c4;
-            margin-top: -10px;
-          "
-          *ngIf="formSubmitted && userForm.get('email')?.errors?.['pattern']"
-        >
-          <i class="pi pi-exclamation-triangle" style="font-size: 16px"></i>
-          <p-messages />
-          <span style="margin-left: 4px; font-size: 13px"
-            >L'email non è valida</span
-          >
+        <div class="error-message" *ngIf="formSubmitted && userForm.get('email')?.errors?.['pattern']">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span>L'email non è valida</span>
+        </div>
+
+        <div class="input-field">
+          <input class="birthdate" type="date" formControlName="birthDate" placeholder="Data di nascita" />
+        </div>
+
+        <div class="input-field">
+          <input class="birthplace" type="text" formControlName="birthPlace" placeholder="Luogo di nascita" />
+        </div>
+
+        <div class="input-field">
+          <input class="residence" type="text" formControlName="residence" placeholder="Residenza" />
+        </div>
+
+        <div class="input-field">
+          <input class="position" type="text" formControlName="position" placeholder="Inquadramento" />
+        </div>
+
+        <div class="input-field">
+          <input class="qualification" type="text" formControlName="qualification" placeholder="Qualifica" />
+        </div>
+
+        <div class="input-field">
+          <input class="iban" type="text" formControlName="iban" placeholder="Codice Iban" />
+        </div>
+
+        <div class="input-field">
+          <input class="hiredate" type="date" formControlName="hireDate" placeholder="Data di assunzione" />
         </div>
 
         <br />
 
-        <button
-    pButton
-    pRipple
-    label="Invia"
-    class="p-button"
-    style="
-        background-color: var(--primary-color);
-        border: none;
-        width: 70%;
-        margin-bottom: 10px;
-        cursor: pointer;
-    "
-></button>
+        <button pButton pRipple label="Invia" class="submit-button">Invia</button>
 
-<div class="card flex justify-content-center">
-    <p-dialog 
-        header="Congratulazioni!" 
-        [(visible)]="visible" 
-        [modal]="true" 
-        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
-        [style]="{ width: '25rem', textAlign: 'center' }" 
-        [draggable]="false" 
-        [resizable]="false">
-        <p style="text-align: center;">
-                Registrazione avvenuta con successo,<tr></tr> 
-                controlla la tua email per proseguire.
-            </p>
+        <div class="card flex justify-content-center">
+          <p-dialog header="Congratulazioni!" [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '25rem', textAlign: 'center' }" [draggable]="false" [resizable]="false">
+            <p style="text-align: center;">Registrazione avvenuta con successo,<tr></tr> controlla la tua email per proseguire.</p>
             <p-button routerLink="/home" label="Chiudi" [style]="{'background-color':'var(--primary-color)', 'border':'none'}"/> 
-    </p-dialog>
-</div>
+          </p-dialog>
+        </div>
+
         <br />
-        <span style="cursor: pointer" (click)="navigateToHome()"
-          >Torna alla home</span
-        >
+        <div class="bottom-links">
+          <span class="back-home" (click)="navigateToHome()">Torna alla home</span>
+        </div>
       </form>
     </div>
+  </div>
 </div>
-</div>
-
