@@ -149,12 +149,7 @@ export class AdminvisuserComponent implements OnInit {
         this.totalRecords.set(data.counters.documentsActive); // Use the signal setter
         data.data.document.forEach((item: any) => {
           const newUser = {
-            firstName: item.firstName,
-            lastName: item.lastName,
-            codiceFiscale: item.codiceFiscale,
-            email: item.email,
-            _id: item._id,
-            role: item.role,
+            ...item
           };
           const currentUsers = this.usersArray();
           this.usersArray.set([...currentUsers, newUser]);
@@ -203,12 +198,7 @@ export class AdminvisuserComponent implements OnInit {
         data.data.document.forEach((item: any) => {
           const currentUsers = this.usersArray();
           this.usersArray.set([...currentUsers, {
-            firstName: item.firstName,
-            lastName: item.lastName,
-            codiceFiscale: item.codiceFiscale,
-            email: item.email,
-            _id: item._id,
-            role: item.role,
+            ...item
           }]);
         });
         this.filterUsers();
@@ -232,12 +222,7 @@ export class AdminvisuserComponent implements OnInit {
           data.data.document.forEach((item: any) => {
             const currentUsers = this.usersArray();
             this.usersArray.set([...currentUsers, {
-              firstName: item.firstName,
-              lastName: item.lastName,
-              codiceFiscale: item.codiceFiscale,
-              email: item.email,
-              _id: item._id,
-              role: item.role,
+              ...item
             }]);
           });
           this.filterUsers();

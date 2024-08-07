@@ -7,11 +7,11 @@ export interface User {
   role?: 'user' | 'admin';
   propic?: string;
   codiceFiscale: string;
-  birthDate?: string; // Data di nascita
-  birthPlace?: string; // Luogo di nascita
-  residence?: string; // Residenza
-  position?: string; // Inquadramento
-  qualification?: string; // Qualifica
-  iban?: string; // Codice Iban
-  hireDate?: string; // Data assunzione
+  birthDate: Date; // Data di nascita
+  birthPlace: string; // Luogo di nascita
+  residence: string; // Residenza
+  position: string; // Inquadramento
+  qualification: string; // Qualifica
+  iban: string; // Codice Iban
+  hireDate: Date; // Data assunzione
 }
