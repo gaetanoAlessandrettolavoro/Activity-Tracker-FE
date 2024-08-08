@@ -1,8 +1,9 @@
 <p-toast></p-toast>
+
 <div class="container">
   <div class="card">
     <div class="header">
-      <img [src]="immagine" width="150" height="150" (click)="fileInput.click()" class="profile-image" />
+      <img [src]="immagine" class="profile-image" (click)="fileInput.click()" />
       <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" class="file-input" />
       <div class="center">
         <h1>Dati Anagrafici</h1>
@@ -11,58 +12,39 @@
     <div class="form-container">
       <form [formGroup]="userForm">
         <div class="input-group">
-          <div class="name-group">
-            <input class="input-name" type="text" placeholder="Nome" [(ngModel)]="user().firstName" formControlName="firstName" />
-          </div> 
-          <br>
-          <div class="surname-group">
-            <input class="input-surname" type="text" placeholder="Cognome" [(ngModel)]="user().lastName" formControlName="lastName" />
-          </div>
+          <input class="input-name" type="text" placeholder="Nome" [(ngModel)]="user().firstName" formControlName="firstName" />
         </div>
         <div class="input-group">
-          <div class="email-group">
-            <input class="input-email" type="text" placeholder="{{user().email}}" readonly disabled />
-          </div> 
-          <br>
-          <div class="codiceFiscale-group">
-            <input class="input-codfisc" type="text" pattern="^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:A-EHLMPR-T|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M]0L)[A-Z]$" placeholder="Codice fiscale" [(ngModel)]="user().codiceFiscale" formControlName="codiceFiscale" />
-          </div> 
+          <input class="input-surname" type="text" placeholder="Cognome" [(ngModel)]="user().lastName" formControlName="lastName" />
         </div>
         <div class="input-group">
-          <div class="birthdate-group">
-            <label class="birthdate-label">Data di nascita</label>
-            <input class="input-birthdate" type="date" [(ngModel)]="user().birthDate" formControlName="birthDate" placeholder="gg/mm/aaaa" />
-          </div>
-          <br>
-          <div class="birthplace-group">
-            <input class="input-birthplace" type="text" placeholder="Luogo di nascita" [(ngModel)]="user().birthPlace" formControlName="birthPlace" />
-          </div>
+          <input class="input-email" type="text" placeholder="{{user().email}}" readonly disabled />
         </div>
         <div class="input-group">
-          <div class="residence-group">
-            <input class="input-residence" type="text" placeholder="Residenza" [(ngModel)]="user().residence" formControlName="residence" />
-          </div>
-          <br>
-          <div class="framing-group">
-            <input class="input-position" type="text" placeholder="Inquadramento" [(ngModel)]="user().position" formControlName="position"/>
-           
-          </div>
+          <input class="input-codfisc" type="text" placeholder="Codice fiscale" [(ngModel)]="user().codiceFiscale" formControlName="codiceFiscale" />
         </div>
         <div class="input-group">
-          <div class="qualification-group">
-            <input class="input-qualification" type="text" placeholder="Qualifica" [(ngModel)]="user().qualification" formControlName="qualification"/>
-        
-          </div>
-          <br>
-          <div class="iban-group">
-            <input class="input-iban" type="text" placeholder="Codice Iban" [(ngModel)]="user().iban" formControlName="iban" />
-          </div>
+          <label class="birthdate-label">Data di nascita</label>
+          <input class="input-birthdate" type="date" [(ngModel)]="user().birthDate" formControlName="birthDate" placeholder="gg/mm/aaaa" />
         </div>
         <div class="input-group">
-          <div class="hiredate-group">
-            <label class="hiredate-label">Data di assunzione</label>
-            <input class="input-hiredate" type="date" [(ngModel)]="user().hireDate" formControlName="hireDate" placeholder="gg/mm/aaaa" />
-          </div>
+          <input class="input-birthplace" type="text" placeholder="Luogo di nascita" [(ngModel)]="user().birthPlace" formControlName="birthPlace" />
+        </div>
+        <div class="input-group">
+          <input class="input-residence" type="text" placeholder="Residenza" [(ngModel)]="user().residence" formControlName="residence" />
+        </div>
+        <div class="input-group">
+          <app-dropdown-inquadramento (selected)="onInquadramentoChange($event)" class="input-position"></app-dropdown-inquadramento>
+        </div>
+        <div class="input-group">
+          <app-dropdown-qualifica (selected)="onQualificaChange($event)" class="input-qualification"></app-dropdown-qualifica>
+        </div>
+        <div class="input-group">
+          <input class="input-iban" type="text" placeholder="Codice Iban" [(ngModel)]="user().iban" formControlName="iban" />
+        </div>
+        <div class="input-group">
+          <label class="hiredate-label">Data di assunzione</label>
+          <input class="input-hiredate" type="date" [(ngModel)]="user().hireDate" formControlName="hireDate" placeholder="gg/mm/aaaa" />
         </div>
       </form>
     </div>
@@ -70,6 +52,6 @@
       <button pButton type="button" (click)="close()" class="p-button p-button-secc">Chiudi</button>
       <button pButton type="button" (click)="changePwd()" class="p-button p-button-secc">Cambia Password</button>
       <button pButton type="button" (click)="saveChanges()" class="p-button p-button-secc">Salva</button>
-    </div>    
+    </div>
   </div>
 </div>

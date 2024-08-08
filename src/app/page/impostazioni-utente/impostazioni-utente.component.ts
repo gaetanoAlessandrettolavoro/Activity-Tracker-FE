@@ -9,13 +9,15 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { LoggingService } from '../../servizi/logging.service';
 import { NgIf } from '@angular/common';
+import { DropdownInquadramentoComponent } from '../../componenti/dropdown-inquadramento/dropdown-inquadramento.component';
+import { DropdownQualificaComponent } from '../../componenti/dropdown-qualifica/dropdown-qualifica.component';
 
 @Component({
   selector: 'app-impostazioniutente',
   templateUrl: './impostazioni-utente.component.html',
   styleUrls: ['./impostazioni-utente.component.css'],
   standalone: true,
-  imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, ToastModule, FileUploadModule, ReactiveFormsModule, FormsModule, DropdownInquadramentoComponent, DropdownQualificaComponent],
   providers: [MessageService],
 })
 export class UserRouteComponent implements OnInit {
@@ -154,5 +156,12 @@ export class UserRouteComponent implements OnInit {
         this.saveChanges();
       };
     }
+  }
+  onInquadramentoChange(selectedInquadramento: any) {
+    this.userForm.get('position')?.setValue(selectedInquadramento);
+  }
+
+  onQualificaChange(selectedQualifica: any) {
+    this.userForm.get('qualification')?.setValue(selectedQualifica);
   }
 }
