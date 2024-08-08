@@ -77,20 +77,20 @@ export class RegisterComponent {
     TaxIDcode: new FormControl('', [
       Validators.required,
       Validators.pattern(
-        '^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$'
+        /^[A-Z]{6}\d{2}[A-EHLMPR-T][0-9LMNP-V]{2}[A-Z][0-9LMNP-V]{3}[A-Z]$/
       ),
     ]),
     email: new FormControl('', [
       Validators.required,
       Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$'),
     ]),
-    birthDate: new FormControl(this.user().birthDate),
-    birthPlace: new FormControl(this.user().birthPlace),
-    residence: new FormControl(this.user().residence),
-    position: new FormControl(this.user().position),
-    qualification: new FormControl(this.user().qualification),
-    iban: new FormControl(this.user().iban),
-    hireDate: new FormControl(this.user().hireDate)
+    birthDate: new FormControl(this.user().birthDate,Validators.required),
+    birthPlace: new FormControl(this.user().birthPlace,Validators.required),
+    residence: new FormControl(this.user().residence,Validators.required),
+    position: new FormControl(this.user().position,Validators.required),
+    qualification: new FormControl(this.user().qualification,Validators.required),
+    iban: new FormControl(this.user().iban,Validators.required),
+    hireDate: new FormControl(this.user().hireDate,Validators.required)
   });
 
   constructor(
@@ -133,6 +133,13 @@ export class RegisterComponent {
         lastName: this.userForm.value.surname,
         email: this.userForm.value.email,
         codiceFiscale: this.userForm.value.TaxIDcode,
+        birthDate: this.userForm.value.birthDate||new Date(),
+        birthPlace: this.userForm.value.birthPlace|| '',
+        residence: this.userForm.value.residence|| '',
+        position:this.userForm.value.position?.toLowerCase()|| '',
+        qualification:this.userForm.value.qualification|| '',
+        iban:this.userForm.value.iban|| '',
+        hireDate: this.userForm.value.hireDate||new Date(),
       };
 
       this.userService.register(postData).subscribe({
@@ -152,6 +159,8 @@ export class RegisterComponent {
       this.loggingService.log(`Post Data: ${JSON.stringify(postData)}`);
     } else {
       this.showError(1);
+      console.log(this.userForm)
+      this.findInvalidControls()
     }
   }
 
@@ -166,4 +175,17 @@ export class RegisterComponent {
   navigateToHome() {
     this.router.navigate(['home']);
   }
+
+
+  findInvalidControls() {
+    const invalid = [];
+    const controls = this.userForm.controls;
+    for (const name in controls) {
+      //@ts-ignore
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
+    }
+    console.log(invalid)
+}
 }
