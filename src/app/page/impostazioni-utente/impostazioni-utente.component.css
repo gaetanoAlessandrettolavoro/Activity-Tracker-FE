@@ -18,18 +18,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 80px; /* Adjust based on the height of the navbar */
-  height: calc(100vh - 80px); /* Adjust based on the height of the navbar */
+  margin: 20px 40px; /* Aggiunto margine per distanziare dalla navbar e dagli angoli */
 }
 
 .card {
-  width: 80%;
-  max-width: 1200px;
-  height: auto;
-  border: 1px solid #ccc;
-  padding: 20px 40px;
+  width: 70%;
+  max-width: 900px; /* Ridotto max-width */
+  padding: 20px; /* Aggiunto spazio interno uniforme */
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -41,15 +38,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   width: 100%;
 }
 
 .profile-image {
-  margin-right: 20px;
+  margin-right: 10px;
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
 }
 
@@ -64,6 +61,7 @@ body {
 .form-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
@@ -71,20 +69,8 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 15px;
-}
-
-.name-group,
-.surname-group,
-.email-group,
-.codiceFiscale-group,
-.birthplace-group,
-.residence-group,
-.framing-group,
-.qualification-group,
-.iban-group,
-.hiredate-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  align-items: center;
 }
 
 .input-name,
@@ -99,56 +85,37 @@ body {
 .input-iban,
 .input-hiredate {
   margin: 5px 0;
-  padding: 15px;
+  padding: 10px;
   border: 2px solid #ccc;
   border-radius: 5px;
-  width: calc(100% - 32px);
-  box-sizing: border-box;
-}
-
-.hiredate-group {
   width: 100%;
-}
-
-.hiredate-label {
-  font-size: 16px;
-  color: var(--label-color);
-  margin-right: 10px; /* Space between label and input */
-}
-
-.input-hiredate {
-  padding: 15px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  width: calc(100% - 32px); /* Full width of the input field */
+  max-width: 400px;
   box-sizing: border-box;
+}
+
+app-dropdown-inquadramento,
+app-dropdown-qualifica {
+  width: 100%;
+  max-width: 400px;
 }
 
 .actions {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   width: 100%;
-  margin-top: 1.7em;
+  margin-top: 1em;
 }
 
 .actions button {
   color: white;
   background-color: var(--primary-color);
   border: none;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border-radius: 5px;
   cursor: pointer;
-  margin: 0 10px;
-  font-size: 16px;
+  margin: 5px;
+  font-size: 14px;
   text-decoration: none;
-}
-
-.actions button:first-child {
-  margin-left: 0;
-}
-
-.actions button:last-child {
-  margin-right: 0;
 }
 
 .actions button:hover {
@@ -162,7 +129,7 @@ body {
   }
 
   .profile-image {
-    margin: 0 0 20px 0;
+    margin: 0 0 10px 0;
   }
 
   .header .center {
@@ -174,8 +141,8 @@ body {
   }
 
   .actions {
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
   }
 
   .actions button {
