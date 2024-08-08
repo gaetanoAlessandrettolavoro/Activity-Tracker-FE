@@ -66,14 +66,14 @@
           <input class="residence" type="text" formControlName="residence" placeholder="Residenza" />
         </div>
 
+        <!-- Dropdown for "inquadramento" -->
         <div class="input-field">
-          <input class="position" type="text" formControlName="position" placeholder="Inquadramento" />
-          <app-dropdown-inquadramento></app-dropdown-inquadramento>
+          <app-dropdown-inquadramento (selected)="onInquadramentoChange($event)"></app-dropdown-inquadramento>
         </div>
 
+        <!-- Dropdown for "qualifica" -->
         <div class="input-field">
-          <input class="qualification" type="text" formControlName="qualification" placeholder="Qualifica" />
-          <app-dropdown-qualifica></app-dropdown-qualifica>
+          <app-dropdown-qualifica (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
         </div>
 
         <div class="input-field">
