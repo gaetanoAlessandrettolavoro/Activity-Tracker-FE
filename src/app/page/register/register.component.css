@@ -56,7 +56,8 @@ header {
   text-align: left;
 }
 
-.input-field input {
+.input-field input,
+.custom-dropdown {
   height: 40px;
   width: 100%;
   border: 1px solid silver;
@@ -64,11 +65,27 @@ header {
   outline: none;
   font-size: 14px;
   transition: 0.4s;
+  box-sizing: border-box; 
 }
 
-input:focus {
+
+input:focus,
+.custom-dropdown:focus {
   border: 1px solid #1da1f2;
 }
+
+
+.custom-dropdown .p-dropdown {
+  height: 100%;
+  width: 100%;
+  border: none;
+}
+
+.custom-dropdown .p-dropdown-trigger {
+  height: 40px;
+  line-height: 40px; 
+}
+
 
 .error-message {
   display: flex;
@@ -88,6 +105,7 @@ input:focus {
   color: #ff4d4d;
 }
 
+
 .submit-button {
   background-color: var(--primary-color);
   border: none;
@@ -97,6 +115,21 @@ input:focus {
   cursor: pointer;
   margin-bottom: 15px;
 }
+
+
+.card.flex.justify-content-center {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+
+.p-dialog {
+  width: 25rem;
+  text-align: center;
+  border-radius: 8px;
+}
+
 
 .bottom-links {
   margin-top: 20px; 

@@ -29,7 +29,6 @@ import { LoggingService } from '../../servizi/logging.service';
 import { DropdownInquadramentoComponent } from "../../componenti/dropdown-inquadramento/dropdown-inquadramento.component";
 import { DropdownQualificaComponent } from "../../componenti/dropdown-qualifica/dropdown-qualifica.component";
 
-
 interface UploadEvent {
   originalEvent: Event;
   files: File[];
@@ -51,15 +50,15 @@ interface UploadEvent {
     DialogModule,
     ProgressSpinnerModule,
     RouterLink,
-  DropdownInquadramentoComponent,
+    DropdownInquadramentoComponent,
     DropdownQualificaComponent
-],
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
   providers: [MessageService, HttpClientModule],
 })
 export class RegisterComponent {
-user = signal<User>({} as User);
+  user = signal<User>({} as User);
   showSuccessMessage: boolean = false;
   formSubmitted: boolean = false;
   visible: boolean = false;
@@ -85,9 +84,13 @@ user = signal<User>({} as User);
       Validators.required,
       Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$'),
     ]),
-    position: new  FormControl(this.user().position),
+    birthDate: new FormControl(this.user().birthDate),
+    birthPlace: new FormControl(this.user().birthPlace),
+    residence: new FormControl(this.user().residence),
+    position: new FormControl(this.user().position),
     qualification: new FormControl(this.user().qualification),
-
+    iban: new FormControl(this.user().iban),
+    hireDate: new FormControl(this.user().hireDate)
   });
 
   constructor(
@@ -150,6 +153,14 @@ user = signal<User>({} as User);
     } else {
       this.showError(1);
     }
+  }
+
+  onInquadramentoChange(selectedInquadramento: any) {
+    this.userForm.get('position')?.setValue(selectedInquadramento);
+  }
+
+  onQualificaChange(selectedQualifica: any) {
+    this.userForm.get('qualification')?.setValue(selectedQualifica);
   }
 
   navigateToHome() {
