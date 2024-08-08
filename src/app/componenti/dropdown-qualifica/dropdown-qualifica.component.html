@@ -1,8 +1,7 @@
 <div class="card flex justify-content-center">
     <p-dropdown 
         [options]="items" 
-        [(ngModel)]="selectedValue"
-        optionLabel="label"
-        placeholder="Qualifica" />
+        placeholder="Qualifica" 
+        (onChange)="onChange($event)" />
   </div>
   

@@ -12,21 +12,21 @@ import { DropdownModule } from 'primeng/dropdown';
 })
 export class DropdownInquadramentoComponent implements OnInit {
 
-  items: MenuItem[] | undefined;
+  items: string[] | undefined;
 
   @Output() selected = new EventEmitter<any>();
 
   ngOnInit() {
     this.items = [
-      { label: '1° Livello', value: '1° Livello' },
-      { label: '2° Livello', value: '2° Livello' },
-      { label: '3° Livello', value: '3° Livello' },
-      { label: '4° Livello', value: '4° Livello' },
-      { label: '5° Livello', value: '5° Livello' },
-      { label: '6° Livello', value: '6° Livello' },
-      { label: '7° Livello', value: '7° Livello' },
-      { label: '8° Livello', value: '8° Livello' },
-      { label: '9° Livello', value: '9° Livello' }
+       '1° Livello',
+     '2° Livello',
+      '3° Livello', 
+      '4° Livello', 
+      '5° Livello',
+       '6° Livello',
+      '7° Livello', 
+     '8° Livello', 
+    '9° Livello',
     ];
   }
 

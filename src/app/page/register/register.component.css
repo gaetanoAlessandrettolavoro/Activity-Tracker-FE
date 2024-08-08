@@ -28,15 +28,15 @@
 
 .container {
   position: relative;
-  width: 350px; 
+  width: 350px;
   background: white;
-  padding: 20px; 
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
 }
 
 header {
-  font-size: 18px; 
+  font-size: 18px;
   font-family: "Montserrat", sans-serif;
 }
 
@@ -65,15 +65,13 @@ header {
   outline: none;
   font-size: 14px;
   transition: 0.4s;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
-
 
 input:focus,
 .custom-dropdown:focus {
   border: 1px solid #1da1f2;
 }
-
 
 .custom-dropdown .p-dropdown {
   height: 100%;
@@ -83,9 +81,8 @@ input:focus,
 
 .custom-dropdown .p-dropdown-trigger {
   height: 40px;
-  line-height: 40px; 
+  line-height: 40px;
 }
-
 
 .error-message {
   display: flex;
@@ -95,27 +92,25 @@ input:focus,
 }
 
 .error-message i {
-  font-size: 14px; 
+  font-size: 14px;
   color: #ff4d4d;
 }
 
 .error-message span {
   margin-left: 4px;
-  font-size: 12px; 
+  font-size: 12px;
   color: #ff4d4d;
 }
-
 
 .submit-button {
   background-color: var(--primary-color);
   border: none;
   width: 100%;
-  height: 40px; 
-  font-size: 14px; 
+  height: 40px;
+  font-size: 14px;
   cursor: pointer;
   margin-bottom: 15px;
 }
-
 
 .card.flex.justify-content-center {
   display: flex;
@@ -123,21 +118,145 @@ input:focus,
   width: 100%;
 }
 
-
 .p-dialog {
   width: 25rem;
   text-align: center;
   border-radius: 8px;
 }
 
-
 .bottom-links {
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .back-home {
   cursor: pointer;
-  font-size: 14px; 
+  font-size: 14px;
   color: #060606;
   text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .input-field {
+    margin: 6px 0;
+  }
+
+  .input-field input,
+  .custom-dropdown {
+    height: 35px;
+    font-size: 13px;
+  }
+
+  .submit-button {
+    height: 35px;
+    font-size: 13px;
+  }
+
+  .p-dialog {
+    width: 90%;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .input-field {
+    margin: 4px 0;
+  }
+
+  .input-field input,
+  .custom-dropdown {
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .submit-button {
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .p-dialog {
+    width: 95%;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .container {
+    width: 100%;
+    padding: 5px;
+  }
+
+  .input-field {
+    margin: 3px 0;
+  }
+
+  .input-field input,
+  .custom-dropdown {
+    height: 28px;
+    font-size: 11px;
+    padding-left: 8px;
+  }
+
+  .custom-dropdown .p-dropdown {
+    font-size: 11px;
+  }
+
+  .submit-button {
+    height: 28px;
+    font-size: 11px;
+  }
+
+  .p-dialog {
+    width: 90%;
+  }
+}
+@media screen and (max-width: 390px) {
+  .container {
+    width: 100%;
+    padding: 0 8px;
+  }
+
+  .input-field {
+    margin: 2px 0;
+  }
+
+  .input-field input,
+  .custom-dropdown {
+    height: 26px;  
+    font-size: 10px; 
+    padding-left: 6px; 
+  }
+
+  .custom-dropdown .p-dropdown {
+    font-size: 10px;
+  }
+
+  .custom-dropdown .p-dropdown-trigger {
+    height: 26px;
+    line-height: 26px;
+  }
+
+  .submit-button {
+    height: 26px;
+    font-size: 10px;
+  }
+
+  .p-dialog {
+    width: 85%;
+  }
 }
