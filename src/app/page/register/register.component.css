@@ -7,6 +7,10 @@
   background-size: cover;
 }
 
+app-dropdown-qualifica, app-dropdown-inquadramento {
+  width: 100%;
+}
+
 .container-form {
   height: 100%;
   width: 100%;
