@@ -1,0 +1,12 @@
+:host ::ng-deep .p-dropdown {
+    width: 100%;
+    text-align: left;
+}
+
+:host ::ng-deep .p-dropdown-panel {
+    width: 100px
+}
+
+:host ::ng-deep .p-dropdown-item {
+    white-space: initial;
+}
