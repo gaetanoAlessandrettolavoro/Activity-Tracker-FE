@@ -1,7 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MenuItem } from 'primeng/api';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-dropdown-inquadramento',
@@ -11,22 +10,20 @@ import { DropdownModule } from 'primeng/dropdown';
   styleUrls: ['./dropdown-inquadramento.component.css']
 })
 export class DropdownInquadramentoComponent implements OnInit {
-
-  items: string[] | undefined;
-
-  @Output() selected = new EventEmitter<any>();
+  items: string[] = [];
+  @Output() selected = new EventEmitter<string>();
 
   ngOnInit() {
     this.items = [
-       '1° Livello',
-     '2° Livello',
+      '1° Livello',
+      '2° Livello',
       '3° Livello', 
       '4° Livello', 
       '5° Livello',
-       '6° Livello',
+      '6° Livello',
       '7° Livello', 
-     '8° Livello', 
-    '9° Livello',
+      '8° Livello', 
+      '9° Livello'
     ];
   }
 
