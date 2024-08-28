@@ -116,33 +116,32 @@ interval = setInterval(() => {
   this.fetchData(); 
 }, 60 * 1000); 
 
-  accetta(user: any){
-    this.admin.acceptedUser(user.id).subscribe({
-      next: (result) => {
-        this.conteggio.set('');
-        this.logging.info(`User ${user.name} ${user.cognome} accepted`);
-        this.fetchData();
-      },
-      error: (error) => {
-        this.showError(error.status, error.error.message, `${user.name} ${user.cognome}`);
-        this.conteggio.set('');
-        this.fetchData();
-      }
-    })
-  }
+accetta(user: any) {
+  this.admin.acceptedUser(user.id).subscribe({
+    next: (result) => {
+      this.logging.info(`User ${user.name} ${user.cognome} accepted`);
+      // Ricarica la pagina automaticamente dopo aver accettato l'utente
+      window.location.reload();
+    },
+    error: (error) => {
+      this.showError(error.status, error.error.message, `${user.name} ${user.cognome}`);
+      window.location.reload();
+    }
+  });
+}
 
-  rifiuta(user:any){
-    this.admin.rejectUser(user.id).subscribe({
-      next: (result) => {
-        this.conteggio.set('');
-        this.logging.info(`User ${user.name} ${user.cognome} rejected`);
-        this.fetchData();
-      },
-      error: (error) => {
-        this.showError(error.status, error.error.message)
-        this.conteggio.set('');
-        this.fetchData();
-      }
-    })
-  }
+rifiuta(user: any) {
+  this.admin.rejectUser(user.id).subscribe({
+    next: (result) => {
+      this.logging.info(`User ${user.name} ${user.cognome} rejected`);
+      // Ricarica la pagina automaticamente dopo aver rifiutato l'utente
+      window.location.reload();
+    },
+    error: (error) => {
+      this.showError(error.status, error.error.message);
+      window.location.reload();
+    }
+  });
+}
+
 }
