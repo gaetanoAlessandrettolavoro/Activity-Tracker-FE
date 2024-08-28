@@ -13,7 +13,7 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin:auto;
+  margin: auto;
   background-color: white;
 }
 
@@ -34,18 +34,19 @@
   margin-left: 10px;
 }
 
-@media screen and (max-width: 750px){
+@media screen and (max-width: 750px) {
   .header {
-    flex-direction: column;
-    align-items: center;
+      flex-direction: column;
+      align-items: center;
   }
+
   :host ::ng-deep .p-image-preview-container > img {
-    max-width: 150px;
-    max-height: 150px;
+      max-width: 150px;
+      max-height: 150px;
   }
 
   .header .center {
-    margin: 0;
+      margin: 0;
   }
 }
 
@@ -56,16 +57,30 @@
   margin-top: 10px;
 }
 
-@media screen and (max-width: 515px){
+@media screen and (max-width: 515px) {
   .top, .bottom {
-    flex-direction: column;
-    align-items: center;
+      flex-direction: column;
+      align-items: center;
   }
 }
 
-.top input, .bottom input {
+.inline-fields {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.inline-fields .input-field {
   flex: 1;
   margin: 0 10px;
+}
+
+@media screen and (max-width: 515px) {
+  .inline-fields {
+      flex-direction: column;
+      align-items: center;
+  }
 }
 
 .actions {
@@ -74,33 +89,28 @@
   align-items: center;
   margin: 1.7em 1.2em auto auto;
   width: fit-content;
-  flex-flow: row wrap; 
-  font-size:0;
+  flex-flow: row wrap;
+  font-size: 0;
 }
 
-.actions a {
-  margin: 0.5em 0;
+input[type="text"], input[type="date"], select {
   width: 100%;
-  text-align: center;
-  text-decoration: none;
-  color: black;
-}
-
-.actions a:hover {
-  text-decoration: underline;
-}
-
-input[type="text"] {
   padding: 10px;
   border: 2px solid #ccc;
   border-radius: 5px;
   transition: border-color 0.3s;
+  box-sizing: border-box;
 }
-  
-input[type="text"]:focus {
+
+input[type="text"]:focus, input[type="date"]:focus, select:focus {
   border-color: dodgerblue;
 }
-  
+
+.input-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
 .p-button {
   color: white;
   background-color: var(--primary-color);
@@ -109,4 +119,22 @@ input[type="text"]:focus {
   border-radius: 5px;
   cursor: pointer;
   margin: 10px;
+}
+
+.p-button-secc {
+  background-color: var(--secondary-color);
+}
+
+.form-container {
+  width: 100%;
+}
+
+.input-name, .input-surname, .input-email, .input-codfisc, .input-birthdate, .input-birthplace, .input-residence, .input-position, .input-qualification, .input-iban, .input-hiredate {
+  max-width: 400px;
+}
+
+@media screen and (max-width: 768px) {
+  .input-name, .input-surname, .input-email, .input-codfisc, .input-birthdate, .input-birthplace, .input-residence, .input-position, .input-qualification, .input-iban, .input-hiredate {
+      max-width: 100%;
+  }
 }

@@ -1,40 +1,63 @@
-<p-toast />
+<p-toast></p-toast>
 <div class="container">
   <div class="card">
     <div class="header">
-      <p-image 
-        src="{{user().propic}}" 
-        previewImageSrc="{{user().propic}}" 
-        alt="Image"
-        [preview]="true" />
+      <p-image src="{{user().propic}}" previewImageSrc="{{user().propic}}" alt="Immagine" [preview]="true"></p-image>
       <div class="center">
         <h1>Dati Anagrafici</h1>
       </div>
     </div>
-    
-    
     <div class="form-container">
       <form [formGroup]="userForm">
         <div class="top">
           <input class="name" type="text" placeholder="Nome" [(ngModel)]="user().firstName" formControlName="firstName"/>
-          <input class="surname" type="text" placeholder="Cognome" [(ngModel)]="user().lastName" formControlName="lastName" />
+          <input class="surname" type="text" placeholder="Cognome" [(ngModel)]="user().lastName" formControlName="lastName"/>
         </div>
         <div class="bottom">
           <input class="email" type="text" placeholder="{{user().email}}" readonly disabled/>
-          <input class="codfisc" type="text"
-          pattern="^(?:[A-Z][AEIOU][AEIOUX]|[AEIOU]X{2}|[B-DF-HJ-NP-TV-Z]{2}[A-Z]){2}(?:[\dLMNP-V]{2}(?:[A-EHLMPR-T](?:[04LQ][1-9MNP-V]|[15MR][\dLMNP-V]|[26NS][0-8LMNP-U])|[DHPS][37PT][0L]|[ACELMRT][37PT][01LM]|[AC-EHLMPR-T][26NS][9V])|(?:[02468LNQSU][048LQU]|[13579MPRTV][26NS])B[26NS][9V])(?:[A-MZ][1-9MNP-V][\dLMNP-V]{2}|[A-M][0L](?:[1-9MNP-V][\dLMNP-V]|[0L][1-9MNP-V]))[A-Z]$"
-          placeholder="Codice fiscale" [(ngModel)]="user().codiceFiscale" formControlName="codiceFiscale" />
+          <input class="codfisc" type="text" placeholder="Codice fiscale" [(ngModel)]="user().codiceFiscale" formControlName="codiceFiscale"/>
+        </div>
+        
+        <div class="inline-fields">
+          <div class="input-field">
+            <label class="birthdate-label">Data di nascita</label>
+            <input class="birthdate" type="date" formControlName="birthDate" placeholder="Data di nascita"/>
+          </div>
+          <div class="input-field">
+            <input class="birthplace" type="text" formControlName="birthPlace" placeholder="Luogo di nascita"/>
+          </div>
+        </div>
+
+        <div class="inline-fields">
+          <div class="input-field">
+            <input class="residence" type="text" formControlName="residence" placeholder="Residenza"/>
+          </div>
+          <div class="input-field">
+            <app-dropdown-inquadramento (selezionato)="onInquadramentoChange($event)"></app-dropdown-inquadramento>
+          </div>
+        </div>
+
+        <div class="inline-fields">
+          <div class="input-field">
+            <app-dropdown-qualifica [items]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
+          </div>
+          <div class="input-field">
+            <input class="iban" type="text" formControlName="iban" placeholder="Codice Iban"/>
+          </div>
+        </div>
+
+        <div class="inline-fields">
+          <div class="input-field">
+            <label class="hiredate-group">Dati di assunzione</label>
+            <input class="hiredate" type="date" formControlName="hireDate" placeholder="Dati di assunzione"/>
+          </div>
         </div>
       </form>
     </div>
     <div class="actions">
-      <button pButton type="button" (click)="close()" class="p-button p-button-secc">Chiudi </button>
-      <br>
-      <button pButton type="button" (click)="openCaptcha()" class="p-button p-button-secc" >Cambia Password</button>
-      <br>
-      <button pButton type="button" (click)="saveChanges()" class="p-button p-button-secc">Salva </button>
-     
-
+      <button pButton type="button" (click)="close()" class="p-button p-button-secc">Chiudi</button>
+      <button pButton type="button" (click)="openCaptcha()" class="p-button p-button-secc">Cambia password</button>
+      <button pButton type="button" (click)="saveChanges()" class="p-button p-button-secc">Salva</button>
     </div>
   </div>
 </div>
