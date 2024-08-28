@@ -13,9 +13,20 @@ export class DropdownQualificaComponent implements OnInit {
   @Input() items: string[] = [];
   @Output() selected = new EventEmitter<string>();
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.items = [
+      "Lavoratori generici", "Operai comuni", "Operai qualificati",
+      "Addetti alle macchine utensili semplici", "Operai specializzati",
+      "Addetti a macchine utensili complesse", "Operai specializzati di alta qualificazione",
+      "Manutentori", "Addetti a linee di produzione automatizzate", "Tecnici operativi",
+      "Capi squadra", "Addetti alla programmazione di macchine", "Tecnici esperti",
+      "Capi reparto", "Programmatori CNC avanzati", "Quadri tecnici",
+      "Responsabili di area", "Supervisori di produzione", "Dirigenti tecnici, Responsabili di settore, Ingegneri di processo",
+      "Dirigenti di alto livello", "Direttori tecnici", "Project manager senior"
+    ];
+  }
 
-  onChange(event: any) {
-    this.selected.emit(event.value);
+  onchange(evento: any) {
+    this.selected.emit(evento.value);
   }
 }

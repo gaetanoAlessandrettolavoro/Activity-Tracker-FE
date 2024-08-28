@@ -42,6 +42,25 @@ export class UserRouteComponent implements OnInit {
   imagePath: any;
   immagine!: any;
 
+  // Qualification options mapped to job levels
+  qualificationOptions: { [key: string]: string[] } = {
+    '1° livello': ["Lavoratori generici", "Operai comuni"],
+    '2° livello': ["Operai qualificati", "Addetti alle macchine utensili semplici"],
+    '3° livello': ["Operai specializzati", "Addetti a macchine utensili complesse"],
+    '4° livello': [
+      "Operai specializzati di alta qualificazione",
+      "Manutentori",
+      "Addetti a linee di produzione automatizzate",
+    ],
+    '5° livello': ["Tecnici operativi", "Capi squadra", "Addetti alla programmazione di macchine CNC"],
+    '6° livello': ["Tecnici esperti", "Capi reparto", "Programmatori CNC avanzati"],
+    '7° livello': ["Quadri tecnici", "Responsabili di area", "Supervisori di produzione"],
+    '8° livello': ["Dirigenti tecnici", "Responsabili di settore", "Ingegneri di processo"],
+    '9° livello': ["Dirigenti di alto livello", "Direttori tecnici", "Project manager senior"]
+  };
+
+  availableQualifications: string[] = [];
+
   constructor(
     private router: Router,
     private userService: UserServiceService,
@@ -70,6 +89,10 @@ export class UserRouteComponent implements OnInit {
       next: (result) => {
         this.user.set(result.data);
         this.immagine = result.data.propic;
+        this.userForm.patchValue(result.data);
+
+        // Update the available qualifications based on the current position
+        this.updateQualifications(result.data.position);
       },
       error: (error) => {
         this.showError(error.status);
@@ -82,19 +105,25 @@ export class UserRouteComponent implements OnInit {
     this.getInfo();
   }
 
+  updateQualifications(selectedLevel: string) {
+    // Get qualifications for the selected level, if any
+    this.availableQualifications = this.qualificationOptions[selectedLevel] || ["No Result Found"];
+    this.userForm.get('qualification')?.setValue(this.availableQualifications[0] || ''); // Set default to the first qualification or blank
+  }
+
   saveChanges() {
     if (this.userForm.valid) {
       const updatedUser = new FormData();
-      updatedUser.append('firstName', this.user().firstName);
-      updatedUser.append('lastName', this.user().lastName);
-      updatedUser.append('codiceFiscale', this.user().codiceFiscale);
-      updatedUser.append('birthDate', this.user().birthDate.toISOString() || new Date().toISOString());
-      updatedUser.append('birthPlace', this.user().birthPlace || '');
-      updatedUser.append('residence', this.user().residence || '');
-      updatedUser.append('position', this.user().position || '');
-      updatedUser.append('qualification', this.user().qualification || '');
-      updatedUser.append('iban', this.user().iban || '');
-      updatedUser.append('hireDate', this.user().hireDate.toISOString() || new Date().toISOString());
+      updatedUser.append('firstName', this.userForm.get('firstName')?.value || '');
+      updatedUser.append('lastName', this.userForm.get('lastName')?.value || '');
+      updatedUser.append('codiceFiscale', this.userForm.get('codiceFiscale')?.value || '');
+      updatedUser.append('birthDate', this.userForm.get('birthDate')?.value?.toISOString() || new Date().toISOString());
+      updatedUser.append('birthPlace', this.userForm.get('birthPlace')?.value || '');
+      updatedUser.append('residence', this.userForm.get('residence')?.value || '');
+      updatedUser.append('position', this.userForm.get('position')?.value || '');
+      updatedUser.append('qualification', this.userForm.get('qualification')?.value || '');
+      updatedUser.append('iban', this.userForm.get('iban')?.value || '');
+      updatedUser.append('hireDate', this.userForm.get('hireDate')?.value?.toISOString() || new Date().toISOString());
       if (this.image) {
         updatedUser.append('propic', this.image);
       }
@@ -157,8 +186,9 @@ export class UserRouteComponent implements OnInit {
       };
     }
   }
-  onInquadramentoChange(selectedInquadramento: any) {
-    this.userForm.get('position')?.setValue(selectedInquadramento);
+
+  onInquadramentoChange(selectedInquadramento: string) {
+    this.updateQualifications(selectedInquadramento);
   }
 
   onQualificaChange(selectedQualifica: any) {
