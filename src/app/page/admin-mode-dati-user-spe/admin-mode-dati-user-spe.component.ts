@@ -9,37 +9,62 @@ import { ErrorServiziService } from '../../servizi/error-servizi.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
 import { LoggingService } from '../../servizi/logging.service';
-import { ImageModule } from 'primeng/image'
+import { ImageModule } from 'primeng/image';
 import { DialogModule } from 'primeng/dialog';
 import { RecaptchaComponent } from '../../componenti/recaptcha/recaptcha.component';
+import { DropdownQualificaComponent } from "../../componenti/dropdown-qualifica/dropdown-qualifica.component";
+import { DropdownInquadramentoComponent } from "../../componenti/dropdown-inquadramento/dropdown-inquadramento.component";
 
 @Component({
   selector: 'app-admin-mode-dati-user-spe',
   standalone: true,
-  imports: [ToastModule, FormsModule, ReactiveFormsModule, ImageModule, DialogModule, RecaptchaComponent],
+  imports: [ToastModule, FormsModule, ReactiveFormsModule, ImageModule, DialogModule, RecaptchaComponent, DropdownQualificaComponent, DropdownInquadramentoComponent],
   templateUrl: './admin-mode-dati-user-spe.component.html',
   styleUrl: './admin-mode-dati-user-spe.component.css',
   providers: [MessageService]
 })
 export class AdminModeDatiUserSpeComponent implements OnInit {
+onInquadramentoChange($event: Event) {
+throw new Error('Method not implemented.');
+}
+onQualificaChange($event: string) {
+throw new Error('Method not implemented.');
+}
   user = signal<User>({} as User);
-  id: any = this.route.params.pipe(map((p) => p['id']));;
+  id: any = this.route.params.pipe(map((p) => p['id']));qualifications!: string[];
+;
 
   visibleCaptcha: boolean = false;
 
+  // Aggiornamento del form per includere i nuovi campi: data di nascita, luogo di nascita, residenza, inquadramento, qualifica, IBAN e data di assunzione
   userForm = new FormGroup({
     firstName: new FormControl(this.user().firstName, [Validators.required]),
     lastName: new FormControl(this.user().lastName, [Validators.required]),
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
-  })
+    birthDate: new FormControl(this.user().birthDate || new Date(), [Validators.required]),
+    birthPlace: new FormControl(this.user().birthPlace || '', [Validators.required]),
+    residence: new FormControl(this.user().residence || '', [Validators.required]),
+    position: new FormControl(this.user().position?.toLowerCase() || '', [Validators.required]),
+    qualification: new FormControl(this.user().qualification || '', [Validators.required]),
+    iban: new FormControl(this.user().iban || '', [Validators.required]),
+    hireDate: new FormControl(this.user().hireDate || new Date(), [Validators.required]),
+  });
   
-  constructor(private logging:LoggingService,private adminService: AdminserviceService, private userService: UserServiceService, private messageService: MessageService, private errors: ErrorServiziService, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private logging: LoggingService,
+    private adminService: AdminserviceService,
+    private userService: UserServiceService,
+    private messageService: MessageService,
+    private errors: ErrorServiziService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   showError(statusCode: number, errorMessage?: string) {
-    if(statusCode === 2 && !!errorMessage) {
-      this.messageService.add({severity: 'error', summary: 'Errore', detail: errorMessage});
+    if (statusCode === 2 && !!errorMessage) {
+      this.messageService.add({ severity: 'error', summary: 'Errore', detail: errorMessage });
     }
-    if(statusCode === 401 || statusCode === 429) {
+    if (statusCode === 401 || statusCode === 429) {
       this.messageService.add(this.errors.getErrorMessage(statusCode));
       setTimeout(() => {
         this.userService.logout();
@@ -78,7 +103,7 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
   }
 
   saveChanges() {
-    if(this.userForm.valid){
+    if (this.userForm.valid) {
       this.route.params.subscribe({
         next: (params) => {
           const id = params['id'];
@@ -87,12 +112,18 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
             firstName: this.user().firstName,
             lastName: this.user().lastName,
             codiceFiscale: this.user().codiceFiscale,
-          }
+            birthDate: this.user().birthDate,
+            birthPlace: this.user().birthPlace,
+            residence: this.user().residence,
+            position: this.user().position?.toLowerCase(),
+            qualification: this.user().qualification,
+            iban: this.user().iban,
+            hireDate: this.user().hireDate
+          };
           this.adminService.patchUser(id, updatedUser).subscribe({
             next: (res) => {
-              this.logging.log(`user updated successfully with ID: ${id}`);
+              this.logging.log(`User updated successfully with ID: ${id}`);
               console.log(res);
-             
               this.messageService.add({
                 severity: 'success',
                 summary: 'Modifiche salvate',
@@ -100,48 +131,52 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
               });
               this.getInfo();
             },
-            error: (error) => { this.showError(error.status);
-              this.logging.error(`failed to update user with ID: ${id} with error: ${error.message}`);
+            error: (error) => {
+              this.showError(error.status);
+              this.logging.error(`Failed to update user with ID: ${id} with error: ${error.message}`);
             }
           });
         },
-            
-    
-        error: (error) => { this.showError(error.status);
-          this.logging.error(`failed to process route params for update with error: ${error.message}`);
+        error: (error) => {
+          this.showError(error.status);
+          this.logging.error(`Failed to process route params for update with error: ${error.message}`);
         }
       });
-    } else { this.showError(1);
-      this.logging.error('User form is invalid on save attempt'); 
+    } else {
+      this.showError(1);
+      this.logging.error('User form is invalid on save attempt');
     }
   }
 
-  changePwd(){
+  changePwd() {
     this.userService.forgotPassword(this.user().email).subscribe({
       next: (res) => {
-        this.logging.log(`pèassword reset email sent for user: ${this.user().email}`);
+        this.logging.log(`Password reset email sent for user: ${this.user().email}`);
         console.log(res);
-        this.messageService.add({severity: 'success', summary:'Success', detail:'L\'email per il reset della password è stata inviata.'})
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: "L'email per il reset della password è stata inviata."
+        });
       },
-      error: (error) => { 
-        this.logging.error(`ftailed to send password reset email for user: ${this.user().email} with error: ${error.message}`); // Logga l'errore
+      error: (error) => {
+        this.logging.error(`Failed to send password reset email for user: ${this.user().email} with error: ${error.message}`);
         this.showError(error.status);
       }
     });
   }
 
-  openCaptcha(){
+  openCaptcha() {
     this.visibleCaptcha = true;
   }
 
-  close(){
+  close() {
     this.router.navigate(['/']);
-    this.logging.log('navigated to home');
+    this.logging.log('Navigated to home');
   }
 
   captchaError() {
     this.showError(2, 'Errore nella risoluzione del captcha');
     this.visibleCaptcha = false;
   }
-
 }
