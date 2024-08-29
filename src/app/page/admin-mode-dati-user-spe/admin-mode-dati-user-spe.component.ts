@@ -24,31 +24,43 @@ import { DropdownInquadramentoComponent } from "../../componenti/dropdown-inquad
   providers: [MessageService]
 })
 export class AdminModeDatiUserSpeComponent implements OnInit {
-onInquadramentoChange($event: Event) {
-throw new Error('Method not implemented.');
-}
-onQualificaChange($event: string) {
-throw new Error('Method not implemented.');
-}
+
+
+  qualificationsByLevel: { [key: string]: string[] } = {
+    '1° Livello': ['Lavoratori generici', 'Operai comuni'],
+    '2° Livello': ['Operai qualificati', 'Addetti alle macchine utensili semplici'],
+    '3° Livello': ['Operai specializzati', 'Addetti a macchine utensili complesse'],
+    '4° Livello': ['Operai specializzati di alta qualificazione', 'Manutentori', 'Addetti a linee di produzione automatizzate'],
+    '5° Livello': ['Tecnici operativi', 'Capi squadra', 'Addetti alla programmazione di macchine CNC'],
+    '6° Livello': ['Tecnici esperti', 'Capi reparto', 'Programmatori CNC avanzati'],
+    '7° Livello': ['Quadri tecnici', 'Responsabili di area', 'Supervisori di produzione'],
+    '8° Livello': ['Dirigenti tecnici', 'Responsabili di settore', 'Ingegneri di processo'],
+    '9° Livello': ['Dirigenti di alto livello', 'Direttori tecnici', 'Project manager senior']
+  };
+
+
+ 
+  
+  
   user = signal<User>({} as User);
   id: any = this.route.params.pipe(map((p) => p['id']));qualifications!: string[];
 ;
 
   visibleCaptcha: boolean = false;
 
-  // Aggiornamento del form per includere i nuovi campi: data di nascita, luogo di nascita, residenza, inquadramento, qualifica, IBAN e data di assunzione
   userForm = new FormGroup({
     firstName: new FormControl(this.user().firstName, [Validators.required]),
     lastName: new FormControl(this.user().lastName, [Validators.required]),
     codiceFiscale: new FormControl(this.user().codiceFiscale, [Validators.required]),
-    birthDate: new FormControl(this.user().birthDate || new Date(), [Validators.required]),
-    birthPlace: new FormControl(this.user().birthPlace || '', [Validators.required]),
-    residence: new FormControl(this.user().residence || '', [Validators.required]),
-    position: new FormControl(this.user().position?.toLowerCase() || '', [Validators.required]),
-    qualification: new FormControl(this.user().qualification || '', [Validators.required]),
-    iban: new FormControl(this.user().iban || '', [Validators.required]),
-    hireDate: new FormControl(this.user().hireDate || new Date(), [Validators.required]),
+    birthDate: new FormControl(this.user().birthDate, Validators.required),
+    birthPlace: new FormControl(this.user().birthPlace, Validators.required),
+    residence: new FormControl(this.user().residence, Validators.required),
+    position: new FormControl(this.user().position, Validators.required),
+    qualification: new FormControl(this.user().qualification, Validators.required),
+    iban: new FormControl(this.user().iban, Validators.required),
+    hireDate: new FormControl(this.user().hireDate, Validators.required)
   });
+
   
   constructor(
     private logging: LoggingService,
@@ -59,6 +71,17 @@ throw new Error('Method not implemented.');
     private router: Router,
     private route: ActivatedRoute
   ) {}
+
+  onInquadramentoChange(selectedInquadramento: string) {
+   
+    this.qualifications = this.qualificationsByLevel[selectedInquadramento] || [];
+    this.userForm.get('position')?.setValue(selectedInquadramento);
+    this.userForm.get('qualification')?.setValue(null); 
+  }
+
+  onQualificaChange(selectedQualifica: string) {
+    this.userForm.get('qualification')?.setValue(selectedQualifica);
+  }
 
   showError(statusCode: number, errorMessage?: string) {
     if (statusCode === 2 && !!errorMessage) {
@@ -112,14 +135,15 @@ throw new Error('Method not implemented.');
             firstName: this.user().firstName,
             lastName: this.user().lastName,
             codiceFiscale: this.user().codiceFiscale,
-            birthDate: this.user().birthDate,
-            birthPlace: this.user().birthPlace,
-            residence: this.user().residence,
-            position: this.user().position?.toLowerCase(),
-            qualification: this.user().qualification,
-            iban: this.user().iban,
-            hireDate: this.user().hireDate
+            birthDate: this.userForm.value.birthDate || new Date(),
+            birthPlace: this.userForm.value.birthPlace || '',
+            residence: this.userForm.value.residence || '',
+            position: this.userForm.value.position?.toLowerCase() || '',
+            qualification: this.userForm.value.qualification || '',
+            iban: this.userForm.value.iban || '',
+            hireDate: this.userForm.value.hireDate || new Date(),
           };
+        
           this.adminService.patchUser(id, updatedUser).subscribe({
             next: (res) => {
               this.logging.log(`User updated successfully with ID: ${id}`);
