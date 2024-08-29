@@ -32,15 +32,15 @@
           <div class="input-field">
             <input class="residence" type="text" formControlName="residence" placeholder="Residenza"/>
           </div>
-          <div class="input-field">
-            <app-dropdown-inquadramento (selezionato)="onInquadramentoChange($event)"></app-dropdown-inquadramento>
-          </div>
+        <!-- Dropdown for "inquadramento" -->
+        <div class="input-field">
+          <app-dropdown-inquadramento (selected)="onInquadramentoChange($event)"></app-dropdown-inquadramento>
         </div>
 
-        <div class="inline-fields">
-          <div class="input-field">
-            <app-dropdown-qualifica [items]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
-          </div>
+        <!-- Dropdown for "qualifica" -->
+        <div class="input-field">
+          <app-dropdown-qualifica [items]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
+        </div>
           <div class="input-field">
             <input class="iban" type="text" formControlName="iban" placeholder="Codice Iban"/>
           </div>
