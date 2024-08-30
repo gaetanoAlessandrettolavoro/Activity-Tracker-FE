@@ -3,50 +3,56 @@
 
 .sfondo {
   background-image: url("../../../assets/1874132-astratto-geometrico-bianco-sfondo-vettoriale.jpg");
-  height: 100dvh;
+  height: 100vh;
   background-size: cover;
-}
-
-app-dropdown-qualifica, app-dropdown-inquadramento {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  /* Ensure padding around the edges */
+  box-sizing: border-box;
 }
 
 .container-form {
-  height: 100%;
+  max-width: 400px;
+  /* Make the form narrower */
   width: 100%;
+  padding: 15px;
+  /* Padding inside the form container */
+  margin: 0 auto;
+  /* Center the form */
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   font-family: sans-serif;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.9);
+  /* Slight transparency for better aesthetics */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Light shadow for depth */
+  min-height: 70vh;
+  /* Ensure the form is small enough */
 }
 
 .container {
-  position: relative;
-  width: 350px;
-  background: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  width: 100%;
+  background: transparent;
+  /* Keep background transparent to avoid overlay issues */
 }
 
 header {
-  font-size: 18px;
+  font-size: 16px;
+  /* Smaller font size */
   font-family: "Montserrat", sans-serif;
+  margin-bottom: 10px;
+  /* Less margin */
 }
 
 .input-field {
-  margin: 8px 0;
-  position: relative;
+  margin: 6px 0;
+  /* Reduce margin between input fields */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -57,210 +63,97 @@ header {
   font-weight: normal;
   font-family: "Open Sans", sans-serif;
   color: #000000;
-  text-align: left;
 }
 
-.input-field input,
-.custom-dropdown {
-  height: 40px;
+.input-field input {
+  height: 35px;
+  /* Consistent height of input fields */
   width: 100%;
   border: 1px solid silver;
-  padding-left: 12px;
+  padding-left: 10px;
+  /* Consistent padding */
   outline: none;
   font-size: 14px;
   transition: 0.4s;
   box-sizing: border-box;
+  border-radius: 4px;
+  /* Rounded inputs */
 }
 
+.dropdown-div{
+  margin: 10px auto;
+}
 input:focus,
 .custom-dropdown:focus {
   border: 1px solid #1da1f2;
-}
-
-.custom-dropdown .p-dropdown {
-  height: 100%;
-  width: 100%;
-  border: none;
-}
-
-.custom-dropdown .p-dropdown-trigger {
-  height: 40px;
-  line-height: 40px;
-}
-
-.error-message {
-  display: flex;
-  padding: 4px;
-  background-color: #ffc4c4;
-  margin-top: -8px;
-}
-
-.error-message i {
-  font-size: 14px;
-  color: #ff4d4d;
-}
-
-.error-message span {
-  margin-left: 4px;
-  font-size: 12px;
-  color: #ff4d4d;
 }
 
 .submit-button {
   background-color: var(--primary-color);
   border: none;
   width: 100%;
-  height: 40px;
+  height: 35px;
+  /* Consistent button height */
   font-size: 14px;
   cursor: pointer;
-  margin-bottom: 15px;
-}
-
-.card.flex.justify-content-center {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.p-dialog {
-  width: 25rem;
-  text-align: center;
-  border-radius: 8px;
+  margin-top: 10px;
+  /* Less margin */
+  border-radius: 4px;
+  /* Rounded button */
 }
 
 .bottom-links {
-  margin-top: 20px;
+  margin-top: 10px;
+  /* Reduced margin */
 }
 
 .back-home {
   cursor: pointer;
   font-size: 14px;
   color: #060606;
-  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  transition: 0.3s;
 }
 
-@media screen and (max-width: 768px) {
-  .container {
-    width: 90%;
-    padding: 15px;
-  }
-
-  .input-field {
-    margin: 6px 0;
-  }
-
-  .input-field input,
-  .custom-dropdown {
-    height: 35px;
-    font-size: 13px;
-  }
-
-  .submit-button {
-    height: 35px;
-    font-size: 13px;
-  }
-
-  .p-dialog {
-    width: 90%;
-  }
-
-  .p-dropdown {
-    width: 100%;
-  }
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 8px;
+  /* Less margin */
+  display: flex;
+  align-items: center;
 }
 
-@media screen and (max-width: 576px) {
-  .container {
-    width: 95%;
+.error-message i {
+  margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .container-form {
+    width: 90%;
+    /* Slightly smaller on smaller screens */
     padding: 10px;
   }
 
-  .input-field {
-    margin: 4px 0;
-  }
-
-  .input-field input,
-  .custom-dropdown {
-    height: 32px;
-    font-size: 12px;
-  }
-
   .submit-button {
-    height: 32px;
-    font-size: 12px;
-  }
-
-  .p-dialog {
-    width: 95%;
-  }
-
-  .p-dropdown {
-    width: 100%;
+    height: 40px;
+    /* Slightly taller on mobile */
+    font-size: 16px;
   }
 }
 
-@media screen and (max-width: 375px) {
-  .container {
-    width: 100%;
-    padding: 5px;
-  }
-
-  .input-field {
-    margin: 3px 0;
-  }
-
-  .input-field input,
-  .custom-dropdown {
-    height: 28px;
-    font-size: 11px;
-    padding-left: 8px;
-  }
-
-  .custom-dropdown .p-dropdown {
-    font-size: 11px;
-  }
-
-  .submit-button {
-    height: 28px;
-    font-size: 11px;
-  }
-
-  .p-dialog {
-    width: 90%;
-  }
+/* Specific styles for dropdowns */
+.custom-dropdown {
+  height: 35px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  margin: auto;
+  /* Same margin as other input fields */
 }
-@media screen and (max-width: 390px) {
-  .container {
-    width: 100%;
-    padding: 0 8px;
-  }
 
-  .input-field {
-    margin: 2px 0;
-  }
-
-  .input-field input,
-  .custom-dropdown {
-    height: 26px;  
-    font-size: 10px; 
-    padding-left: 6px; 
-  }
-
-  .custom-dropdown .p-dropdown {
-    font-size: 10px;
-  }
-
-  .custom-dropdown .p-dropdown-trigger {
-    height: 26px;
-    line-height: 26px;
-  }
-
-  .submit-button {
-    height: 26px;
-    font-size: 10px;
-  }
-
-  .p-dialog {
-    width: 85%;
-  }
+app-dropdown-inquadramento,
+app-dropdown-qualifica {
+  width: 100%;
+  max-width: 400px;
 }

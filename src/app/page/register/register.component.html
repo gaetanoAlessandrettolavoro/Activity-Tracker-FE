@@ -1,6 +1,5 @@
 <p-toast></p-toast>
 <div class="sfondo">
-  <div class="overlay"></div>
   <div class="container-form">
     <div class="container">
       <header>
@@ -9,14 +8,12 @@
       </header>
 
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <br />
-        <br />
-        <br />
-        <div class="card" id="success-message" style="display: flex" *ngIf="showSuccessMessage && !formSubmitted">
+        <div class="error-message" *ngIf="showSuccessMessage && !formSubmitted">
           <i class="pi pi-check" style="color: slateblue; margin-right: 5px"></i>
           <span>Form inviato correttamente</span>
         </div>
-        
+
+        <!-- Input Fields -->
         <div class="input-field">
           <input class="name" type="text" formControlName="name" placeholder="Nome (Obbligatorio)" />
         </div>
@@ -45,6 +42,7 @@
           <span>Il campo è obbligatorio</span>
         </div>
 
+        <!-- Additional Input Fields -->
         <div class="input-field">
           <input class="email" type="text" formControlName="email" placeholder="Email (Obbligatorio)" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" />
         </div>
@@ -61,19 +59,15 @@
         <div class="input-field">
           <input class="birthplace" type="text" formControlName="birthPlace" placeholder="Luogo di nascita" />
         </div>
-      
-        <div class="input-field">
-          <input class="residence" type="text" formControlName="residence" placeholder="Residenza" />
-        </div>
 
         <!-- Dropdown for "inquadramento" -->
-        <div class="input-field">
-          <app-dropdown-inquadramento (selected)="onInquadramentoChange($event)"></app-dropdown-inquadramento>
+        <div class="dropdown-div">
+          <app-dropdown-inquadramento class="custom-dropdown" (selected)="onInquadramentoChange($event)"></app-dropdown-inquadramento>
         </div>
 
         <!-- Dropdown for "qualifica" -->
-        <div class="input-field">
-          <app-dropdown-qualifica [inputItems]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
+        <div class="dropdown-div">
+          <app-dropdown-qualifica class="custom-dropdown" [inputItems]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
         </div>
 
         <div class="input-field">
@@ -85,18 +79,10 @@
           <input class="hiredate" type="date" formControlName="hireDate" placeholder="Data di assunzione" />
         </div>
 
-        <br />
-
+        <!-- Submit Button -->
         <button pButton pRipple label="Invia" class="submit-button"></button>
 
-        <div class="card flex justify-content-center">
-          <p-dialog header="Congratulazioni!" [(visible)]="visible" [modal]="true" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [style]="{ width: '25rem', textAlign: 'center' }" [draggable]="false" [resizable]="false">
-            <p style="text-align: center;">Registrazione avvenuta con successo,<tr></tr> controlla la tua email per proseguire.</p>
-            <p-button routerLink="/home" label="Chiudi" [style]="{'background-color':'var(--primary-color)', 'border':'none'}"/> 
-          </p-dialog>
-        </div>
-
-        <br />
+        <!-- Back to Home Link -->
         <div class="bottom-links">
           <span class="back-home" (click)="navigateToHome()">Torna alla home</span>
         </div>
