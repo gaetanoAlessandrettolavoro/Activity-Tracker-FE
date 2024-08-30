@@ -39,7 +39,7 @@
 
         <!-- Dropdown for "qualifica" -->
         <div class="input-field">
-          <app-dropdown-qualifica [items]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
+          <app-dropdown-qualifica [inputItems]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
         </div>
           <div class="input-field">
             <input class="iban" type="text" formControlName="iban" placeholder="Codice Iban"/>
@@ -64,4 +64,4 @@
 
 <p-dialog header="Cambia password" [modal]="true" [(visible)]="visibleCaptcha" [style]="{ width: '25rem' }">
   <app-recaptcha (isValid)="changePwd()" (error)="captchaError()"></app-recaptcha>
-</p-dialog>
+</p-dialog> 

@@ -107,7 +107,9 @@ export class UserRouteComponent implements OnInit {
 
   updateQualifications(selectedLevel: string) {
     // Get qualifications for the selected level, if any
-    this.availableQualifications = this.qualificationOptions[selectedLevel] || ["No Result Found"];
+    this.availableQualifications = this.qualificationOptions [selectedLevel.toLowerCase()] || ["No Result Found"];
+    console.log (selectedLevel);
+    console.log (this.qualificationOptions [selectedLevel.toLowerCase()]);
     this.userForm.get('qualification')?.setValue(this.availableQualifications[0] || ''); // Set default to the first qualification or blank
   }
 
