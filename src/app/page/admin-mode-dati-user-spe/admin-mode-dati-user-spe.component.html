@@ -21,16 +21,16 @@
         <div class="inline-fields">
           <div class="input-field">
             <label class="birthdate-label">Data di nascita</label>
-            <input class="birthdate" type="date" formControlName="birthDate" placeholder="Data di nascita"/>
+            <input class="birthdate" type="date" formControlName="birthDate"   [(ngModel)]="user().birthDate"      placeholder="Data di nascita"/>
           </div>
           <div class="input-field">
-            <input class="birthplace" type="text" formControlName="birthPlace" placeholder="Luogo di nascita"/>
+            <input class="birthplace" type="text" formControlName="birthPlace"  [(ngModel)]="user().birthPlace"  placeholder="Luogo di nascita"/>
           </div>
         </div>
 
         <div class="inline-fields">
           <div class="input-field">
-            <input class="residence" type="text" formControlName="residence" placeholder="Residenza"/>
+            <input class="residence" type="text" formControlName="residence"     [(ngModel)]="user().residence" placeholder="Residenza"/>
           </div>
         <!-- Dropdown for "inquadramento" -->
         <div class="input-field">
@@ -49,7 +49,7 @@
         <div class="inline-fields">
           <div class="input-field">
             <label class="hiredate-group">Dati di assunzione</label>
-            <input class="hiredate" type="date" formControlName="hireDate" placeholder="Dati di assunzione"/>
+            <input class="hiredate" type="date" formControlName="hireDate"[(ngModel)]="user().hireDate" placeholder="Dati di assunzione"/>
           </div>
         </div>
       </form>

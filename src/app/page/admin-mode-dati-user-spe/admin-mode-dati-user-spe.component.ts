@@ -104,8 +104,9 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
       next: (params) => {
         const id = params['id'];
         this.adminService.getOneUser(id).subscribe({
-          next: (result) => {
+        next: (result) => {
             this.user.set(result.data);
+            console.log(this.user());
             this.logging.log(`fetched user info for ID: ${id}`);
           },
           error: (error) => {
@@ -203,4 +204,4 @@ export class AdminModeDatiUserSpeComponent implements OnInit {
     this.showError(2, 'Errore nella risoluzione del captcha');
     this.visibleCaptcha = false;
   }
-}
+} 
