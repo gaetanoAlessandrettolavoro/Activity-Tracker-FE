@@ -34,10 +34,10 @@
           <input class="input-residence" type="text" placeholder="Residenza" [(ngModel)]="user().residence" formControlName="residence" />
         </div>
         <div class="input-group">
-          <app-dropdown-inquadramento (selected)="onInquadramentoChange($event)" class="input-position"></app-dropdown-inquadramento>
+          <app-dropdown-inquadramento (selected)="onInquadramentoChange($event)" class="input-position" ></app-dropdown-inquadramento>
         </div>
         <div class="input-group">
-          <app-dropdown-qualifica (selected)="onQualificaChange($event)" class="input-qualification"></app-dropdown-qualifica>
+          <app-dropdown-qualifica (selected)="onQualificaChange($event)" class="input-qualification" [inputItems] = "availableQualifications"></app-dropdown-qualifica>
         </div>
         <div class="input-group">
           <input class="input-iban" type="text" placeholder="Codice Iban" [(ngModel)]="user().iban" formControlName="iban" />
