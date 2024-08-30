@@ -87,6 +87,7 @@ export class UserRouteComponent implements OnInit {
   getInfo() {
     this.userService.getMe().subscribe({
       next: (result) => {
+        console.log(result);
         this.user.set(result.data);
         this.immagine = result.data.propic;
         this.userForm.patchValue(result.data);
