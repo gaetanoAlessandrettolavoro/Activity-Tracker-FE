@@ -42,7 +42,7 @@
           <app-dropdown-qualifica [inputItems]="qualifications" (selected)="onQualificaChange($event)"></app-dropdown-qualifica>
         </div>
           <div class="input-field">
-            <input class="iban" type="date" formControlName="iban"[(ngModel)]="user().iban" placeholder="Codice Iban"/>
+            <input class="iban" type="text" formControlName="iban"[(ngModel)]="user().iban" placeholder="Codice Iban"/>
           </div>
         </div>
 
