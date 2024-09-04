@@ -25,13 +25,13 @@
         </div>
         <div class="input-group">
           <label class="birthdate-label">Data di nascita</label>
-          <input class="input-birthdate" type="date" [(ngModel)]="user().birthDate" formControlName="birthDate" placeholder="gg/mm/aaaa" />
+          <input class="input-birthdate" type="string"  formControlName="birthDate" [(ngModel)]="user().birthDate" placeholder="gg/mm/aaaa" />
         </div>
         <div class="input-group">
-          <input class="input-birthplace" type="text" placeholder="Luogo di nascita" [(ngModel)]="user().birthPlace" formControlName="birthPlace" />
+          <input class="input-birthplace" type="text"formControlName="birthPlace" [(ngModel)]="user().birthPlace" placeholder="Luogo di nascita"  />
         </div>
         <div class="input-group">
-          <input class="input-residence" type="text" placeholder="Residenza" [(ngModel)]="user().residence" formControlName="residence" />
+          <input class="input-residence" type="text"formControlName="residence"[(ngModel)]="user().residence" placeholder="Residenza"  />
         </div>
         <div class="input-group">
           <app-dropdown-inquadramento (selected)="onInquadramentoChange($event)" class="input-position" ></app-dropdown-inquadramento>
@@ -40,11 +40,11 @@
           <app-dropdown-qualifica (selected)="onQualificaChange($event)" class="input-qualification" [inputItems] = "availableQualifications"></app-dropdown-qualifica>
         </div>
         <div class="input-group">
-          <input class="input-iban" type="text" placeholder="Codice Iban" [(ngModel)]="user().iban" formControlName="iban" />
+          <input class="input-iban" type="text" formControlName="iban" [(ngModel)]="user().iban" placeholder="Codice Iban" />
         </div>
         <div class="input-group">
           <label class="hiredate-label">Data di assunzione</label>
-          <input class="input-hiredate" type="date" [(ngModel)]="user().hireDate" formControlName="hireDate" placeholder="gg/mm/aaaa" />
+          <input class="input-hiredate" type="string"  formControlName="hireDate"[(ngModel)]="user().hireDate" placeholder="gg/mm/aaaa" />
         </div>
       </form>
     </div>
